@@ -8,7 +8,6 @@ import { FlipWords, Hero } from "@repo/ui/upwithcrowd/hero";
 import { Tabs } from "@repo/ui/upwithcrowd/tabs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
 const BrandList = [
   {
     title: "beets&roots",
@@ -306,13 +305,20 @@ export default function Page({ config }: { config: any }): JSX.Element {
     <div className="w-full bg-white p-0 ">
       <Hero variant="hirevision" config={config} />
       <Brands brands={BrandList} />
+      <div
+        className={`w-full h-[200px]`}
+        style={{
+          backgroundImage: `url(${config.images.second})`,
+        }}
+      ></div>
       <div className="bg-slate-50 w-full overflow-hidden">
         <div className="container grid grid-cols-2 justify-center gap-6">
           <div className="flex flex-col gap-6 justify-center h-full">
             <h1 className="text-5xl font-bold">
-              <div className="text-black">
+              {/* <div className="text-black">
                 UPWITH<span className="text-primary">{config.logo}</span>
-              </div>{" "}
+              </div>{" "} */}
+              <img src={config.logo} />
               aracılığıyla girişim şirketlerinde hisse sahibi olabilirsiniz.
             </h1>
             <p className="text-l">
@@ -332,8 +338,9 @@ export default function Page({ config }: { config: any }): JSX.Element {
           </div>
         </div>
       </div>
-      <h3 className="text-5xl font-bold text-center w-full max-w-4xl mx-auto my-20">
-        UPWITH{config.logo} ile
+      <h3 className="text-5xl font-bold text-center w-full max-w-4xl mx-auto my-20 flex  items-center gap-0">
+        {/* UPWITH{config.logo} ile */}
+        <img src={config.logo} className="mr-4" /> ile
         <FlipWords
           words={["yatırımcı", "girişimci"]}
           className="text-black min-w-[230px]"
@@ -349,14 +356,14 @@ export default function Page({ config }: { config: any }): JSX.Element {
           activeTabClassName="bg-primary [&~*]:text-white rounded-none"
         />
       </div>
-      <div className="bg-slate-50 mt-20 grid justify-center relative">
-        <h3 className="text-5xl font-bold text-center mt-[-20px] uppercase absolute w-full">
-          UPWITH{config.logo} Blog
+      <div className="bg-slate-50 mt-20 grid justify-center relative pb-60">
+        <h3 className="text-5xl font-bold text-center mt-[-20px] uppercase absolute w-full z-10">
+          {config.full} Blog
         </h3>
-        <p className="w-full text-center mt-16 text-xl">
+        <p className="w-full text-center mt-16 text-xl z-10">
           Gündeme ve fonlanan projelere dair bilgiler için Blog’u takip edin.
         </p>
-        <BentoGrid className="container py-16 md:auto-rows-[20rem] px-0">
+        <BentoGrid className="container py-16 md:auto-rows-[20rem] px-0 z-10">
           {items.map((item, i) => (
             <BentoGridItem
               key={i}
@@ -368,33 +375,48 @@ export default function Page({ config }: { config: any }): JSX.Element {
             />
           ))}
         </BentoGrid>
+        <div className="flex absolute top-60 z-0 w-full opacity-10 grayscale hidden">
+          <img src={config.images.footer} className="w-full" />
+        </div>
       </div>
+
       <div className="pt-20 w-full text-white bg-slate-900  bg-dot-slate-300/[0.2] relative flex items-center justify-center flex flex-col gap-20 overflow-hidden">
-        <div className="absolute pointer-events-none inset-[-50%] flex items-center justify-center dark:bg-slate-900 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        {/* <div className="absolute pointer-events-none inset-[-50%] flex items-center justify-center dark:bg-slate-900 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div> */}
+        <img
+          src={config.images.footer}
+          className="w-full absolute pointer-events-none z-0 opacity-20"
+        />
+        <div
+          className={`w-full hidden h-full absolute inset-0 pointer-events-none opacity-10`}
+          style={{
+            backgroundImage: `url(${config.images.second})`,
+          }}
+        ></div>
         <div className="container flex flex-col h-full justify-center gap-20">
           <div className="mx-auto">
-            <div className={"tracking-widest text-2xl font-bold text-white"}>
+            {/* <div className={"tracking-widest text-2xl font-bold text-white"}>
               UPWITH
               <span className="text-primary">{config.logo}</span>
-            </div>
+            </div> */}
+            <img src={config.logo} className="mx-auto" />
           </div>
           <div className="grid grid-cols-1 justify-center md:grid-cols-2 lg:grid-cols-5 gap-6 col-span-2">
             <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
               <h3 className="text-md font-bold">Kurumsal</h3>
               <div className="grid text-sm">
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Hakkımızda
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Platform Ortaklık Yapısı
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Blog
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   S.S.S
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   İletişim
                 </Link>
               </div>
@@ -402,16 +424,16 @@ export default function Page({ config }: { config: any }): JSX.Element {
             <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
               <h3 className="text-md font-bold">Paydaşlarımız</h3>
               <div className="grid text-sm">
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Merkezi Kayıt İstanbul
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Takas İstanbul
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   İstanbul Ticaret Odası
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   E-Devlet
                 </Link>
               </div>
@@ -419,16 +441,16 @@ export default function Page({ config }: { config: any }): JSX.Element {
             <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
               <h3 className="text-md font-bold">Yatırımcı</h3>
               <div className="grid text-sm">
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Nasıl Yatırım Yapılır?
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Aktif Projeler
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Tamamlanmış Projeler
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Gelecek Projeler
                 </Link>
               </div>
@@ -436,13 +458,13 @@ export default function Page({ config }: { config: any }): JSX.Element {
             <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
               <h3 className="text-md font-bold">Girişimci</h3>
               <div className="grid text-sm">
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Nasıl Proje Oluşturulur?
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Proje Oluştur
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Gerekli Belgeler
                 </Link>
               </div>
@@ -450,45 +472,46 @@ export default function Page({ config }: { config: any }): JSX.Element {
             <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
               <h3 className="text-md font-bold">Dokümantasyon</h3>
               <div className="grid text-sm">
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Değerlendirme Politikası
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Bilgi Güvenliği Politikası
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Çıkar Çatışması Politikası
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Kalite Politikası
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Rüşvet ve Yolsuzlukla Mücadele
                 </Link>
-                <Link href="#" className="text-slate-400 hover:text-white">
+                <Link href="#" className="text-slate-200 hover:text-white">
                   Kara Para ile Mücadele Politikası
                 </Link>
               </div>
             </div>
           </div>
         </div>
-        <div className="md:h-10 py-4 bg-slate-800/50 text-sm w-full items-center flex">
+        <div className="md:h-10 py-4 bg-slate-800/50 text-sm w-full items-center flex z-5">
           <div className="container flex justify-between items-center flex-col gap-4 md:flex-row">
-            <h1>UPWITH{config.logo} 2024 Tüm hakları saklıdır.</h1>
+            {/* <h1>UPWITH{config.logo} 2024 Tüm hakları saklıdır.</h1> */}
+            <h1>{config.full} 2024 Tüm hakları saklıdır.</h1>
             <div className="flex items-center gap-4 flex-col md:flex-row">
-              <Link href="#" className="text-slate-400 hover:text-white">
+              <Link href="#" className="text-slate-200 hover:text-white">
                 Genel Risk Bildirimi
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-white">
+              <Link href="#" className="text-slate-200 hover:text-white">
                 Üyelik Sözleşmesi
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-white">
+              <Link href="#" className="text-slate-200 hover:text-white">
                 KVKK Bildirimi
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-white">
+              <Link href="#" className="text-slate-200 hover:text-white">
                 Kampanya Sözleşmesi
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-white">
+              <Link href="#" className="text-slate-200 hover:text-white">
                 Faaliyet Raporu ve Finansal Tablolar
               </Link>
             </div>
