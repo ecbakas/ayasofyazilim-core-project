@@ -35,6 +35,7 @@ export default function Navbar({
   user,
   languageSelector,
   topBar,
+  config,
 }: {
   appName: string;
   links?: linksProp;
@@ -42,6 +43,7 @@ export default function Navbar({
   user?: any;
   languageSelector?: JSX.Element;
   topBar?: JSX.Element;
+  config?: any;
 }): JSX.Element {
   if (variant == "invesdor")
     return (
@@ -60,6 +62,7 @@ export default function Navbar({
   if (variant == "hirevision") {
     return (
       <HirevisionNavbar
+        config={config}
         appName={appName}
         links={links}
         user={user}
@@ -150,12 +153,14 @@ function HirevisionNavbar({
   appName,
   links = defaultLinks,
   user,
+  config,
   languageSelector,
 }: {
   appName: string;
   links?: linksProp;
   user?: any;
   languageSelector?: JSX.Element;
+  config?: any;
 }): JSX.Element {
   const [isFixed, setIsFixed] = useState(false);
   const scrollThreshold = 10;
@@ -173,15 +178,15 @@ function HirevisionNavbar({
       el.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   return (
     <nav
       className={`w-full flex justify-between items-center gap-4 px-12 h-20 top-0 left-0 z-50 ${isFixed ? "fixed bg-white/60 hover:bg-white/80 backdrop-blur-sm" : "absolute bg-white/10 hover:bg-white/40 backdrop-blur-sm"}`}
     >
-      <div className={"tracking-widest text-2xl font-bold"}>
+      {/* <div className={"tracking-widest text-2xl font-bold"}>
         UPWITH
         <span className="text-primary">{appName.toLocaleUpperCase()}</span>
-      </div>
+      </div> */}
+      <img src={config.logo} className="h-14" />
       <Menubar className="border-0 bg-transparent shadow-none p-none">
         {links.map((link) => MenuCreator(link))}
       </Menubar>
