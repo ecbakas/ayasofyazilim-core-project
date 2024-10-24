@@ -10,15 +10,7 @@ import type {
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
 } from "@ayasofyazilim/saas/CRMService";
-import type {
-  GetApiLocationServiceCitiesData,
-  GetApiLocationServiceCitiesGetListByRegionByRegionIdData,
-  GetApiLocationServiceCountriesData,
-  GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
-  GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
-} from "@ayasofyazilim/saas/LocationService";
-import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { GetApiExportValidationServiceExportValidationData } from "@ayasofyazilim/saas/ExportValidationService";
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
@@ -28,9 +20,19 @@ import type {
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityUsersByIdClaimsData,
 } from "@ayasofyazilim/saas/IdentityService";
+import type {
+  GetApiLocationServiceCitiesData,
+  GetApiLocationServiceCitiesGetListByRegionByRegionIdData,
+  GetApiLocationServiceCountriesData,
+  GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
+  GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
+} from "@ayasofyazilim/saas/LocationService";
+import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
   getContractServiceClient,
   getCRMServiceClient,
+  getExportValidationServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
   getTravellersServiceClient,
@@ -41,11 +43,21 @@ export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<ApiRequestTypes, "locations">;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users"
+  | "travellers"
+  | "claims"
+  | "roles"
+  | "locations"
+  | "users"
+  | "export-validation"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users"
+  | "travellers"
+  | "claims"
+  | "roles"
+  | "locations"
+  | "users"
+  | "export-validation"
 >;
 
 export async function getApiRequests() {
@@ -54,6 +66,7 @@ export async function getApiRequests() {
   const contractsClient = await getContractServiceClient();
   const locationClient = await getLocationServiceClient();
   const identityClient = await getIdentityServiceClient();
+  const exportValidationClient = await getExportValidationServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -316,6 +329,12 @@ export async function getApiRequests() {
         await identityClient.user.getApiIdentityUsersByIdClaims(data),
       putUserClaims: async (data: PutApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.putApiIdentityUsersByIdClaims(data),
+    },
+    "export-validation": {
+      get: async (data: GetApiExportValidationServiceExportValidationData) =>
+        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidation(
+          data,
+        ),
     },
   };
   return tableRequests;
