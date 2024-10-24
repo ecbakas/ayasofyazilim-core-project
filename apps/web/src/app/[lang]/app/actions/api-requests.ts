@@ -10,7 +10,10 @@ import type {
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
 } from "@ayasofyazilim/saas/CRMService";
-import type { GetApiExportValidationServiceExportValidationData } from "@ayasofyazilim/saas/ExportValidationService";
+import type {
+  GetApiExportValidationServiceExportValidationData,
+  PostApiExportValidationServiceExportValidationData,
+} from "@ayasofyazilim/saas/ExportValidationService";
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
@@ -43,12 +46,7 @@ export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<ApiRequestTypes, "locations">;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
-  | "travellers"
-  | "claims"
-  | "roles"
-  | "locations"
-  | "users"
-  | "export-validation"
+  "travellers" | "claims" | "roles" | "locations" | "users"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -334,6 +332,16 @@ export async function getApiRequests() {
       get: async (data: GetApiExportValidationServiceExportValidationData) =>
         await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidation(
           data,
+        ),
+      post: async (data: PostApiExportValidationServiceExportValidationData) =>
+        await exportValidationClient.exportValidation.postApiExportValidationServiceExportValidation(
+          data,
+        ),
+      deleteRow: async (id: string) =>
+        await exportValidationClient.exportValidation.deleteApiExportValidationServiceExportValidationById(
+          {
+            id,
+          },
         ),
     },
   };
