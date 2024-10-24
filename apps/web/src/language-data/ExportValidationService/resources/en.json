@@ -1,3 +1,7 @@
 {
-  "ExportValidation": "Export Validation"
+  "ExportValidation": "Export Validation",
+  "ExportValidation.New": "New Export Validation",
+  "ExportValidation.New.Error": "Failed to add Export Validation",
+  "ExportValidation.New.Succes": "Export Validation created successfully",
+  "ExportValidation.Fail": "Export Validation kaydedilirken bir hata oluştu"
 }
