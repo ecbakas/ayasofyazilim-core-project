@@ -13,6 +13,7 @@ import type {
 import type {
   GetApiExportValidationServiceExportValidationData,
   PostApiExportValidationServiceExportValidationData,
+  PutApiExportValidationServiceExportValidationByIdData,
 } from "@ayasofyazilim/saas/ExportValidationService";
 import type {
   GetApiIdentityClaimTypesData,
@@ -50,12 +51,7 @@ export type DeleteTableDataTypes = Exclude<
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
-  | "travellers"
-  | "claims"
-  | "roles"
-  | "locations"
-  | "users"
-  | "export-validation"
+  "travellers" | "claims" | "roles" | "locations" | "users"
 >;
 
 export async function getApiRequests() {
@@ -333,8 +329,20 @@ export async function getApiRequests() {
         await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidation(
           data,
         ),
+      getDetail: async (id: string) =>
+        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidationByIdDetail(
+          {
+            id,
+          },
+        ),
       post: async (data: PostApiExportValidationServiceExportValidationData) =>
         await exportValidationClient.exportValidation.postApiExportValidationServiceExportValidation(
+          data,
+        ),
+      put: async (
+        data: PutApiExportValidationServiceExportValidationByIdData,
+      ) =>
+        await exportValidationClient.exportValidation.putApiExportValidationServiceExportValidationById(
           data,
         ),
       deleteRow: async (id: string) =>
