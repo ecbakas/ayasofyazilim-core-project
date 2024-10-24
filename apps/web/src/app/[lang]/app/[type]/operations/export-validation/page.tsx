@@ -17,6 +17,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
         return response;
       }}
       deleteableRow
+      editOnNewPage
       fetchRequest={async (page) => {
         "use server";
         const response = await getTableData("export-validation", page, 10);
