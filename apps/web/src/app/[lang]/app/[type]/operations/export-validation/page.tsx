@@ -36,6 +36,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
       languageData={languageData}
       tableSchema={{
         excludeList: [
+          "tenantId",
           "isDeleted",
           "deleterId",
           "deletionTime",
