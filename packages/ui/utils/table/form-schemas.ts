@@ -1,8 +1,8 @@
 import {
-  $UniRefund_CRMService_AddressTypes_UpdateAddressTypeDto,
   $UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto,
   $UniRefund_CRMService_Organizations_UpdateOrganizationDto,
   $UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto,
+  $UniRefund_LocationService_AddressCommonDatas_AddressCommonDataUpdateDto,
 } from "@ayasofyazilim/saas/CRMService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 export const UpdateOrganizationDto =
@@ -10,20 +10,19 @@ export const UpdateOrganizationDto =
 export const UpdateTelephoneTypeDto =
   $UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto;
 export const UpdateAddressTypeDto =
-  $UniRefund_CRMService_AddressTypes_UpdateAddressTypeDto;
+  $UniRefund_LocationService_AddressCommonDatas_AddressCommonDataUpdateDto;
 export const UpdateEmailCommonDataDto =
   $UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto;
 
 // re-usable schema sub-positions to prevent repeated code
 const TelephoneSubPosition = ["localNumber", "typeCode"];
 const AddressSubPosition = [
-  "country",
-  "terriority",
-  "city",
+  "countryId",
+  "regionId",
+  "cityId",
   "postalCode",
   "addressLine",
-  "fullAddress",
-  "typeCode",
+  "type",
 ];
 const EmailSubPosition = ["emailAddress", "typeCode"];
 export const ContactFormSubPositions = {
