@@ -1,7 +1,7 @@
 "use client";
 import type {
   UniRefund_CRMService_Merchants_MerchantDetailDto as MerchantDetailDto,
-  Volo_Abp_Application_Dtos_PagedResultDto_16 as MerchantPagedListDto,
+  PagedResultDto_MerchantProfileDto as MerchantPagedListDto,
   UniRefund_CRMService_Merchants_MerchantProfileDto as MerchantProfileDto,
 } from "@ayasofyazilim/saas/CRMService";
 
