@@ -173,7 +173,13 @@ export const dataConfigOfParties = {
     detailedFilters: [],
     createFormSchema: {
       schema: createScheme(CreateRefundPointSchema),
-      formPositions: ["organization", "telephone", "address", "email"],
+      formPositions: [
+        "organization",
+        "telephone",
+        "address",
+        "email",
+        "taxOfficeId",
+      ],
       formSubPositions: RefundPointsFormSubPositions,
       convertors: {},
     },

@@ -2,9 +2,9 @@
 
 import { getTaxOfficesApi } from "src/app/[lang]/app/actions/CrmService/actions";
 import { getResourceData } from "src/language-data/CRMService";
+import { getCountriesApi } from "../../../../actions/LocationService/actions";
 import type { PartyNameType } from "../../types";
-import { getCitiesApi } from "../../../../actions/LocationService/actions";
-import Form from "./form";
+import PageClientSide from "./page-client";
 
 export default async function Page({
   params,
@@ -16,30 +16,20 @@ export default async function Page({
 }) {
   const { languageData } = await getResourceData(params.lang);
 
-  const cities = await getCitiesApi({ maxResultCount: 500, sorting: "name" });
-  const citiesEnum =
-    (cities.type === "success" &&
-      cities.data.items?.map((item) => ({
-        name: item.name || "",
-        id: item.id || "",
-      }))) ||
-    [];
+  const countries = await getCountriesApi();
+  const countryList =
+    (countries.type === "success" && countries.data.items) || [];
 
   const taxOffices = await getTaxOfficesApi();
-  const taxOfficesEnum =
-    (taxOffices.type === "success" &&
-      taxOffices.data.items?.map((item) => ({
-        name: item.name || "",
-        id: item.id || "",
-      }))) ||
-    [];
+  const taxOfficeList =
+    (taxOffices.type === "success" && taxOffices.data.items) || [];
 
   return (
-    <Form
-      citiesEnum={citiesEnum}
+    <PageClientSide
+      countryList={countryList}
       languageData={languageData}
       partyName={params.partyName}
-      taxOfficesEnum={taxOfficesEnum}
+      taxOfficeList={taxOfficeList}
     />
   );
 }
