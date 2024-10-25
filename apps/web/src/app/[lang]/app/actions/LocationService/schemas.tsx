@@ -109,7 +109,11 @@ export function handleOnAddressValueChange({
     [key in AddressFormFieldsType]: string;
   };
 
-  if (setRegionList && val.countryId !== selectedFields.countryId) {
+  if (
+    setRegionList &&
+    val.countryId &&
+    val.countryId !== selectedFields.countryId
+  ) {
     setSelectedFields((current) => ({
       ...current,
       countryId: val.countryId,
@@ -126,14 +130,14 @@ export function handleOnAddressValueChange({
         void getCity({ regionId: response, setCityList, languageData });
       }
     });
-  } else if (val.regionId !== selectedFields.regionId) {
+  } else if (val.regionId && val.regionId !== selectedFields.regionId) {
     setSelectedFields((current) => ({
       ...current,
       regionId: val.regionId,
       cityId: "",
     }));
     void getCity({ regionId: val.regionId, setCityList, languageData });
-  } else if (val.cityId !== selectedFields.cityId) {
+  } else if (val.cityId && val.cityId !== selectedFields.cityId) {
     setSelectedFields((current) => ({
       ...current,
       cityId: val.cityId,
