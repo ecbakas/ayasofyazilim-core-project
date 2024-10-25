@@ -59,7 +59,7 @@ export default function Form({
 
   const getCountry = async () => {
     try {
-      const response = await getCountriesApi({ maxResultCount: 1000 });
+      const response = await getCountriesApi();
       if (response.type === "success") {
         setCountries(response.data.items || []);
       } else {
