@@ -70,13 +70,13 @@ export const personalSummaries = [
 ];
 export const TelephoneSubPosition = ["localNumber", "typeCode"];
 export const AddressSubPosition = [
-  "country",
-  "terriority",
-  "city",
+  "countryId",
+  "regionId",
+  "cityId",
   "postalCode",
   "addressLine",
   "fullAddress",
-  "typeCode",
+  "type",
 ];
 export const EmailSubPosition = ["emailAddress", "typeCode"];
 

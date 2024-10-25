@@ -10,7 +10,7 @@ import { structuredError } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getCountriesApi(
-  data: GetApiLocationServiceCountriesData = {},
+  data: GetApiLocationServiceCountriesData = { maxResultCount: 250 },
 ) {
   try {
     const requests = await getApiRequests();
