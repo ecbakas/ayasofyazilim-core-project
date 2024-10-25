@@ -1,5 +1,6 @@
 "use server";
 import type {
+  GetApiCrmServiceCustomsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceTaxOfficesData,
 } from "@ayasofyazilim/saas/CRMService";
@@ -31,6 +32,18 @@ export async function getTaxOfficesApi(
       data: await requests["tax-offices"].get(data),
       status: 200,
       message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getCustomsApi(data: GetApiCrmServiceCustomsData = {}) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success",
+      data: await requests.customs.get(data),
     };
   } catch (error) {
     return structuredError(error);
