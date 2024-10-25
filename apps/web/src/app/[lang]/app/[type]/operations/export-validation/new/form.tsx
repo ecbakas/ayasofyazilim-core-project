@@ -42,18 +42,14 @@ export default function Page({
   async function createExportValidation(
     data: UniRefund_ExportValidationService_ExportValidations_CreateExportValidationDto,
   ) {
-    try {
-      const response = await postExportValidationApi({ requestBody: data });
-      if (response.type === "error" || response.type === "api-error") {
-        toast.error(
-          response.message || languageData["ExportValidation.New.Error"],
-        );
-      } else {
-        toast.success([languageData["ExportValidation.New.Succes"]]);
-        router.push(getBaseLink(`/app/admin/operations/export-validation`));
-      }
-    } catch (error) {
-      toast.error(languageData["ExportValidation.New.Fail"]);
+    const response = await postExportValidationApi({ requestBody: data });
+    if (response.type === "error" || response.type === "api-error") {
+      toast.error(
+        response.message || languageData["ExportValidation.New.Error"],
+      );
+    } else {
+      toast.success([languageData["ExportValidation.New.Succes"]]);
+      router.push(getBaseLink(`/app/admin/operations/export-validation`));
     }
   }
   return (

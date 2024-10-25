@@ -36,19 +36,15 @@ export default function Form({
   async function updateExportValidation(
     data: UniRefund_ExportValidationService_ExportValidations_UpdateExportValidationDto,
   ) {
-    try {
-      const response = await putExportValidationApi({
-        id: exportId,
-        requestBody: data,
-      });
-      if (response.type === "success") {
-        toast.success(languageData["ExportValidation.Update.Succes"]);
-        window.location.reload();
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error(languageData["ExportValidation.Update.Fail"]);
+    const response = await putExportValidationApi({
+      id: exportId,
+      requestBody: data,
+    });
+    if (response.type === "success") {
+      toast.success(languageData["ExportValidation.Update.Succes"]);
+      window.location.reload();
+    } else {
+      toast.error(response.message);
     }
   }
 
