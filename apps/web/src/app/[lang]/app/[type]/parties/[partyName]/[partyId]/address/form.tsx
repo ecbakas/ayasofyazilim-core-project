@@ -53,7 +53,7 @@ function Address({
   } = useAddressHook({
     countryList,
     selectedFieldsDefaultValue,
-    hideAddressFields: ["districtId"],
+    fieldsToHideInAddressSchema: ["districtId"],
     languageData,
   });
 
