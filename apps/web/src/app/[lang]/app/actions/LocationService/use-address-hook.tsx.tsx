@@ -12,18 +12,19 @@ import {
   getAddressFieldConfig,
   getAddressSchema,
   handleOnAddressValueChange,
+  hideAddressFields,
 } from "./schemas";
 
 export function useAddressHook({
   countryList,
   selectedFieldsDefaultValue,
-  hideAddressFields,
+  fieldsToHideInAddressSchema,
   languageData,
 }: {
   countryList: CountryDto[];
   selectedFieldsDefaultValue: SelectedAddressField;
   languageData: LanguageDataResourceType;
-  hideAddressFields: AddressFormFieldsType[];
+  fieldsToHideInAddressSchema: AddressFormFieldsType[];
 }) {
   const [selectedFields, setSelectedFields] = useState<SelectedAddressField>(
     selectedFieldsDefaultValue,
@@ -34,9 +35,10 @@ export function useAddressHook({
   );
 
   if (!regionList || regionList.length === 0) {
-    hideAddressFields.push("regionId");
+    fieldsToHideInAddressSchema.push("regionId");
   }
-  const addressSchema = getAddressSchema(hideAddressFields);
+  const addressFieldsToShow = hideAddressFields(fieldsToHideInAddressSchema);
+  const addressSchema = getAddressSchema(addressFieldsToShow);
   const addressSchemaFieldConfig = getAddressFieldConfig({
     cityList,
     regionList,
@@ -71,6 +73,7 @@ export function useAddressHook({
     addressSchemaFieldConfig,
     setRegionList,
     onAddressValueChanged,
+    addressFieldsToShow,
     selectedFields,
   };
 }

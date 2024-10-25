@@ -147,8 +147,7 @@ export function hideAddressFields(hideFields: AddressFormFieldsType[]) {
   return AddressFormFields.filter((field) => !hideFields.includes(field));
 }
 
-export function getAddressSchema(hideFields: AddressFormFieldsType[] = []) {
-  const fields = hideAddressFields(hideFields);
+export function getAddressSchema(fields: AddressFormFieldsType[] = []) {
   const schema = createZodObject(AddressDto, fields);
   return schema;
 }
