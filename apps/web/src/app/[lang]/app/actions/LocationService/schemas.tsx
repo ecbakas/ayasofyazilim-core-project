@@ -27,7 +27,7 @@ const AddressFormFields: AddressFormFieldsType[] = [
   "fullAddress",
   "postalCode",
 ];
-type AddressFormFieldsType =
+export type AddressFormFieldsType =
   | "type"
   | "countryId"
   | "regionId"
@@ -79,6 +79,7 @@ export function getAddressFieldConfig(params: {
       ),
     },
   };
+
   const translatedForm = createFieldConfigWithResource({
     schema: AddressDto,
     resources: params.languageData,

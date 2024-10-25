@@ -7,10 +7,10 @@ import {
   getMerchantsApi,
   getTaxOfficesApi,
 } from "src/app/[lang]/app/actions/CrmService/actions";
+import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
 import { getResourceData } from "src/language-data/CRMService";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
-import { getCitiesApi } from "../../../../actions/LocationService/actions";
 import Address from "./address/form";
 import Contracts from "./contracts/form";
 import Email from "./email/form";
@@ -51,8 +51,9 @@ export default async function Page({
     return notFound();
   }
 
-  const cities = await getCitiesApi({ maxResultCount: 500, sorting: "name" });
-  const cityList = (cities.type === "success" && cities.data.items) || [];
+  const countries = await getCountriesApi();
+  const countryList =
+    (countries.type === "success" && countries.data.items) || [];
 
   const merchants = await getMerchantsApi();
   const merchantList =
@@ -145,7 +146,7 @@ export default async function Page({
           />
 
           <Address
-            cityList={cityList}
+            countryList={countryList}
             languageData={languageData}
             organizationData={organizationData || individualData}
             partyId={params.partyId}
