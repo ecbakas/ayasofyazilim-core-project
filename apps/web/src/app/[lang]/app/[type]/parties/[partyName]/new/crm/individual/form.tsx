@@ -1,6 +1,7 @@
 "use client";
 
 import { toast } from "@/components/ui/sonner";
+import type { UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto } from "@ayasofyazilim/saas/CRMService";
 import { $UniRefund_CRMService_Merchants_CreateMerchantDto as CreateMerchantSchema } from "@ayasofyazilim/saas/CRMService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
@@ -12,6 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
+import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { CreatePartiesDto } from "../../../../table-data";
 import { dataConfigOfParties, localNumber } from "../../../../table-data";
 import type { CreateMerchantDTO } from "../../../../types";
@@ -53,18 +55,25 @@ function createScheme(schema: typeof CreateMerchantSchema) {
 
 export default function CrmIndividual({
   partyName,
-  taxOfficesEnum,
-  citiesEnum,
+  taxOfficeList,
+  countryList,
   languageData,
 }: {
   partyName: "merchants";
-  taxOfficesEnum: { name: string; id: string }[];
-  citiesEnum: { name: string; id: string }[];
+  taxOfficeList: UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto[];
+  countryList: CountryDto[];
   languageData: CRMServiceServiceResource;
 }) {
   const searchParams = useSearchParams();
   const parentId = searchParams.get("parentId");
   const router = useRouter();
+
+  //temperory solution will be changed next pr
+  const citiesEnum = countryList as { name: string; id: string }[];
+  const taxOfficesEnum = taxOfficeList as {
+    name: string;
+    id: string;
+  }[];
 
   function formSchemaByData() {
     const config = dataConfigOfParties[partyName];

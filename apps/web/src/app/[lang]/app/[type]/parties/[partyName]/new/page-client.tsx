@@ -5,22 +5,24 @@ import SelectTabs, {
 } from "@repo/ayasofyazilim-ui/molecules/select-tabs";
 import { Building2, User } from "lucide-react";
 import { useState } from "react";
+import type { UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { PartyNameType } from "../../types";
 import CrmIndividual from "./crm/individual/form";
 import CrmOrganization from "./crm/organization/form";
 import Individual from "./individual/form";
 
 type TabSection = "Organization" | "Individual";
-export default function Form({
+export default function PageClientSide({
   partyName,
-  taxOfficesEnum,
-  citiesEnum,
+  taxOfficeList,
+  countryList,
   languageData,
 }: {
   partyName: PartyNameType;
-  taxOfficesEnum: { name: string; id: string }[];
-  citiesEnum: { name: string; id: string }[];
+  taxOfficeList: UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto[];
+  countryList: CountryDto[];
   languageData: CRMServiceServiceResource;
 }) {
   const [activeTab, setActiveTab] = useState<TabSection>("Organization");
@@ -28,7 +30,7 @@ export default function Form({
   if (partyName === "individuals") {
     return (
       <Individual
-        citiesEnum={citiesEnum}
+        countryList={countryList}
         languageData={languageData}
         partyName={partyName}
       />
@@ -38,10 +40,10 @@ export default function Form({
   if (partyName !== "merchants") {
     return (
       <CrmOrganization
-        citiesEnum={citiesEnum}
+        countryList={countryList}
         languageData={languageData}
         partyName={partyName}
-        taxOfficesEnum={taxOfficesEnum}
+        taxOfficeList={taxOfficeList}
       />
     );
   }
@@ -70,17 +72,17 @@ export default function Form({
       </div>
       {activeTab === "Organization" ? (
         <CrmOrganization
-          citiesEnum={citiesEnum}
+          countryList={countryList}
           languageData={languageData}
           partyName={partyName}
-          taxOfficesEnum={taxOfficesEnum}
+          taxOfficeList={taxOfficeList}
         />
       ) : (
         <CrmIndividual
-          citiesEnum={citiesEnum}
+          countryList={countryList}
           languageData={languageData}
           partyName={partyName}
-          taxOfficesEnum={taxOfficesEnum}
+          taxOfficeList={taxOfficeList}
         />
       )}
     </>
