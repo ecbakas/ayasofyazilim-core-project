@@ -9,9 +9,11 @@ import { addressSchemaByData } from "@repo/ui/utils/table/form-schemas";
 import { getEnumId, type TableData } from "@repo/ui/utils/table/table-utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import type { UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
+import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { CreatePartiesDto } from "../../../../table-data";
 import { dataConfigOfParties } from "../../../../table-data";
 import type { PartiesCreateDTOType, PartyNameType } from "../../../../types";
@@ -19,13 +21,13 @@ import { createPartyRow } from "../../../action";
 
 export default function CrmOrganization({
   partyName,
-  taxOfficesEnum,
-  citiesEnum,
+  taxOfficeList,
+  countryList,
   languageData,
 }: {
   partyName: Exclude<PartyNameType, "individuals">;
-  taxOfficesEnum: { name: string; id: string }[];
-  citiesEnum: { name: string; id: string }[];
+  taxOfficeList: UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto[];
+  countryList: CountryDto[];
   languageData: CRMServiceServiceResource;
 }) {
   const searchParams = useSearchParams();
@@ -33,6 +35,12 @@ export default function CrmOrganization({
   const router = useRouter();
   const [_formData] = useState<TableData>(dataConfigOfParties[partyName]);
 
+  //temperory solution will be changed next pr
+  const citiesEnum = countryList as { name: string; id: string }[];
+  const taxOfficesEnum = taxOfficeList as {
+    name: string;
+    id: string;
+  }[];
   function formSchemaByData() {
     const config = dataConfigOfParties[partyName];
     const address = addressSchemaByData([], citiesEnum, [

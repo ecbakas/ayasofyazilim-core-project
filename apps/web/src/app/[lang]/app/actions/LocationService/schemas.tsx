@@ -24,7 +24,6 @@ const AddressFormFields: AddressFormFieldsType[] = [
   "districtId",
   "neighborhoodId",
   "addressLine",
-  "fullAddress",
   "postalCode",
 ];
 export type AddressFormFieldsType =
@@ -35,7 +34,6 @@ export type AddressFormFieldsType =
   | "districtId"
   | "neighborhoodId"
   | "addressLine"
-  | "fullAddress"
   | "postalCode";
 
 export function getAddressFieldConfig(params: {
@@ -101,7 +99,7 @@ export function handleOnAddressValueChange({
   values: Record<string, string>;
   setCityList: Dispatch<SetStateAction<CityDto[] | undefined>>;
   setRegionList?: Dispatch<SetStateAction<RegionDto[] | undefined>>;
-  countryList?: CountryDto[];
+  countryList: CountryDto[];
   selectedFields: SelectedAddressField;
   setSelectedFields: Dispatch<SetStateAction<SelectedAddressField>>;
   languageData: LanguageDataResourceType;
@@ -145,10 +143,12 @@ export function handleOnAddressValueChange({
     }));
   }
 }
+export function hideAddressFields(hideFields: AddressFormFieldsType[]) {
+  return AddressFormFields.filter((field) => !hideFields.includes(field));
+}
+
 export function getAddressSchema(hideFields: AddressFormFieldsType[] = []) {
-  const fields = AddressFormFields.filter(
-    (field) => !hideFields.includes(field),
-  );
+  const fields = hideAddressFields(hideFields);
   const schema = createZodObject(AddressDto, fields);
   return schema;
 }

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
+import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { CreatePartiesDto } from "../../../table-data";
 import { dataConfigOfParties, localNumber } from "../../../table-data";
 import type { CreateIndividualDTO } from "../../../types";
@@ -53,15 +54,17 @@ function createScheme(schema: typeof CreateMerchantSchema) {
 
 export default function Individual({
   partyName,
-  citiesEnum,
+  countryList,
   languageData,
 }: {
   partyName: "individuals";
-  citiesEnum: { name: string; id: string }[];
+  countryList: CountryDto[];
   languageData: CRMServiceServiceResource;
 }) {
   const router = useRouter();
 
+  //temperory solution will be changed next pr
+  const citiesEnum = countryList as { name: string; id: string }[];
   function formSchemaByData() {
     const config = dataConfigOfParties[partyName];
     const schema = createScheme(CreateMerchantSchema);
