@@ -1,0 +1,9 @@
+{
+  "ExportValidation": "Export Validation",
+  "ExportValidation.New": "New Export Validation",
+  "ExportValidation.New.Error": "Failed to add Export Validation",
+  "ExportValidation.New.Succes": "Export Validation created successfully",
+  "ExportValidation.Update.Succes": "Export Validation updated successfully",
+  "ExportValidation.New.Fail": "An error occurred while saving the Export Validation",
+  "ExportValidation.Update.Fail": "Failed to update Export Validation"
+}
