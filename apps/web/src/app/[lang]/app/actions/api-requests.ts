@@ -5,6 +5,7 @@ import type {
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
 } from "@ayasofyazilim/saas/ContractService";
 import type {
+  GetApiCrmServiceCustomsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceTaxOfficesData,
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
@@ -31,6 +32,7 @@ import type {
   GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
   GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
 } from "@ayasofyazilim/saas/LocationService";
+import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
@@ -39,6 +41,7 @@ import {
   getExportValidationServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
+  getTagServiceClient,
   getTravellersServiceClient,
   structuredError,
 } from "src/lib";
@@ -47,11 +50,11 @@ export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<ApiRequestTypes, "locations">;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users"
+  "travellers" | "claims" | "roles" | "locations" | "users" | "tags"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users"
+  "travellers" | "claims" | "roles" | "locations" | "users" | "tags"
 >;
 
 export async function getApiRequests() {
@@ -61,6 +64,7 @@ export async function getApiRequests() {
   const locationClient = await getLocationServiceClient();
   const identityClient = await getIdentityServiceClient();
   const exportValidationClient = await getExportValidationServiceClient();
+  const tagClient = await getTagServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -170,7 +174,7 @@ export async function getApiRequests() {
     customs: {
       getDetail: async (id: string) =>
         await crmClient.customs.getApiCrmServiceCustomsByIdDetail({ id }),
-      get: async (data: { maxResultCount: number; skipCount: number }) =>
+      get: async (data: GetApiCrmServiceCustomsData) =>
         await crmClient.customs.getApiCrmServiceCustoms(data),
       getSubCompanies: async (data: {
         id: string;
@@ -330,7 +334,7 @@ export async function getApiRequests() {
           data,
         ),
       getDetail: async (id: string) =>
-        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidationByIdDetail(
+        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidationById(
           {
             id,
           },
@@ -351,6 +355,10 @@ export async function getApiRequests() {
             id,
           },
         ),
+    },
+    tags: {
+      get: async (data: GetApiTagServiceTagData) =>
+        await tagClient.tag.getApiTagServiceTag(data),
     },
   };
   return tableRequests;
