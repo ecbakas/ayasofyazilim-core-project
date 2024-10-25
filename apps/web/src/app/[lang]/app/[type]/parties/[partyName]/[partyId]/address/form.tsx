@@ -70,7 +70,7 @@ function Address({
   }, []);
 
   const addressValues = {
-    ...organizationData?.contactInformations?.[0]?.addresses?.[0],
+    ...addressData,
     ...selectedFields,
   };
   const hideAddressFields: AddressFormFieldsType[] = ["districtId"];
