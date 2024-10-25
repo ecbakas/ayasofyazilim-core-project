@@ -9,22 +9,13 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { putCrmAddressApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
-import type { AddressFormFieldsType } from "src/app/[lang]/app/actions/LocationService/schemas";
-import {
-  getAddressFieldConfig,
-  getAddressSchema,
-  handleOnAddressValueChange,
-} from "src/app/[lang]/app/actions/LocationService/schemas";
 import type {
   AddressUpdateDto,
-  CityDto,
   CountryDto,
-  RegionDto,
   SelectedAddressField,
 } from "src/app/[lang]/app/actions/LocationService/types";
-import { getAddressList } from "src/app/[lang]/app/actions/LocationService/utils";
+import { useAddressHook } from "src/app/[lang]/app/actions/LocationService/use-address-hook.tsx";
 import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
@@ -48,42 +39,28 @@ function Address({
   const router = useRouter();
   const addressData =
     organizationData?.contactInformations?.[0]?.addresses?.[0];
-  const [cityList, setCityList] = useState<CityDto[] | undefined>(undefined);
-  const [regionList, setRegionList] = useState<RegionDto[] | undefined>(
-    undefined,
-  );
-  const [selectedFields, setSelectedFields] = useState<SelectedAddressField>({
+  const selectedFieldsDefaultValue: SelectedAddressField = {
     countryId: addressData?.countryId || "",
     regionId: addressData?.regionId || "",
     cityId: addressData?.cityId || "",
-  });
+  };
 
-  useEffect(() => {
-    getAddressList({
-      countryId: selectedFields.countryId,
-      regionId: selectedFields.regionId,
-      languageData,
-      countryList,
-      setCityList,
-      setRegionList,
-    });
-  }, []);
+  const {
+    addressSchema,
+    selectedFields,
+    addressSchemaFieldConfig,
+    onAddressValueChanged,
+  } = useAddressHook({
+    countryList,
+    selectedFieldsDefaultValue,
+    hideAddressFields: ["districtId"],
+    languageData,
+  });
 
   const addressValues = {
     ...addressData,
     ...selectedFields,
   };
-  const hideAddressFields: AddressFormFieldsType[] = ["districtId"];
-  if (!regionList || regionList.length === 0) {
-    hideAddressFields.push("regionId");
-  }
-  const addressSchema = getAddressSchema(hideAddressFields);
-  const addressSchemaFieldConfig = getAddressFieldConfig({
-    cityList,
-    regionList,
-    countryList,
-    languageData,
-  });
 
   function handleSubmit(formData: AddressUpdateDto) {
     void putCrmAddressApi(partyName, {
@@ -109,15 +86,7 @@ function Address({
           handleSubmit(formData);
         }}
         onValuesChange={(values) => {
-          handleOnAddressValueChange({
-            selectedFields,
-            setSelectedFields,
-            countryList,
-            values,
-            setRegionList,
-            setCityList,
-            languageData,
-          });
+          onAddressValueChanged(values);
         }}
         values={addressValues}
       >
