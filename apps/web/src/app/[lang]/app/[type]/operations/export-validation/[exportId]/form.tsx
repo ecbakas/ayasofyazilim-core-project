@@ -11,6 +11,7 @@ import type { UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/sa
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
+  createFieldConfigWithResource,
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { putExportValidationApi } from "src/app/[lang]/app/actions/ExportValidationService/put-actions";
@@ -41,39 +42,46 @@ export default function Form({
       requestBody: data,
     });
     if (response.type === "success") {
-      toast.success(languageData["ExportValidation.Update.Succes"]);
+      toast.success(languageData["ExportValidation.Update.Success"]);
       window.location.reload();
     } else {
       toast.error(response.message);
     }
   }
 
+  const translatedForm = createFieldConfigWithResource({
+    schema:
+      $UniRefund_ExportValidationService_ExportValidations_UpdateExportValidationDto,
+    resources: languageData,
+    extend: {
+      exportLocationId: {
+        renderer: (props) => (
+          <CustomCombobox<UniRefund_CRMService_Customss_CustomsProfileDto>
+            childrenProps={props}
+            emptyValue={languageData["Custom.Select"]}
+            list={CustomsData}
+            selectIdentifier="id"
+            selectLabel="name"
+          />
+        ),
+      },
+      tagId: {
+        renderer: (props) => (
+          <CustomCombobox<UniRefund_TagService_Tags_TagListItemDto>
+            childrenProps={props}
+            emptyValue={languageData["Tag.Select"]}
+            list={TagsData}
+            selectIdentifier="id"
+            selectLabel="tagNumber"
+          />
+        ),
+      },
+    },
+  });
+
   return (
     <AutoForm
-      fieldConfig={{
-        exportLocationId: {
-          renderer: (props) => (
-            <CustomCombobox<UniRefund_CRMService_Customss_CustomsProfileDto>
-              childrenProps={props}
-              emptyValue="select Customs"
-              list={CustomsData}
-              selectIdentifier="id"
-              selectLabel="name"
-            />
-          ),
-        },
-        tagId: {
-          renderer: (props) => (
-            <CustomCombobox<UniRefund_TagService_Tags_TagListItemDto>
-              childrenProps={props}
-              emptyValue="select Tag"
-              list={TagsData}
-              selectIdentifier="id"
-              selectLabel="tagNumber"
-            />
-          ),
-        },
-      }}
+      fieldConfig={translatedForm}
       formSchema={ExportValidationSchema}
       onSubmit={(formdata) => {
         void updateExportValidation(formdata);
