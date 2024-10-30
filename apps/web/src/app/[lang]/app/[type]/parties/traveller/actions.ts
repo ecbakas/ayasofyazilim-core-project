@@ -42,7 +42,7 @@ export async function getTravellers(page: number, filter?: FilterColumnResult) {
     };
   }
   return {
-    type: "success",
+    type: response.type,
     data: { items: [], totalCount: 0 },
   };
 }

@@ -10,7 +10,7 @@ import type {
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
-import { getTableData } from "../../../actions/api-requests";
+import { getMerchantsApi } from "../../../actions/CrmService/actions";
 
 export async function getTags(
   data: GetApiTagServiceTagData = {},
@@ -85,7 +85,11 @@ export async function getSummary(
 }
 
 export async function getMerchants(page: number, filter?: FilterColumnResult) {
-  const response = await getTableData("merchants", page, 10, filter);
+  const response = await getMerchantsApi({
+    maxResultCount: 10,
+    skipCount: page * 10,
+    ...filter,
+  });
   if (response.type === "success") {
     const data = response.data;
     return {
@@ -94,7 +98,7 @@ export async function getMerchants(page: number, filter?: FilterColumnResult) {
     };
   }
   return {
-    type: "success",
+    type: response.type,
     data: { items: [], totalCount: 0 },
   };
 }
