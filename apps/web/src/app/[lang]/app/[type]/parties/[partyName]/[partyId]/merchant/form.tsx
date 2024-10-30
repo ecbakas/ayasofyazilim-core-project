@@ -19,7 +19,7 @@ import AutoForm, {
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
 import { putMerchantBaseApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
-import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 
 function MerchantForm({

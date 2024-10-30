@@ -4,7 +4,7 @@ import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "
 import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables";
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/TravellerService";
-import { getTableData } from "../../../actions/api-requests";
+import { tableFetchRequest } from "../../../actions/table-utils";
 
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
@@ -61,20 +61,9 @@ export default async function Page({ params }: { params: { lang: string } }) {
       createOnNewPage
       createOnNewPageTitle={languageData[`Travellers.New`]}
       detailedFilter={filters}
-      fetchRequest={async (page, filter) => {
+      fetchRequest={(page, filter) => {
         "use server";
-        const response = await getTableData("travellers", page, 10, filter);
-        if (response.type === "success") {
-          const data = response.data;
-          return {
-            type: "success",
-            data: { items: data.items || [], totalCount: data.totalCount || 0 },
-          };
-        }
-        return {
-          type: "success",
-          data: { items: [], totalCount: 0 },
-        };
+        return tableFetchRequest("travellers", page, filter);
       }}
       languageData={languageData}
       tableSchema={{

@@ -2,7 +2,8 @@
 import { $UniRefund_ExportValidationService_ExportValidations_ExportValidationDto } from "@ayasofyazilim/saas/ExportValidationService";
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/ExportValidationService";
-import { deleteTableRow, getTableData } from "../../../actions/api-requests";
+import { deleteTableRow } from "../../../actions/api-requests";
+import { tableFetchRequest } from "../../../actions/table-utils";
 
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
@@ -18,20 +19,9 @@ export default async function Page({ params }: { params: { lang: string } }) {
       }}
       deleteableRow
       editOnNewPage
-      fetchRequest={async (page) => {
+      fetchRequest={(page, filter) => {
         "use server";
-        const response = await getTableData("export-validation", page, 10);
-        if (response.type === "success") {
-          const data = response.data;
-          return {
-            type: "success",
-            data: { items: data.items || [], totalCount: data.totalCount || 0 },
-          };
-        }
-        return {
-          type: "success",
-          data: { items: [], totalCount: 0 },
-        };
+        return tableFetchRequest("export-validation", page, filter);
       }}
       languageData={languageData}
       tableSchema={{
