@@ -1,4 +1,12 @@
-import type { UniRefund_CRMService_PersonalSummaries_UpdatePersonalSummaryDto } from "@ayasofyazilim/saas/CRMService";
+import type {
+  UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto,
+  UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto,
+  UniRefund_CRMService_PersonalSummaries_UpdatePersonalSummaryDto,
+} from "@ayasofyazilim/saas/CRMService";
 
+export type EmailAddressUpdateDto =
+  UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto;
+export type TelephoneUpdateDto =
+  UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto;
 export type IndividualPersonalSummariesUpdateDto =
   UniRefund_CRMService_PersonalSummaries_UpdatePersonalSummaryDto;
