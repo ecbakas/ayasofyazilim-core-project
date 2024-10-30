@@ -10,10 +10,11 @@ import AutoForm, {
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { emailSchema } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
+import { putCrmEmailAddressApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
+import type { EmailUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
-import type { PutEmail } from "../types";
-import { handleUpdateSubmit } from "../utils";
 
 function Email({
   languageData,
@@ -30,8 +31,17 @@ function Email({
     | undefined;
 }) {
   const router = useRouter();
-
   const emailValues = organizationData?.contactInformations?.[0]?.emails?.[0];
+
+  function handleSubmit(formData: EmailUpdateDto) {
+    void putCrmEmailAddressApi(partyName, {
+      requestBody: formData,
+      id: partyId,
+      emailId: emailValues?.id || "",
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
   return (
     <SectionLayoutContent sectionId="email">
       <AutoForm
@@ -45,18 +55,7 @@ function Email({
         formClassName="pb-40 "
         formSchema={emailSchema}
         onSubmit={(values) => {
-          void handleUpdateSubmit(
-            partyName,
-            {
-              action: "email",
-              data: {
-                requestBody: values as PutEmail["data"]["requestBody"],
-                id: partyId,
-                emailId: emailValues?.id || "",
-              },
-            },
-            router,
-          );
+          handleSubmit(values as EmailUpdateDto);
         }}
         values={emailValues}
       >
