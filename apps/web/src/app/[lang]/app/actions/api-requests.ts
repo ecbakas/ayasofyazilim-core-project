@@ -10,6 +10,7 @@ import type {
   GetApiCrmServiceTaxOfficesData,
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
 } from "@ayasofyazilim/saas/CRMService";
 import type {
   GetApiExportValidationServiceExportValidationData,
@@ -133,6 +134,14 @@ export async function getApiRequests() {
         form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdAddressesByAddressId(
+          form,
+        );
+      },
+
+      putIndividualPersonalSummary: async (
+        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryId(
           form,
         );
       },
