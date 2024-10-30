@@ -2,7 +2,8 @@
 
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/CRMService";
-import { deleteTableRow, getTableData } from "../../../actions/api-requests";
+import { deleteTableRow } from "../../../actions/api-requests";
+import { tableFetchRequest } from "../../../actions/table-utils";
 import { dataConfigOfParties } from "../table-data";
 import type { PartyNameType } from "../types";
 
@@ -25,20 +26,9 @@ export default async function Page({
       deleteableRow={params.partyName !== "individuals"}
       detailedFilter={formData.detailedFilters}
       editOnNewPage={params.partyName !== "individuals"}
-      fetchRequest={async (page, filter) => {
+      fetchRequest={(page, filter) => {
         "use server";
-        const response = await getTableData(params.partyName, page, 10, filter);
-        if (response.type === "success") {
-          const data = response.data;
-          return {
-            type: "success",
-            data: { items: data.items || [], totalCount: data.totalCount || 0 },
-          };
-        }
-        return {
-          type: "success",
-          data: { items: [], totalCount: 0 },
-        };
+        return tableFetchRequest(params.partyName, page, filter);
       }}
       languageData={languageData}
       tableSchema={formData.tableSchema}

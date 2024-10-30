@@ -4,7 +4,7 @@ import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "
 import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables";
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/TravellerService";
-import { getTravellers } from "../../../actions/TravellerService/actions";
+import { tableFetchRequest } from "../../../actions/table-utils";
 
 export const travellerTableSchema = {
   excludeList: [
@@ -15,6 +15,7 @@ export const travellerTableSchema = {
   ],
   schema: $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
 };
+
 
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
@@ -71,7 +72,11 @@ export default async function Page({ params }: { params: { lang: string } }) {
       createOnNewPage
       createOnNewPageTitle={languageData[`Travellers.New`]}
       detailedFilter={filters}
-      fetchRequest={getTravellers}
+      fetchRequest={(page, filter) => {
+        "use server";
+        return tableFetchRequest("travellers", page, filter);
+      }}
+
       languageData={languageData}
       tableSchema={travellerTableSchema}
     />
