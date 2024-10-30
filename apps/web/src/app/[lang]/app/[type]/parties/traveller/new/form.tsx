@@ -16,6 +16,7 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { postTravellerApi } from "src/app/[lang]/app/actions/TravellerService/post-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
@@ -23,7 +24,6 @@ import {
   getCitiesApi,
   getCountriesApi,
 } from "../../../../actions/LocationService/actions";
-import { createTravellerWithComponents } from "../../../../actions/TravellerService/actions";
 import type { CreateTravellerDTO } from "../data";
 import {
   createTravellerSchema,
@@ -123,7 +123,7 @@ export default function Form({
       ],
     };
     try {
-      const response = await createTravellerWithComponents({
+      const response = await postTravellerApi({
         requestBody: createformData,
       });
       if (response.type === "error" || response.type === "api-error") {
