@@ -42,7 +42,10 @@ import type {
   GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
 } from "@ayasofyazilim/saas/LocationService";
 import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
-import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
+import type {
+  GetApiTravellerServiceTravellersData,
+  PostApiTravellerServiceTravellersWithComponentsData,
+} from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
   getContractServiceClient,
@@ -387,6 +390,10 @@ export async function getApiRequests() {
     travellers: {
       get: async (data: GetApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.getApiTravellerServiceTravellers(data),
+      post: async (data: PostApiTravellerServiceTravellersWithComponentsData) =>
+        await travellerClient.traveller.postApiTravellerServiceTravellersWithComponents(
+          data,
+        ),
     },
     claims: {
       get: async (data: GetApiIdentityClaimTypesData) =>
