@@ -7,11 +7,12 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
+import { putCrmOrganizationApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
+import type { OrganizationUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
-import type { PutOrganization } from "../types";
 import { editSchemasOfParties } from "../update-data";
-import { handleUpdateSubmit } from "../utils";
 
 function OrganizationForm({
   languageData,
@@ -36,24 +37,23 @@ function OrganizationForm({
     organizationSchemaSubPositions,
   );
 
+  function handleSubmit(formData: OrganizationUpdateDto) {
+    void putCrmOrganizationApi(partyName, {
+      requestBody: formData,
+      id: partyId,
+      organizationId: organizationId || "",
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
+
   return (
     <SectionLayoutContent sectionId="organization">
       <AutoForm
         formClassName="pb-40"
         formSchema={_organizationSchema}
         onSubmit={(values) => {
-          void handleUpdateSubmit(
-            partyName,
-            {
-              action: "organization",
-              data: {
-                requestBody: values as PutOrganization["data"]["requestBody"],
-                id: partyId,
-                organizationId: organizationId || "",
-              },
-            },
-            router,
-          );
+          handleSubmit(values as OrganizationUpdateDto);
         }}
         values={organizationData}
       >
