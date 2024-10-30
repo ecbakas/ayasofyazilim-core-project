@@ -16,7 +16,7 @@ import type {
   SelectedAddressField,
 } from "src/app/[lang]/app/actions/LocationService/types";
 import { useAddressHook } from "src/app/[lang]/app/actions/LocationService/use-address-hook.tsx";
-import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
 
