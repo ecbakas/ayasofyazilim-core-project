@@ -6,16 +6,16 @@ import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import {
-  addressSchemaByData,
-  ContactFormSubPositions,
-} from "@repo/ui/utils/table/form-schemas";
-import { getEnumId } from "@repo/ui/utils/table/table-utils";
+import { ContactFormSubPositions } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
+import type {
+  CountryDto,
+  SelectedAddressField,
+} from "src/app/[lang]/app/actions/LocationService/types";
+import { useAddressHook } from "src/app/[lang]/app/actions/LocationService/use-address-hook.tsx";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
-import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { CreatePartiesDto } from "../../../table-data";
 import { dataConfigOfParties, localNumber } from "../../../table-data";
 import type { CreateIndividualDTO } from "../../../types";
@@ -62,32 +62,37 @@ export default function Individual({
   languageData: CRMServiceServiceResource;
 }) {
   const router = useRouter();
+  const selectedFieldsDefaultValue: SelectedAddressField = {
+    countryId: "",
+    regionId: "",
+    cityId: "",
+  };
 
-  //temperory solution will be changed next pr
-  const citiesEnum = countryList as { name: string; id: string }[];
+  const {
+    selectedFields,
+    addressFieldsToShow,
+    addressSchemaFieldConfig,
+    onAddressValueChanged,
+  } = useAddressHook({
+    countryList,
+    selectedFieldsDefaultValue,
+    fieldsToHideInAddressSchema: ["districtId"],
+    languageData,
+  });
   function formSchemaByData() {
     const config = dataConfigOfParties[partyName];
     const schema = createScheme(CreateMerchantSchema);
-    const address = addressSchemaByData([], citiesEnum, [
-      "countryId",
-      "regionId",
-    ]);
 
-    const convertors = {
-      address: {
-        ...address.convertors,
-      },
-    };
     const formSubPositions = {
       ...config.createFormSchema.formSubPositions,
-      address: address.subPositions,
       telephone: ContactFormSubPositions.telephone,
       email: ContactFormSubPositions.email,
+      address: addressFieldsToShow,
     };
     return createZodObject(
       schema,
       ["name", "personalSummaries", "address", "telephone", "email"],
-      convertors,
+      undefined,
       formSubPositions,
     );
   }
@@ -111,9 +116,7 @@ export default function Individual({
           addresses: [
             {
               ...formData.address,
-              countryId: formData.address.countryId || "NULL",
-              regionId: formData.address.regionId || "NULL",
-              cityId: getEnumId(citiesEnum, formData.address.cityId || ""),
+              ...selectedFields,
               primaryFlag: true,
             },
           ],
@@ -145,6 +148,7 @@ export default function Individual({
             },
           },
         },
+        address: { ...addressSchemaFieldConfig, className: "row-span-2" },
         telephone: {
           localNumber: {
             fieldType: "phone",
@@ -159,6 +163,9 @@ export default function Individual({
       formSchema={schema}
       onSubmit={(val) => {
         void handleSave(val as CreatePartiesDto);
+      }}
+      onValuesChange={(values) => {
+        onAddressValueChanged(values);
       }}
     >
       <AutoFormSubmit className="float-right">

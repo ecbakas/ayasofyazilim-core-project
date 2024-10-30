@@ -4,16 +4,20 @@ import { toast } from "@/components/ui/sonner";
 import type { UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto } from "@ayasofyazilim/saas/CRMService";
 import { $UniRefund_CRMService_Merchants_CreateMerchantDto as CreateMerchantSchema } from "@ayasofyazilim/saas/CRMService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import type { AutoFormInputComponentProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import AutoForm, {
   AutoFormSubmit,
+  CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import { addressSchemaByData } from "@repo/ui/utils/table/form-schemas";
-import { getEnumId } from "@repo/ui/utils/table/table-utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import type {
+  CountryDto,
+  SelectedAddressField,
+} from "src/app/[lang]/app/actions/LocationService/types";
+import { useAddressHook } from "src/app/[lang]/app/actions/LocationService/use-address-hook.tsx";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
-import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import type { CreatePartiesDto } from "../../../../table-data";
 import { dataConfigOfParties, localNumber } from "../../../../table-data";
 import type { CreateMerchantDTO } from "../../../../types";
@@ -68,34 +72,28 @@ export default function CrmIndividual({
   const parentId = searchParams.get("parentId");
   const router = useRouter();
 
-  //temperory solution will be changed next pr
-  const citiesEnum = countryList as { name: string; id: string }[];
-  const taxOfficesEnum = taxOfficeList as {
-    name: string;
-    id: string;
-  }[];
+  const selectedFieldsDefaultValue: SelectedAddressField = {
+    countryId: "",
+    regionId: "",
+    cityId: "",
+  };
+
+  const {
+    selectedFields,
+    addressFieldsToShow,
+    addressSchemaFieldConfig,
+    onAddressValueChanged,
+  } = useAddressHook({
+    countryList,
+    selectedFieldsDefaultValue,
+    fieldsToHideInAddressSchema: ["districtId"],
+    languageData,
+  });
 
   function formSchemaByData() {
     const config = dataConfigOfParties[partyName];
     const schema = createScheme(CreateMerchantSchema);
-    const address = addressSchemaByData([], citiesEnum, [
-      "countryId",
-      "regionId",
-    ]);
 
-    const convertors = {
-      taxOfficeId: {
-        type: "enum",
-        data: taxOfficesEnum.map((i) => i.name),
-      },
-      address: {
-        ...address.convertors,
-      },
-    };
-    const formSubPositions = {
-      ...config.createFormSchema.formSubPositions,
-      address: address.subPositions,
-    };
     return createZodObject(
       schema,
       [
@@ -106,8 +104,11 @@ export default function CrmIndividual({
         "telephone",
         "email",
       ],
-      convertors,
-      formSubPositions,
+      undefined,
+      {
+        ...config.createFormSchema.formSubPositions,
+        address: addressFieldsToShow,
+      },
     );
   }
 
@@ -121,7 +122,7 @@ export default function CrmIndividual({
     const phoneData = splitPhone(formData.telephone.localNumber);
     formData.telephone = { ...formData.telephone, ...phoneData };
     const createformData: CreateMerchantDTO = {
-      taxOfficeId: getEnumId(taxOfficesEnum, formData.taxOfficeId),
+      taxOfficeId: formData.taxOfficeId,
       typeCode: parentId
         ? dataConfigOfParties[partyName].subEntityType
         : "HEADQUARTER",
@@ -139,12 +140,7 @@ export default function CrmIndividual({
                   addresses: [
                     {
                       ...formData.address,
-                      countryId: formData.address.countryId || "NULL",
-                      regionId: formData.address.regionId || "NULL",
-                      cityId: getEnumId(
-                        citiesEnum,
-                        formData.address.cityId || "",
-                      ),
+                      ...selectedFields,
                       primaryFlag: true,
                     },
                   ],
@@ -173,6 +169,22 @@ export default function CrmIndividual({
     <AutoForm
       className="grid gap-2 space-y-0 md:grid-cols-2 lg:grid-cols-3"
       fieldConfig={{
+        taxOfficeId: {
+          renderer: (props: AutoFormInputComponentProps) => {
+            return (
+              <CustomCombobox<UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto>
+                childrenProps={props}
+                list={taxOfficeList}
+                selectIdentifier="id"
+                selectLabel="name"
+              />
+            );
+          },
+        },
+        address: { ...addressSchemaFieldConfig, className: "row-span-2" },
+        organization: {
+          className: "row-span-2",
+        },
         email: {
           emailAddress: {
             inputProps: {
@@ -194,6 +206,9 @@ export default function CrmIndividual({
       formSchema={schema}
       onSubmit={(val) => {
         void handleSave(val as CreatePartiesDto);
+      }}
+      onValuesChange={(values) => {
+        onAddressValueChanged(values);
       }}
     >
       <AutoFormSubmit className="float-right">
