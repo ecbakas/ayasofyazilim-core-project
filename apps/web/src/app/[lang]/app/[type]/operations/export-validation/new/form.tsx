@@ -7,6 +7,7 @@ import type { UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/sa
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
+  createFieldConfigWithResource,
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
@@ -39,6 +40,40 @@ export default function Page({
 }) {
   const router = useRouter();
 
+  const translatedForm = createFieldConfigWithResource({
+    schema:
+      $UniRefund_ExportValidationService_ExportValidations_CreateExportValidationDto,
+    resources: languageData,
+    extend: {
+      exportLocationId: {
+        renderer: (props) => (
+          <CustomCombobox<UniRefund_CRMService_Customss_CustomsProfileDto>
+            childrenProps={props}
+            emptyValue={languageData["Custom.Select"]}
+            list={CustomsData}
+            searchPlaceholder={languageData["Select.Placeholder"]}
+            searchResultLabel={languageData["Select.ResultLabel"]}
+            selectIdentifier="id"
+            selectLabel="name"
+          />
+        ),
+      },
+      tagId: {
+        renderer: (props) => (
+          <CustomCombobox<UniRefund_TagService_Tags_TagListItemDto>
+            childrenProps={props}
+            emptyValue={languageData["Tag.Select"]}
+            list={TagsData}
+            searchPlaceholder={languageData["Select.Placeholder"]}
+            searchResultLabel={languageData["Select.ResultLabel"]}
+            selectIdentifier="id"
+            selectLabel="tagNumber"
+          />
+        ),
+      },
+    },
+  });
+
   async function createExportValidation(
     data: UniRefund_ExportValidationService_ExportValidations_CreateExportValidationDto,
   ) {
@@ -48,36 +83,13 @@ export default function Page({
         response.message || languageData["ExportValidation.New.Error"],
       );
     } else {
-      toast.success([languageData["ExportValidation.New.Succes"]]);
+      toast.success([languageData["ExportValidation.New.Success"]]);
       router.push(getBaseLink(`/app/admin/operations/export-validation`));
     }
   }
   return (
     <AutoForm
-      fieldConfig={{
-        exportLocationId: {
-          renderer: (props) => (
-            <CustomCombobox<UniRefund_CRMService_Customss_CustomsProfileDto>
-              childrenProps={props}
-              emptyValue="select Customs"
-              list={CustomsData}
-              selectIdentifier="id"
-              selectLabel="name"
-            />
-          ),
-        },
-        tagId: {
-          renderer: (props) => (
-            <CustomCombobox<UniRefund_TagService_Tags_TagListItemDto>
-              childrenProps={props}
-              emptyValue="select Tag"
-              list={TagsData}
-              selectIdentifier="id"
-              selectLabel="tagNumber"
-            />
-          ),
-        },
-      }}
+      fieldConfig={translatedForm}
       formSchema={ExportValidationSchema}
       onSubmit={(val) => {
         void createExportValidation(val);

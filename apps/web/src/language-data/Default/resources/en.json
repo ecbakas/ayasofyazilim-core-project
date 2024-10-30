@@ -47,7 +47,8 @@
   "Region.Select": "Select Region",
   "City.Select": "Select City",
   "District.Select": "Select District",
-
+  "Select.Placeholder": "Search...",
+  "Select.ResultLabel": "0 search result.",
   "PhoneNumber": "Phone Number",
 
   "Form.name": "Full Name",
