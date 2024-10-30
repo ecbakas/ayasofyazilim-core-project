@@ -47,6 +47,8 @@
   "Region.Select": "Bölge Seç",
   "City.Select": "Şehir Seç",
   "District.Select": "İlçe Seç",
+  "Select.Placeholder": "Ara...",
+  "Select.ResultLabel": "0 arama sonucu.",
   "PhoneNumber": "Telefon Numarası",
 
   "Form.name": "Tam İsim",
