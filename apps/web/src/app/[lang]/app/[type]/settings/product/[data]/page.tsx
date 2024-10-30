@@ -4,6 +4,7 @@ import { toast } from "@/components/ui/sonner";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnsType,
+  FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
@@ -118,14 +119,14 @@ export default function Page({
     setFormData(tempData);
   }
 
-  function getRoles(_page: number, _filter?: string) {
+  function getRoles(_page: number, _filter?: FilterColumnResult) {
     let page = _page;
     const filter = _filter || "";
     if (typeof page !== "number") {
       page = 0;
     }
 
-    const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
+    const _fetchLink = `${fetchLink}?page=${page}&filter=${JSON.stringify(filter)}`;
     setIsLoading(true);
     function onData(data: any) {
       let returnData = data;

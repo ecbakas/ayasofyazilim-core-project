@@ -93,14 +93,14 @@ export default function Page({
     setFormData(tempData);
   }
 
-  function getRoles(_page: number, _filter?:FilterColumnResult ) {
+  function getRoles(_page: number, _filter?: FilterColumnResult) {
     let page = _page;
     const filter = _filter || "";
     if (typeof page !== "number") {
       page = 0;
     }
 
-    const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
+    const _fetchLink = `${fetchLink}?page=${page}&filter=${JSON.stringify(filter)}`;
     setIsLoading(true);
     function onData(data: any) {
       let returnData = data;
