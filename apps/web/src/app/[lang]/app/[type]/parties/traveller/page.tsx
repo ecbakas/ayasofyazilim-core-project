@@ -16,7 +16,6 @@ export const travellerTableSchema = {
   schema: $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
 };
 
-
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
   type DetailedFilter = ColumnFilter & {
@@ -76,7 +75,6 @@ export default async function Page({ params }: { params: { lang: string } }) {
         "use server";
         return tableFetchRequest("travellers", page, filter);
       }}
-
       languageData={languageData}
       tableSchema={travellerTableSchema}
     />
