@@ -8,9 +8,18 @@ import type {
   GetApiCrmServiceCustomsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceTaxOfficesData,
+  PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
+  PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
+  PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+  PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+  PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
+  PutApiCrmServiceRefundPointsByIdTelephonesByTelephoneIdData,
+  PutApiCrmServiceTaxFreesByIdEmailsByEmailIdData,
+  PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
+  PutApiCrmServiceTaxOfficesByIdEmailsByEmailIdData,
 } from "@ayasofyazilim/saas/CRMService";
 import type {
   GetApiExportValidationServiceExportValidationData,
@@ -137,6 +146,20 @@ export async function getApiRequests() {
           form,
         );
       },
+      putEmailAddress: async (
+        form: PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdEmailsByEmailId(
+          form,
+        );
+      },
+      putTelephone: async (
+        form: PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdTelephonesByTelephoneId(
+          form,
+        );
+      },
       putIndividualName: async (
         form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
       ) => {
@@ -181,6 +204,20 @@ export async function getApiRequests() {
           form,
         );
       },
+      putEmailAddress: async (
+        form: PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
+      ) => {
+        return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdEmailsByEmailId(
+          form,
+        );
+      },
+      putTelephone: async (
+        form: PutApiCrmServiceRefundPointsByIdTelephonesByTelephoneIdData,
+      ) => {
+        return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdTelephonesByTelephoneId(
+          form,
+        );
+      },
     },
     customs: {
       getDetail: async (id: string) =>
@@ -206,6 +243,20 @@ export async function getApiRequests() {
         form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdAddressesByAddressId(
+          form,
+        );
+      },
+      putEmailAddress: async (
+        form: PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
+      ) => {
+        return await crmClient.customs.putApiCrmServiceCustomsByIdEmailsByEmailId(
+          form,
+        );
+      },
+      putTelephone: async (
+        form: PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
+      ) => {
+        return await crmClient.customs.putApiCrmServiceCustomsByIdTelephonesByTelephoneId(
           form,
         );
       },
@@ -236,6 +287,20 @@ export async function getApiRequests() {
         form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdAddressesByAddressId(
+          form,
+        );
+      },
+      putEmailAddress: async (
+        form: PutApiCrmServiceTaxFreesByIdEmailsByEmailIdData,
+      ) => {
+        return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdEmailsByEmailId(
+          form,
+        );
+      },
+      putTelephone: async (
+        form: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
+      ) => {
+        return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdTelephonesByTelephoneId(
           form,
         );
       },
@@ -275,7 +340,22 @@ export async function getApiRequests() {
           form,
         );
       },
+      putEmailAddress: async (
+        form: PutApiCrmServiceTaxOfficesByIdEmailsByEmailIdData,
+      ) => {
+        return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdEmailsByEmailId(
+          form,
+        );
+      },
+      putTelephone: async (
+        form: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
+      ) => {
+        return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdTelephonesByTelephoneId(
+          form,
+        );
+      },
     },
+
     individuals: {
       getDetail: async (id: string) =>
         await crmClient.individual.getApiCrmServiceIndividualsById({ id }),
