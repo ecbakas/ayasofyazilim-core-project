@@ -1,4 +1,9 @@
-import type { UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto } from "@ayasofyazilim/saas/CRMService";
+import type {
+  UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto,
+  UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto,
+} from "@ayasofyazilim/saas/CRMService";
 
 export type EmailUpdateDto =
   UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto;
+export type TelephoneUpdateDto =
+  UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto;

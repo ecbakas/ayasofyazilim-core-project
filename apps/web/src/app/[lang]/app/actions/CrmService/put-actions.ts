@@ -4,6 +4,7 @@ import type {
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+  PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
 } from "@ayasofyazilim/saas/CRMService";
 import { structuredError } from "src/lib";
 import { getApiRequests } from "../api-requests";
@@ -60,6 +61,27 @@ export async function putCrmEmailAddressApi(
     return {
       type: "success" as const,
       data: await requests[partyName].putEmailAddress(data),
+      status: 200,
+      message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putCrmTelephoneApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success" as const,
+      data: await requests[partyName].putTelephone(data),
       status: 200,
       message: "",
     };
