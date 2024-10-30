@@ -124,7 +124,7 @@ export default function Page({
       page = 0;
     }
 
-    const _fetchLink = `${fetchLink}?page=${page}&filter=${JSON.stringify(filter)}`;
+    const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
     setIsLoading(true);
     function onData(data: any) {
       let returnData = data;

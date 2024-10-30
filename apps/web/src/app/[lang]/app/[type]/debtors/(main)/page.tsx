@@ -95,12 +95,12 @@ export default function Page({
 
   function getRoles(_page: number, _filter?: FilterColumnResult) {
     let page = _page;
-    const filter = _filter || "";
+    const filter = JSON.stringify(_filter) || "";
     if (typeof page !== "number") {
       page = 0;
     }
 
-    const _fetchLink = `${fetchLink}?page=${page}&filter=${JSON.stringify(filter)}`;
+    const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
     setIsLoading(true);
     function onData(data: any) {
       let returnData = data;
