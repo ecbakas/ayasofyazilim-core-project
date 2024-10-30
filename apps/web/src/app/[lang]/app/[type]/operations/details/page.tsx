@@ -29,7 +29,7 @@ import { getBaseLink } from "src/utils";
 import { dataConfigOfParties } from "../../parties/table-data";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { travellerTableSchema } from "../../parties/traveller/page";
-import { getTravellers } from "../../parties/traveller/actions";
+import { getTravellers } from "../../../actions/TravellerService/actions";
 import { getMerchants, getSummary, getTags } from "./actions";
 import type { TaxFreeTag } from "./data";
 

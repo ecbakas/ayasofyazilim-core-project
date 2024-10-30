@@ -23,7 +23,7 @@ import {
   getCitiesApi,
   getCountriesApi,
 } from "../../../../actions/LocationService/actions";
-import { createTravellerWithComponents } from "../actions";
+import { createTravellerWithComponents } from "../../../../actions/TravellerService/actions";
 import type { CreateTravellerDTO } from "../data";
 import {
   createTravellerSchema,

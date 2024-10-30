@@ -7,7 +7,7 @@ import type {
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import type { ErrorTypes, ServerResponse } from "src/lib";
 import { getTravellersServiceClient, structuredError } from "src/lib";
-import { getTableData } from "../../../actions/api-requests";
+import { getTableData } from "../api-requests";
 
 export async function createTravellerWithComponents(
   body: PostApiTravellerServiceTravellersWithComponentsData,

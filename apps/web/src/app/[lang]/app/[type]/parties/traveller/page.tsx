@@ -4,7 +4,7 @@ import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "
 import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables";
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/TravellerService";
-import { getTravellers } from "./actions";
+import { getTravellers } from "../../../actions/TravellerService/actions";
 
 export const travellerTableSchema = {
   excludeList: [
