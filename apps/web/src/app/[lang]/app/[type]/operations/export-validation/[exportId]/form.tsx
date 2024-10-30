@@ -60,6 +60,8 @@ export default function Form({
             childrenProps={props}
             emptyValue={languageData["Custom.Select"]}
             list={CustomsData}
+            searchPlaceholder={languageData["Select.Placeholder"]}
+            searchResultLabel={languageData["Select.ResultLabel"]}
             selectIdentifier="id"
             selectLabel="name"
           />
@@ -71,6 +73,8 @@ export default function Form({
             childrenProps={props}
             emptyValue={languageData["Tag.Select"]}
             list={TagsData}
+            searchPlaceholder={languageData["Select.Placeholder"]}
+            searchResultLabel={languageData["Select.ResultLabel"]}
             selectIdentifier="id"
             selectLabel="tagNumber"
           />
