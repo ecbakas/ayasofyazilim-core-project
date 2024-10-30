@@ -18,7 +18,7 @@ import {
 } from "@ayasofyazilim/saas/TagService";
 import { toast } from "@/components/ui/sonner";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
-import type { UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import type { PagedResultDto_MerchantProfileDto, UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
 import { $UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { Volo_Abp_Application_Dtos_PagedResultDto_15 } from "@ayasofyazilim/saas/TravellerService";
 import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
@@ -27,8 +27,9 @@ import { dataConfigOfParties } from "../../parties/table-data";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { getTableData } from "../../../actions/api-requests";
 import { travellerTableSchema } from "../../parties/traveller/page";
-import { getSummary, getTags } from "./actions";
+import { getMerchants, getSummary, getTags } from "./actions";
 import type { TaxFreeTag } from "./data";
+import { getTravellers } from "../../parties/traveller/actions";
 
 type FilterType = keyof GetApiTagServiceTagData;
 // type namedFilter = { name: string }
@@ -51,22 +52,16 @@ export default function Page(): JSX.Element {
   //   },
 
   // }
-  const [merchant, setMerchant] = useState<
-    UniRefund_CRMService_Merchants_MerchantProfileDto[]
-  >([]);
-  const [travellers, setTravellers] = useState<
-    Volo_Abp_Application_Dtos_PagedResultDto_15["items"]
-  >([]);
+  const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>({});
+  const [travellers, setTravellers] = useState<Volo_Abp_Application_Dtos_PagedResultDto_15>({});
   useEffect(() => {
     async function getMerchants() {
       const merchants = await getMerchantsApi();
-      const merchantList =
-        (merchants.type === "success" && merchants.data.items) || [];
+      const merchantList =(merchants.type === "success" && merchants.data) || {};
       setMerchant(merchantList);
       const travellersList = await getTableData("travellers", 1, 10);
-      const data =
-        travellersList.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
-      setTravellers(data.items || []);
+      const data = travellersList.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
+      setTravellers(data);
     }
     void getMerchants();
   }, []);
@@ -174,29 +169,49 @@ export default function Page(): JSX.Element {
       type: "select-async",
       displayName: "Merchant",
       value: "",
-      rowCount: 10,
+      rowCount: merchant.totalCount || 0,
       filterProperty: "id",
       showProperty: "name",
-      data: merchant,
+      data: merchant.items || [],
       columnDataType: {
         tableType: $UniRefund_CRMService_Merchants_MerchantProfileDto,
         ...dataConfigOfParties.merchants.tableSchema,
       },
+      fetchRequest: getMerchants,
+      detailedFilters: dataConfigOfParties.merchants.detailedFilters,
     },
     {
       name: "travellerIds",
       type: "select-async",
       displayName: "Traveller",
       value: "",
-      rowCount: 10,
+      rowCount: travellers.totalCount || 0,
       filterProperty: "id",
       showProperty: "firstName",
-      data: travellers || [],
+      data: travellers.items || [],
       columnDataType: {
         tableType:
           $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
         excludeList: travellerTableSchema.excludeList,
       },
+      fetchRequest: async (page, filter) => {
+        // console.log("page", page);
+        const response = await getTravellers(page, filter);
+        if (response.type === "success") {
+          console.log("response ", response);
+          const data = response.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
+          // setTravellers({...data});
+          return {
+            type: "success",
+            data: { items: data.items || [], totalCount: data.totalCount || 0 },
+          };
+        }
+        return {
+          type: "success",
+          data: { items: [], totalCount: 0 },
+        };
+      },
+      detailedFilters: [],
     },
   ];
   const router = useRouter();

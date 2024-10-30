@@ -4,6 +4,7 @@ import { toast } from "@/components/ui/sonner";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnsType,
+  FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
@@ -92,7 +93,7 @@ export default function Page({
     setFormData(tempData);
   }
 
-  function getRoles(_page: number, _filter?: string) {
+  function getRoles(_page: number, _filter?:FilterColumnResult ) {
     let page = _page;
     const filter = _filter || "";
     if (typeof page !== "number") {

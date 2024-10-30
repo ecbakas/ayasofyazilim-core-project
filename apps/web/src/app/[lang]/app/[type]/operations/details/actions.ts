@@ -9,6 +9,8 @@ import type {
 } from "@ayasofyazilim/saas/TagService";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
+import { getTableData } from "../../../actions/api-requests";
+import { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 
 export async function getTags(
   data: GetApiTagServiceTagData = {},
@@ -80,4 +82,19 @@ export async function getSummary(
   } catch (error) {
     return structuredError(error);
   }
+}
+
+export async function getMerchants(page:number, filter?:FilterColumnResult){
+  const response = await getTableData("merchants", page, 10, filter);
+  if (response.type === "success") {
+    const data = response.data;
+    return {
+      type: "success",
+      data: { items: data.items || [], totalCount: data.totalCount || 0 },
+    };
+  }
+  return {
+    type: "success",
+    data: { items: [], totalCount: 0 },
+  };
 }
