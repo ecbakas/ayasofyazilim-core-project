@@ -11,7 +11,7 @@ import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-l
 import { emailSchema } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
 import { putCrmEmailAddressApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
-import type { EmailUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
+import type { EmailAddressUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
 import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
@@ -33,7 +33,7 @@ function Email({
   const router = useRouter();
   const emailValues = organizationData?.contactInformations?.[0]?.emails?.[0];
 
-  function handleSubmit(formData: EmailUpdateDto) {
+  function handleSubmit(formData: EmailAddressUpdateDto) {
     void putCrmEmailAddressApi(partyName, {
       requestBody: formData,
       id: partyId,
@@ -55,7 +55,7 @@ function Email({
         formClassName="pb-40 "
         formSchema={emailSchema}
         onSubmit={(values) => {
-          handleSubmit(values as EmailUpdateDto);
+          handleSubmit(values as EmailAddressUpdateDto);
         }}
         values={emailValues}
       >
