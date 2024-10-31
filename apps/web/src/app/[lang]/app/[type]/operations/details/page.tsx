@@ -28,6 +28,7 @@ import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "
 import { getBaseLink } from "src/utils";
 import { dataConfigOfParties } from "../../parties/table-data";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
+import type { TravllersKeys } from "../../parties/traveller/utils";
 import { travellerTableSchema } from "../../parties/traveller/utils";
 import { getTravellers } from "../../../actions/TravellerService/actions";
 import { getMerchants, getSummary, getTags } from "./actions";
@@ -57,6 +58,16 @@ export default function Page(): JSX.Element {
     }
     void getMerchantsLocally();
   }, []);
+  const travellerExcludeList: TravllersKeys[] = [
+    ...travellerTableSchema.excludeList,
+    "identificationType",
+    "languagePreferenceCode",
+  ];
+  const travellerPosition: TravllersKeys[] = [
+    "firstName",
+    "lastName",
+    "nationalityCountryName",
+  ];
   // convert type filter to array
   const typedFilters: TypedFilter = {
     exportEndDate: {
@@ -184,7 +195,8 @@ export default function Page(): JSX.Element {
       columnDataType: {
         tableType:
           $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
-        excludeList: travellerTableSchema.excludeList,
+        excludeList: travellerExcludeList,
+        positions: travellerPosition,
       },
       fetchRequest: async (page, filter) => {
         const response = await getTravellers(page, filter);
