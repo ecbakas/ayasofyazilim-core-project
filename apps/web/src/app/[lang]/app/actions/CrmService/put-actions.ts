@@ -5,6 +5,8 @@ import type {
   PutApiCrmServiceMerchantsByIdData,
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+  PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
 } from "@ayasofyazilim/saas/CRMService";
 import { structuredError } from "src/lib";
@@ -83,6 +85,44 @@ export async function putCrmTelephoneApi(
     return {
       type: "success" as const,
       data: await requests[partyName].putTelephone(data),
+      status: 200,
+      message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putCrmOrganizationApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success" as const,
+      data: await requests[partyName].putOrganization(data),
+      status: 200,
+      message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putCrmIndividualNameApi(
+  partyName: "merchants",
+
+  data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success" as const,
+      data: await requests[partyName].putIndividualName(data),
       status: 200,
       message: "",
     };

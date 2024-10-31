@@ -8,9 +8,10 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { putCrmIndividualNameApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
+import type { IndividualNameUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { PutName } from "../types";
-import { handleUpdateSubmit } from "../utils";
 
 function NameForm({
   languageData,
@@ -30,25 +31,24 @@ function NameForm({
   const nameSchema = createZodObject(
     $UniRefund_CRMService_NameCommonDatas_UpdateNameCommonDataDto,
   );
+
+  function handleSubmit(formData: IndividualNameUpdateDto) {
+    void putCrmIndividualNameApi(partyName, {
+      requestBody: formData,
+      id: partyId,
+      nameId: individualData?.id || "",
+      individualId: individualData?.individualId || "",
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
   return (
     <SectionLayoutContent sectionId="name">
       <AutoForm
         formClassName="pb-40"
         formSchema={nameSchema}
         onSubmit={(values) => {
-          void handleUpdateSubmit(
-            partyName,
-            {
-              action: "name",
-              data: {
-                requestBody: values as PutName["data"]["requestBody"],
-                id: partyId,
-                nameId: individualData?.id || "",
-                individualId: individualData?.individualId || "",
-              },
-            },
-            router,
-          );
+          handleSubmit(values as IndividualNameUpdateDto);
         }}
         values={individualData}
       >
