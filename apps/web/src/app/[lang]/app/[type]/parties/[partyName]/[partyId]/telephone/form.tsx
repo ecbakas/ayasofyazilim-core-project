@@ -10,11 +10,12 @@ import AutoForm, {
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { telephoneSchema } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
-import { isPhoneValid, splitPhone } from "src/utils-phone";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { putCrmTelephoneApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
+import type { TelephoneUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import { isPhoneValid, splitPhone } from "src/utils-phone";
 import type { PartyNameType } from "../../../types";
-import type { PutTelephone } from "../types";
-import { handleUpdateSubmit } from "../utils";
 
 function Telephone({
   languageData,
@@ -42,6 +43,16 @@ function Telephone({
     primaryFlag: telephoneData?.primaryFlag,
     typeCode: telephoneData?.typeCode,
   };
+
+  function handleSubmit(formData: TelephoneUpdateDto) {
+    void putCrmTelephoneApi(partyName, {
+      requestBody: formData,
+      id: partyId,
+      telephoneId: telephoneData?.id || "",
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
   return (
     <SectionLayoutContent sectionId="telephone">
       <AutoForm
@@ -62,21 +73,11 @@ function Telephone({
             return;
           }
           const phoneData = splitPhone(values.localNumber as string);
-          void handleUpdateSubmit(
-            partyName,
-            {
-              action: "telephone",
-              data: {
-                requestBody: {
-                  ...values,
-                  ...phoneData,
-                } as PutTelephone["data"]["requestBody"],
-                id: partyId,
-                telephoneId: telephoneData?.id || "",
-              },
-            },
-            router,
-          );
+          const formData = {
+            ...values,
+            ...phoneData,
+          } as TelephoneUpdateDto;
+          handleSubmit(formData);
         }}
         values={telephoneValues}
       >
