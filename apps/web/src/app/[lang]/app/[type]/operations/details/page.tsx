@@ -29,7 +29,10 @@ import { getBaseLink } from "src/utils";
 import { dataConfigOfParties } from "../../parties/table-data";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import type { TravllersKeys } from "../../parties/traveller/utils";
-import { travellerTableSchema } from "../../parties/traveller/utils";
+import {
+  getTravellerFilterClient,
+  travellerTableSchema,
+} from "../../parties/traveller/utils";
 import { getTravellers } from "../../../actions/TravellerService/actions";
 import { getMerchants, getSummary, getTags } from "./actions";
 import type { TaxFreeTag } from "./data";
@@ -213,7 +216,7 @@ export default function Page(): JSX.Element {
           data: { items: [], totalCount: 0 },
         };
       },
-      detailedFilters: [],
+      detailedFilters: getTravellerFilterClient("en"),
     },
   };
 
