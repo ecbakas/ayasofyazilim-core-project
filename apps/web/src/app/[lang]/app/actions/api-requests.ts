@@ -15,6 +15,7 @@ import type {
   PutApiCrmServiceMerchantsByIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
   PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
   PutApiCrmServiceRefundPointsByIdOrganizationsByOrganizationIdData,
@@ -168,6 +169,13 @@ export async function getApiRequests() {
         form: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdOrganizationsByOrganizationId(
+          form,
+        );
+      },
+      putIndividualName: async (
+        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameId(
           form,
         );
       },

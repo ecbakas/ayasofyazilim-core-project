@@ -1,4 +1,5 @@
 import type {
+  UniRefund_CRMService_NameCommonDatas_UpdateNameCommonDataDto,
   UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto,
   UniRefund_CRMService_Organizations_UpdateOrganizationDto,
   UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto,
@@ -8,5 +9,7 @@ export type EmailAddressUpdateDto =
   UniRefund_CRMService_EmailCommonDatas_UpdateEmailCommonDataDto;
 export type TelephoneUpdateDto =
   UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto;
+export type IndividualNameUpdateDto =
+  UniRefund_CRMService_NameCommonDatas_UpdateNameCommonDataDto;
 export type OrganizationUpdateDto =
   UniRefund_CRMService_Organizations_UpdateOrganizationDto;
