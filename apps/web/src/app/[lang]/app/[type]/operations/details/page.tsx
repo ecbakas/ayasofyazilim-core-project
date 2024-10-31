@@ -18,9 +18,20 @@ import {
 } from "@ayasofyazilim/saas/TagService";
 import { toast } from "@/components/ui/sonner";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
+import type { PagedResultDto_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import { $UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import type {
+  GetApiTravellerServiceTravellersResponse,
+  Volo_Abp_Application_Dtos_PagedResultDto_15,
+} from "@ayasofyazilim/saas/TravellerService";
+import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
 import { getBaseLink } from "src/utils";
+import { dataConfigOfParties } from "../../parties/table-data";
+import { getMerchantsApi } from "../../../actions/CrmService/actions";
+import { travellerTableSchema } from "../../parties/traveller/page";
+import { getTravellers } from "../../../actions/TravellerService/actions";
+import { getMerchants, getSummary, getTags } from "./actions";
 import type { TaxFreeTag } from "./data";
-import { getSummary, getTags } from "./actions";
 
 type FilterType = keyof GetApiTagServiceTagData;
 // type namedFilter = { name: string }
@@ -43,6 +54,25 @@ export default function Page(): JSX.Element {
   //   },
 
   // }
+  const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
+    {},
+  );
+  const [travellers, setTravellers] =
+    useState<GetApiTravellerServiceTravellersResponse>({});
+  useEffect(() => {
+    async function getMerchantsLocally() {
+      const merchants = await getMerchantsApi();
+      if (merchants.type === "success") {
+        setMerchant(merchants.data);
+      }
+      const travellersList = await getTravellers(1);
+      setTravellers(
+        travellersList.data as GetApiTravellerServiceTravellersResponse,
+      );
+    }
+    void getMerchantsLocally();
+  }, []);
+
   const filters: DetailedFilter[] = [
     {
       name: "exportEndDate",
@@ -98,12 +128,6 @@ export default function Page(): JSX.Element {
       value: "",
     },
     {
-      name: "merchantIds",
-      displayName: "Merchant IDs",
-      type: "string",
-      value: "",
-    },
-    {
       name: "paidStartDate",
       displayName: "Paid Start Date",
       type: "date",
@@ -146,6 +170,53 @@ export default function Page(): JSX.Element {
       displayName: "Traveller Name",
       type: "string",
       value: "",
+    },
+    {
+      name: "merchantIds",
+      type: "select-async",
+      displayName: "Merchant",
+      value: "",
+      rowCount: merchant.totalCount || 0,
+      filterProperty: "id",
+      showProperty: "name",
+      data: merchant.items || [],
+      columnDataType: {
+        tableType: $UniRefund_CRMService_Merchants_MerchantProfileDto,
+        ...dataConfigOfParties.merchants.tableSchema,
+      },
+      fetchRequest: getMerchants,
+      detailedFilters: dataConfigOfParties.merchants.detailedFilters,
+    },
+    {
+      name: "travellerIds",
+      type: "select-async",
+      displayName: "Traveller",
+      value: "",
+      rowCount: travellers.totalCount || 0,
+      filterProperty: "id",
+      showProperty: "firstName",
+      data: travellers.items || [],
+      columnDataType: {
+        tableType:
+          $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
+        excludeList: travellerTableSchema.excludeList,
+      },
+      fetchRequest: async (page, filter) => {
+        const response = await getTravellers(page, filter);
+        if (response.type === "success") {
+          const data =
+            response.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
+          return {
+            type: "success",
+            data: { items: data.items || [], totalCount: data.totalCount || 0 },
+          };
+        }
+        return {
+          type: "success",
+          data: { items: [], totalCount: 0 },
+        };
+      },
+      detailedFilters: [],
     },
   ];
   const router = useRouter();

@@ -2,14 +2,16 @@
 import type {
   GetApiCrmServiceCustomsData,
   GetApiCrmServiceMerchantsData,
+  GetApiCrmServiceMerchantsResponse,
   GetApiCrmServiceTaxOfficesData,
 } from "@ayasofyazilim/saas/CRMService";
+import type { ServerResponse } from "src/lib";
 import { structuredError } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getMerchantsApi(
   data: GetApiCrmServiceMerchantsData = {},
-) {
+): Promise<ServerResponse<GetApiCrmServiceMerchantsResponse>> {
   try {
     const requests = await getApiRequests();
     return {

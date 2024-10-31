@@ -6,6 +6,16 @@ import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/TravellerService";
 import { tableFetchRequest } from "../../../actions/table-utils";
 
+export const travellerTableSchema = {
+  excludeList: [
+    "id",
+    "userAccountId",
+    "residenceCountryCode2",
+    "nationalityCountryCode2",
+  ],
+  schema: $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
+};
+
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
   type DetailedFilter = ColumnFilter & {
@@ -66,15 +76,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
         return tableFetchRequest("travellers", page, filter);
       }}
       languageData={languageData}
-      tableSchema={{
-        excludeList: [
-          "id",
-          "userAccountId",
-          "residenceCountryCode2",
-          "nationalityCountryCode2",
-        ],
-        schema: $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
-      }}
+      tableSchema={travellerTableSchema}
     />
   );
 }

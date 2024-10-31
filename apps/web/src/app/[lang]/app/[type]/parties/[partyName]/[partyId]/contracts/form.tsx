@@ -99,7 +99,7 @@ export default function Contracts({
           },
         }}
         data={contractsData?.items || []}
-        fetchRequest={getContractsOfMerchant}
+        fetchRequest={getContractsOfMerchant as () => void}
         isLoading={loading}
         rowCount={contractsData?.totalCount}
       />
