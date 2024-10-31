@@ -92,6 +92,7 @@ export function handleOnAddressValueChange({
   selectedFields,
   setSelectedFields,
   countryList = [],
+  regionList,
   setRegionList,
   setCityList,
   languageData,
@@ -100,6 +101,7 @@ export function handleOnAddressValueChange({
   setCityList: Dispatch<SetStateAction<CityDto[] | undefined>>;
   setRegionList?: Dispatch<SetStateAction<RegionDto[] | undefined>>;
   countryList: CountryDto[];
+  regionList?: RegionDto[];
   selectedFields: SelectedAddressField;
   setSelectedFields: Dispatch<SetStateAction<SelectedAddressField>>;
   languageData: LanguageDataResourceType;
@@ -113,6 +115,8 @@ export function handleOnAddressValueChange({
     val.countryId &&
     val.countryId !== selectedFields.countryId
   ) {
+    setRegionList(undefined);
+    setCityList(undefined);
     setSelectedFields((current) => ({
       ...current,
       countryId: val.countryId,
@@ -126,14 +130,19 @@ export function handleOnAddressValueChange({
       languageData,
     }).then((response) => {
       if (response) {
+        setSelectedFields((current) => ({
+          ...current,
+          regionId: response,
+        }));
         void getCity({ regionId: response, setCityList, languageData });
       }
     });
-  } else if (val.regionId && val.regionId !== selectedFields.regionId) {
+  } else if (selectedFields.regionId && !regionList) {
+    void getCity({ regionId: val.regionId, setCityList, languageData });
+  } else if (val.regionId && selectedFields.regionId === "" && regionList) {
     setSelectedFields((current) => ({
       ...current,
       regionId: val.regionId,
-      cityId: "",
     }));
     void getCity({ regionId: val.regionId, setCityList, languageData });
   } else if (val.cityId && val.cityId !== selectedFields.cityId) {
