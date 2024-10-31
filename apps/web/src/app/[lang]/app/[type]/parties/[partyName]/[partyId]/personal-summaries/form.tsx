@@ -8,9 +8,10 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { putCrmIndividualPersonalSummaryApi } from "src/app/[lang]/app/actions/CrmService/put-actions";
+import type { IndividualPersonalSummariesUpdateDto } from "src/app/[lang]/app/actions/CrmService/types";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { PutPersonalSummaries } from "../types";
-import { handleUpdateSubmit } from "../utils";
 
 function PersonalSummariesForm({
   languageData,
@@ -30,26 +31,24 @@ function PersonalSummariesForm({
   const schema = createZodObject(
     $UniRefund_CRMService_PersonalSummaries_UpdatePersonalSummaryDto,
   );
+
+  function handleSubmit(formData: IndividualPersonalSummariesUpdateDto) {
+    void putCrmIndividualPersonalSummaryApi(partyName, {
+      requestBody: formData,
+      id: partyId,
+      personalSummaryId: individualData?.id || "",
+      individualId: individualData?.individualId || "",
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
   return (
     <SectionLayoutContent sectionId="personal-summaries">
       <AutoForm
         formClassName="pb-40"
         formSchema={schema}
         onSubmit={(values) => {
-          void handleUpdateSubmit(
-            partyName,
-            {
-              action: "personal-summaries",
-              data: {
-                requestBody:
-                  values as PutPersonalSummaries["data"]["requestBody"],
-                id: partyId,
-                personalSummaryId: individualData?.id || "",
-                individualId: individualData?.individualId || "",
-              },
-            },
-            router,
-          );
+          handleSubmit(values as IndividualPersonalSummariesUpdateDto);
         }}
         values={individualData}
       >

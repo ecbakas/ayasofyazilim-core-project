@@ -13,8 +13,10 @@ import type {
   PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
   PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
   PutApiCrmServiceRefundPointsByIdOrganizationsByOrganizationIdData,
@@ -150,6 +152,7 @@ export async function getApiRequests() {
           form,
         );
       },
+
       putEmailAddress: async (
         form: PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
       ) => {
@@ -168,6 +171,20 @@ export async function getApiRequests() {
         form: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdOrganizationsByOrganizationId(
+          form,
+        );
+      },
+      putIndividualName: async (
+        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameId(
+          form,
+        );
+      },
+      putIndividualPersonalSummary: async (
+        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+      ) => {
+        return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryId(
           form,
         );
       },
