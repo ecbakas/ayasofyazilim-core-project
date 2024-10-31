@@ -3,6 +3,7 @@
 import type {
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
   PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
@@ -122,6 +123,24 @@ export async function putCrmIndividualNameApi(
     return {
       type: "success" as const,
       data: await requests[partyName].putIndividualName(data),
+      status: 200,
+      message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putCrmIndividualPersonalSummaryApi(
+  partyName: "merchants",
+
+  data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success" as const,
+      data: await requests[partyName].putIndividualPersonalSummary(data),
       status: 200,
       message: "",
     };
