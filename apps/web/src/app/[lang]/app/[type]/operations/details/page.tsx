@@ -33,27 +33,12 @@ import { getTravellers } from "../../../actions/TravellerService/actions";
 import { getMerchants, getSummary, getTags } from "./actions";
 import type { TaxFreeTag } from "./data";
 
-type FilterType = keyof GetApiTagServiceTagData;
+type FilterType = Partial<keyof GetApiTagServiceTagData>;
 // type namedFilter = { name: string }
 type DetailedFilter = ColumnFilter & { name: FilterType };
-// type TypedFilter = Record<FilterType, ColumnFilter>;
+type TypedFilter = Partial<Record<FilterType, DetailedFilter>>;
 
 export default function Page(): JSX.Element {
-  // const typedFilters: TypedFilter = {
-  //   exportEndDate: {
-  //     name: "exportEndDate",
-  //     displayName: "Export End Date",
-  //     type: "date",
-  //     value: "",
-  //   },
-  //   exportStartDate: {
-  //     name: "exportEndDate",
-  //     displayName: "Export End Date",
-  //     type: "date",
-  //     value: "",
-  //   },
-
-  // }
   const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
     {},
   );
@@ -72,33 +57,39 @@ export default function Page(): JSX.Element {
     }
     void getMerchantsLocally();
   }, []);
-
-  const filters: DetailedFilter[] = [
-    {
+  // convert type filter to array
+  const typedFilters: TypedFilter = {
+    exportEndDate: {
       name: "exportEndDate",
       displayName: "Export End Date",
       type: "date",
       value: "",
     },
-    {
+    exportStartDate: {
+      name: "exportStartDate",
+      displayName: "Export End Date",
+      type: "date",
+      value: "",
+    },
+    issuedEndDate: {
       name: "issuedEndDate",
       displayName: "Issued End Date",
       type: "date",
       value: "",
     },
-    {
+    invoiceNumber: {
       name: "invoiceNumber",
       displayName: "Invoice Number",
       type: "string",
       value: "",
     },
-    {
+    tagNumber: {
       name: "tagNumber",
       displayName: "Tag Number",
       type: "string",
       value: "",
     },
-    {
+    sorting: {
       name: "sorting",
       displayName: "Sorting",
       type: "select",
@@ -109,31 +100,25 @@ export default function Page(): JSX.Element {
       ],
       placeholder: "Select Sorting",
     },
-    {
+    paidEndDate: {
       name: "paidEndDate",
       displayName: "Paid End Date",
       type: "date",
       value: "",
     },
-    {
-      name: "exportStartDate",
-      displayName: "Export Start Date",
-      type: "date",
-      value: "",
-    },
-    {
+    issuedStartDate: {
       name: "issuedStartDate",
       displayName: "Issued Start Date",
       type: "date",
       value: "",
     },
-    {
+    paidStartDate: {
       name: "paidStartDate",
       displayName: "Paid Start Date",
       type: "date",
       value: "",
     },
-    {
+    refundTypes: {
       name: "refundTypes",
       displayName: "Refund Types",
       type: "select",
@@ -146,7 +131,7 @@ export default function Page(): JSX.Element {
       placeholder: "Select Refund Type",
       value: "",
     },
-    {
+    statuses: {
       name: "statuses",
       displayName: "Statuses",
       type: "select",
@@ -159,19 +144,19 @@ export default function Page(): JSX.Element {
       ],
       placeholder: "Select Status",
     },
-    {
+    travellerDocumentNumber: {
       name: "travellerDocumentNumber",
       displayName: "Traveller Document Number",
       type: "string",
       value: "",
     },
-    {
+    travellerFullName: {
       name: "travellerFullName",
       displayName: "Traveller Name",
       type: "string",
       value: "",
     },
-    {
+    merchantIds: {
       name: "merchantIds",
       type: "select-async",
       displayName: "Merchant",
@@ -187,7 +172,7 @@ export default function Page(): JSX.Element {
       fetchRequest: getMerchants,
       detailedFilters: dataConfigOfParties.merchants.detailedFilters,
     },
-    {
+    travellerIds: {
       name: "travellerIds",
       type: "select-async",
       displayName: "Traveller",
@@ -218,7 +203,10 @@ export default function Page(): JSX.Element {
       },
       detailedFilters: [],
     },
-  ];
+  };
+
+  const filters: DetailedFilter[] = Object.values(typedFilters);
+
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [tags, setTags] = useState<GetApiTagServiceTagResponse>();
