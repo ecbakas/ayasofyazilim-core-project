@@ -53,7 +53,7 @@ export default function Form({
         toast.error(response.message);
       }
     } catch (error) {
-      toast.error(languageData["Fetch.Fail.City"]);
+      toast.error(`traveller/new:${languageData["Fetch.Fail.City"]}`);
     }
   };
 
@@ -66,7 +66,9 @@ export default function Form({
         toast.error(response.message);
       }
     } catch (error) {
-      toast.error(languageData["Fetch.Fail.Country"]);
+      toast.error(
+        `traveller/new/country: ${languageData["Fetch.Fail.Country"]}`,
+      );
     }
   };
 

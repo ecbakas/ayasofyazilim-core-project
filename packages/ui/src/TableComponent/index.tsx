@@ -91,12 +91,12 @@ export default function TableComponent({
           setTableData(res?.data);
           setIsLoading(false);
         } else {
-          toast.error(languageData["Fetch.Fail"]);
+          toast.error(res.type+": " +languageData["Fetch.Fail"]+ " " + JSON.stringify(res?.data));  
         }
       })
       .catch(() => {
         setIsLoading(false);
-        toast.error(languageData["Fetch.Fail"]);
+        toast.error("unknown table: " +languageData["Fetch.Fail"]);
       });
   }
 
