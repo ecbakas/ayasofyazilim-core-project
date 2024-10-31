@@ -13,6 +13,7 @@ import {
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import type {
   ColumnsType,
+  FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
@@ -154,7 +155,7 @@ export default function RefundFees({
     },
   };
 
-  const handleFilter = (filter: string) => {
+  const handleFilter = (filter: FilterColumnResult) => {
     return filter;
     // const parsedFilter: Record<string, string> = JSON.parse(filter) as Record<
     //   string,
@@ -182,7 +183,7 @@ export default function RefundFees({
     //   });
     // }
   };
-  const handleFetch = (page: number, filter: string) => {
+  const handleFetch = (page: number, filter: FilterColumnResult) => {
     setLoading(true);
     void getRefundTableFeeHeaders({ maxResultCount: 10, skipCount: page * 10 })
       .then((res) => {
