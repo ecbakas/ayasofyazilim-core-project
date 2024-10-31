@@ -70,6 +70,7 @@ export function useAddressHook({
       selectedFields,
       setSelectedFields,
       countryList,
+      regionList,
       values,
       setRegionList,
       setCityList,
