@@ -30,7 +30,7 @@ export async function getRegion({
     });
     if (regions.type !== "success") {
       setRegionList([]);
-      toast.error(languageData["Fetch.Fail"]);
+      toast.error(`location/utils: ${languageData["Fetch.Fail"]}`);
       return false;
     }
     setRegionList(regions.data);
@@ -40,7 +40,7 @@ export async function getRegion({
     });
     setRegionList([]);
     if (regions.type !== "success") {
-      toast.error(languageData["Fetch.Fail"]);
+      toast.error(`location/utils/region: ${languageData["Fetch.Fail"]}`);
       return false;
     }
     return regions.data;
@@ -62,7 +62,7 @@ export async function getCity({
     return;
   }
   setCityList([]);
-  toast.error(languageData["Fetch.Fail"]);
+  toast.error(`location/utils/city: ${languageData["Fetch.Fail"]}`);
 }
 
 export function getAddressList({

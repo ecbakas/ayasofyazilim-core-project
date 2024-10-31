@@ -198,8 +198,8 @@ importers:
         specifier: ^0.30.0
         version: 0.30.0
       '@ayasofyazilim/saas':
-        specifier: 0.0.63
-        version: 0.0.63(openapi-types@12.1.3)
+        specifier: 0.0.64
+        version: 0.0.64(openapi-types@12.1.3)
       '@formatjs/intl-localematcher':
         specifier: ^0.5.4
         version: 0.5.4
@@ -998,8 +998,8 @@ packages:
     resolution: {integrity: sha512-Ikk7rjFeKjlzOLQ0MJ1Zb+dDyb9/rhfuKlxeIwDgIZFoeZWzT1fiVwt5dN5rIfYtbzgtVBvAnxgaU5fdx6VZ3A==}
     hasBin: true
 
-  '@ayasofyazilim/saas@0.0.63':
-    resolution: {integrity: sha512-XKEOygS6VxOw48eb6F+zll0KAi43a3vipe0SsGR/e+Nfvd8ozHx0kmf390NngMnzsy4CzXddAiZA617C4hOSIQ==}
+  '@ayasofyazilim/saas@0.0.64':
+    resolution: {integrity: sha512-N23ajY/U35sLnsbC0obpQuzI2Zy2LyMWCxNQSqqfpXTMxffihY2a7uFQQxoH2nPeUoPRaurdJzzGAIgesbDcBw==}
     hasBin: true
 
   '@babel/code-frame@7.24.7':
@@ -9840,7 +9840,7 @@ snapshots:
     transitivePeerDependencies:
       - openapi-types
 
-  '@ayasofyazilim/saas@0.0.63(openapi-types@12.1.3)':
+  '@ayasofyazilim/saas@0.0.64(openapi-types@12.1.3)':
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
       '@hey-api/openapi-ts': 0.45.1(typescript@5.6.3)

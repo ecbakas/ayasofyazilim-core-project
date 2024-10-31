@@ -18,7 +18,7 @@ export const tableFetchRequest = async (
     };
   }
   return {
-    type: "error",
+    type: response.type,
     data: { items: [], totalCount: 0 },
   };
 };
