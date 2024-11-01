@@ -98,13 +98,13 @@ function MerchantForm({
         }}
         formClassName="pb-40"
         formSchema={schema}
-        onSubmit={(
-          values: UniRefund_CRMService_Merchants_UpdateMerchantDto,
-        ) => {
+        onSubmit={(values) => {
           if (values.typeCode === "STORE" && !values.parentId) {
             return;
           }
-          handleSubmit(values);
+          handleSubmit(
+            values as UniRefund_CRMService_Merchants_UpdateMerchantDto,
+          );
         }}
         values={merchantBaseData}
       >

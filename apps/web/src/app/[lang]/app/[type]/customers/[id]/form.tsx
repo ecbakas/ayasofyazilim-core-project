@@ -1,6 +1,7 @@
 "use client";
 import { toast } from "@/components/ui/sonner";
 import type {
+  UniRefund_CRMService_Customss_CustomsDto,
   UniRefund_CRMService_Merchants_MerchantDto,
   UniRefund_CRMService_Organizations_UpdateOrganizationDto,
 } from "@ayasofyazilim/saas/CRMService";
@@ -25,7 +26,9 @@ export default function Form({
   crmDetailData,
   params,
 }: {
-  crmDetailData: UniRefund_CRMService_Merchants_MerchantDto;
+  crmDetailData:
+    | UniRefund_CRMService_Merchants_MerchantDto
+    | UniRefund_CRMService_Customss_CustomsDto;
   params: {
     id: string;
     data: string;
