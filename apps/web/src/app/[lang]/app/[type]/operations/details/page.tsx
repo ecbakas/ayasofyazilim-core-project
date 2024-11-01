@@ -10,6 +10,7 @@ import type {
   GetApiTagServiceTagData,
   GetApiTagServiceTagResponse,
   GetApiTagServiceTagSummaryResponse,
+  UniRefund_TagService_Tags_TagListItemDto,
 } from "@ayasofyazilim/saas/TagService";
 import {
   $UniRefund_TagService_Tags_RefundType,
@@ -35,7 +36,6 @@ import {
 } from "../../parties/traveller/utils";
 import { getTravellers } from "../../../actions/TravellerService/actions";
 import { getMerchants, getSummary, getTags } from "./actions";
-import type { TaxFreeTag } from "./data";
 
 type FilterType = Partial<keyof GetApiTagServiceTagData>;
 // type namedFilter = { name: string }
@@ -277,11 +277,9 @@ export default function Page(): JSX.Element {
         {
           cta: "Open in new page",
           type: "Action",
-          callback: (originalRow: TaxFreeTag) => {
+          callback: (originalRow: UniRefund_TagService_Tags_TagListItemDto) => {
             router.push(
-              getBaseLink(
-                `app/admin/operations/details/${originalRow.taxFreeTagFacturaNumber}`,
-              ),
+              getBaseLink(`app/admin/operations/details/${originalRow.id}`),
             );
           },
         },
