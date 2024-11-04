@@ -26,6 +26,7 @@ import type {
   PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceTaxOfficesByIdEmailsByEmailIdData,
   PutApiCrmServiceTaxOfficesByIdOrganizationsByOrganizationIdData,
+  GetApiCrmServiceIndividualsData,
 } from "@ayasofyazilim/saas/CRMService";
 import type {
   GetApiExportValidationServiceExportValidationData,
@@ -407,7 +408,7 @@ export async function getApiRequests() {
     individuals: {
       getDetail: async (id: string) =>
         await crmClient.individual.getApiCrmServiceIndividualsById({ id }),
-      get: async (data: { maxResultCount: number; skipCount: number }) =>
+      get: async (data: GetApiCrmServiceIndividualsData) =>
         await crmClient.individual.getApiCrmServiceIndividuals(data),
       deleteRow: async (id: string) =>
         await crmClient.taxOffice.deleteApiCrmServiceTaxOfficesByIdWithComponents(
