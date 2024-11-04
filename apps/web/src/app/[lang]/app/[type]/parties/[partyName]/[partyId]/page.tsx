@@ -14,7 +14,7 @@ import type { PartyNameType } from "../../types";
 import Address from "./address/form";
 import Contracts from "./contracts/form";
 import Email from "./email/form";
-import Individual from "./individuals-table/form";
+import IndividualTable from "./individuals-table/table";
 import MerchantForm from "./merchant/form";
 import NameForm from "./name/form";
 import OrganizationForm from "./organization/form";
@@ -164,7 +164,7 @@ export default async function Page({
             partyId={params.partyId}
             partyName={params.partyName}
           />
-          <Individual
+          <IndividualTable
             languageData={languageData}
             partyId={params.partyId}
             partyName={params.partyName}
