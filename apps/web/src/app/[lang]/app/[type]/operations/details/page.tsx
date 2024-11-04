@@ -30,7 +30,7 @@ import {
   travellerTableSchema,
 } from "../../parties/traveller/utils";
 import type { DetailedFilter, TypedFilter } from "../filter";
-import { CommonFilter } from "../filter";
+import { typedCommonFilter } from "../filter";
 import { getMerchants, getSummary, getTags } from "./actions";
 
 export default function Page(): JSX.Element {
@@ -67,7 +67,7 @@ export default function Page(): JSX.Element {
 
   // convert type filter to array
   const typedFilters: TypedFilter = {
-    ...CommonFilter,
+    ...typedCommonFilter,
     merchantIds: {
       name: "merchantIds",
       type: "select-async",

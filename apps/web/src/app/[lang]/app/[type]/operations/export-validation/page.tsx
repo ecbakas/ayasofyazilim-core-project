@@ -5,11 +5,7 @@ import {
   $UniRefund_ExportValidationService_ExportValidations_ExportValidationStatusCode,
   $UniRefund_ExportValidationService_ExportValidations_StampTypeCode,
 } from "@ayasofyazilim/saas/ExportValidationService";
-import {
-  $UniRefund_TagService_Tags_RefundType,
-  $UniRefund_TagService_Tags_TagListItemDto,
-  $UniRefund_TagService_Tags_TagStatusType,
-} from "@ayasofyazilim/saas/TagService";
+import { $UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/saas/TagService";
 import type {
   ColumnFilter,
   FilterColumnResult,
@@ -19,6 +15,7 @@ import { getResourceData } from "src/language-data/ExportValidationService";
 import { deleteTableRow } from "../../../actions/api-requests";
 import { tableFetchRequest } from "../../../actions/table-utils";
 import { getTagsApi } from "../../../actions/TagService/actions";
+import { Commonfilters } from "../filter";
 
 export default async function Page({ params }: { params: { lang: string } }) {
   async function getTags(page: number, filter?: FilterColumnResult) {
@@ -49,8 +46,10 @@ export default async function Page({ params }: { params: { lang: string } }) {
     keyof GetApiExportValidationServiceExportValidationData
   >;
   type DetailedFilter = ColumnFilter & { name: FilterType };
-  const filters: DetailedFilter[] = [
-    {
+  type TypedFilter = Partial<Record<FilterType, DetailedFilter>>;
+
+  const typedFilters: TypedFilter = {
+    tagIds: {
       name: "tagIds",
       displayName: "Tag",
       type: "select-async",
@@ -64,113 +63,15 @@ export default async function Page({ params }: { params: { lang: string } }) {
         excludeList: ["id"],
       },
       fetchRequest: getTags,
-      detailedFilters: [
-        {
-          name: "tagNumber",
-          displayName: "Tag Number",
-          type: "string",
-          value: "",
-        },
-        {
-          name: "travellerDocumentNumber",
-          displayName: "Traveller Document Number",
-          type: "string",
-          value: "",
-        },
-        {
-          name: "travellerFullName",
-          displayName: "Traveller Name",
-          type: "string",
-          value: "",
-        },
-        {
-          name: "invoiceNumber",
-          displayName: "Invoice Number",
-          type: "string",
-          value: "",
-        },
-        {
-          name: "paidEndDate",
-          displayName: "Paid End Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "issuedStartDate",
-          displayName: "Issued Start Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "paidStartDate",
-          displayName: "Paid Start Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "refundTypes",
-          displayName: "Refund Types",
-          type: "select",
-          options: [
-            ...$UniRefund_TagService_Tags_RefundType.enum.map((item) => ({
-              label: item,
-              value: item,
-            })),
-          ],
-          placeholder: "Select Refund Type",
-          value: "",
-        },
-        {
-          name: "statuses",
-          displayName: "Statuses",
-          type: "select",
-          value: "",
-          options: [
-            ...$UniRefund_TagService_Tags_TagStatusType.enum.map((item) => ({
-              label: item,
-              value: item,
-            })),
-          ],
-          placeholder: "Select Status",
-        },
-        {
-          name: "exportEndDate",
-          displayName: "Export End Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "exportStartDate",
-          displayName: "Export End Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "issuedEndDate",
-          displayName: "Issued End Date",
-          type: "date",
-          value: "",
-        },
-        {
-          name: "sorting",
-          displayName: "Sorting",
-          type: "select",
-          value: "",
-          options: [
-            { label: "Ascending", value: "asc" },
-            { label: "Descending", value: "desc" },
-          ],
-          placeholder: "Select Sorting",
-        },
-      ],
+      detailedFilters: [...Commonfilters],
     },
-    {
+    referenceId: {
       name: "referenceId",
       displayName: "Reference Id",
       type: "string",
       value: "",
     },
-    {
+    statuses: {
       name: "statuses",
       displayName: "Statuses",
       type: "select-multiple",
@@ -186,7 +87,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
         ],
       },
     },
-    {
+    stampTypeCodes: {
       name: "stampTypeCodes",
       displayName: "Stamp Type Codes",
       type: "select-multiple",
@@ -202,19 +103,19 @@ export default async function Page({ params }: { params: { lang: string } }) {
         ],
       },
     },
-    {
+    exportEndDate: {
       name: "exportEndDate",
       displayName: "Export End Date",
       type: "date",
       value: "",
     },
-    {
+    exportStartDate: {
       name: "exportStartDate",
       displayName: "Export Start Date",
       type: "date",
       value: "",
     },
-    {
+    sorting: {
       name: "sorting",
       displayName: "Sorting",
       type: "select",
@@ -225,7 +126,9 @@ export default async function Page({ params }: { params: { lang: string } }) {
       ],
       placeholder: "Select Sorting",
     },
-  ];
+  };
+
+  const filters: DetailedFilter[] = Object.values(typedFilters);
 
   return (
     <TableComponent
