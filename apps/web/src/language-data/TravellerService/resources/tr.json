@@ -10,16 +10,20 @@
   "Travellers.TravelDocumentNumber": "Seyahat Belge Numarası",
   "Travellers.Fail": "Yolcu kaydedilirken bir hata oluştu",
 
-  "Form.personalIdentificationCommonDatas.firstName": "Ad",
-  "Form.personalIdentificationCommonDatas.lastName": "Soyad",
-  "Form.personalIdentificationCommonDatas.travelDocumentNumber": "Seyahat Belgesi Numarası",
-  "Form.personalIdentificationCommonDatas.birthDate": "Doğum Tarihi",
-  "Form.personalIdentificationCommonDatas.issueDate": "Veriliş Tarihi",
-  "Form.personalIdentificationCommonDatas.expirationDate": "Son Kullanma Tarihi",
-  "Form.personalIdentificationCommonDatas.residenceCountryCode2": "İkamet Ülkesi",
-  "Form.personalIdentificationCommonDatas.nationalityCountryCode2": "Uyruğu",
-  "Form.personalIdentificationCommonDatas.identificationType": "Kimlik Türü",
-  "Form.personalIdentificationCommonDatas.identificationType.passport": "Pasaport",
+  "Form.personalIdentification": "Kişisel Bilgiler",
+  "Form.personalIdentification.firstName": "Ad",
+  "Form.personalIdentification.lastName": "Soyad",
+  "Form.personalIdentification.travelDocumentNumber": "Seyahat Belgesi Numarası",
+  "Form.personalIdentification.birthDate": "Doğum Tarihi",
+  "Form.personalIdentification.issueDate": "Veriliş Tarihi",
+  "Form.personalIdentification.expirationDate": "Son Kullanma Tarihi",
+  "Form.personalIdentification.residenceCountryCode2": "İkamet Ülkesi",
+  "Form.personalIdentification.nationalityCountryCode2": "Uyruğu",
+  "Form.personalIdentification.identificationType": "Kimlik Türü",
+  "Form.personalIdentification.identificationType.passport": "Pasaport",
 
-  "Form.personalPreferencesTypes.languagePreferenceCode": "Dil Tercihi"
+  "Form.languagePreferenceCode": "Dil Tercihi",
+  "Form.gender": "Cinsiyet",
+  "Form.gender.male": "Erkek",
+  "Form.gender.female": "Kadın"
 }
