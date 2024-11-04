@@ -99,3 +99,15 @@ export async function getIndividualsApi(
     return structuredError(error);
   }
 }
+
+export async function getAffiliationCodeApi(partyName: "individuals") {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success",
+      data: await requests[partyName].getAffiliationCode(),
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
