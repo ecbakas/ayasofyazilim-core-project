@@ -1,6 +1,7 @@
 "use server";
 import type {
   GetApiCrmServiceCustomsData,
+  GetApiCrmServiceIndividualsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceMerchantsResponse,
   GetApiCrmServiceTaxOfficesData,
@@ -77,6 +78,34 @@ export async function getAdressesApi(id: string, partyName: "merchants") {
       data: await requests[partyName].getAdresses({
         id,
       }),
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getIndividualsApi(
+  data: GetApiCrmServiceIndividualsData = {},
+) {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success",
+      data: await requests.individuals.get(data),
+      status: 200,
+      message: "",
+    };
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getAffiliationCodeApi(partyName: "individuals") {
+  try {
+    const requests = await getApiRequests();
+    return {
+      type: "success",
+      data: await requests[partyName].getAffiliationCode(),
     };
   } catch (error) {
     return structuredError(error);
