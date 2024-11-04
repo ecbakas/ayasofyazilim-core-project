@@ -31,9 +31,6 @@ function Individual({
         deleteableRow
         editOnNewPage
         editOnNewPageUrl={`/app/admin/parties/${partyName}`}
-        // createOnNewPage
-        // createOnNewPageTitle={languageData[`${formData.subEntityName}.New`]}
-        // createOnNewPageUrl={`/app/admin/parties/individuals/new?parentId=${partyId}&partyName=${partyName}`}
         fetchRequest={async (page) => {
           "use server";
           const requests = await getApiRequests();
