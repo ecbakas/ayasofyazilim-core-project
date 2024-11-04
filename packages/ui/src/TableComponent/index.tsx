@@ -91,12 +91,18 @@ export default function TableComponent({
           setTableData(res?.data);
           setIsLoading(false);
         } else {
-          toast.error(res.type+": " +languageData["Fetch.Fail"]+ " " + JSON.stringify(res?.data));  
+          toast.error(
+            res.type +
+              ": " +
+              languageData["Fetch.Fail"] +
+              " " +
+              JSON.stringify(res?.data),
+          );
         }
       })
       .catch(() => {
         setIsLoading(false);
-        toast.error("unknown table: " +languageData["Fetch.Fail"]);
+        toast.error("unknown table: " + languageData["Fetch.Fail"]);
       });
   }
 
@@ -137,11 +143,7 @@ export default function TableComponent({
     );
   }
 
-  const action: TableAction[] = [
-    TableAction_EXPORT_CSV<
-      { items: unknown[]; totalCount: number } | undefined
-    >(tableData, "export.csv"),
-  ];
+  const action: TableAction[] = [];
 
   if (createOnNewPage) {
     action.unshift(
@@ -196,6 +198,11 @@ export default function TableComponent({
       action?.push(_action);
     });
   }
+  action.push(
+    TableAction_EXPORT_CSV<
+      { items: unknown[]; totalCount: number } | undefined
+    >(tableData, "export.csv"),
+  );
 
   return (
     <Dashboard
