@@ -6,17 +6,23 @@ import type {
 } from "@ayasofyazilim/saas/ContractService";
 import type {
   GetApiCrmServiceCustomsData,
+  GetApiCrmServiceIndividualsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceTaxOfficesData,
+  PostApiCrmServiceCustomsByIdAffiliationsData,
+  PostApiCrmServiceMerchantsByIdAffiliationsData,
+  PostApiCrmServiceRefundPointsByIdAffiliationsData,
+  PostApiCrmServiceTaxFreesByIdAffiliationsData,
+  PostApiCrmServiceTaxOfficesByIdAffiliationsData,
   PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
   PutApiCrmServiceCustomsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
   PutApiCrmServiceMerchantsByIdData,
-  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
-  PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+  PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
   PutApiCrmServiceRefundPointsByIdOrganizationsByOrganizationIdData,
@@ -188,6 +194,13 @@ export async function getApiRequests() {
           form,
         );
       },
+      postAffiliations: async (
+        form: PostApiCrmServiceMerchantsByIdAffiliationsData,
+      ) => {
+        return await crmClient.merchant.postApiCrmServiceMerchantsByIdAffiliations(
+          form,
+        );
+      },
     },
     "refund-points": {
       getDetail: async (id: string) =>
@@ -246,6 +259,13 @@ export async function getApiRequests() {
           form,
         );
       },
+      postAffiliations: async (
+        form: PostApiCrmServiceRefundPointsByIdAffiliationsData,
+      ) => {
+        return await crmClient.refundPoint.postApiCrmServiceRefundPointsByIdAffiliations(
+          form,
+        );
+      },
     },
     customs: {
       getDetail: async (id: string) =>
@@ -292,6 +312,13 @@ export async function getApiRequests() {
         form: PutApiCrmServiceCustomsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdOrganizationsByOrganizationId(
+          form,
+        );
+      },
+      postAffiliations: async (
+        form: PostApiCrmServiceCustomsByIdAffiliationsData,
+      ) => {
+        return await crmClient.customs.postApiCrmServiceCustomsByIdAffiliations(
           form,
         );
       },
@@ -343,6 +370,13 @@ export async function getApiRequests() {
         form: PutApiCrmServiceTaxFreesByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdOrganizationsByOrganizationId(
+          form,
+        );
+      },
+      postAffiliations: async (
+        form: PostApiCrmServiceTaxFreesByIdAffiliationsData,
+      ) => {
+        return await crmClient.taxFree.postApiCrmServiceTaxFreesByIdAffiliations(
           form,
         );
       },
@@ -402,12 +436,18 @@ export async function getApiRequests() {
           form,
         );
       },
+      postAffiliations: async (
+        form: PostApiCrmServiceTaxOfficesByIdAffiliationsData,
+      ) => {
+        return await crmClient.taxOffice.postApiCrmServiceTaxOfficesByIdAffiliations(
+          form,
+        );
+      },
     },
-
     individuals: {
       getDetail: async (id: string) =>
         await crmClient.individual.getApiCrmServiceIndividualsById({ id }),
-      get: async (data: { maxResultCount: number; skipCount: number }) =>
+      get: async (data: GetApiCrmServiceIndividualsData) =>
         await crmClient.individual.getApiCrmServiceIndividuals(data),
       deleteRow: async (id: string) =>
         await crmClient.taxOffice.deleteApiCrmServiceTaxOfficesByIdWithComponents(
@@ -415,6 +455,8 @@ export async function getApiRequests() {
             id,
           },
         ),
+      getAffiliationCode: async () =>
+        await crmClient.affiliationCode.getApiCrmServiceAffiliationCodes(),
     },
     locations: {
       getCountries: async (data: GetApiLocationServiceCountriesData) =>

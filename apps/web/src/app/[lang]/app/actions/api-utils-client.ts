@@ -14,3 +14,15 @@ export const handlePutResponse = (
     toast.error(response.message);
   }
 };
+
+export const handlePostResponse = (
+  response: { type: "success" | "error" | "api-error"; message: string },
+  router: AppRouterInstance,
+) => {
+  if (response.type === "success") {
+    toast.success("Created successfully");
+    router.refresh();
+  } else {
+    toast.error(response.message);
+  }
+};
