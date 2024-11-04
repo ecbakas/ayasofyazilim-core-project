@@ -6,9 +6,9 @@ import Form from "./form";
 
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
-  const Countries = await getCountriesApi();
-  const CountryList =
-    (Countries.type === "success" && Countries.data.items) || [];
+  const countries = await getCountriesApi();
+  const countryList =
+    (countries.type === "success" && countries.data.items) || [];
 
-  return <Form countryList={CountryList} languageData={languageData} />;
+  return <Form countryList={countryList} languageData={languageData} />;
 }
