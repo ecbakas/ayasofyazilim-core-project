@@ -77,7 +77,7 @@ export default function Page({
               Id: tag.data.merchant?.id || "",
             },
             Id: tag.data.merchant?.id || "",
-            Name: tag.data.merchant?.id || "",
+            Name: tag.data.merchant?.name || "",
             ProductGroups:
               tag.data.merchant?.productGroups?.map((productGroup) => ({
                 Description: productGroup.description || "",
