@@ -145,60 +145,60 @@ export async function getApiRequests() {
         await contractsClient.contractsMerchant.getApiContractServiceMerchantsContractsContractHeadersById(
           { id },
         ),
-      putMerchantBase: async (form: PutApiCrmServiceMerchantsByIdData) => {
+      putMerchantBase: async (data: PutApiCrmServiceMerchantsByIdData) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsById({
-          requestBody: form.requestBody,
-          id: form.id,
+          requestBody: data.requestBody,
+          id: data.id,
         });
       },
       putAddress: async (
-        form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+        data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdAddressesByAddressId(
-          form,
+          data,
         );
       },
 
       putEmailAddress: async (
-        form: PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+        data: PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdEmailsByEmailId(
-          form,
+          data,
         );
       },
       putTelephone: async (
-        form: PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+        data: PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdTelephonesByTelephoneId(
-          form,
+          data,
         );
       },
       putOrganization: async (
-        form: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+        data: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdOrganizationsByOrganizationId(
-          form,
+          data,
         );
       },
       putIndividualName: async (
-        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+        data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameId(
-          form,
+          data,
         );
       },
       putIndividualPersonalSummary: async (
-        form: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+        data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
       ) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryId(
-          form,
+          data,
         );
       },
       postAffiliations: async (
-        form: PostApiCrmServiceMerchantsByIdAffiliationsData,
+        data: PostApiCrmServiceMerchantsByIdAffiliationsData,
       ) => {
         return await crmClient.merchant.postApiCrmServiceMerchantsByIdAffiliations(
-          form,
+          data,
         );
       },
     },
@@ -232,38 +232,38 @@ export async function getApiRequests() {
           },
         ),
       putAddress: async (
-        form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+        data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdAddressesByAddressId(
-          form,
+          data,
         );
       },
       putEmailAddress: async (
-        form: PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
+        data: PutApiCrmServiceRefundPointsByIdEmailsByEmailIdData,
       ) => {
         return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdEmailsByEmailId(
-          form,
+          data,
         );
       },
       putTelephone: async (
-        form: PutApiCrmServiceRefundPointsByIdTelephonesByTelephoneIdData,
+        data: PutApiCrmServiceRefundPointsByIdTelephonesByTelephoneIdData,
       ) => {
         return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdTelephonesByTelephoneId(
-          form,
+          data,
         );
       },
       putOrganization: async (
-        form: PutApiCrmServiceRefundPointsByIdOrganizationsByOrganizationIdData,
+        data: PutApiCrmServiceRefundPointsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.refundPoint.putApiCrmServiceRefundPointsByIdOrganizationsByOrganizationId(
-          form,
+          data,
         );
       },
       postAffiliations: async (
-        form: PostApiCrmServiceRefundPointsByIdAffiliationsData,
+        data: PostApiCrmServiceRefundPointsByIdAffiliationsData,
       ) => {
         return await crmClient.refundPoint.postApiCrmServiceRefundPointsByIdAffiliations(
-          form,
+          data,
         );
       },
     },
@@ -288,38 +288,38 @@ export async function getApiRequests() {
           id,
         }),
       putAddress: async (
-        form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+        data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdAddressesByAddressId(
-          form,
+          data,
         );
       },
       putEmailAddress: async (
-        form: PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
+        data: PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdEmailsByEmailId(
-          form,
+          data,
         );
       },
       putTelephone: async (
-        form: PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
+        data: PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdTelephonesByTelephoneId(
-          form,
+          data,
         );
       },
       putOrganization: async (
-        form: PutApiCrmServiceCustomsByIdOrganizationsByOrganizationIdData,
+        data: PutApiCrmServiceCustomsByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.customs.putApiCrmServiceCustomsByIdOrganizationsByOrganizationId(
-          form,
+          data,
         );
       },
       postAffiliations: async (
-        form: PostApiCrmServiceCustomsByIdAffiliationsData,
+        data: PostApiCrmServiceCustomsByIdAffiliationsData,
       ) => {
         return await crmClient.customs.postApiCrmServiceCustomsByIdAffiliations(
-          form,
+          data,
         );
       },
     },
@@ -346,38 +346,38 @@ export async function getApiRequests() {
           id,
         }),
       putAddress: async (
-        form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+        data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdAddressesByAddressId(
-          form,
+          data,
         );
       },
       putEmailAddress: async (
-        form: PutApiCrmServiceTaxFreesByIdEmailsByEmailIdData,
+        data: PutApiCrmServiceTaxFreesByIdEmailsByEmailIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdEmailsByEmailId(
-          form,
+          data,
         );
       },
       putTelephone: async (
-        form: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
+        data: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdTelephonesByTelephoneId(
-          form,
+          data,
         );
       },
       putOrganization: async (
-        form: PutApiCrmServiceTaxFreesByIdOrganizationsByOrganizationIdData,
+        data: PutApiCrmServiceTaxFreesByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.taxFree.putApiCrmServiceTaxFreesByIdOrganizationsByOrganizationId(
-          form,
+          data,
         );
       },
       postAffiliations: async (
-        form: PostApiCrmServiceTaxFreesByIdAffiliationsData,
+        data: PostApiCrmServiceTaxFreesByIdAffiliationsData,
       ) => {
         return await crmClient.taxFree.postApiCrmServiceTaxFreesByIdAffiliations(
-          form,
+          data,
         );
       },
     },
@@ -409,38 +409,38 @@ export async function getApiRequests() {
           },
         ),
       putAddress: async (
-        form: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+        data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
       ) => {
         return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdAddressesByAddressId(
-          form,
+          data,
         );
       },
       putEmailAddress: async (
-        form: PutApiCrmServiceTaxOfficesByIdEmailsByEmailIdData,
+        data: PutApiCrmServiceTaxOfficesByIdEmailsByEmailIdData,
       ) => {
         return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdEmailsByEmailId(
-          form,
+          data,
         );
       },
       putTelephone: async (
-        form: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
+        data: PutApiCrmServiceTaxFreesByIdTelephonesByTelephoneIdData,
       ) => {
         return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdTelephonesByTelephoneId(
-          form,
+          data,
         );
       },
       putOrganization: async (
-        form: PutApiCrmServiceTaxOfficesByIdOrganizationsByOrganizationIdData,
+        data: PutApiCrmServiceTaxOfficesByIdOrganizationsByOrganizationIdData,
       ) => {
         return await crmClient.taxOffice.putApiCrmServiceTaxOfficesByIdOrganizationsByOrganizationId(
-          form,
+          data,
         );
       },
       postAffiliations: async (
-        form: PostApiCrmServiceTaxOfficesByIdAffiliationsData,
+        data: PostApiCrmServiceTaxOfficesByIdAffiliationsData,
       ) => {
         return await crmClient.taxOffice.postApiCrmServiceTaxOfficesByIdAffiliations(
-          form,
+          data,
         );
       },
     },
