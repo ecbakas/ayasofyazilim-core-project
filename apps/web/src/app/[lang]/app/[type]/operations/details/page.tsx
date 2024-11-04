@@ -39,6 +39,7 @@ export default function Page(): JSX.Element {
   );
   const [travellers, setTravellers] =
     useState<GetApiTravellerServiceTravellersResponse>({});
+
   useEffect(() => {
     async function getMerchantsLocally() {
       const merchants = await getMerchantsApi();
@@ -52,6 +53,7 @@ export default function Page(): JSX.Element {
     }
     void getMerchantsLocally();
   }, []);
+
   const travellerExcludeList: TravllersKeys[] = [
     ...travellerTableSchema.excludeList,
     "identificationType",
@@ -62,6 +64,7 @@ export default function Page(): JSX.Element {
     "lastName",
     "nationalityCountryName",
   ];
+
   // convert type filter to array
   const typedFilters: TypedFilter = {
     ...CommonFilter,
@@ -114,7 +117,6 @@ export default function Page(): JSX.Element {
       detailedFilters: getTravellerFilterClient("en"),
     },
   };
-
   const filters: DetailedFilter[] = Object.values(typedFilters);
 
   const router = useRouter();

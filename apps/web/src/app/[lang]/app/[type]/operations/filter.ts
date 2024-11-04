@@ -9,67 +9,50 @@ export type FilterType = Partial<keyof GetApiTagServiceTagData>;
 export type DetailedFilter = ColumnFilter & { name: FilterType };
 export type TypedFilter = Partial<Record<FilterType, DetailedFilter>>;
 
-export const CommonFilter: TypedFilter = {
-  exportEndDate: {
-    name: "exportEndDate",
-    displayName: "Export End Date",
-    type: "date",
-    value: "",
-  },
-  exportStartDate: {
-    name: "exportStartDate",
-    displayName: "Export End Date",
-    type: "date",
-    value: "",
-  },
-  issuedEndDate: {
-    name: "issuedEndDate",
-    displayName: "Issued End Date",
-    type: "date",
-    value: "",
-  },
-  invoiceNumber: {
-    name: "invoiceNumber",
-    displayName: "Invoice Number",
-    type: "string",
-    value: "",
-  },
-  tagNumber: {
+export const CommonFilter: DetailedFilter[] = [
+  {
     name: "tagNumber",
     displayName: "Tag Number",
     type: "string",
     value: "",
   },
-  sorting: {
-    name: "sorting",
-    displayName: "Sorting",
-    type: "select",
+  {
+    name: "travellerDocumentNumber",
+    displayName: "Traveller Document Number",
+    type: "string",
     value: "",
-    options: [
-      { label: "Ascending", value: "asc" },
-      { label: "Descending", value: "desc" },
-    ],
-    placeholder: "Select Sorting",
   },
-  paidEndDate: {
+  {
+    name: "travellerFullName",
+    displayName: "Traveller Name",
+    type: "string",
+    value: "",
+  },
+  {
+    name: "invoiceNumber",
+    displayName: "Invoice Number",
+    type: "string",
+    value: "",
+  },
+  {
     name: "paidEndDate",
     displayName: "Paid End Date",
     type: "date",
     value: "",
   },
-  issuedStartDate: {
+  {
     name: "issuedStartDate",
     displayName: "Issued Start Date",
     type: "date",
     value: "",
   },
-  paidStartDate: {
+  {
     name: "paidStartDate",
     displayName: "Paid Start Date",
     type: "date",
     value: "",
   },
-  refundTypes: {
+  {
     name: "refundTypes",
     displayName: "Refund Types",
     type: "select",
@@ -82,7 +65,7 @@ export const CommonFilter: TypedFilter = {
     placeholder: "Select Refund Type",
     value: "",
   },
-  statuses: {
+  {
     name: "statuses",
     displayName: "Statuses",
     type: "select",
@@ -95,16 +78,33 @@ export const CommonFilter: TypedFilter = {
     ],
     placeholder: "Select Status",
   },
-  travellerDocumentNumber: {
-    name: "travellerDocumentNumber",
-    displayName: "Traveller Document Number",
-    type: "string",
+  {
+    name: "exportEndDate",
+    displayName: "Export End Date",
+    type: "date",
     value: "",
   },
-  travellerFullName: {
-    name: "travellerFullName",
-    displayName: "Traveller Name",
-    type: "string",
+  {
+    name: "exportStartDate",
+    displayName: "Export End Date",
+    type: "date",
     value: "",
   },
-};
+  {
+    name: "issuedEndDate",
+    displayName: "Issued End Date",
+    type: "date",
+    value: "",
+  },
+  {
+    name: "sorting",
+    displayName: "Sorting",
+    type: "select",
+    value: "",
+    options: [
+      { label: "Ascending", value: "asc" },
+      { label: "Descending", value: "desc" },
+    ],
+    placeholder: "Select Sorting",
+  },
+];

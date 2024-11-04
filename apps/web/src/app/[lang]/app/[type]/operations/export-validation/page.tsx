@@ -5,7 +5,6 @@ import {
   $UniRefund_ExportValidationService_ExportValidations_ExportValidationStatusCode,
   $UniRefund_ExportValidationService_ExportValidations_StampTypeCode,
 } from "@ayasofyazilim/saas/ExportValidationService";
-import TableComponent from "@repo/ui/TableComponent";
 import {
   $UniRefund_TagService_Tags_RefundType,
   $UniRefund_TagService_Tags_TagListItemDto,
@@ -15,6 +14,7 @@ import type {
   ColumnFilter,
   FilterColumnResult,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
+import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/ExportValidationService";
 import { deleteTableRow } from "../../../actions/api-requests";
 import { tableFetchRequest } from "../../../actions/table-utils";
