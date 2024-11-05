@@ -57,7 +57,7 @@ export default function Page({
   params: { data: string; domain: string; lang: string };
 }): JSX.Element {
   const fetchLink = getBaseLink(`/api/settings/product/${params.data}`);
-  const [roles, setRoles] = useState<
+  const [tableData, setTableData] = useState<
     PagedResultDto_VatDto | PagedResultDto_ProductGroupDto
   >();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -99,7 +99,7 @@ export default function Page({
         };
       }
       const transformedData = returnData.items;
-      setRoles({ ...returnData, items: transformedData });
+      setTableData({ ...returnData, items: transformedData });
       setIsLoading(false);
     }
     void controlledFetch(
@@ -176,7 +176,7 @@ export default function Page({
       {
         cta: `Export CSV`,
         callback: () => {
-          jsonToCSV(roles, params.data);
+          jsonToCSV(tableData, params.data);
         },
         type: "Action",
       },
@@ -286,10 +286,10 @@ export default function Page({
       action={action}
       cards={[]}
       columnsData={columnsData}
-      data={roles?.items || []}
+      data={tableData?.items || []}
       fetchRequest={getRoles}
       isLoading={isLoading}
-      rowCount={roles?.totalCount || 0}
+      rowCount={tableData?.totalCount || 0}
       withCards={false}
       withTable
     />
