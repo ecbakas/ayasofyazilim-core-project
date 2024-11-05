@@ -429,10 +429,7 @@ export default function Rebate({
     const payload: RebateTableHeaderCreateDto = {
       ...(newFormData as Pick<
         RebateTableHeaderCreateDto,
-        | "name"
-        | "validFrom"
-        | "validTo"
-        | "calculateNetCommissionInsteadOfRefund"
+        "name" | "calculateNetCommissionInsteadOfRefund"
       >),
       processingFeeDetails: filteredFeesData,
       rebateTableDetails: filteredSetupData,

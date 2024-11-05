@@ -31,7 +31,7 @@ export default async function Page({
       <ContractHeaderForm
         languageData={languageData}
         params={params}
-        addresses={[]}
+        addresses={addresses.data}
         // basicInformation={basicInformation}
       />
       <PageHeader
