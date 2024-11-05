@@ -154,7 +154,7 @@ export default function Page({
             createFormSchema.schema,
             createFormSchema.formPositions || [],
           ),
-          fieldConfig: { translationForm },
+          fieldConfig: translationForm,
           submit: {
             cta: languageData["Setting.Save"],
           },
@@ -240,7 +240,7 @@ export default function Page({
     editFormSchemaZod = convertZod(editFormSchema);
     autoformEditArgs = {
       formSchema: editFormSchemaZod,
-      fieldConfig: { translationForm },
+      fieldConfig: translationForm,
     };
   }
   let actionList: TableAction[] = [];
