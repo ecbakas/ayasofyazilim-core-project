@@ -427,10 +427,7 @@ export default function Rebate({
     const filteredSetupData = setupData.filter((row) => !isRowEmpty(row));
 
     const payload: RebateTableHeaderCreateDto = {
-      ...(newFormData as Pick<
-        RebateTableHeaderCreateDto,
-        "name" | "calculateNetCommissionInsteadOfRefund"
-      >),
+      ...(newFormData as RebateTableHeaderCreateDto),
       processingFeeDetails: filteredFeesData,
       rebateTableDetails: filteredSetupData,
     };
