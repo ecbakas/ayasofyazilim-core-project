@@ -1,6 +1,11 @@
-/* eslint-disable no-await-in-loop, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import { toast } from "@/components/ui/sonner";
+import type { UniRefund_SettingService_Vats_VatDto } from "@ayasofyazilim/saas/SettingService";
+import {
+  createZodObject,
+  type SchemaType,
+} from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnsType,
@@ -9,17 +14,16 @@ import type {
 } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
   createFieldConfigWithResource,
+  CustomCombobox,
   mergeFieldConfigs,
   type AutoFormProps,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
+import type { FormModifier, TableData } from "@repo/ui/utils/table/table-utils";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import type { TableData, FormModifier } from "@repo/ui/utils/table/table-utils";
-import type { SchemaType } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
-import { createZodObject, getBaseLink } from "src/utils";
 import { getResourceDataClient } from "src/language-data/SettingService";
-import { useLocale } from "src/providers/locale";
+import { getBaseLink } from "src/utils";
 import { dataConfigOfManagement } from "../../data";
 
 async function controlledFetch(
@@ -44,41 +48,6 @@ async function controlledFetch(
   }
 }
 
-function convertEnumField(
-  value: string | number,
-  enumArray: {
-    data: string[];
-    type: "enum";
-  },
-): string | number {
-  const data = enumArray.data;
-  if (typeof value === "number") {
-    return data[value];
-  }
-  return data.indexOf(value);
-}
-
-interface ConvertorValue {
-  covertTo?: string;
-  data: any;
-  get: string;
-  post: string;
-  type: "enum" | "async";
-}
-
-function convertAsyncField(value: any, ConvertorValue: ConvertorValue) {
-  if (typeof ConvertorValue.data === "function") {
-    return;
-  }
-  const returnValue = ConvertorValue.data.find((item: any) => {
-    return String(item[ConvertorValue.get]) === String(value);
-  });
-
-  if (returnValue) {
-    return returnValue[ConvertorValue.post];
-  }
-}
-
 export default function Page({
   params,
 }: {
@@ -87,37 +56,25 @@ export default function Page({
   const fetchLink = getBaseLink(`/api/settings/product/${params.data}`);
   const [roles, setRoles] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [formData, setFormData] = useState<TableData>(
+  const [formData] = useState<TableData>(
     dataConfigOfManagement.product[params.data],
   );
-  const { resources } = useLocale();
-  const languageData = getResourceDataClient(resources, params.lang);
-  const detailedFilters =
-    dataConfigOfManagement.product[params.data]?.detailedFilters || [];
-  async function processConvertors() {
-    const tempData = { ...formData };
-    const schemas = ["createFormSchema", "editFormSchema"] as const;
+  const languageData = getResourceDataClient(params.lang);
+  const [vats, setVats] = useState<UniRefund_SettingService_Vats_VatDto[]>([]);
 
-    for (const schema of schemas) {
-      const dataConvertors = tempData[schema]?.convertors;
-      if (dataConvertors) {
-        for (const [key, value] of Object.entries(dataConvertors)) {
-          if (value.type === "async" && typeof value.data === "function") {
-            try {
-              const tempValue = await value.data();
-              if (dataConvertors[key]) {
-                dataConvertors[key].data = tempValue;
-                dataConvertors[key].type = "async";
-              }
-            } catch (error) {
-              toast.error(`Feild to fetch ${`${key} ${value}`} data`);
-            }
-          }
-        }
-      }
+  async function getVats() {
+    const url = getBaseLink(`/api/settings/product/vats`);
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      setVats(data.items);
+    } else {
+      toast.error("Failed to fetch VATs");
     }
-    setFormData(tempData);
   }
+  useEffect(() => {
+    void getVats();
+  }, []);
 
   function getRoles(_page: number, _filter?: FilterColumnResult) {
     let page = _page;
@@ -125,7 +82,6 @@ export default function Page({
     if (typeof page !== "number") {
       page = 0;
     }
-
     const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
 
     setIsLoading(true);
@@ -137,22 +93,7 @@ export default function Page({
           items: data,
         };
       }
-      const dataConvertors = formData.tableSchema.convertors;
-      let transformedData = returnData.items;
-      if (dataConvertors) {
-        transformedData = returnData.items.map((item: any) => {
-          const returnObject = { ...item };
-          Object.entries(dataConvertors).forEach(([key, value]) => {
-            if (value.type === "enum") {
-              returnObject[key] = convertEnumField(returnObject[key], value);
-            }
-            if (value.type === "async") {
-              returnObject[key] = returnObject[value.covertTo];
-            }
-          });
-          return returnObject;
-        });
-      }
+      const transformedData = returnData.items;
       setRoles({ ...returnData, items: transformedData });
       setIsLoading(false);
     }
@@ -189,11 +130,21 @@ export default function Page({
           formSchema: createZodObject(
             createFormSchema.schema,
             createFormSchema.formPositions || [],
-            createFormSchema.convertors || {},
           ),
           fieldConfig: mergeFieldConfigs(translationForm, {
             all: {
               withoutBorder: true,
+            },
+            vatId: {
+              renderer: (props) => (
+                <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
+                  childrenProps={props}
+                  emptyValue="select Vat"
+                  list={vats}
+                  selectIdentifier="id"
+                  selectLabel="percent"
+                />
+              ),
             },
           }),
           submit: {
@@ -224,27 +175,13 @@ export default function Page({
     ];
   }
 
-  useEffect(() => {
-    void processConvertors();
-  }, []);
-
   function parseFormValues(schema: FormModifier, data: any) {
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {},
     );
-    if (!schema.convertors) return newSchema.parse(data);
     const transformedSchema = newSchema.transform((val) => {
       const returnObject = { ...val };
-      if (!schema.convertors) return returnObject;
-      Object.entries(schema.convertors).forEach(([key, value]) => {
-        if (value.type === "enum") {
-          returnObject[key] = convertEnumField(returnObject[key], value);
-        } else if (value.type === "async") {
-          returnObject[key] = convertAsyncField(returnObject[key], value);
-        }
-      });
       return returnObject;
     });
     const parsed = transformedSchema.parse(data);
@@ -283,7 +220,6 @@ export default function Page({
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {},
     );
     return newSchema;
   }
@@ -296,10 +232,20 @@ export default function Page({
     editFormSchemaZod = convertZod(editFormSchema);
     autoformEditArgs = {
       formSchema: editFormSchemaZod,
-      // convertor: formData.tableSchema.convertors,
       fieldConfig: mergeFieldConfigs(translationForm, {
         all: {
           withoutBorder: true,
+        },
+        vatId: {
+          renderer: (props) => (
+            <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
+              childrenProps={props}
+              emptyValue="select Vat"
+              list={vats}
+              selectIdentifier="id"
+              selectLabel="percent"
+            />
+          ),
         },
       }),
     };
@@ -348,7 +294,6 @@ export default function Page({
       cards={[]}
       columnsData={columnsData}
       data={roles?.items}
-      detailedFilter={detailedFilters}
       fetchRequest={getRoles}
       isLoading={isLoading}
       rowCount={roles?.totalCount || 0}
