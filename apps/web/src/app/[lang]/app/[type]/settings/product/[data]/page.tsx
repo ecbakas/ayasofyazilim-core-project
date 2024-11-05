@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import { toast } from "@/components/ui/sonner";
-import type { UniRefund_SettingService_Vats_VatDto } from "@ayasofyazilim/saas/SettingService";
+import type {
+  PagedResultDto_ProductGroupDto,
+  PagedResultDto_VatDto,
+  UniRefund_SettingService_Vats_VatDto,
+} from "@ayasofyazilim/saas/SettingService";
 import {
   createZodObject,
   type SchemaType,
@@ -15,7 +19,6 @@ import type {
 import {
   createFieldConfigWithResource,
   CustomCombobox,
-  mergeFieldConfigs,
   type AutoFormProps,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
@@ -54,7 +57,9 @@ export default function Page({
   params: { data: string; domain: string; lang: string };
 }): JSX.Element {
   const fetchLink = getBaseLink(`/api/settings/product/${params.data}`);
-  const [roles, setRoles] = useState<any>();
+  const [roles, setRoles] = useState<
+    PagedResultDto_VatDto | PagedResultDto_ProductGroupDto
+  >();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [formData] = useState<TableData>(
     dataConfigOfManagement.product[params.data],
@@ -111,6 +116,24 @@ export default function Page({
   const translationForm = createFieldConfigWithResource({
     schema: formData.createFormSchema?.schema as SchemaType,
     resources: languageData,
+    extend: {
+      all: {
+        withoutBorder: true,
+      },
+      vatId: {
+        renderer: (props) => (
+          <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
+            childrenProps={props}
+            emptyValue={languageData["Vat.Select"]}
+            list={vats}
+            searchPlaceholder={languageData["Select.Placeholder"]}
+            searchResultLabel={languageData["Select.ResultLabel"]}
+            selectIdentifier="id"
+            selectLabel="percent"
+          />
+        ),
+      },
+    },
   });
 
   const createFormSchema = formData.createFormSchema;
@@ -131,24 +154,7 @@ export default function Page({
             createFormSchema.schema,
             createFormSchema.formPositions || [],
           ),
-          fieldConfig: mergeFieldConfigs(translationForm, {
-            all: {
-              withoutBorder: true,
-            },
-            vatId: {
-              renderer: (props) => (
-                <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
-                  childrenProps={props}
-                  emptyValue={languageData["Vat.Select"]}
-                  list={vats}
-                  searchPlaceholder={languageData["Select.Placeholder"]}
-                  searchResultLabel={languageData["Select.ResultLabel"]}
-                  selectIdentifier="id"
-                  selectLabel="percent"
-                />
-              ),
-            },
-          }),
+          fieldConfig: { translationForm },
           submit: {
             cta: languageData["Setting.Save"],
           },
@@ -234,24 +240,7 @@ export default function Page({
     editFormSchemaZod = convertZod(editFormSchema);
     autoformEditArgs = {
       formSchema: editFormSchemaZod,
-      fieldConfig: mergeFieldConfigs(translationForm, {
-        all: {
-          withoutBorder: true,
-        },
-        vatId: {
-          renderer: (props) => (
-            <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
-              childrenProps={props}
-              emptyValue={languageData["Vat.Select"]}
-              list={vats}
-              searchPlaceholder={languageData["Select.Placeholder"]}
-              searchResultLabel={languageData["Select.ResultLabel"]}
-              selectIdentifier="id"
-              selectLabel="percent"
-            />
-          ),
-        },
-      }),
+      fieldConfig: { translationForm },
     };
   }
   let actionList: TableAction[] = [];
@@ -297,7 +286,7 @@ export default function Page({
       action={action}
       cards={[]}
       columnsData={columnsData}
-      data={roles?.items}
+      data={roles?.items || []}
       fetchRequest={getRoles}
       isLoading={isLoading}
       rowCount={roles?.totalCount || 0}
