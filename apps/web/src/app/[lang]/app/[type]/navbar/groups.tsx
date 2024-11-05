@@ -202,15 +202,6 @@ export const settings: NavbarItemsFromDB[] = [
     displayOrder: 1,
   },
   {
-    key: "settings/product/product-groups-vats",
-    displayName: "ProductGroupVAT",
-    description: "Manage VAT settings for product groups.",
-    href: "settings/product/product-groups-vats",
-    icon: "productGroup",
-    parentNavbarItemKey: "settings/product",
-    displayOrder: 1,
-  },
-  {
     key: "settings/tenant",
     displayName: "Tenant",
     description: "Manage settings for tenants.",

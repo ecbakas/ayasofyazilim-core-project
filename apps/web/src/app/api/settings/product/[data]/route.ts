@@ -9,10 +9,9 @@ const clients: Clients = {
     const client = await getSettingServiceClient();
     const vats = client.vat;
     return {
-      get: async (page: number, filter, _maxResultCount: any) => {
-        const maxResultCount = Number(_maxResultCount) || 10;
-        return vats.getApiSettingServiceVatDetail({
-          maxResultCount: maxResultCount || 10,
+      get: async (page: number) => {
+        return vats.getApiSettingServiceVat({
+          maxResultCount: 10,
           skipCount: page * 10,
         });
       },
@@ -31,10 +30,9 @@ const clients: Clients = {
     const client = await getSettingServiceClient();
     const productGroups = client.productGroup;
     return {
-      get: (page: number, _filter: string, args) => {
-        const _args = (args as number) || 10;
+      get: (page: number) => {
         return productGroups.getApiSettingServiceProductGroup({
-          maxResultCount: _args,
+          maxResultCount: 10,
           skipCount: page * 10,
         });
       },
@@ -46,39 +44,6 @@ const clients: Clients = {
       },
       delete: async (id: string) =>
         productGroups.deleteApiSettingServiceProductGroupById({ id }),
-    };
-  },
-
-  "product-groups-vats": async () => {
-    const client = await getSettingServiceClient();
-    const productGroupVats = client.productGroupVat;
-    return {
-      get: (page: number) =>
-        productGroupVats.getApiSettingServiceProductGroupVatDetail({
-          maxResultCount: 10,
-          skipCount: page * 10,
-        }),
-      post: async (requestBody: any) =>
-        productGroupVats.postApiSettingServiceProductGroupVat({ requestBody }),
-      put: async (data: any) => {
-        data.requestBody.id = data.id;
-        return productGroupVats.putApiSettingServiceProductGroupVatById(data);
-      },
-      delete: async (id: string) =>
-        productGroupVats.deleteApiSettingServiceProductGroupVatById({ id }),
-    };
-  },
-
-  country: async () => {
-    await getSettingServiceClient();
-    return {
-      get: () =>
-        Promise.resolve([
-          {
-            id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            name: "Turkey",
-          },
-        ]),
     };
   },
 };
