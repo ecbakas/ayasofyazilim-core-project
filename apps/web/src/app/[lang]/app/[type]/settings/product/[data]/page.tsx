@@ -139,8 +139,10 @@ export default function Page({
               renderer: (props) => (
                 <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
                   childrenProps={props}
-                  emptyValue="select Vat"
+                  emptyValue={languageData["Vat.Select"]}
                   list={vats}
+                  searchPlaceholder={languageData["Select.Placeholder"]}
+                  searchResultLabel={languageData["Select.ResultLabel"]}
                   selectIdentifier="id"
                   selectLabel="percent"
                 />
@@ -240,8 +242,10 @@ export default function Page({
           renderer: (props) => (
             <CustomCombobox<UniRefund_SettingService_Vats_VatDto>
               childrenProps={props}
-              emptyValue="select Vat"
+              emptyValue={languageData["Vat.Select"]}
               list={vats}
+              searchPlaceholder={languageData["Select.Placeholder"]}
+              searchResultLabel={languageData["Select.ResultLabel"]}
               selectIdentifier="id"
               selectLabel="percent"
             />
