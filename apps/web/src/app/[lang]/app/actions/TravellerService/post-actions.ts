@@ -1,9 +1,10 @@
-import type { PostApiTravellerServiceTravellersWithComponentsData } from "@ayasofyazilim/saas/TravellerService";
-import { getApiRequests } from "../api-requests";
+"use server";
+import type { PostApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import { structuredError } from "../../../../../lib";
+import { getApiRequests } from "../api-requests";
 
 export async function postTravellerApi(
-  data: PostApiTravellerServiceTravellersWithComponentsData,
+  data: PostApiTravellerServiceTravellersData,
 ) {
   try {
     const client = await getApiRequests();
