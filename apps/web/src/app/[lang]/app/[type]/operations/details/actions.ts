@@ -7,7 +7,7 @@ import type {
   GetApiTagServiceTagSummaryResponse,
   UniRefund_TagService_Tags_CreateTagRequestDto,
 } from "@ayasofyazilim/saas/TagService";
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";

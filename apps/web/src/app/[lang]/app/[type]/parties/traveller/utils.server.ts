@@ -1,7 +1,7 @@
 "use server";
 
 import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
-import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import { getResourceData } from "src/language-data/TravellerService";
 import { getTravellerFilters } from "./utils";
 

@@ -26,8 +26,8 @@ import {
   $UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpdateDto as headerUpdateSchema,
 } from "@ayasofyazilim/saas/ContractService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/dialog";
-import type { ColumnsType } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { TableActionCustomDialog } from "@repo/ayasofyazilim-ui/molecules/dialog";
+import type { ColumnsType } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import AutoForm, {
   AutoFormSubmit,
@@ -208,7 +208,7 @@ export default function Edit({
       ],
     },
   };
-  const setupRefund: TableAction = {
+  const setupRefund: TableActionCustomDialog = {
     type: "Dialog",
     cta: languageData["RefundFees.Page.Edit.Fee.Create"],
     description: languageData["RefundFees.Page.Edit.Fee.Create.Description"],
