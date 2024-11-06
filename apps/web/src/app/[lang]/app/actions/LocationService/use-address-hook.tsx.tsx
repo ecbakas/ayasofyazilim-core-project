@@ -12,6 +12,7 @@ import {
   getAddressFieldConfig,
   getAddressSchema,
   handleOnAddressValueChange,
+  getAddressSettingsForSchemaForm,
   hideAddressFields,
 } from "./schemas";
 
@@ -39,7 +40,14 @@ export function useAddressHook({
   }
   const addressFieldsToShow = hideAddressFields(fieldsToHideInAddressSchema);
   const addressSchema = getAddressSchema(addressFieldsToShow);
+
   const addressSchemaFieldConfig = getAddressFieldConfig({
+    cityList,
+    regionList,
+    countryList,
+    languageData,
+  });
+  const addressSettings = getAddressSettingsForSchemaForm({
     cityList,
     regionList,
     countryList,
@@ -84,5 +92,6 @@ export function useAddressHook({
     onAddressValueChanged,
     addressFieldsToShow,
     selectedFields,
+    addressSettings,
   };
 }
