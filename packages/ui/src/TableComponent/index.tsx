@@ -5,7 +5,7 @@ import type {
   ColumnFilter,
   FilterColumnResult,
   TableAction,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import { AutoFormProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { FormModifier } from "@repo/ui/utils/table/table-utils";

@@ -3,7 +3,7 @@
 import { toast } from "@/components/ui/sonner";
 import type { PagedResultDto_ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantDto as ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";

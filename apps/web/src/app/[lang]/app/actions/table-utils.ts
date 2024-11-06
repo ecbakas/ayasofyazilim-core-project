@@ -1,6 +1,6 @@
 "use server";
 
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import type { GetTableDataTypes } from "./api-requests";
 import { getTableData } from "./api-requests";
 
