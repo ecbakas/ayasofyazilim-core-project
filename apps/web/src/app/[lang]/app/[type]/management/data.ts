@@ -312,7 +312,7 @@ export const dataConfig: Record<string, any> = {
         { name: "filter", displayName: "Name", type: "string", value: "" },
         {
           name: "ActivationState",
-          displayName: "Activation State",
+          displayName: "Tenant Activation State",
           type: "select",
           value: "",
           options: [
@@ -330,13 +330,13 @@ export const dataConfig: Record<string, any> = {
         {
           name: "ExpirationDateMin",
           displayName: "Expiration Date Min",
-          type: "string",
+          type: "date",
           value: "",
         },
         {
           name: "ExpirationDateMax",
           displayName: "Expiration Date Max",
-          type: "string",
+          type: "date",
           value: "",
         },
         {
@@ -535,25 +535,25 @@ export const dataConfig: Record<string, any> = {
         {
           name: "MaxCreationTime",
           displayName: "Max Creation Time",
-          type: "string",
+          type: "date",
           value: "",
         },
         {
           name: "MinCreationTime",
           displayName: "Min Creation Time",
-          type: "string",
+          type: "date",
           value: "",
         },
         {
           name: "MaxModifitionTime",
           displayName: "Max Modifition Time",
-          type: "string",
+          type: "date",
           value: "",
         },
         {
           name: "MinModifitionTime",
           displayName: "Min Modifition Time",
-          type: "string",
+          type: "date",
           value: "",
         },
       ],
@@ -679,6 +679,12 @@ export const dataConfig: Record<string, any> = {
         {
           name: "correlationId",
           displayName: "Correlation Id",
+          type: "string",
+          value: "",
+        },
+        {
+          name: "action",
+          displayName: "Action",
           type: "string",
           value: "",
         },
