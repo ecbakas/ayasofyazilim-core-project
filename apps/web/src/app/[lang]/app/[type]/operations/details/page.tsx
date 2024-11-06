@@ -16,7 +16,7 @@ import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "
 import type {
   ColumnsType,
   FilterColumnResult,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

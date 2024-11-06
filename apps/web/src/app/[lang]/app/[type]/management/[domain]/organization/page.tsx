@@ -17,8 +17,7 @@ import {
   $Volo_Abp_Identity_OrganizationUnitUpdateDto,
 } from "@ayasofyazilim/saas/IdentityService";
 import Button from "@repo/ayasofyazilim-ui/molecules/button";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/dialog";
-import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
+import AutoformDialog, { TableActionCustomDialog } from "@repo/ayasofyazilim-ui/molecules/dialog";
 import { TreeView } from "@repo/ayasofyazilim-ui/molecules/tree-view";
 import { SectionNavbarBase } from "@repo/ayasofyazilim-ui/templates/section-layout";
 import { Trash2 } from "lucide-react";
@@ -34,6 +33,7 @@ import {
   fetchUsersForUnit,
 } from "./action";
 import { ConfirmDialog, RoleModal, UserModal } from "./form";
+import { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 
 function getChildrens(parentId: string, data: OrganizationUnit[]) {
   const childrens: TreeViewElement[] = [];
@@ -88,7 +88,7 @@ const App: React.FC = () => {
   >([]);
   const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>();
   const [open, setOpen] = useState(false);
-  const [action, setAction] = useState<TableAction | undefined>(undefined);
+  const [action, setAction] = useState<TableActionCustomDialog | undefined>(undefined);
   const [unitUsers, setUnitUsers] = useState<User[]>([]);
   const [unitRoles, setUnitRoles] = useState<Role[]>([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);

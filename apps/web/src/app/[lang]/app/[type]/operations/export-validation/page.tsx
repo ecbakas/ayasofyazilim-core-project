@@ -9,7 +9,7 @@ import { $UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/saas/T
 import type {
   ColumnFilter,
   FilterColumnResult,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import TableComponent from "@repo/ui/TableComponent";
 import { getResourceData } from "src/language-data/ExportValidationService";
 import { deleteTableRow } from "../../../actions/api-requests";

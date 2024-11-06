@@ -14,7 +14,7 @@ import type {
   ColumnsType,
   FilterColumnResult,
   TableAction,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { useEffect, useState } from "react";
 import type { ContractServiceResource } from "src/language-data/ContractService";

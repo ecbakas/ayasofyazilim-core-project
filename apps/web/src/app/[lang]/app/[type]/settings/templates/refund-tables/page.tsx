@@ -12,7 +12,7 @@ import {
 import type {
   ColumnsType,
   TableAction,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
