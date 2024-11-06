@@ -59,7 +59,7 @@ import type {
   GetApiTravellerServiceTravellersData,
   PostApiTravellerServiceTravellersData,
 } from "@ayasofyazilim/saas/TravellerService";
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import {
   getContractServiceClient,
   getCRMServiceClient,

@@ -204,3 +204,12 @@ export interface PagedResult<T> {
   items?: T[] | null;
   totalCount: number;
 }
+
+export function structuredResponse<T>(data: T): ServerResponse<T> {
+  return {
+    type: "success",
+    data,
+    status: 200,
+    message: "",
+  };
+}

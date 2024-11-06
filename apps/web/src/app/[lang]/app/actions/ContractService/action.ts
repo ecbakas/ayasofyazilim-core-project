@@ -1,11 +1,9 @@
 "use server";
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
-  PagedResultDto_ContractHeaderDetailForMerchantDto,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
 } from "@ayasofyazilim/saas/ContractService";
-import type { ServerResponse } from "src/lib";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getMerchantContractHeadersByMerchantIdApi(
@@ -13,12 +11,9 @@ export async function getMerchantContractHeadersByMerchantIdApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.merchants.getContractHeadersByMerchantId(data),
-      status: 200,
-      message: "",
-    } as ServerResponse<PagedResultDto_ContractHeaderDetailForMerchantDto>;
+    const dataResponse =
+      await requests.merchants.getContractHeadersByMerchantId(data);
+    return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
   }

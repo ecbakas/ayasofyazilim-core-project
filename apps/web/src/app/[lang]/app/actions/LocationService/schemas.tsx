@@ -6,7 +6,9 @@ import {
   createFieldConfigWithResource,
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import { CustomCombobox as SchemaFormCustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
 import type { Dispatch, SetStateAction } from "react";
+import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import type { LanguageDataResourceType } from "src/language-data/language-data";
 import type {
   CityDto,
@@ -87,6 +89,7 @@ export function getAddressFieldConfig(params: {
 
   return translatedForm;
 }
+
 export function handleOnAddressValueChange({
   values,
   selectedFields,
@@ -159,4 +162,59 @@ export function hideAddressFields(hideFields: AddressFormFieldsType[]) {
 export function getAddressSchema(fields: AddressFormFieldsType[] = []) {
   const schema = createZodObject(AddressDto, fields);
   return schema;
+}
+
+export function getAddressSettingsForSchemaForm(params: {
+  cityList?: CityDto[];
+  regionList?: RegionDto[];
+  countryList?: CountryDto[];
+  languageData: LanguageDataResourceType;
+}) {
+  const widgets = {
+    cityId: (props: WidgetProps) => (
+      <SchemaFormCustomCombobox<CityDto>
+        {...props}
+        emptyValue={params.languageData["City.Select"]}
+        label={params.languageData["Form.address.cityId"]}
+        list={params.cityList}
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    ),
+    countryId: (props: WidgetProps) => (
+      <SchemaFormCustomCombobox<CountryDto>
+        {...props}
+        emptyValue={params.languageData["Country.Select"]}
+        label={params.languageData["Form.address.countryId"]}
+        list={params.countryList}
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    ),
+    regionId: (props: WidgetProps) => (
+      <SchemaFormCustomCombobox<RegionDto>
+        {...props}
+        emptyValue={params.languageData["Region.Select"]}
+        label={params.languageData["Form.address.regionId"]}
+        list={params.regionList}
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    ),
+  };
+  const uiSchema = {
+    cityId: {
+      "ui:widget": "cityId",
+      "ui:title": params.languageData["Form.address.cityId"],
+    },
+    countryId: {
+      "ui:widget": "countryId",
+      "ui:title": params.languageData["Form.address.countryId"],
+    },
+    regionId: {
+      "ui:widget": "regionId",
+      "ui:title": params.languageData["Form.address.regionId"],
+    },
+  };
+  return { widgets, uiSchema };
 }

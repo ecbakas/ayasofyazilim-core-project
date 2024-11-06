@@ -4,7 +4,7 @@ import type {
   PostApiTravellerServiceTravellersWithComponentsData,
   UniRefund_TravellerService_Travellers_CreateTravellerResponseDto,
 } from "@ayasofyazilim/saas/TravellerService";
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import type { ErrorTypes, ServerResponse } from "src/lib";
 import { getTravellersServiceClient, structuredError } from "src/lib";
 import { getTableData } from "../api-requests";
