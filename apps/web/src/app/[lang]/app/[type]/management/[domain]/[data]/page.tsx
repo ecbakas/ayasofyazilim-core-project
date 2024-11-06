@@ -7,7 +7,7 @@ import type {
   ColumnsType,
   FilterColumnResult,
   TableAction,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
+} from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import {
   createFieldConfigWithResource,
   mergeFieldConfigs,

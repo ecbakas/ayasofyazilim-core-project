@@ -3,7 +3,7 @@ import {
   $UniRefund_TagService_Tags_RefundType,
   $UniRefund_TagService_Tags_TagStatusType,
 } from "@ayasofyazilim/saas/TagService";
-import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 
 export type FilterType = Partial<keyof GetApiTagServiceTagData>;
 export type DetailedFilter = ColumnFilter & { name: FilterType };
