@@ -15,6 +15,7 @@
   "TenantSettings.Description": "Tenant ayarlarını buradan inceleyebilirsiniz.",
   "Setting.Save": "Kaydet",
   "Setting.Edit.Save": "Değişiklikleri kaydet",
+  "Vat.Select": "VAT Seç",
   "Form.percent": "Yüzde(%)",
   "Form.minimumTotalAmount": "Minimum Toplam Tutar",
   "Form.countryId": "Ülke",
@@ -23,5 +24,6 @@
   "Form.articleCode": "Makale Kodu",
   "Form.unitCode": "Birim",
   "Form.companyType": "Şirket Türü",
-  "Form.food": "Gıda"
+  "Form.food": "Gıda",
+  "Form.vatId": "VAT"
 }

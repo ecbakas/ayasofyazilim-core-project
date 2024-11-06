@@ -57,7 +57,7 @@ import type {
 import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
-  PostApiTravellerServiceTravellersWithComponentsData,
+  PostApiTravellerServiceTravellersData,
 } from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
@@ -488,10 +488,8 @@ export async function getApiRequests() {
     travellers: {
       get: async (data: GetApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.getApiTravellerServiceTravellers(data),
-      post: async (data: PostApiTravellerServiceTravellersWithComponentsData) =>
-        await travellerClient.traveller.postApiTravellerServiceTravellersWithComponents(
-          data,
-        ),
+      post: async (data: PostApiTravellerServiceTravellersData) =>
+        await travellerClient.traveller.postApiTravellerServiceTravellers(data),
     },
     claims: {
       get: async (data: GetApiIdentityClaimTypesData) =>

@@ -1,8 +1,8 @@
 "use client";
 import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as $ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
-import AutoForm from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
+import type { FilterType } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import {
   SectionLayout,
   SectionLayoutContent,
@@ -47,53 +47,57 @@ export default function Details({ ...props }: DetailsProp) {
 }
 
 function ContractSection({ ...props }: DetailsProp) {
-  const $DetailsSchema = createZodObject(
-    $ContractHeaderDetailForMerchantDto,
-    [
+  const filter: FilterType = {
+    type: "include",
+    sort: true,
+    keys: [
       "name",
       "webSite",
       "merchantClassification",
       "status",
       "isDraft",
+      "merchantBasicInformationDto",
+      "merchantBasicInformationDto.name",
+      "merchantBasicInformationDto.numberOfStores",
       "addressCommonData",
+      "addressCommonData.type",
+      "addressCommonData.countryId",
+      "addressCommonData.regionId",
+      "addressCommonData.cityId",
+      "addressCommonData.districtId",
+      "addressCommonData.neighborhoodId",
+      "addressCommonData.addressLine",
+      "addressCommonData.fullAddress",
+      "addressCommonData.postalCode",
       "contractHeaderRefundTableHeaders",
     ],
-    undefined,
-    {
-      merchantBasicInformationDto: ["name", "numberOfStores"],
-      addressCommonData: [
-        "countryId",
-        "regionId",
-        "cityId",
-        "districtId",
-        "neighborhoodId",
-        "addressLine",
-        "type",
-      ],
-    },
-  );
+  };
 
   return (
     <SectionLayoutContent sectionId="contract">
-      <AutoForm
-        className="grid gap-2 space-y-0 md:grid-cols-2"
-        fieldConfig={{
+      <SchemaForm
+        filter={filter}
+        formData={props.contractHeaderDetails}
+        schema={$ContractHeaderDetailForMerchantDto}
+        submit="Save"
+        uiSchema={{
+          "ui:className": "grid gap-2 space-y-0 md:grid-cols-2",
           isDraft: {
-            fieldType: "switch",
+            "ui:widget": "switch",
+            "ui:disabled": true,
+            "ui:readOnly": true,
           },
           merchantBasicInformationDto: {
-            className:
+            "ui:className":
               "md:col-span-2 md:grid md:grid-cols-2 md:space-y-0 md:gap-2",
           },
           addressCommonData: {
-            className: "md:col-span-2",
+            "ui:className": "md:col-span-2",
           },
           contractHeaderRefundTableHeaders: {
-            className: "md:col-span-2",
+            "ui:className": "md:col-span-2",
           },
         }}
-        formSchema={$DetailsSchema}
-        values={props.contractHeaderDetails}
       />
     </SectionLayoutContent>
   );
