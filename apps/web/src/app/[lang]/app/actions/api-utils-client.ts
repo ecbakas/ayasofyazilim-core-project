@@ -26,3 +26,11 @@ export const handlePostResponse = (
     toast.error(response.message);
   }
 };
+export const handleGetResponse = (response: {
+  type: "success" | "error" | "api-error";
+  message: string;
+}) => {
+  if (response.type !== "success") {
+    toast.error(response.message);
+  }
+};
