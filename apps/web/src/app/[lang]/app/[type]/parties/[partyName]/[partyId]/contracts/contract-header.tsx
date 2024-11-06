@@ -56,7 +56,7 @@ export default function ContractHeaderForm(
       if (formType === "Create") {
         const postResponse = await postMerchantContractHeadersByMerchantIdApi({
           id: partyId,
-          requestBody: data,
+          requestBody: data as ContractHeaderForMerchantCreateDto,
         });
 
         setLoading(true);
@@ -206,9 +206,10 @@ export default function ContractHeaderForm(
         keys: ["extraProperties", "refundTableHeaders.extraProperties"],
       }}
       formData={formType === "Update" ? props.formData : undefined}
-      onSubmit={(data) =>
-        void handleContractHeaderSubmit(data.formData as DataType)
-      }
+      onSubmit={(data) => {
+        if (!data.formData) return;
+        void handleContractHeaderSubmit(data.formData as DataType);
+      }}
       schema={$schema}
       submit={languageData["Contracts.Create.Submit"]}
       uiSchema={uiSchema}

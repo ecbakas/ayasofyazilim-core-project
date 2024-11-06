@@ -80,6 +80,15 @@ export default function Details({ ...props }: DetailsProp) {
 
 function ContractSection({ ...props }: DetailsProp) {
   const { contractHeaderDetails } = props;
+  const refundTableHeaders =
+    contractHeaderDetails.contractHeaderRefundTableHeaders.map((header) => {
+      return {
+        refundTableHeaderId: header.refundTableHeader.id,
+        validFrom: header.validFrom,
+        validTo: header.validTo,
+        isDefault: header.isDefault,
+      };
+    });
   return (
     <SectionLayoutContent sectionId="contract">
       <ContractHeaderForm
@@ -88,6 +97,7 @@ function ContractSection({ ...props }: DetailsProp) {
           ...contractHeaderDetails,
           status: contractHeaderDetails.status || "None",
           addressCommonDataId: contractHeaderDetails.addressCommonData.id,
+          refundTableHeaders,
         }}
         formType="Update"
       />
