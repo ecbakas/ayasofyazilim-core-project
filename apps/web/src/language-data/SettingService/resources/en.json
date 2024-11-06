@@ -15,6 +15,7 @@
   "TenantSettings.Description": "You can view the tenant settings from here.",
   "Setting.Save": "Save",
   "Setting.Edit.Save": "Save Changes",
+  "Vat.Select": "Select VAT",
   "Form.percent": "Percent(%)",
   "Form.minimumTotalAmount": "Minimum Total Amount",
   "Form.countryId": "Country",
@@ -22,6 +23,7 @@
   "Form.name": "Name",
   "Form.articleCode": "Article Code",
   "Form.unitCode": "Unit",
-  "Form.companyType ": "Company Type",
-  "Form.food": "Food"
+  "Form.companyType": "Company Type",
+  "Form.food": "Food",
+  "Form.vatId": "VAT"
 }

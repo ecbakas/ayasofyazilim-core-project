@@ -1,46 +1,37 @@
 "use client";
+import { toast } from "@/components/ui/sonner";
+import type { PagedResultDto_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import { $UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type {
-  ColumnFilter,
-  ColumnsType,
-  FilterColumnResult,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import type {
-  GetApiTagServiceTagData,
   GetApiTagServiceTagResponse,
   GetApiTagServiceTagSummaryResponse,
   UniRefund_TagService_Tags_TagListItemDto,
 } from "@ayasofyazilim/saas/TagService";
-import {
-  $UniRefund_TagService_Tags_RefundType,
-  $UniRefund_TagService_Tags_TagListItemDto,
-  $UniRefund_TagService_Tags_TagStatusType,
-} from "@ayasofyazilim/saas/TagService";
-import { toast } from "@/components/ui/sonner";
-import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
-import type { PagedResultDto_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
-import { $UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import { $UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersResponse,
   Volo_Abp_Application_Dtos_PagedResultDto_15,
 } from "@ayasofyazilim/saas/TravellerService";
 import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
+import type {
+  ColumnsType,
+  FilterColumnResult,
+} from "@repo/ayasofyazilim-ui/molecules/tables";
+import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { getBaseLink } from "src/utils";
-import { dataConfigOfParties } from "../../parties/table-data";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
+import { getTravellers } from "../../../actions/TravellerService/actions";
+import { dataConfigOfParties } from "../../parties/table-data";
 import type { TravllersKeys } from "../../parties/traveller/utils";
 import {
   getTravellerFilterClient,
   travellerTableSchema,
 } from "../../parties/traveller/utils";
-import { getTravellers } from "../../../actions/TravellerService/actions";
+import type { DetailedFilter, TypedFilter } from "../filter";
+import { typedCommonFilter } from "../filter";
 import { getMerchants, getSummary, getTags } from "./actions";
-
-type FilterType = Partial<keyof GetApiTagServiceTagData>;
-// type namedFilter = { name: string }
-type DetailedFilter = ColumnFilter & { name: FilterType };
-type TypedFilter = Partial<Record<FilterType, DetailedFilter>>;
 
 export default function Page(): JSX.Element {
   const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
@@ -48,6 +39,7 @@ export default function Page(): JSX.Element {
   );
   const [travellers, setTravellers] =
     useState<GetApiTravellerServiceTravellersResponse>({});
+
   useEffect(() => {
     async function getMerchantsLocally() {
       const merchants = await getMerchantsApi();
@@ -61,6 +53,7 @@ export default function Page(): JSX.Element {
     }
     void getMerchantsLocally();
   }, []);
+
   const travellerExcludeList: TravllersKeys[] = [
     ...travellerTableSchema.excludeList,
     "identificationType",
@@ -71,105 +64,10 @@ export default function Page(): JSX.Element {
     "lastName",
     "nationalityCountryName",
   ];
+
   // convert type filter to array
   const typedFilters: TypedFilter = {
-    exportEndDate: {
-      name: "exportEndDate",
-      displayName: "Export End Date",
-      type: "date",
-      value: "",
-    },
-    exportStartDate: {
-      name: "exportStartDate",
-      displayName: "Export End Date",
-      type: "date",
-      value: "",
-    },
-    issuedEndDate: {
-      name: "issuedEndDate",
-      displayName: "Issued End Date",
-      type: "date",
-      value: "",
-    },
-    invoiceNumber: {
-      name: "invoiceNumber",
-      displayName: "Invoice Number",
-      type: "string",
-      value: "",
-    },
-    tagNumber: {
-      name: "tagNumber",
-      displayName: "Tag Number",
-      type: "string",
-      value: "",
-    },
-    sorting: {
-      name: "sorting",
-      displayName: "Sorting",
-      type: "select",
-      value: "",
-      options: [
-        { label: "Ascending", value: "asc" },
-        { label: "Descending", value: "desc" },
-      ],
-      placeholder: "Select Sorting",
-    },
-    paidEndDate: {
-      name: "paidEndDate",
-      displayName: "Paid End Date",
-      type: "date",
-      value: "",
-    },
-    issuedStartDate: {
-      name: "issuedStartDate",
-      displayName: "Issued Start Date",
-      type: "date",
-      value: "",
-    },
-    paidStartDate: {
-      name: "paidStartDate",
-      displayName: "Paid Start Date",
-      type: "date",
-      value: "",
-    },
-    refundTypes: {
-      name: "refundTypes",
-      displayName: "Refund Types",
-      type: "select",
-      options: [
-        ...$UniRefund_TagService_Tags_RefundType.enum.map((item) => ({
-          label: item,
-          value: item,
-        })),
-      ],
-      placeholder: "Select Refund Type",
-      value: "",
-    },
-    statuses: {
-      name: "statuses",
-      displayName: "Statuses",
-      type: "select",
-      value: "",
-      options: [
-        ...$UniRefund_TagService_Tags_TagStatusType.enum.map((item) => ({
-          label: item,
-          value: item,
-        })),
-      ],
-      placeholder: "Select Status",
-    },
-    travellerDocumentNumber: {
-      name: "travellerDocumentNumber",
-      displayName: "Traveller Document Number",
-      type: "string",
-      value: "",
-    },
-    travellerFullName: {
-      name: "travellerFullName",
-      displayName: "Traveller Name",
-      type: "string",
-      value: "",
-    },
+    ...typedCommonFilter,
     merchantIds: {
       name: "merchantIds",
       type: "select-async",
@@ -219,7 +117,6 @@ export default function Page(): JSX.Element {
       detailedFilters: getTravellerFilterClient("en"),
     },
   };
-
   const filters: DetailedFilter[] = Object.values(typedFilters);
 
   const router = useRouter();
