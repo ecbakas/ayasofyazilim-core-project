@@ -26,7 +26,7 @@ export const handlePostResponse = (
     toast.error(response.message);
   }
 };
-export const handleGetResponse = (response: {
+export const handleGetResponseError = (response: {
   type: "success" | "error" | "api-error";
   message: string;
 }) => {

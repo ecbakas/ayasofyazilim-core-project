@@ -23,7 +23,10 @@ import {
 } from "src/app/[lang]/app/actions/CrmService/actions";
 import { postAffiliationsApi } from "src/app/[lang]/app/actions/CrmService/post-actions";
 import type { AffiliationsPostDto } from "src/app/[lang]/app/actions/CrmService/types";
-import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import {
+  handleGetResponseError,
+  handlePostResponse,
+} from "src/app/[lang]/app/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
 
@@ -68,7 +71,7 @@ function AffiliationsForm({
         setAffiliationCodes(response.data.items || []);
         return;
       }
-      toast.error(languageData["Fetch.Fail"]);
+      handleGetResponseError(response);
     });
   }, []);
 
