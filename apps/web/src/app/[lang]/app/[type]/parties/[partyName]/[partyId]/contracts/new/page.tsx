@@ -6,7 +6,7 @@ import {
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import ContractHeaderForm from "./form";
+import ContractHeaderForm from "../contract-header";
 
 export default async function Page({
   params,
@@ -29,8 +29,10 @@ export default async function Page({
   return (
     <>
       <ContractHeaderForm
+        formType="Create"
         languageData={languageData}
-        params={params}
+        partyId={params.partyId}
+        partyName={params.partyName}
         addresses={addresses.data}
         // basicInformation={basicInformation}
       />

@@ -2,9 +2,13 @@
 import { toast } from "@/components/ui/sonner";
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantCreateDto as ContractHeaderForMerchantCreateDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as ContractHeaderForMerchantUpdateDto,
   UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto as RefundTableHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
-import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantCreateDto as $ContractHeaderForMerchantCreateDto } from "@ayasofyazilim/saas/ContractService";
+import {
+  $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantCreateDto as $ContractHeaderForMerchantCreateDto,
+  $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as $ContractHeaderForMerchantUpdateDto,
+} from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressTypeDto } from "@ayasofyazilim/saas/LocationService";
 import { useCallback, useEffect, useState } from "react";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
@@ -12,55 +16,67 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
 import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { useRouter } from "next/navigation";
+import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { getRefundTableHeaders } from "src/app/[lang]/app/[type]/settings/templates/refund/action";
 import { getBaseLink } from "src/utils";
 
-export default function ContractHeaderForm({
-  params,
-  languageData,
-  addresses,
-  //   basicInformation,
-}: {
-  params: {
-    partyName: "merchants";
-    partyId: string;
-    lang: string;
-  };
+type BaseContractHeaderFormProps = {
+  partyName: "merchants";
+  partyId: string;
   languageData: ContractServiceResource;
   addresses: AddressTypeDto[];
   //   basicInformation: MerchantBasicInformationDto;
-}): JSX.Element {
+} & (UpdateContractHeaderFormProps | CreateContractHeaderFormProps);
+
+interface UpdateContractHeaderFormProps {
+  formType: "Update";
+  formData: ContractHeaderForMerchantUpdateDto;
+}
+interface CreateContractHeaderFormProps {
+  formType: "Create";
+}
+
+type DataType =
+  | ContractHeaderForMerchantCreateDto
+  | ContractHeaderForMerchantUpdateDto;
+export default function ContractHeaderForm(
+  props: BaseContractHeaderFormProps,
+): JSX.Element {
+  const { formType, languageData, partyName, partyId, addresses } = props;
   const router = useRouter();
-  const { partyId } = params;
   const [loading, setLoading] = useState(true);
   const [addressList] = useState<AddressTypeDto[]>(addresses);
   const [refundTableHeaders, setRefundTableHeaders] =
     useState<RefundTableHeaderDto[]>();
 
-  async function handleContractHeaderSubmit(
-    data: ContractHeaderForMerchantCreateDto,
-  ) {
+  async function handleContractHeaderSubmit(data: DataType) {
     try {
-      const postResponse = await postMerchantContractHeadersByMerchantIdApi({
-        id: partyId,
-        requestBody: data,
-      });
+      if (formType === "Create") {
+        const postResponse = await postMerchantContractHeadersByMerchantIdApi({
+          id: partyId,
+          requestBody: data,
+        });
 
-      setLoading(true);
-      if (postResponse.type === "success") {
-        toast.success(languageData["Contracts.New.Success"]);
-        router.push(
-          getBaseLink(
-            `/app/admin/parties/${params.partyName}/${partyId}/contracts/${postResponse.data.id}`,
-          ),
-        );
+        setLoading(true);
+        if (postResponse.type === "success") {
+          toast.success(languageData["Contracts.Create.Success"]);
+          router.push(
+            getBaseLink(
+              `/app/admin/parties/${partyName}/${partyId}/contracts/${postResponse.data.id}`,
+            ),
+          );
+        } else {
+          toast.error(
+            postResponse.message || languageData["Contracts.Create.Fail"],
+          );
+        }
       } else {
-        toast.error(postResponse.message || languageData["Contracts.New.Fail"]);
+        toastOnSubmit(data);
       }
     } catch (error) {
-      toast.error(languageData["Contracts.New.Fail"]);
+      toast.error(languageData[`Contracts.${formType}.Fail`]);
     } finally {
       setLoading(false);
     }
@@ -85,11 +101,18 @@ export default function ContractHeaderForm({
     void fetchRefundTableHeaders();
   }, []);
 
+  const $schema =
+    formType === "Create"
+      ? $ContractHeaderForMerchantCreateDto
+      : $ContractHeaderForMerchantUpdateDto;
   const uiSchema = createUiSchemaWithResource({
     name: "Contracts.Form",
     resources: languageData,
-    schema: $ContractHeaderForMerchantCreateDto,
+    schema: $schema,
     extend: {
+      "ui:options": {
+        expandable: false,
+      },
       webSite: {
         "ui:className": "md:col-span-2",
         "ui:options": {
@@ -100,6 +123,9 @@ export default function ContractHeaderForm({
       addressCommonDataId: {
         "ui:className": "row-start-2",
         "ui:widget": "address",
+      },
+      status: {
+        "ui:className": "md:col-span-2",
       },
       refundTableHeaders: {
         "ui:className": "md:col-span-2",
@@ -119,10 +145,10 @@ export default function ContractHeaderForm({
   });
 
   const AddressWidget = useCallback(
-    ({ props }: WidgetProps) => {
+    (comboboxProps: WidgetProps) => {
       return (
         <CustomCombobox<AddressTypeDto>
-          {...props}
+          {...comboboxProps}
           disabled={loading}
           emptyValue={
             languageData["Contracts.Form.addressCommonDataId.emptyValue"]
@@ -143,10 +169,10 @@ export default function ContractHeaderForm({
   );
 
   const RefundTableWidget = useCallback(
-    ({ props }: WidgetProps) => {
+    (comboboxProps: WidgetProps) => {
       return (
         <CustomCombobox<RefundTableHeaderDto>
-          {...props}
+          {...comboboxProps}
           disabled={loading}
           emptyValue={
             languageData[
@@ -179,12 +205,11 @@ export default function ContractHeaderForm({
         type: "exclude",
         keys: ["extraProperties", "refundTableHeaders.extraProperties"],
       }}
+      formData={formType === "Update" ? props.formData : undefined}
       onSubmit={(data) =>
-        void handleContractHeaderSubmit(
-          data.formData as ContractHeaderForMerchantCreateDto,
-        )
+        void handleContractHeaderSubmit(data.formData as DataType)
       }
-      schema={$ContractHeaderForMerchantCreateDto}
+      schema={$schema}
       submit={languageData["Contracts.Create.Submit"]}
       uiSchema={uiSchema}
       widgets={{

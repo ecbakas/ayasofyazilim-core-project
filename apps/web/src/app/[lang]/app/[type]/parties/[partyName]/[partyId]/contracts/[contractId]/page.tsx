@@ -1,6 +1,11 @@
+import { notFound } from "next/navigation";
+import {
+  getMerchantContractHeaderByIdApi,
+  getMerchantContractHeaderMissingStepsByIdApi,
+} from "src/app/[lang]/app/actions/ContractService/action";
+import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import { getMerchantContractHeaderByIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import Details from "./details";
 
 export default async function Page({
@@ -16,16 +21,26 @@ export default async function Page({
   const contractHeaderDetails = await getMerchantContractHeaderByIdApi(
     params.contractId,
   );
-  if (contractHeaderDetails.type !== "success") {
-    return <>XS</>;
+  const missingSteps = await getMerchantContractHeaderMissingStepsByIdApi({
+    id: params.contractId,
+  });
+  const addresses = await getAdressesApi(params.partyId, params.partyName);
+  if (
+    addresses.type !== "success" ||
+    contractHeaderDetails.type !== "success" ||
+    missingSteps.type !== "success"
+  ) {
+    return notFound();
   }
 
   const { languageData } = await getResourceData(params.lang);
   return (
     <>
       <Details
+        addresses={addresses.data}
         contractHeaderDetails={contractHeaderDetails.data}
         languageData={languageData}
+        missingSteps={missingSteps.data}
         partyId={params.partyId}
         partyName={params.partyName}
       />
