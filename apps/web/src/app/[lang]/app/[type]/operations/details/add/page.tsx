@@ -92,11 +92,13 @@ const salesColumn: ColumnDef<Payment> = {
 };
 
 export default function Page() {
-  const columns = columnsGenerator({
-    tableType,
-    excludeList: [],
+  const columns = columnsGenerator<typeof tableType>({
+    data: {
+      tableType,
+      selectable: false,
+    },
   });
-  const customColumns = [...columns, salesColumn];
+  const customColumns = [...columns, salesColumn] as ColumnDef<Payment>[];
   const languageData = getResourceDataClient("en");
   const [paymentData, setPaymentData] = useState<Payment[]>(payments);
 
