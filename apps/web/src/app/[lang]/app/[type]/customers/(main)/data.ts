@@ -2,14 +2,9 @@ import {
   $UniRefund_CRMService_Merchants_CreateMerchantDto,
   $UniRefund_CRMService_Merchants_MerchantProfileDto,
 } from "@ayasofyazilim/saas/CRMService";
-import type { TableData } from "@repo/ui/utils/table/table-utils";
+import type { DataConfigArray } from "src/types";
 import { localNumber } from "../../parties/table-data";
 
-interface DataConfig {
-  displayName: string;
-  default: string;
-  pages: Record<string, TableData>;
-}
 const CommonOrganizationFields = ["name", "taxpayerId", "branchId"];
 const OrganizationFields = ["customerNumber", "legalStatusCode"];
 const TelephoneSubPosition = ["localNumber", "typeCode"];
@@ -58,7 +53,7 @@ const createMerchantsScheme = {
         .contactInformations.items.properties.emails.items,
   },
 };
-export const dataCustomers: Record<string, DataConfig> = {
+export const dataCustomers: DataConfigArray = {
   customers: {
     displayName: "customers",
     default: "customers",
