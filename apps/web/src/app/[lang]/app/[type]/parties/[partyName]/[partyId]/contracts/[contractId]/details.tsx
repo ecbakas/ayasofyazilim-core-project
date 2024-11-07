@@ -1,22 +1,47 @@
 "use client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as $ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
-import type { FilterType } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
+import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import {
   SectionLayout,
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
+import { Circle } from "lucide-react";
+import { useState } from "react";
 import type { ContractServiceResource } from "src/language-data/ContractService";
+import ContractHeaderForm from "../contract-header";
 
 interface DetailsProp {
   contractHeaderDetails: ContractHeaderDetailForMerchantDto;
   partyName: "merchants";
   partyId: string;
   languageData: ContractServiceResource;
+  addresses: UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto[];
+  missingSteps: string[];
 }
 export default function Details({ ...props }: DetailsProp) {
-  const { languageData } = props;
+  const { languageData, missingSteps } = props;
+  const [loading] = useState(false);
+
+  function setSectionOptions(key: string, label: string) {
+    const isMissingStep = missingSteps.includes(key);
+    const options = {
+      name: label,
+      className: isMissingStep ? "data-[active=false]:text-xs" : "",
+    };
+    if (isMissingStep)
+      Object.assign(options, {
+        children: (
+          <BadgeWithTooltip label={label} languageData={languageData} />
+        ),
+      });
+    return options;
+  }
+
   return (
     <SectionLayout
       defaultActiveSectionId="contract"
@@ -24,16 +49,23 @@ export default function Details({ ...props }: DetailsProp) {
         {
           id: "contract",
           name: languageData["Contracts.Create.ContractHeader"],
+          disabled: loading,
         },
         {
           id: "rebate-setting",
-          name: languageData["Contracts.Create.RebateSettings"],
-          disabled: false,
+          disabled: loading,
+          ...setSectionOptions(
+            "RebateSettings",
+            languageData["Contracts.Create.RebateSettings"],
+          ),
         },
         {
-          id: "contract-settings",
-          name: languageData["Contracts.Create.ContractSettings"],
-          disabled: false,
+          id: "contract-setting",
+          disabled: loading,
+          ...setSectionOptions(
+            "ContractSetting",
+            languageData["Contracts.Create.ContractSettings"],
+          ),
         },
       ]}
       vertical
@@ -47,57 +79,27 @@ export default function Details({ ...props }: DetailsProp) {
 }
 
 function ContractSection({ ...props }: DetailsProp) {
-  const filter: FilterType = {
-    type: "include",
-    sort: true,
-    keys: [
-      "name",
-      "webSite",
-      "merchantClassification",
-      "status",
-      "isDraft",
-      "merchantBasicInformationDto",
-      "merchantBasicInformationDto.name",
-      "merchantBasicInformationDto.numberOfStores",
-      "addressCommonData",
-      "addressCommonData.type",
-      "addressCommonData.countryId",
-      "addressCommonData.regionId",
-      "addressCommonData.cityId",
-      "addressCommonData.districtId",
-      "addressCommonData.neighborhoodId",
-      "addressCommonData.addressLine",
-      "addressCommonData.fullAddress",
-      "addressCommonData.postalCode",
-      "contractHeaderRefundTableHeaders",
-    ],
-  };
-
+  const { contractHeaderDetails } = props;
+  const refundTableHeaders =
+    contractHeaderDetails.contractHeaderRefundTableHeaders.map((header) => {
+      return {
+        refundTableHeaderId: header.refundTableHeader.id,
+        validFrom: header.validFrom,
+        validTo: header.validTo,
+        isDefault: header.isDefault,
+      };
+    });
   return (
     <SectionLayoutContent sectionId="contract">
-      <SchemaForm
-        filter={filter}
-        formData={props.contractHeaderDetails}
-        schema={$ContractHeaderDetailForMerchantDto}
-        submit="Save"
-        uiSchema={{
-          "ui:className": "grid gap-2 space-y-0 md:grid-cols-2",
-          isDraft: {
-            "ui:widget": "switch",
-            "ui:disabled": true,
-            "ui:readOnly": true,
-          },
-          merchantBasicInformationDto: {
-            "ui:className":
-              "md:col-span-2 md:grid md:grid-cols-2 md:space-y-0 md:gap-2",
-          },
-          addressCommonData: {
-            "ui:className": "md:col-span-2",
-          },
-          contractHeaderRefundTableHeaders: {
-            "ui:className": "md:col-span-2",
-          },
+      <ContractHeaderForm
+        {...props}
+        formData={{
+          ...contractHeaderDetails,
+          status: contractHeaderDetails.status || "None",
+          addressCommonDataId: contractHeaderDetails.addressCommonData.id,
+          refundTableHeaders,
         }}
+        formType="Update"
       />
     </SectionLayoutContent>
   );
@@ -105,7 +107,7 @@ function ContractSection({ ...props }: DetailsProp) {
 
 function ContractSettingsSection({ languageData }: DetailsProp) {
   return (
-    <SectionLayoutContent sectionId="contract-settings">
+    <SectionLayoutContent sectionId="contract-setting">
       <>{languageData["Contracts.Create.ContractSettings"]}</>
     </SectionLayoutContent>
   );
@@ -116,5 +118,27 @@ function RebateSettingsSection({ languageData }: DetailsProp) {
     <SectionLayoutContent sectionId="rebate-setting">
       <>{languageData["Contracts.Create.RebateSettings"]}</>
     </SectionLayoutContent>
+  );
+}
+
+function BadgeWithTooltip({
+  label,
+  languageData,
+}: {
+  label: string;
+  languageData: ContractServiceResource;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="flex items-center gap-2">
+          <Circle className="text-destructive w-3" />
+          <span>{label}</span>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>
+        {languageData["Contracts.MissingSteps.Missing"]}
+      </TooltipContent>
+    </Tooltip>
   );
 }
