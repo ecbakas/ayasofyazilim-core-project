@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO: we need to fix this*/
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import {
   $Volo_Abp_AuditLogging_AuditLogDto,
@@ -262,9 +261,10 @@ export const dataConfig: DataConfigArray = {
               type: "Action",
               cta: "Set As Default Language",
               callback: (row) => {
-                if (row && typeof row === "object" && "id" in row && !row.id) {
+                if (row && typeof row === "object" && !("id" in row)) {
                   return;
                 }
+                const _row = row as { id: string };
                 if (typeof controlledFetch !== "function") {
                   return;
                 }
@@ -272,7 +272,7 @@ export const dataConfig: DataConfigArray = {
                   getBaseLink(`/api/admin/language_set_default`),
                   {
                     method: "PUT",
-                    body: JSON.stringify({ id: row.id }),
+                    body: JSON.stringify({ id: _row.id }),
                   },
                   getRoles,
                   "Default Language Set Successfully",
