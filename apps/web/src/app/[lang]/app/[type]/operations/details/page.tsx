@@ -15,7 +15,7 @@ import type {
 import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
 import type {
   ColumnsType,
-  FilterColumnResult,
+  fetchRequestProps,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import { useRouter } from "next/navigation";
@@ -137,9 +137,14 @@ export default function Page(): JSX.Element {
   const [loading, setLoading] = useState(true);
   const [tags, setTags] = useState<GetApiTagServiceTagResponse>();
   const [summary, setSummary] = useState<GetApiTagServiceTagSummaryResponse>();
-  const fetchTags = (page: number, filter: FilterColumnResult) => {
-    // setLoading(true);
-    void getTags({ maxResultCount: 10, skipCount: page * 10, ...filter })
+  const fetchTags = ({ page, filter, pageSize }: fetchRequestProps) => {
+    const _pageSize = pageSize || 10;
+    // setLoading(true);s
+    void getTags({
+      maxResultCount: _pageSize,
+      skipCount: page * _pageSize,
+      ...filter,
+    })
       .then((res) => {
         if (res.type === "success") {
           setTags(res.data);

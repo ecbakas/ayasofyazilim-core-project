@@ -12,7 +12,6 @@ import {
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import type {
   ColumnsType,
-  FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
@@ -209,7 +208,7 @@ export function RefundRules({
           ],
         },
       ]}
-      fetchRequest={(page: number, filter: FilterColumnResult) => {
+      fetchRequest={({ filter }) => {
         if (Object.keys(filter).length === 0) {
           setTableData(data);
         } else {

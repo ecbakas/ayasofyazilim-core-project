@@ -13,7 +13,7 @@ import {
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnsType,
-  FilterColumnResult,
+  fetchRequestProps,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import {
@@ -81,7 +81,7 @@ export default function Page({
     void getVats();
   }, []);
 
-  function getRoles(_page: number, _filter?: FilterColumnResult) {
+  function getRoles({ page: _page, filter: _filter }: fetchRequestProps) {
     let page = _page;
     const filter = JSON.stringify(_filter) || "";
     if (typeof page !== "number") {
