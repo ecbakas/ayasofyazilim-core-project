@@ -138,7 +138,7 @@ export default function Page(): JSX.Element {
   const [tags, setTags] = useState<GetApiTagServiceTagResponse>();
   const [summary, setSummary] = useState<GetApiTagServiceTagSummaryResponse>();
   const fetchTags = (page: number, filter: FilterColumnResult) => {
-    setLoading(true);
+    // setLoading(true);
     void getTags({ maxResultCount: 10, skipCount: page * 10, ...filter })
       .then((res) => {
         if (res.type === "success") {
