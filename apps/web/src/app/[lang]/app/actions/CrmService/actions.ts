@@ -104,8 +104,10 @@ export async function getAffiliationCodeApi(partyName: "individuals") {
   try {
     const requests = await getApiRequests();
     return {
-      type: "success",
+      type: "success" as const,
       data: await requests[partyName].getAffiliationCode(),
+      status: 200,
+      message: "",
     };
   } catch (error) {
     return structuredError(error);
