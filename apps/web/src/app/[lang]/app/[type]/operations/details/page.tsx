@@ -94,6 +94,7 @@ export default function Page(): JSX.Element {
       columnDataType: {
         tableType: $UniRefund_CRMService_Merchants_MerchantProfileDto,
         ...dataConfigOfParties.merchants.tableSchema,
+        hideAction: true,
       },
       fetchRequest: getMerchants,
       detailedFilters: dataConfigOfParties.merchants.detailedFilters,
@@ -112,6 +113,7 @@ export default function Page(): JSX.Element {
           $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
         excludeList: travellerExcludeList,
         positions: travellerPosition,
+        hideAction: true,
       },
       fetchRequest: async (page, filter) => {
         const response = await getTravellers(page, filter);
