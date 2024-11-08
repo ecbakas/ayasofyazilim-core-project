@@ -20,6 +20,8 @@ import type {
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import type { CellContext } from "@tanstack/react-table";
 import { getBaseLink } from "src/utils";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { getTravellers } from "../../../actions/TravellerService/actions";
@@ -32,6 +34,18 @@ import {
 import type { DetailedFilter, TypedFilter } from "../filter";
 import { typedCommonFilter } from "../filter";
 import { getMerchants, getSummary, getTags } from "./actions";
+
+function cellWithLink(
+  cell: CellContext<UniRefund_TagService_Tags_TagListItemDto, unknown>,
+) {
+  const id = cell.row.original.id || "";
+  const tagNumber = cell.getValue() as string;
+  return (
+    <Link className="text-blue-700" href={`details/${id}`}>
+      {tagNumber}
+    </Link>
+  );
+}
 
 export default function Page(): JSX.Element {
   const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
@@ -165,11 +179,14 @@ export default function Page(): JSX.Element {
     }
     void getTagsFromAPI();
   }, []);
-  const columnsData: ColumnsType = {
+  const columnsData: ColumnsType<UniRefund_TagService_Tags_TagListItemDto> = {
     type: "Auto",
     data: {
       tableType: $UniRefund_TagService_Tags_TagListItemDto,
       excludeList: ["id"],
+      customCells: {
+        tagNumber: cellWithLink,
+      },
       actionList: [
         {
           cta: "Open in new page",

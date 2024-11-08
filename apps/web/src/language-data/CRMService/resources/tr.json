@@ -76,5 +76,8 @@
   "Parties.Organization": "Organizasyon",
 
   "Contracts": "Sözleşmeler",
-  "Contracts.New": "Yeni sözleşme"
+  "Contracts.New": "Yeni sözleşme",
+
+  "NoIndividualFound": "Böyle bir birey bulunamadı.",
+  "Role": "Rol"
 }
