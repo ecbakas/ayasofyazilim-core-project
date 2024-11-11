@@ -46,8 +46,24 @@ function cellWithLink(
     </Link>
   );
 }
+function cellWithDate(
+  cell: CellContext<UniRefund_TagService_Tags_TagListItemDto, unknown>,
+  lang: Intl.LocalesArgument,
+) {
+  return new Date(cell.getValue() as string).toLocaleDateString(lang, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
 
-export default function Page(): JSX.Element {
+export default function Page({
+  params,
+}: {
+  params: {
+    lang: string;
+  };
+}): JSX.Element {
   const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
     {},
   );
@@ -193,6 +209,8 @@ export default function Page(): JSX.Element {
       excludeList: ["id"],
       customCells: {
         tagNumber: cellWithLink,
+        issueDate: (cell) => cellWithDate(cell, params.lang),
+        expireDate: (cell) => cellWithDate(cell, params.lang),
       },
       actionList: [
         {
