@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/sonner";
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import {
   $Volo_Abp_AuditLogging_AuditLogDto,
@@ -7,6 +8,7 @@ import {
   $Volo_Abp_LanguageManagement_Dto_UpdateLanguageDto,
   $Volo_Abp_TextTemplateManagement_TextTemplates_TemplateDefinitionDto,
 } from "@ayasofyazilim/saas/AdministrationService";
+import type { Volo_Abp_Identity_IdentityRoleDto } from "@ayasofyazilim/saas/IdentityService";
 import {
   $Volo_Abp_Identity_ClaimTypeDto,
   $Volo_Abp_Identity_CreateClaimTypeDto,
@@ -34,9 +36,17 @@ import {
   $Volo_Saas_Host_Dtos_SaasTenantDto,
   $Volo_Saas_Host_Dtos_SaasTenantUpdateDto,
 } from "@ayasofyazilim/saas/SaasService";
+import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import type { AutoFormInputComponentProps } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 import { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import type { DataConfigArray } from "src/types";
 import { getBaseLink } from "src/utils";
+import {
+  getAllRolesApi,
+  moveAllUsersApi,
+} from "../../actions/IdentityService/actions";
 
 export const dataConfig: DataConfigArray = {
   openiddict: {
@@ -511,7 +521,88 @@ export const dataConfig: DataConfigArray = {
         tableSchema: {
           excludeList: ["id", "extraProperties", "concurrencyStamp"],
           schema: $Volo_Abp_Identity_IdentityRoleDto,
-          actionList: () => [],
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Move All Users",
+              description: "Move All Users",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Move All Users",
+                },
+                formSchema: z.object({
+                  roleId: z.string(),
+                }),
+                fieldConfig: {
+                  roleId: {
+                    renderer: function RoleComboboxRenderer(
+                      props: AutoFormInputComponentProps,
+                    ) {
+                      const [roleList, setRolesList] = useState<
+                        Volo_Abp_Identity_IdentityRoleDto[]
+                      >([]);
+
+                      useEffect(() => {
+                        const fetchRoles = async () => {
+                          const roles = await getAllRolesApi();
+                          const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
+                            roles.type === "success"
+                              ? [
+                                  { id: "", name: "unassigned" },
+                                  ...(roles.data.items || []),
+                                  // TODO: Add a filter to make the original role disappear
+                                ]
+                              : [];
+                          setRolesList(updatedRoleList);
+                        };
+                        void fetchRoles();
+                      }, []);
+
+                      return (
+                        <div>
+                          {roleList.length > 0 ? (
+                            <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
+                              childrenProps={props}
+                              emptyValue="Select role"
+                              list={roleList}
+                              selectIdentifier="id"
+                              selectLabel="name"
+                            />
+                          ) : (
+                            <div className="text-muted-foreground text-md text-center">
+                              An error occurred please try again later.
+                            </div>
+                          )}
+                        </div>
+                      );
+                    },
+                  },
+                },
+              },
+
+              callback: (values, triggerData) => {
+                const _values = values as { roleId: string };
+                const _triggerData =
+                  triggerData as Volo_Abp_Identity_IdentityRoleDto;
+                const moveAllUsers = async (
+                  selectedRoleId: string,
+                  currentRoleId: string,
+                ) => {
+                  const response = await moveAllUsersApi({
+                    id: currentRoleId,
+                    roleId: selectedRoleId,
+                  });
+                  if (response.type === "success") {
+                    toast.success("Users moved successfully");
+                  } else {
+                    toast.error(response.message);
+                  }
+                };
+                void moveAllUsers(_values.roleId, _triggerData.id || "");
+              },
+            },
+          ],
         },
       },
       user: {

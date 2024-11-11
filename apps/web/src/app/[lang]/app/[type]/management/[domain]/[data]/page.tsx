@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 import { createZodObject, getBaseLink } from "src/utils";
-import { dataConfig } from "../../data";
+import { dataConfig } from "../../data.tsx";
 import Claims from "./table-actions/claims";
 
 async function controlledFetch(
