@@ -571,7 +571,7 @@ export const dataConfig: DataConfigArray = {
                             />
                           ) : (
                             <div className="text-muted-foreground text-md text-center">
-                              No roles available right now.
+                              An error occurred please try again later.
                             </div>
                           )}
                         </div>
