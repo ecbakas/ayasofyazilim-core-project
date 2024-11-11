@@ -3,6 +3,7 @@
 import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
 import type {
   ColumnFilter,
+  fetchRequestProps,
   FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
@@ -83,8 +84,11 @@ export default function TableComponent({
   const [isLoading, setIsLoading] = useState(true);
   const isWindowExists = typeof window !== "undefined";
 
-  function getData(page: number, filter?: FilterColumnResult) {
-    setIsLoading(true);
+  function getData({
+    page,
+    filter,
+  }:fetchRequestProps) {
+    // setIsLoading(true);
     fetchRequest(page, filter)
       .then((res) => {
         if (res.type === "success") {
@@ -112,7 +116,7 @@ export default function TableComponent({
     deleteRequest(row.id)
       .then((res) => {
         if (res.type === "success") {
-          getData(0);
+          getData({page:0, filter: {}});
           toast.success(languageData["Delete.Success"]);
         } else {
           setIsLoading(false);
