@@ -560,13 +560,21 @@ export const dataConfig: DataConfigArray = {
                       }, []);
 
                       return (
-                        <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
-                          childrenProps={props}
-                          emptyValue="Select role"
-                          list={roleList}
-                          selectIdentifier="id"
-                          selectLabel="name"
-                        />
+                        <div>
+                          {roleList.length > 0 ? (
+                            <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
+                              childrenProps={props}
+                              emptyValue="Select role"
+                              list={roleList}
+                              selectIdentifier="id"
+                              selectLabel="name"
+                            />
+                          ) : (
+                            <div className="text-muted-foreground text-md text-center">
+                              No roles available right now.
+                            </div>
+                          )}
+                        </div>
                       );
                     },
                   },
