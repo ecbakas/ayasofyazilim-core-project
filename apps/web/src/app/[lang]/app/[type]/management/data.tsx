@@ -587,7 +587,6 @@ export const dataConfig: DataConfigArray = {
                   });
                   if (response.type === "success") {
                     toast.success("Users moved successfully");
-                    window.location.reload();
                   } else {
                     toast.error(response.message);
                   }
