@@ -551,6 +551,7 @@ export const dataConfig: DataConfigArray = {
                               ? [
                                   { id: "", name: "unassigned" },
                                   ...(roles.data.items || []),
+                                  // TODO: Add a filter to make the original role disappear
                                 ]
                               : [];
                           setRolesList(updatedRoleList);
@@ -561,7 +562,7 @@ export const dataConfig: DataConfigArray = {
                       return (
                         <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
                           childrenProps={props}
-                          emptyValue="unassigned role"
+                          emptyValue="Select role"
                           list={roleList}
                           selectIdentifier="id"
                           selectLabel="name"
