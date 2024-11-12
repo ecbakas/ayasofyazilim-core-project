@@ -369,7 +369,7 @@ export const dataConfig: DataConfigArray = {
                         Volo_Saas_Host_Dtos_EditionDto[]
                       >([]);
                       const [errorMessage, setErrorMessage] =
-                        useState<ErrorTypes | null>(null);
+                        useState<ErrorTypes>();
 
                       useEffect(() => {
                         const fetchEditions = async () => {
@@ -401,10 +401,9 @@ export const dataConfig: DataConfigArray = {
                             />
                           ) : (
                             <div className="text-muted-foreground text-md text-center">
-                              {errorMessage.message === "error" ||
-                              errorMessage.message === "api-error"
-                                ? errorMessage.message
-                                : " An error occurred please try again later."}
+                              {errorMessage.type +
+                                (errorMessage.message ||
+                                  " An error occurred please try again later.")}
                             </div>
                           )}
                         </div>
