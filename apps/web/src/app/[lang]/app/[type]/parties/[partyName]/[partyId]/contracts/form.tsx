@@ -1,16 +1,40 @@
 "use client";
 
 import { toast } from "@/components/ui/sonner";
-import type { PagedResultDto_ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantDto as ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables/types";
+import type {
+  PagedResultDto_ContractHeaderDetailForMerchantDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto,
+} from "@ayasofyazilim/saas/ContractService";
+import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
-import { useRouter } from "next/navigation";
+import type { CellContext } from "@tanstack/react-table";
+import { FilePenLine } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { getMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
+
+function cellWithLink(
+  cell: CellContext<ContractsForMerchantDto, unknown>,
+  partyName: string,
+  partyId: string,
+) {
+  const id = cell.row.original.id;
+  return (
+    <Link
+      className="flex items-center gap-2 font-medium text-blue-700"
+      href={getBaseLink(
+        `app/admin/parties/${partyName}/${partyId}/contracts/${id}`,
+      )}
+    >
+      <FilePenLine className="w-4" />
+      {cell.getValue() as string}
+    </Link>
+  );
+}
 
 export default function Contracts({
   languageData,
@@ -21,7 +45,6 @@ export default function Contracts({
   partyName: "merchants";
   partyId: string;
 }) {
-  const router = useRouter();
   const [contractsData, setContractsData] =
     useState<PagedResultDto_ContractHeaderDetailForMerchantDto>();
   const [loading, setLoading] = useState(true);
@@ -65,37 +88,12 @@ export default function Contracts({
         columnsData={{
           type: "Auto",
           data: {
-            tableType: ContractsForMerchantDto,
-            excludeList: [
-              "creationTime",
-              // "creatorId",
-              // "lastModificationTime",
-              // "deleted",
-              // "deleterId",
-              // "deletionTime",
-            ],
+            tableType: $ContractsForMerchantDto,
+            excludeList: [],
             positions: ["name", "contractType"],
-            actionList: [
-              {
-                cta: languageData.Delete,
-                type: "Dialog",
-                componentType: "ConfirmationDialog",
-                description: languageData["Delete.Assurance"],
-                cancelCTA: languageData.Cancel,
-                variant: "destructive",
-              },
-              {
-                cta: languageData.Edit,
-                type: "Action",
-                callback: (row: { id: string }) => {
-                  router.push(
-                    getBaseLink(
-                      `app/admin/parties/${partyName}/${partyId}/contracts/${row.id}`,
-                    ),
-                  );
-                },
-              },
-            ],
+            customCells: {
+              name: (cell) => cellWithLink(cell, partyName, partyId),
+            },
           },
         }}
         data={contractsData?.items || []}

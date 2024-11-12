@@ -60,6 +60,8 @@
   "Contracts.Form.addressCommonDataId.emptyValue": "Please select an address",
   "Contracts.Form.addressCommonDataId.searchPlaceholder": "Search for an address",
   "Contracts.Form.addressCommonDataId.searchResultLabel": "There is no address with that value.",
+  "Contracts.Form.defaultRefundTableHeader": "Default refund table",
+  "Contracts.Form.defaultRefundTableHeader.undefined": "Please select a default refund table header",
   "Contracts.Form.refundTableHeaders": "Refund tables",
   "Contracts.Form.refundTableHeaders.refundTableHeaderId": "Refund table",
   "Contracts.Form.refundTableHeaders.refundTableHeaderId.emptyValue": "Please select an refund table",

@@ -60,6 +60,8 @@
   "Contracts.Form.addressCommonDataId.emptyValue": "Lütfen bir adres seçin",
   "Contracts.Form.addressCommonDataId.searchPlaceholder": "Adres ara",
   "Contracts.Form.addressCommonDataId.searchResultLabel": "Aranan adres bulunamadı.",
+  "Contracts.Form.defaultRefundTableHeader": "Varsayılan iade tablosu",
+  "Contracts.Form.defaultRefundTableHeader.undefined": "Lütfen bir varsayılan iade tablosu seçin",
   "Contracts.Form.refundTableHeaders": "İade tabloları",
   "Contracts.Form.refundTableHeaders.refundTableHeaderId": "İade tablosu",
   "Contracts.Form.refundTableHeaders.refundTableHeaderId.emptyValue": "Lütfen bir iade tablosu seçin",
