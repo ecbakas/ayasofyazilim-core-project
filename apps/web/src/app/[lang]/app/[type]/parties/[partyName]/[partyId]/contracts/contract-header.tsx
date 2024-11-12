@@ -10,55 +10,73 @@ import {
   $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as $ContractHeaderForMerchantUpdateDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressTypeDto } from "@ayasofyazilim/saas/LocationService";
-import { useCallback, useEffect, useState } from "react";
+import { Combobox } from "@repo/ayasofyazilim-ui/molecules/combobox";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
+import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
-import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
-import { useRouter } from "next/navigation";
 import { toastOnSubmit } from "@repo/ui/toast-on-submit";
-import type { ContractServiceResource } from "src/language-data/ContractService";
-import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { getRefundTableHeaders } from "src/app/[lang]/app/[type]/settings/templates/refund/action";
+import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 
-type BaseContractHeaderFormProps = {
+interface BaseContractHeaderFormProps<TForm> {
   partyName: "merchants";
   partyId: string;
   languageData: ContractServiceResource;
   addresses: AddressTypeDto[];
   //   basicInformation: MerchantBasicInformationDto;
-} & (UpdateContractHeaderFormProps | CreateContractHeaderFormProps);
-
-interface UpdateContractHeaderFormProps {
-  formType: "Update";
-  formData: ContractHeaderForMerchantUpdateDto;
-}
-interface CreateContractHeaderFormProps {
-  formType: "Create";
+  formData?: TForm;
+  formType: "Create" | "Update";
 }
 
-type DataType =
-  | ContractHeaderForMerchantCreateDto
-  | ContractHeaderForMerchantUpdateDto;
-export default function ContractHeaderForm(
-  props: BaseContractHeaderFormProps,
-): JSX.Element {
+const isUpdateForm = (
+  obj:
+    | ContractHeaderForMerchantCreateDto
+    | ContractHeaderForMerchantUpdateDto
+    | Record<string, never>,
+): obj is ContractHeaderForMerchantUpdateDto => "status" in obj;
+const isCreateForm = (
+  obj:
+    | ContractHeaderForMerchantCreateDto
+    | ContractHeaderForMerchantUpdateDto
+    | Record<string, never>,
+): obj is ContractHeaderForMerchantCreateDto => !("status" in obj);
+
+export default function ContractHeaderForm<
+  TForm =
+    | ContractHeaderForMerchantCreateDto
+    | ContractHeaderForMerchantUpdateDto,
+>(props: BaseContractHeaderFormProps<TForm>): JSX.Element {
   const { formType, languageData, partyName, partyId, addresses } = props;
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [addressList] = useState<AddressTypeDto[]>(addresses);
+
+  const [defaultRefundTableHeader, setDefaultRefundTableHeader] = useState<
+    RefundTableHeaderDto | null | undefined
+  >();
+  const [defaultRefundTableHeaderMessage, setDefaultRefundTableHeaderMessage] =
+    useState<string | undefined>();
+  const [selectedRefundTableHeaders, setSelectedRefundTableHeaders] = useState<
+    RefundTableHeaderDto[] | undefined
+  >([]);
   const [refundTableHeaders, setRefundTableHeaders] =
     useState<RefundTableHeaderDto[]>();
+  const [formData, setFormData] = useState<TForm | undefined>(
+    formType === "Update" ? props.formData : undefined,
+  );
 
-  async function handleContractHeaderSubmit(data: DataType) {
+  async function handleContractHeaderSubmit() {
     try {
-      if (formType === "Create") {
+      if (formData && isCreateForm(formData)) {
         const postResponse = await postMerchantContractHeadersByMerchantIdApi({
           id: partyId,
-          requestBody: data as ContractHeaderForMerchantCreateDto,
+          requestBody: formData,
         });
-
         setLoading(true);
         if (postResponse.type === "success") {
           toast.success(languageData["Contracts.Create.Success"]);
@@ -73,7 +91,7 @@ export default function ContractHeaderForm(
           );
         }
       } else {
-        toastOnSubmit(data);
+        toastOnSubmit(formData || "");
       }
     } catch (error) {
       toast.error(languageData[`Contracts.${formType}.Fail`]);
@@ -136,9 +154,6 @@ export default function ContractHeaderForm(
             "ui:className": "md:col-span-2",
             "ui:widget": "refundTable",
           },
-          isDefault: {
-            "ui:widget": "switch",
-          },
         },
       },
     },
@@ -198,26 +213,110 @@ export default function ContractHeaderForm(
     [refundTableHeaders, loading, languageData],
   );
 
+  /*
+   * This code updates the formData state when the defaultRefundTableHeader changes.
+   * It sets the isDefault property to true for the refund table header that matches the defaultRefundTableHeader and preserves the rest of the form data.
+   * If the form is an update form, it also preserves the status field.
+   * TODO : Make array item component does all the work.
+   */
+  function handleDefaultRefundTableHeader() {
+    if (!defaultRefundTableHeader) {
+      setDefaultRefundTableHeaderMessage(
+        languageData["Contracts.Form.defaultRefundTableHeader.undefined"],
+      );
+    } else {
+      setDefaultRefundTableHeaderMessage(undefined);
+      if (formData && (isUpdateForm(formData) || isCreateForm(formData))) {
+        const updatedData = {
+          refundTableHeaders: formData.refundTableHeaders?.map((item) => {
+            if (item.refundTableHeaderId === defaultRefundTableHeader.id) {
+              return { isDefault: true, ...item };
+            }
+            return item;
+          }),
+        };
+        if (isUpdateForm(formData)) {
+          Object.assign(updatedData, { status: formData.status });
+        }
+        setFormData({
+          ...formData,
+          ...updatedData,
+        });
+      }
+    }
+  }
+
+  useEffect(() => {
+    handleDefaultRefundTableHeader();
+  }, [defaultRefundTableHeader]);
+
   return (
     <SchemaForm
+      className="grid gap-2"
       disabled={loading}
       filter={{
-        type: "exclude",
-        keys: ["extraProperties", "refundTableHeaders.extraProperties"],
+        type: "include",
+        sort: true,
+        keys: [
+          "validFrom",
+          "validTo",
+          "merchantClassification",
+          "addressCommonDataId",
+          "webSite",
+          "status",
+          "refundTableHeaders",
+          "refundTableHeaders.validFrom",
+          "refundTableHeaders.validTo",
+          "refundTableHeaders.refundTableHeaderId",
+        ],
       }}
-      formData={formType === "Update" ? props.formData : undefined}
-      onSubmit={(data) => {
+      formData={formData}
+      onChange={(data) => {
         if (!data.formData) return;
-        void handleContractHeaderSubmit(data.formData as DataType);
+        const _formData = data.formData as
+          | ContractHeaderForMerchantUpdateDto
+          | ContractHeaderForMerchantCreateDto;
+        const filtered = refundTableHeaders?.filter((t1) => {
+          return (
+            _formData.refundTableHeaders?.filter(
+              (t2: { refundTableHeaderId: string }) => {
+                return t2.refundTableHeaderId === t1.id;
+              },
+            ).length !== 0
+          );
+        });
+        setSelectedRefundTableHeaders(filtered);
+        setDefaultRefundTableHeader(
+          filtered?.find((t) => t.id === defaultRefundTableHeader?.id) ||
+            undefined,
+        );
+        handleDefaultRefundTableHeader();
+        setFormData(_formData as TForm);
+      }}
+      onSubmit={(data) => {
+        if (!data.formData || !defaultRefundTableHeader) return;
+        void handleContractHeaderSubmit();
       }}
       schema={$schema}
-      submit={languageData["Contracts.Create.Submit"]}
+      submitText={languageData["Contracts.Create.Submit"]}
       uiSchema={uiSchema}
       widgets={{
         address: AddressWidget,
         refundTable: RefundTableWidget,
       }}
       withScrollArea
-    />
+    >
+      <Combobox<RefundTableHeaderDto>
+        disabled={loading}
+        errorMessage={defaultRefundTableHeaderMessage}
+        label={languageData["Contracts.Form.defaultRefundTableHeader"]}
+        list={selectedRefundTableHeaders}
+        onValueChange={setDefaultRefundTableHeader}
+        required
+        selectIdentifier="id"
+        selectLabel="name"
+        value={defaultRefundTableHeader}
+      />
+    </SchemaForm>
   );
 }
