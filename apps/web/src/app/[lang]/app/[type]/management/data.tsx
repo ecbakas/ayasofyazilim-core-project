@@ -27,7 +27,10 @@ import {
   $Volo_Abp_OpenIddict_Scopes_Dtos_ScopeDto,
   $Volo_Abp_OpenIddict_Scopes_Dtos_UpdateScopeInput,
 } from "@ayasofyazilim/saas/IdentityService";
-import type { GetApiSaasEditionsResponse } from "@ayasofyazilim/saas/SaasService";
+import type {
+  GetApiSaasEditionsResponse,
+  Volo_Saas_Host_Dtos_EditionDto,
+} from "@ayasofyazilim/saas/SaasService";
 import {
   $Volo_Saas_Host_Dtos_EditionCreateDto,
   $Volo_Saas_Host_Dtos_EditionDto,
@@ -47,6 +50,10 @@ import {
   getAllRolesApi,
   moveAllUsersApi,
 } from "../../actions/IdentityService/actions";
+import {
+  getAllEditionsApi,
+  moveAllTenantsApi,
+} from "../../actions/SaasService/actions";
 
 export const dataConfig: DataConfigArray = {
   openiddict: {
@@ -339,6 +346,96 @@ export const dataConfig: DataConfigArray = {
             "concurrencyStamp",
           ],
           schema: $Volo_Saas_Host_Dtos_EditionDto,
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Move All Tenants",
+              description: "Move All Tenants",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Move All Tenants",
+                },
+                formSchema: z.object({
+                  editionId: z.string(),
+                }),
+                fieldConfig: {
+                  editionId: {
+                    renderer: function EditionComboboxRenderer(
+                      props: AutoFormInputComponentProps,
+                    ) {
+                      const [editionList, setEditionList] = useState<
+                        Volo_Saas_Host_Dtos_EditionDto[]
+                      >([]);
+                      const [errorMessage, setErrorMessage] = useState<
+                        string | null
+                      >(null);
+
+                      useEffect(() => {
+                        const fetchEditions = async () => {
+                          const editions = await getAllEditionsApi();
+                          if (editions.type === "success") {
+                            const updatedEditionList: Volo_Saas_Host_Dtos_EditionDto[] =
+                              [
+                                { id: "", displayName: "unassigned edition" },
+                                ...editions.data,
+                                // TODO: Add a filter to make the original edition disappear
+                              ];
+                            setEditionList(updatedEditionList);
+                          } else {
+                            setErrorMessage(
+                              editions.message || "Failed to fetch editions.",
+                            );
+                          }
+                        };
+                        void fetchEditions();
+                      }, []);
+
+                      return (
+                        <div>
+                          {!errorMessage ? (
+                            <CustomCombobox<Volo_Saas_Host_Dtos_EditionDto>
+                              childrenProps={props}
+                              emptyValue="Select Edition"
+                              list={editionList}
+                              selectIdentifier="id"
+                              selectLabel="displayName"
+                            />
+                          ) : (
+                            <div className="text-muted-foreground text-md text-center">
+                              {errorMessage ||
+                                " An error occurred please try again later."}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    },
+                  },
+                },
+              },
+
+              callback: (values, triggerData) => {
+                const _values = values as { editionId: string };
+                const _triggerData =
+                  triggerData as Volo_Saas_Host_Dtos_EditionDto;
+                const moveAllTenants = async (
+                  selectedEditionId: string,
+                  currentEditionId: string,
+                ) => {
+                  const response = await moveAllTenantsApi({
+                    id: currentEditionId,
+                    editionId: selectedEditionId,
+                  });
+                  if (response.type === "success") {
+                    toast.success("Tenants moved successfully");
+                  } else {
+                    toast.error(response.message || "Failed to move tenants.");
+                  }
+                };
+                void moveAllTenants(_values.editionId, _triggerData.id || "");
+              },
+            },
+          ],
         },
       },
       tenant: {
