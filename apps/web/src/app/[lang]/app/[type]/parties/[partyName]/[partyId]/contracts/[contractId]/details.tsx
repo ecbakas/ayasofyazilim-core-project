@@ -1,10 +1,13 @@
 "use client";
+import type {
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as ContractHeaderForMerchantUpdateDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
+} from "@ayasofyazilim/saas/ContractService";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import {
   SectionLayout,
@@ -91,7 +94,8 @@ function ContractSection({ ...props }: DetailsProp) {
     });
   return (
     <SectionLayoutContent sectionId="contract">
-      <ContractHeaderForm
+      <ContractHeaderForm<ContractHeaderForMerchantUpdateDto>
+        formType="Update"
         {...props}
         formData={{
           ...contractHeaderDetails,
@@ -99,7 +103,6 @@ function ContractSection({ ...props }: DetailsProp) {
           addressCommonDataId: contractHeaderDetails.addressCommonData.id,
           refundTableHeaders,
         }}
-        formType="Update"
       />
     </SectionLayoutContent>
   );

@@ -1,3 +1,4 @@
+import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantCreateDto as ContractHeaderForMerchantCreateDto } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
 import {
   getAdressesApi,
@@ -28,7 +29,7 @@ export default async function Page({
   const { languageData } = await getResourceData(params.lang);
   return (
     <>
-      <ContractHeaderForm
+      <ContractHeaderForm<ContractHeaderForMerchantCreateDto>
         formType="Create"
         languageData={languageData}
         partyId={params.partyId}
