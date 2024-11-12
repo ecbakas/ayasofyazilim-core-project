@@ -646,7 +646,7 @@ export const dataConfig: DataConfigArray = {
                           if (roles.type === "success") {
                             const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
                               [
-                                { id: "", name: "unassigned" },
+                                { id: "", name: "unassigned role" },
                                 ...(roles.data.items || []),
                                 // TODO: Add a filter to make the original role disappear
                               ];
@@ -663,7 +663,7 @@ export const dataConfig: DataConfigArray = {
                           {!errorMessage ? (
                             <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
                               childrenProps={props}
-                              emptyValue="Select Edition"
+                              emptyValue="Select role"
                               list={roleList}
                               selectIdentifier="id"
                               selectLabel="name"
