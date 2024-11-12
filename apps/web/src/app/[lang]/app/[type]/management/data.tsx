@@ -46,6 +46,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import type { DataConfigArray } from "src/types";
 import { getBaseLink } from "src/utils";
+import type { ErrorTypes } from "src/lib";
 import {
   getAllRolesApi,
   moveAllUsersApi,
@@ -367,9 +368,8 @@ export const dataConfig: DataConfigArray = {
                       const [editionList, setEditionList] = useState<
                         Volo_Saas_Host_Dtos_EditionDto[]
                       >([]);
-                      const [errorMessage, setErrorMessage] = useState<
-                        string | null
-                      >(null);
+                      const [errorMessage, setErrorMessage] =
+                        useState<ErrorTypes | null>(null);
 
                       useEffect(() => {
                         const fetchEditions = async () => {
@@ -383,9 +383,7 @@ export const dataConfig: DataConfigArray = {
                               ];
                             setEditionList(updatedEditionList);
                           } else {
-                            setErrorMessage(
-                              editions.message || "Failed to fetch editions.",
-                            );
+                            setErrorMessage(editions);
                           }
                         };
                         void fetchEditions();
@@ -403,8 +401,10 @@ export const dataConfig: DataConfigArray = {
                             />
                           ) : (
                             <div className="text-muted-foreground text-md text-center">
-                              {errorMessage ||
-                                " An error occurred please try again later."}
+                              {errorMessage.message === "error" ||
+                              errorMessage.message === "api-error"
+                                ? errorMessage.message
+                                : " An error occurred please try again later."}
                             </div>
                           )}
                         </div>
