@@ -55,6 +55,7 @@ import type {
   GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
   GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
 } from "@ayasofyazilim/saas/LocationService";
+import type { PutApiSaasEditionsByIdMoveAllTenantsData } from "@ayasofyazilim/saas/SaasService";
 import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
@@ -67,20 +68,36 @@ import {
   getExportValidationServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
+  getSaasServiceClient,
   getTagServiceClient,
   getTravellersServiceClient,
   structuredError,
 } from "src/lib";
 
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
-export type GetTableDataTypes = Exclude<ApiRequestTypes, "locations">;
+export type GetTableDataTypes = Exclude<
+  ApiRequestTypes,
+  "locations" | "editions"
+>;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users" | "tags"
+  | "travellers"
+  | "claims"
+  | "roles"
+  | "locations"
+  | "users"
+  | "tags"
+  | "editions"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
-  "travellers" | "claims" | "roles" | "locations" | "users" | "tags"
+  | "travellers"
+  | "claims"
+  | "roles"
+  | "locations"
+  | "users"
+  | "tags"
+  | "editions"
 >;
 
 export async function getApiRequests() {
@@ -89,6 +106,7 @@ export async function getApiRequests() {
   const contractsClient = await getContractServiceClient();
   const locationClient = await getLocationServiceClient();
   const identityClient = await getIdentityServiceClient();
+  const saasClient = await getSaasServiceClient();
   const exportValidationClient = await getExportValidationServiceClient();
   const tagClient = await getTagServiceClient();
   const tableRequests = {
@@ -515,6 +533,12 @@ export async function getApiRequests() {
         await identityClient.user.getApiIdentityUsersByIdClaims(data),
       putUserClaims: async (data: PutApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.putApiIdentityUsersByIdClaims(data),
+    },
+    editions: {
+      getAllEditions: async () =>
+        await saasClient.edition.getApiSaasEditionsAll(),
+      moveAllTenants: async (data: PutApiSaasEditionsByIdMoveAllTenantsData) =>
+        await saasClient.edition.putApiSaasEditionsByIdMoveAllTenants(data),
     },
     "export-validation": {
       get: async (data: GetApiExportValidationServiceExportValidationData) =>
