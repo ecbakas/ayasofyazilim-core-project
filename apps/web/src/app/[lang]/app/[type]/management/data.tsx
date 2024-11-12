@@ -638,26 +638,29 @@ export const dataConfig: DataConfigArray = {
                       const [roleList, setRolesList] = useState<
                         Volo_Abp_Identity_IdentityRoleDto[]
                       >([]);
-
+                      const [errorMessage, setErrorMessage] =
+                        useState<ErrorTypes>();
                       useEffect(() => {
                         const fetchRoles = async () => {
                           const roles = await getAllRolesApi();
-                          const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
-                            roles.type === "success"
-                              ? [
-                                  { id: "", name: "unassigned" },
-                                  ...(roles.data.items || []),
-                                  // TODO: Add a filter to make the original role disappear
-                                ]
-                              : [];
-                          setRolesList(updatedRoleList);
+                          if (roles.type === "success") {
+                            const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
+                              [
+                                { id: "", name: "unassigned role" },
+                                ...(roles.data.items || []),
+                                // TODO: Add a filter to make the original role disappear
+                              ];
+                            setRolesList(updatedRoleList);
+                          } else {
+                            setErrorMessage(roles);
+                          }
                         };
                         void fetchRoles();
                       }, []);
 
                       return (
                         <div>
-                          {roleList.length > 0 ? (
+                          {!errorMessage ? (
                             <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
                               childrenProps={props}
                               emptyValue="Select role"
@@ -667,7 +670,9 @@ export const dataConfig: DataConfigArray = {
                             />
                           ) : (
                             <div className="text-muted-foreground text-md text-center">
-                              An error occurred please try again later.
+                              {errorMessage.type +
+                                (errorMessage.message ||
+                                  " An error occurred please try again later.")}
                             </div>
                           )}
                         </div>
@@ -676,7 +681,6 @@ export const dataConfig: DataConfigArray = {
                   },
                 },
               },
-
               callback: (values, triggerData) => {
                 const _values = values as { roleId: string };
                 const _triggerData =
