@@ -27,7 +27,10 @@ import {
   $Volo_Abp_OpenIddict_Scopes_Dtos_ScopeDto,
   $Volo_Abp_OpenIddict_Scopes_Dtos_UpdateScopeInput,
 } from "@ayasofyazilim/saas/IdentityService";
-import type { GetApiSaasEditionsResponse } from "@ayasofyazilim/saas/SaasService";
+import type {
+  GetApiSaasEditionsResponse,
+  Volo_Saas_Host_Dtos_EditionDto,
+} from "@ayasofyazilim/saas/SaasService";
 import {
   $Volo_Saas_Host_Dtos_EditionCreateDto,
   $Volo_Saas_Host_Dtos_EditionDto,
@@ -43,10 +46,15 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import type { DataConfigArray } from "src/types";
 import { getBaseLink } from "src/utils";
+import type { ErrorTypes } from "src/lib";
 import {
   getAllRolesApi,
   moveAllUsersApi,
 } from "../../actions/IdentityService/actions";
+import {
+  getAllEditionsApi,
+  moveAllTenantsApi,
+} from "../../actions/SaasService/actions";
 
 export const dataConfig: DataConfigArray = {
   openiddict: {
@@ -339,6 +347,94 @@ export const dataConfig: DataConfigArray = {
             "concurrencyStamp",
           ],
           schema: $Volo_Saas_Host_Dtos_EditionDto,
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Move All Tenants",
+              description: "Move All Tenants",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Move All Tenants",
+                },
+                formSchema: z.object({
+                  editionId: z.string(),
+                }),
+                fieldConfig: {
+                  editionId: {
+                    renderer: function EditionComboboxRenderer(
+                      props: AutoFormInputComponentProps,
+                    ) {
+                      const [editionList, setEditionList] = useState<
+                        Volo_Saas_Host_Dtos_EditionDto[]
+                      >([]);
+                      const [errorMessage, setErrorMessage] =
+                        useState<ErrorTypes>();
+
+                      useEffect(() => {
+                        const fetchEditions = async () => {
+                          const editions = await getAllEditionsApi();
+                          if (editions.type === "success") {
+                            const updatedEditionList: Volo_Saas_Host_Dtos_EditionDto[] =
+                              [
+                                { id: "", displayName: "unassigned edition" },
+                                ...editions.data,
+                                // TODO: Add a filter to make the original edition disappear
+                              ];
+                            setEditionList(updatedEditionList);
+                          } else {
+                            setErrorMessage(editions);
+                          }
+                        };
+                        void fetchEditions();
+                      }, []);
+
+                      return (
+                        <div>
+                          {!errorMessage ? (
+                            <CustomCombobox<Volo_Saas_Host_Dtos_EditionDto>
+                              childrenProps={props}
+                              emptyValue="Select Edition"
+                              list={editionList}
+                              selectIdentifier="id"
+                              selectLabel="displayName"
+                            />
+                          ) : (
+                            <div className="text-muted-foreground text-md text-center">
+                              {errorMessage.type +
+                                (errorMessage.message ||
+                                  " An error occurred please try again later.")}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    },
+                  },
+                },
+              },
+
+              callback: (values, triggerData) => {
+                const _values = values as { editionId: string };
+                const _triggerData =
+                  triggerData as Volo_Saas_Host_Dtos_EditionDto;
+                const moveAllTenants = async (
+                  selectedEditionId: string,
+                  currentEditionId: string,
+                ) => {
+                  const response = await moveAllTenantsApi({
+                    id: currentEditionId,
+                    editionId: selectedEditionId,
+                  });
+                  if (response.type === "success") {
+                    toast.success("Tenants moved successfully");
+                  } else {
+                    toast.error(response.message || "Failed to move tenants.");
+                  }
+                };
+                void moveAllTenants(_values.editionId, _triggerData.id || "");
+              },
+            },
+          ],
         },
       },
       tenant: {
@@ -542,26 +638,29 @@ export const dataConfig: DataConfigArray = {
                       const [roleList, setRolesList] = useState<
                         Volo_Abp_Identity_IdentityRoleDto[]
                       >([]);
-
+                      const [errorMessage, setErrorMessage] =
+                        useState<ErrorTypes>();
                       useEffect(() => {
                         const fetchRoles = async () => {
                           const roles = await getAllRolesApi();
-                          const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
-                            roles.type === "success"
-                              ? [
-                                  { id: "", name: "unassigned" },
-                                  ...(roles.data.items || []),
-                                  // TODO: Add a filter to make the original role disappear
-                                ]
-                              : [];
-                          setRolesList(updatedRoleList);
+                          if (roles.type === "success") {
+                            const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
+                              [
+                                { id: "", name: "unassigned role" },
+                                ...(roles.data.items || []),
+                                // TODO: Add a filter to make the original role disappear
+                              ];
+                            setRolesList(updatedRoleList);
+                          } else {
+                            setErrorMessage(roles);
+                          }
                         };
                         void fetchRoles();
                       }, []);
 
                       return (
                         <div>
-                          {roleList.length > 0 ? (
+                          {!errorMessage ? (
                             <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
                               childrenProps={props}
                               emptyValue="Select role"
@@ -571,7 +670,9 @@ export const dataConfig: DataConfigArray = {
                             />
                           ) : (
                             <div className="text-muted-foreground text-md text-center">
-                              An error occurred please try again later.
+                              {errorMessage.type +
+                                (errorMessage.message ||
+                                  " An error occurred please try again later.")}
                             </div>
                           )}
                         </div>
@@ -580,7 +681,6 @@ export const dataConfig: DataConfigArray = {
                   },
                 },
               },
-
               callback: (values, triggerData) => {
                 const _values = values as { roleId: string };
                 const _triggerData =
