@@ -70,5 +70,8 @@
   "CompanySettings": "Company Settings",
   "Refund": "Refund",
   "ExportValidation": "Export Validation",
-  "ExportValidation.Description": "You can view the export validations from here."
+  "ExportValidation.Description": "You can view the export validations from here.",
+  "Finance": "Finance",
+  "Billing": "Billing",
+  "Billing.Description": "You can view the billing from here."
 }
