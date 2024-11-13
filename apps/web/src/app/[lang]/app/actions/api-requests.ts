@@ -38,6 +38,7 @@ import type {
   PostApiExportValidationServiceExportValidationData,
   PutApiExportValidationServiceExportValidationByIdData,
 } from "@ayasofyazilim/saas/ExportValidationService";
+import type { GetApiFinanceServiceBillingsData } from "@ayasofyazilim/saas/FinanceService";
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
@@ -66,6 +67,7 @@ import {
   getContractServiceClient,
   getCRMServiceClient,
   getExportValidationServiceClient,
+  getFinanceServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
   getSaasServiceClient,
@@ -98,6 +100,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "users"
   | "tags"
   | "editions"
+  | "billing"
 >;
 
 export async function getApiRequests() {
@@ -109,6 +112,7 @@ export async function getApiRequests() {
   const saasClient = await getSaasServiceClient();
   const exportValidationClient = await getExportValidationServiceClient();
   const tagClient = await getTagServiceClient();
+  const financeClient = await getFinanceServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -571,6 +575,14 @@ export async function getApiRequests() {
     tags: {
       get: async (data: GetApiTagServiceTagData) =>
         await tagClient.tag.getApiTagServiceTag(data),
+    },
+    billing: {
+      get: async (data: GetApiFinanceServiceBillingsData) =>
+        await financeClient.billing.getApiFinanceServiceBillings(data),
+      deleteRow: async (id: string) =>
+        await financeClient.billing.deleteApiFinanceServiceBillings({
+          id,
+        }),
     },
   };
   return tableRequests;
