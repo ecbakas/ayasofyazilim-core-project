@@ -38,7 +38,11 @@ import type {
   PostApiExportValidationServiceExportValidationData,
   PutApiExportValidationServiceExportValidationByIdData,
 } from "@ayasofyazilim/saas/ExportValidationService";
-import type { GetApiFinanceServiceBillingsData } from "@ayasofyazilim/saas/FinanceService";
+import type {
+  GetApiFinanceServiceBillingsData,
+  PostApiFinanceServiceBillingsData,
+  PutApiFinanceServiceBillingsByIdData,
+} from "@ayasofyazilim/saas/FinanceService";
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
@@ -579,6 +583,14 @@ export async function getApiRequests() {
     billing: {
       get: async (data: GetApiFinanceServiceBillingsData) =>
         await financeClient.billing.getApiFinanceServiceBillings(data),
+      getDetail: async (id: string) =>
+        await financeClient.billing.getApiFinanceServiceBillingsById({
+          id,
+        }),
+      post: async (data: PostApiFinanceServiceBillingsData) =>
+        await financeClient.billing.postApiFinanceServiceBillings(data),
+      put: async (data: PutApiFinanceServiceBillingsByIdData) =>
+        await financeClient.billing.putApiFinanceServiceBillingsById(data),
       deleteRow: async (id: string) =>
         await financeClient.billing.deleteApiFinanceServiceBillings({
           id,
