@@ -408,6 +408,9 @@ importers:
       '@rjsf/validator-ajv8':
         specifier: ^5.21.2
         version: 5.21.2(@rjsf/utils@5.21.2(react@18.3.0))
+      '@storybook/addon-storysource':
+        specifier: ^8.4.2
+        version: 8.4.2(storybook@8.3.0)
       '@storybook/nextjs':
         specifier: ^8.2.7
         version: 8.3.0(@swc/core@1.7.26(@swc/helpers@0.5.5))(esbuild@0.23.1)(next@14.2.11(@babel/core@7.25.2)(@playwright/test@1.47.1)(react-dom@18.3.0(react@18.3.0))(react@18.3.0))(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(storybook@8.3.0)(type-fest@2.19.0)(typescript@5.6.2)(webpack-hot-middleware@2.26.1)(webpack@5.94.0(@swc/core@1.7.26(@swc/helpers@0.5.5))(esbuild@0.23.1))
@@ -3357,6 +3360,11 @@ packages:
     peerDependencies:
       storybook: ^8.3.0
 
+  '@storybook/addon-storysource@8.4.2':
+    resolution: {integrity: sha512-SFoQbkKGfFjQV++QsIxe2Czf3s6IFwSpeIk/DSWvy0j/+wU0Gtg6AuhmkTj5Vl64T7lPiRkpDRZEfH2/Gg2pjQ==}
+    peerDependencies:
+      storybook: ^8.4.2
+
   '@storybook/addon-styling-webpack@1.0.1':
     resolution: {integrity: sha512-5n+SXPfMTc4m7sWaJWPWjoHYWc6/B111M2Ia55toQ3GV4ON4vVlTgH9FX+EgCkDticElj99HLTMDJkHRj2yvkg==}
     peerDependencies:
@@ -3518,6 +3526,11 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@storybook/source-loader@8.4.2':
+    resolution: {integrity: sha512-BK8RHJNcRDOzIzoSBN/dcxIm0lWqIs3mBCo/TJJE2N7EAOcDwWfPivuPCbG959IRaRcRfuR0aiXONpAAVnWt9w==}
+    peerDependencies:
+      storybook: ^8.4.2
 
   '@storybook/test@8.3.0':
     resolution: {integrity: sha512-d8y8ST8YY/pSjTxBcWitKM7YbbupN8D0obVlciZRt6WW3o8WUz6iwMuzuJuiUVwtxiRtdKL9jygC5M+aaCpFYQ==}
@@ -5640,6 +5653,9 @@ packages:
   es-to-primitive@1.2.1:
     resolution: {integrity: sha512-QCOllgZJtaUo9miYBcLChTUaHNjJF3PYs1VidD7AwiEj1kYxKeQTctLAezAOH5ZKRH0g2IgPn6KwB4IT8iRpvA==}
     engines: {node: '>= 0.4'}
+
+  es-toolkit@1.27.0:
+    resolution: {integrity: sha512-ETSFA+ZJArcuSCpzD2TjAy6UHpx4E4uqFsoDg9F/nTLogrLmVVZQ+zNxco5h7cWnA1nNak07IXsLcaSMih+ZPQ==}
 
   esbuild-register@3.6.0:
     resolution: {integrity: sha512-H2/S7Pm8a9CL1uhp9OvjwrBh5Pvx0H8qVOxNu8Wed9Y7qv56MPtq+GGM8RJpq6glYJn9Wspr8uw7l55uyinNeg==}
@@ -12333,6 +12349,13 @@ snapshots:
       storybook: 8.3.0
       ts-dedent: 2.2.0
 
+  '@storybook/addon-storysource@8.4.2(storybook@8.3.0)':
+    dependencies:
+      '@storybook/source-loader': 8.4.2(storybook@8.3.0)
+      estraverse: 5.3.0
+      storybook: 8.3.0
+      tiny-invariant: 1.3.3
+
   '@storybook/addon-styling-webpack@1.0.1(storybook@8.3.0)(webpack@5.94.0(@swc/core@1.7.26(@swc/helpers@0.5.5))(esbuild@0.23.1))':
     dependencies:
       '@storybook/node-logger': 8.4.2(storybook@8.3.0)
@@ -12651,6 +12674,14 @@ snapshots:
     optionalDependencies:
       '@storybook/test': 8.3.0(storybook@8.3.0)
       typescript: 5.6.2
+
+  '@storybook/source-loader@8.4.2(storybook@8.3.0)':
+    dependencies:
+      '@storybook/csf': 0.1.11
+      es-toolkit: 1.27.0
+      estraverse: 5.3.0
+      prettier: 3.2.5
+      storybook: 8.3.0
 
   '@storybook/test@8.3.0(storybook@8.3.0)':
     dependencies:
@@ -15081,6 +15112,8 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.0.5
       is-symbol: 1.0.4
+
+  es-toolkit@1.27.0: {}
 
   esbuild-register@3.6.0(esbuild@0.23.1):
     dependencies:
