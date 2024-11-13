@@ -12,6 +12,7 @@ import { TravellerServiceClient } from "@ayasofyazilim/saas/TravellerService";
 import { TagServiceClient } from "@ayasofyazilim/saas/TagService";
 import { LocationServiceClient } from "@ayasofyazilim/saas/LocationService";
 import { ExportValidationServiceClient } from "@ayasofyazilim/saas/ExportValidationService";
+import { FinanceServiceClient } from "@ayasofyazilim/saas/FinanceService";
 import { auth } from "auth";
 import { isApiError } from "./app/api/util";
 
@@ -143,6 +144,16 @@ export async function getExportValidationServiceClient() {
   const session = await auth();
   const token = session?.access_token;
   return new ExportValidationServiceClient({
+    TOKEN: token,
+    BASE: process.env.BASE_URL,
+    HEADERS,
+  });
+}
+
+export async function getFinanceServiceClient() {
+  const session = await auth();
+  const token = session?.access_token;
+  return new FinanceServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
     HEADERS,
