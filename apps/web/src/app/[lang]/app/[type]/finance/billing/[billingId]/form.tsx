@@ -59,7 +59,7 @@ export default function Form({
       values={billingData}
     >
       <AutoFormSubmit className="float-right px-8 py-4">
-        {languageData.Save}
+        {languageData["Edit.Save"]}
       </AutoFormSubmit>
     </AutoForm>
   );
