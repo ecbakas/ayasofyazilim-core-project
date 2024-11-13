@@ -415,3 +415,23 @@ export const operations: NavbarItemsFromDB[] = [
     displayOrder: 1,
   },
 ];
+export const finance: NavbarItemsFromDB[] = [
+  {
+    key: "finance",
+    displayName: "Finance",
+    description: "Access and manage finance settings.",
+    href: "finance/billing",
+    icon: "tax",
+    parentNavbarItemKey: "/",
+    displayOrder: 1,
+  },
+  {
+    key: "finance/billing",
+    displayName: "Billing",
+    description: "Manage billing settings.",
+    href: "finance/billing",
+    icon: "log",
+    parentNavbarItemKey: "finance",
+    displayOrder: 1,
+  },
+];
