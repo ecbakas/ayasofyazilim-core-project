@@ -75,5 +75,8 @@
   "CompanySettings": "Şirket Ayarları",
   "Refund": "İade",
   "ExportValidation": "İhracat Doğrulaması",
-  "ExportValidation.Description": "İhracat Doğrulamasını buradan görüntüleyebilirsiniz."
+  "ExportValidation.Description": "İhracat Doğrulamasını buradan görüntüleyebilirsiniz.",
+  "Finance": "Finans",
+  "Billing": "Fatura",
+  "Billing.Description": "Fatura listesini buradan görüntüleyebilirsiniz."
 }
