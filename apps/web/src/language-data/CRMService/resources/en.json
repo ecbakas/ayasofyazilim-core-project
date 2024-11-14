@@ -1,6 +1,7 @@
 {
   "Merchants": "Merchants",
   "Merchants.Description": "You can view stores from here.",
+  "Merchant.Select": "Select Merchant",
 
   "Merchants.New": "New Merchant",
   "Merchants.New.Description": "You can create a new store from here.",
@@ -11,6 +12,9 @@
   "Merchants.Edit.Description": "You can update the store's details from here.",
   "Merchants.Edit.Success": "Store updated successfully.",
   "Merchants.Edit.Fail": "An error occurred while updating the store.",
+
+  "Merchants.Fetch.Success": "Merchants fetched successfully.",
+  "Merchants.Fetch.Fail": "An error occurred while fetching merchants.",
 
   "Merchants.SubOrganization": "Sub Stores",
   "Merchants.SubOrganization.Description": "You can view sub stores related to the main store from here.",

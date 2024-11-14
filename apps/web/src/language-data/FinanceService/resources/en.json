@@ -1,6 +1,5 @@
 {
   "Billing.New": "New Billing",
-  "Merchant.Select": "Select Merchant",
   "Billing.New.Error": "Failed to add Billing",
   "Billing.New.Success": " Billing Added Successfully",
   "Billing.Update.Success": "Billing Updated Successfully",
