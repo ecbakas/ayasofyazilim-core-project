@@ -48,6 +48,7 @@ import type {
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityRolesByIdMoveAllUsersData,
   PutApiIdentityUsersByIdClaimsData,
+  PutApiOpeniddictApplicationsByIdTokenLifetimeData,
 } from "@ayasofyazilim/saas/IdentityService";
 import type {
   GetApiLocationServiceCitiesData,
@@ -79,7 +80,7 @@ import {
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<
   ApiRequestTypes,
-  "locations" | "editions"
+  "locations" | "editions" | "applications"
 >;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -90,6 +91,7 @@ export type DeleteTableDataTypes = Exclude<
   | "users"
   | "tags"
   | "editions"
+  | "applications"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -101,6 +103,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "tags"
   | "editions"
   | "billing"
+  | "applications"
 >;
 
 export async function getApiRequests() {
@@ -583,6 +586,14 @@ export async function getApiRequests() {
         await financeClient.billing.deleteApiFinanceServiceBillings({
           id,
         }),
+    },
+    applications: {
+      putTokenLifetime: async (
+        data: PutApiOpeniddictApplicationsByIdTokenLifetimeData,
+      ) =>
+        await identityClient.applications.putApiOpeniddictApplicationsByIdTokenLifetime(
+          data,
+        ),
     },
   };
   return tableRequests;
