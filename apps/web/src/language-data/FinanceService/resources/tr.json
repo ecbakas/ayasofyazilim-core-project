@@ -4,6 +4,7 @@
   "Billing.New.Success": "Fatura başarıyla eklendi",
   "Billing.Update.Success": "Fatura basarıyla guncellendi",
   "Billing.Update.Fail": "Fatura guncellenirken bir hata olustu",
+  "Billing.Fetch.Fail": "Fatura verileri getirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
 
   "Form.merchantId": "Mağaza Adı",
   "Form.date": "Tarih",

@@ -4,6 +4,7 @@
   "Billing.New.Success": " Billing Added Successfully",
   "Billing.Update.Success": "Billing Updated Successfully",
   "Billing.Update.Fail": "Failed to update Billing",
+  "Billing.Fetch.Fail": "An error occurred while fetching the billing data. Please try again later.",
 
   "Form.merchantId": "Merchant Name",
   "Form.date": "Date",
