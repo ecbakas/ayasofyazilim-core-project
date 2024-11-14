@@ -38,11 +38,24 @@ export default function Contracts({
     },
     badges: {
       name: {
-        targetAccessorKey: "isDraft",
         values: [
           {
             label: "Draft",
-            value: true,
+            conditions: [
+              {
+                when: (value) => value === true,
+                conditionAccessorKey: "isDraft",
+              },
+            ],
+          },
+          {
+            label: "Active",
+            conditions: [
+              {
+                when: (value) => value === true,
+                conditionAccessorKey: "isActive",
+              },
+            ],
           },
         ],
       },
