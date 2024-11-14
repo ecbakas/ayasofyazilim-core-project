@@ -65,8 +65,8 @@ export default function Page({
                   : languageData.crm["Merchants.Fetch.Fail"]
               }
               list={merchants.data}
-              searchPlaceholder={languageData.crm["Select.Placeholder"]}
-              searchResultLabel={languageData.crm["Select.ResultLabel"]}
+              searchPlaceholder={languageData.finance["Select.Placeholder"]}
+              searchResultLabel={languageData.finance["Select.ResultLabel"]}
               selectIdentifier="id"
               selectLabel="name"
             />
