@@ -18,7 +18,6 @@ import type {
   PostApiContractServiceRefundTablesRefundTableHeadersData,
   PutApiContractServiceRefundTablesRefundFeeDetailsByIdData,
   PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
-  PutApiContractServiceRefundTablesRefundTableDetailsByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
   UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto,
   UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto,
@@ -27,7 +26,11 @@ import type {
 } from "@ayasofyazilim/saas/ContractService";
 import { revalidatePath } from "next/cache";
 import type { ServerResponse } from "src/lib";
-import { getContractServiceClient, structuredError } from "src/lib";
+import {
+  getContractServiceClient,
+  structuredError,
+  structuredResponse,
+} from "src/lib";
 
 /*** RefundTable ***/
 export async function getRefundTableHeaders(
@@ -144,11 +147,7 @@ export async function postRefundTableHeadersDetailById(
         body,
       );
     revalidatePath("/");
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-    } as ServerResponse<UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailDto>;
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -161,26 +160,6 @@ export async function getRefundTableRefundTableDetailsById(
     const client = await getContractServiceClient();
     const response =
       await client.refundTables.getApiContractServiceRefundTablesRefundTableDetailsById(
-        body,
-      );
-    revalidatePath("/");
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-    } as ServerResponse<UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailDto>;
-  } catch (error) {
-    return structuredError(error);
-  }
-}
-export async function putRefundTableRefundTableDetailsById(
-  body: PutApiContractServiceRefundTablesRefundTableDetailsByIdData,
-) {
-  "use server";
-  try {
-    const client = await getContractServiceClient();
-    const response =
-      await client.refundTables.putApiContractServiceRefundTablesRefundTableDetailsById(
         body,
       );
     revalidatePath("/");

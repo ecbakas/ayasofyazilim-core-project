@@ -10,7 +10,7 @@ import type {
 import { $UniRefund_TagService_Tags_TagListItemDto } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersResponse,
-  Volo_Abp_Application_Dtos_PagedResultDto_15,
+  PagedResultDto_TravellerListProfileDto,
 } from "@ayasofyazilim/saas/TravellerService";
 import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
 import type {
@@ -18,10 +18,10 @@ import type {
   fetchRequestProps,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
+import type { CellContext } from "@tanstack/react-table";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import type { CellContext } from "@tanstack/react-table";
 import { getBaseLink } from "src/utils";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { getTravellers } from "../../../actions/TravellerService/actions";
@@ -134,8 +134,7 @@ export default function Page({
       fetchRequest: async (page, filter) => {
         const response = await getTravellers(page, filter);
         if (response.type === "success") {
-          const data =
-            response.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
+          const data = response.data as PagedResultDto_TravellerListProfileDto;
           return {
             type: "success",
             data: { items: data.items || [], totalCount: data.totalCount || 0 },
