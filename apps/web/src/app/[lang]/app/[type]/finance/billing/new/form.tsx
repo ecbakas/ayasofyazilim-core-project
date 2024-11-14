@@ -32,7 +32,9 @@ export default function Page({
   ) {
     const response = await postBillingApi({ requestBody: data });
     if (response.type === "error" || response.type === "api-error") {
-      toast.error(response.message || languageData["Billing.New.Error"]);
+      toast.error(
+        response.type + (response.message || languageData["Billing.New.Error"]),
+      );
     } else {
       toast.success([languageData["Billing.New.Success"]]);
       router.push(getBaseLink(`/app/admin/finance/billing`));

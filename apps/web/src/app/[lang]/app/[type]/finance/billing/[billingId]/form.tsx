@@ -40,7 +40,7 @@ export default function Form({
       toast.success(languageData["Billing.Update.Success"]);
       router.refresh();
     } else {
-      toast.error(response.message);
+      toast.error(response.type + response.message || ["Billing.Update.Fail"]);
     }
   }
 
