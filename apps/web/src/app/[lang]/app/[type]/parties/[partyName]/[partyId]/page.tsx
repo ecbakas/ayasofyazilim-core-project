@@ -9,6 +9,8 @@ import {
 } from "src/app/[lang]/app/actions/CrmService/actions";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
 import { getResourceData } from "src/language-data/CRMService";
+import { getResourceData as getContractsResourceData } from "src/language-data/ContractService";
+import { getMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
 import Address from "./address/form";
@@ -33,6 +35,8 @@ export default async function Page({
   };
 }) {
   const { languageData } = await getResourceData(params.lang);
+  const { languageData: contractsLanguageData } =
+    await getContractsResourceData(params.lang);
   const formData = dataConfigOfParties[params.partyName];
 
   const partyDetail = await getTableDataDetail(
@@ -63,6 +67,13 @@ export default async function Page({
       )) ||
     [];
 
+  const contracts = await getMerchantContractHeadersByMerchantIdApi({
+    id: params.partyId,
+  });
+
+  if (contracts.type !== "success") {
+    notFound();
+  }
   const taxOffices = await getTaxOfficesApi();
   const taxOfficeList =
     (taxOffices.type === "success" && taxOffices.data.items) || [];
@@ -171,7 +182,10 @@ export default async function Page({
           />
           {params.partyName === "merchants" && (
             <Contracts
-              languageData={languageData}
+              contractsData={contracts.data}
+              contractsLanguageData={contractsLanguageData}
+              crmLanguageData={languageData}
+              lang={params.lang}
               partyId={params.partyId}
               partyName={params.partyName}
             />

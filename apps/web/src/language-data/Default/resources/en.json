@@ -21,6 +21,8 @@
   "Fetch.Fail.Country": "An error occurred while fetching countries.",
   "Fetch.Fail.City": "An error occurred while fetching cities.",
 
+  "ExportCSV": "Export CSV",
+
   "Name": "Name",
   "UserName": "User Name",
   "PersonalSummaries": "Personal Summaries",

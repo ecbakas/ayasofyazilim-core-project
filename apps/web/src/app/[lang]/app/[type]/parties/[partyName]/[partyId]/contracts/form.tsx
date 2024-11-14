@@ -2,104 +2,118 @@
 
 import { toast } from "@/components/ui/sonner";
 import type {
-  PagedResultDto_ContractHeaderDetailForMerchantDto,
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto,
+  PagedResultDto_ContractHeaderDetailForMerchantDto,
 } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
-import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables/types";
+import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
+import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
+import { tanstackTableCreateColumnsByRowData as columnsByData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
-import type { CellContext } from "@tanstack/react-table";
-import { FilePenLine } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-import { getMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import { useRouter } from "next/navigation";
+import type { ContractServiceResource } from "src/language-data/ContractService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 
-function cellWithLink(
-  cell: CellContext<ContractsForMerchantDto, unknown>,
-  partyName: string,
-  partyId: string,
-) {
-  const id = cell.row.original.id;
-  return (
-    <Link
-      className="flex items-center gap-2 font-medium text-blue-700"
-      href={getBaseLink(
-        `app/admin/parties/${partyName}/${partyId}/contracts/${id}`,
-      )}
-    >
-      <FilePenLine className="w-4" />
-      {cell.getValue() as string}
-    </Link>
-  );
-}
-
 export default function Contracts({
-  languageData,
-  partyName,
+  crmLanguageData,
+  contractsLanguageData,
+  contractsData,
   partyId,
+  partyName,
+  lang,
 }: {
-  languageData: CRMServiceServiceResource;
-  partyName: "merchants";
+  crmLanguageData: CRMServiceServiceResource;
+  contractsLanguageData: ContractServiceResource;
+  contractsData: PagedResultDto_ContractHeaderDetailForMerchantDto;
   partyId: string;
+  partyName: "merchants";
+  lang: string;
 }) {
-  const [contractsData, setContractsData] =
-    useState<PagedResultDto_ContractHeaderDetailForMerchantDto>();
-  const [loading, setLoading] = useState(true);
-  async function getContractsOfMerchant() {
-    setLoading(true);
-    try {
-      const response = await getMerchantContractHeadersByMerchantIdApi({
-        id: partyId,
-      });
-      if (response.type === "error" || response.type === "api-error") {
-        toast.error(response.message || response.status);
-        return;
-      }
-      setContractsData(response.data);
-    } catch (error) {
-      toast.error("An error occurred while fetching contracts.");
-    } finally {
-      setLoading(false);
-    }
-  }
-  const actionContracts: TableAction[] = [
-    {
-      cta: languageData[
-        `${"Contracts".replaceAll(" ", "")}.New` as keyof typeof languageData
-      ],
-      type: "NewPage",
-      href: `/app/admin/parties/${partyName}/${partyId}/contracts/new/`,
+  const router = useRouter();
+  const customColumns = columnsByData<ContractsForMerchantDto>({
+    row: $ContractsForMerchantDto.properties,
+    languageData: {
+      constantKey: "Contracts.Form",
+      languageData: contractsLanguageData,
     },
-    {
-      cta: `Export CSV`,
-      callback: () => {
-        //  jsonToCSV(contractsData, params.data);
+    badges: {
+      name: {
+        values: [
+          {
+            label: "Draft",
+            conditions: [
+              {
+                when: (value) => value === true,
+                conditionAccessorKey: "isDraft",
+              },
+            ],
+          },
+          {
+            label: "Active",
+            conditions: [
+              {
+                when: (value) => value === true,
+                conditionAccessorKey: "isActive",
+              },
+            ],
+          },
+        ],
       },
-      type: "Action",
     },
-  ];
+    links: {
+      name: {
+        prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
+        targetAccessorKey: "id",
+      },
+    },
+    dates: {
+      validFrom: {
+        locale: lang,
+      },
+      validTo: {
+        locale: lang,
+      },
+    },
+    icons: {
+      name: {
+        icon: OpenInNewWindowIcon,
+        position: "before",
+      },
+    },
+  });
+
   return (
     <SectionLayoutContent sectionId="contracts">
-      <DataTable
-        action={actionContracts}
-        columnsData={{
-          type: "Auto",
-          data: {
-            tableType: $ContractsForMerchantDto,
-            excludeList: [],
-            positions: ["name", "contractType"],
-            customCells: {
-              name: (cell) => cellWithLink(cell, partyName, partyId),
+      <TanstackTable
+        columnVisibility={{
+          type: "show",
+          columns: ["name", "validFrom", "validTo"],
+        }}
+        columns={customColumns}
+        data={contractsData.items || []}
+        tableActions={[
+          {
+            type: "simple",
+            actionLocation: "table",
+            cta: crmLanguageData["Contracts.New"],
+            onClick: () => {
+              router.push(
+                getBaseLink(
+                  `/app/admin/parties/${partyName}/${partyId}/contracts/new/`,
+                ),
+              );
             },
           },
-        }}
-        data={contractsData?.items || []}
-        fetchRequest={getContractsOfMerchant as () => void}
-        isLoading={loading}
-        rowCount={contractsData?.totalCount}
+          {
+            type: "simple",
+            actionLocation: "table",
+            cta: crmLanguageData.ExportCSV,
+            onClick: () => {
+              toast.warning("Not implemented yet");
+            },
+          },
+        ]}
       />
     </SectionLayoutContent>
   );

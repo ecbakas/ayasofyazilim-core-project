@@ -21,6 +21,8 @@
   "Fetch.Fail.Country": "Ülkeleri alırken bir hata oluştu.",
   "Fetch.Fail.City": "Şehirleri alırken bir hata oluştu.",
 
+  "ExportCSV": "CSV Dışa Aktar",
+
   "Name": "İsim",
   "UserName": "Kullanıcı Adı",
   "PersonalSummaries": "Kişi Özeti",
