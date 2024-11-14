@@ -10,8 +10,10 @@ import {
 } from "@ayasofyazilim/saas/AdministrationService";
 import type {
   Volo_Abp_Identity_IdentityRoleDto,
+  Volo_Abp_Identity_IdentityUserUpdatePasswordInput,
   Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
   Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto,
+  Volo_Abp_Users_UserData,
 } from "@ayasofyazilim/saas/IdentityService";
 import {
   $Volo_Abp_Identity_ClaimTypeDto,
@@ -22,6 +24,7 @@ import {
   $Volo_Abp_Identity_IdentitySecurityLogDto,
   $Volo_Abp_Identity_IdentityUserCreateDto,
   $Volo_Abp_Identity_IdentityUserUpdateDto,
+  $Volo_Abp_Identity_IdentityUserUpdatePasswordInput,
   $Volo_Abp_Identity_OrganizationUnitDto,
   $Volo_Abp_Identity_UpdateClaimTypeDto,
   $Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
@@ -57,7 +60,10 @@ import {
   getAllRolesApi,
   moveAllUsersApi,
 } from "../../actions/IdentityService/actions";
-import { putApplicationTokenLifetimeApi } from "../../actions/IdentityService/put-actions";
+import {
+  putApplicationTokenLifetimeApi,
+  putUserChangePasswordApi,
+} from "../../actions/IdentityService/put-actions";
 import {
   getAllEditionsApi,
   moveAllTenantsApi,
@@ -868,6 +874,52 @@ export const dataConfig: DataConfigArray = {
             "lockoutEnd",
           ],
           schema: $Volo_Abp_Identity_IdentityUserDto,
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Set Password",
+              description: "Set Password",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Save",
+                },
+                formSchema: createZodObject(
+                  $Volo_Abp_Identity_IdentityUserUpdatePasswordInput,
+                ),
+                fieldConfig: {
+                  newPassword: {
+                    fieldType: "password",
+                  },
+                },
+              },
+
+              callback: (values, triggerData, onOpenChange) => {
+                const _values =
+                  values as Volo_Abp_Identity_IdentityUserUpdatePasswordInput;
+                const _triggerData = triggerData as Volo_Abp_Users_UserData;
+                const putUserChangePassword = async (
+                  userId: string,
+                  data: Volo_Abp_Identity_IdentityUserUpdatePasswordInput,
+                ) => {
+                  const response = await putUserChangePasswordApi({
+                    id: userId,
+                    requestBody: data,
+                  });
+
+                  if (response.type === "success") {
+                    toast.success("Password updated successfully.");
+                    onOpenChange && onOpenChange(false);
+                  } else {
+                    toast.error(
+                      response.message || "Failed to update password.",
+                    );
+                  }
+                };
+                void putUserChangePassword(_triggerData.id || "", _values);
+              },
+            },
+          ],
         },
       },
       "claim-type": {
