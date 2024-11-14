@@ -125,8 +125,6 @@ export default function RefundHeader({
           formClassName="h-max overflow-hidden"
           formSchema={createZodObject(editSchema, [
             "name",
-            "validFrom",
-            "validTo",
             "isDefault",
             "isBundling",
             //those line above will be implemented with saas

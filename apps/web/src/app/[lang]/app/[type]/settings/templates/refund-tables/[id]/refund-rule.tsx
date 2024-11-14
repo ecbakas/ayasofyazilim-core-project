@@ -2,27 +2,27 @@ import { toast } from "@/components/ui/sonner";
 import type {
   UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto as RefundTableDetailCreateDto,
   UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailDto as RefundTableDetailDto,
-  UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailUpdateDto as RefundTableDetailUpdateDto,
 } from "@ayasofyazilim/saas/ContractService";
 import {
   $UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto as postRulesSchema,
   $UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailDto as rulesSchema,
-  $UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailUpdateDto as updateRulesSchema,
 } from "@ayasofyazilim/saas/ContractService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import type {
   ColumnsType,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
-import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { useEffect, useState } from "react";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import {
   deleteRefundTableHeadersDetailById,
   postRefundTableHeadersDetailById,
-  putRefundTableRefundTableDetailsById,
 } from "../../refund/action";
 
+interface FormDataDto {
+  rule: RefundTableDetailCreateDto[];
+}
 export function RefundRules({
   languageData,
   data,
@@ -39,6 +39,19 @@ export function RefundRules({
     lang: string;
   };
 }): JSX.Element {
+  const $schema = {
+    type: "object",
+    properties: {
+      rule: {
+        type: "array",
+        items: {
+          ...postRulesSchema,
+          additionalProperties: false,
+        },
+        nullable: true,
+      },
+    },
+  };
   const includeList = [
     "vatRate",
     "minValue",
@@ -59,44 +72,51 @@ export function RefundRules({
   const createRule: TableAction = {
     type: "Dialog",
     autoFormArgs: {
-      formSchema: createZodObject(postRulesSchema),
+      formSchema: createZodObject($schema),
       fieldConfig: {
-        refundTableHeaderId: {
-          containerClassName: "sr-only",
+        rule: {
+          className: "md:grid md:grid-cols-2 md:gap-2 md:space-y-0",
+          vatRate: {
+            containerClassName: "md:col-span-2",
+          },
+          isLoyalty: {
+            containerClassName: "md:col-span-2",
+          },
         },
       },
       values: {
         refundTableHeaderId: params.id,
       },
       submit: { cta: languageData["RefundTables.Details.Create.Submit"] },
+      stickyChildren: true,
     },
     cta: languageData["RefundTables.Details.Create.Title"],
-    callback: (formData: RefundTableDetailCreateDto) => {
-      setLoading(true);
-      void postRefundTableHeadersDetailById({
-        id: params.id,
-        requestBody: formData,
-      })
-        .then((response) => {
-          if (response.type === "success") {
-            toast.success("Refund table rule created successfully");
-          } else if (response.type === "api-error") {
-            toast.error(
-              response.message || "Refund table rule creation failed",
-            );
-          } else {
-            toast.error("Fatal error");
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-          refreshData();
-        });
+    callback: (formData: FormDataDto) => {
+      handleRefundTableHeadersSubmit(formData);
     },
     componentType: "Autoform",
     description: languageData["RefundTables.Details.Create.Description"],
   };
-
+  const handleRefundTableHeadersSubmit = (formData: FormDataDto) => {
+    setLoading(true);
+    void postRefundTableHeadersDetailById({
+      id: params.id,
+      requestBody: [...formData.rule],
+    })
+      .then((response) => {
+        if (response.type === "success") {
+          toast.success("Refund table rule created successfully");
+          refreshData();
+        } else if (response.type === "api-error") {
+          toast.error(response.message || "Refund table rule creation failed");
+        } else {
+          toast.error("Fatal error");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   const handleRefundTableHeadersDelete = (row: RefundTableDetailDto) => {
     setLoading(true);
     void deleteRefundTableHeadersDetailById({
@@ -116,27 +136,6 @@ export function RefundRules({
         refreshData();
       });
   };
-  const handleRefundTableHeadersEdit = (
-    formData: RefundTableDetailUpdateDto,
-    originalRow: unknown,
-  ) => {
-    void putRefundTableRefundTableDetailsById({
-      id: (originalRow as RefundTableDetailDto).id || "",
-      requestBody: formData,
-    })
-      .then((response) => {
-        if (response.type === "success") {
-          toast.success("Refund table rule updated successfully");
-        } else if (response.type === "api-error") {
-          toast.error(response.message || "Refund table rule update failed");
-        } else {
-          toast.error("Fatal error");
-        }
-      })
-      .finally(() => {
-        refreshData();
-      });
-  };
   const columnsData: ColumnsType = {
     type: "Auto",
     data: {
@@ -148,7 +147,7 @@ export function RefundRules({
           type: "Dialog",
           cta: "Edit",
           autoFormArgs: {
-            formSchema: createZodObject(updateRulesSchema),
+            formSchema: createZodObject($schema),
             fieldConfig: {
               id: { containerClassName: "hidden" },
               refundTableHeaderId: { containerClassName: "hidden" },
@@ -156,12 +155,14 @@ export function RefundRules({
                 inputProps: { required: false },
               },
             },
-            values: { refundTableHeaderId: params.id },
+            values: { rule: tableData },
             submit: {
               cta: languageData["RefundTables.Details.Edit.Title"],
             },
           },
-          callback: handleRefundTableHeadersEdit,
+          callback: (formData: FormDataDto) => {
+            handleRefundTableHeadersSubmit(formData);
+          },
           componentType: "Autoform",
           description: languageData["RefundTables.Details.Edit.Description"],
         },
