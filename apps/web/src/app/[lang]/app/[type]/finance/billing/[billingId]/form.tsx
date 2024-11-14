@@ -11,7 +11,6 @@ import AutoForm, {
   AutoFormSubmit,
   createFieldConfigWithResource,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import { useRouter } from "next/navigation";
 import { putBillingApi } from "src/app/[lang]/app/actions/FinanceService/put-actions";
 import type { FinanceServiceResource } from "src/language-data/FinanceService";
 
@@ -28,7 +27,6 @@ export default function Form({
   languageData: FinanceServiceResource;
   billingData: UniRefund_FinanceService_Billings_BillingDto;
 }) {
-  const router = useRouter();
   async function updateBilling(
     data: UniRefund_FinanceService_Billings_UpdateBillingDto,
   ) {
@@ -38,7 +36,6 @@ export default function Form({
     });
     if (response.type === "success") {
       toast.success(languageData["Billing.Update.Success"]);
-      router.refresh();
     } else {
       toast.error(response.type + response.message || ["Billing.Update.Fail"]);
     }

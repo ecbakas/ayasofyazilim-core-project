@@ -14,7 +14,7 @@ export default async function Page({
   if (billing.type !== "success") {
     return (
       <div className="error-message">
-        {billing.message || languageData["Billing.Fetch.Fail"]}
+        {billing.type + billing.message || languageData["Billing.Fetch.Fail"]}
       </div>
     );
   }
