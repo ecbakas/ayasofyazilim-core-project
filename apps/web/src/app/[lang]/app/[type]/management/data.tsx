@@ -8,7 +8,11 @@ import {
   $Volo_Abp_LanguageManagement_Dto_UpdateLanguageDto,
   $Volo_Abp_TextTemplateManagement_TextTemplates_TemplateDefinitionDto,
 } from "@ayasofyazilim/saas/AdministrationService";
-import type { Volo_Abp_Identity_IdentityRoleDto } from "@ayasofyazilim/saas/IdentityService";
+import type {
+  Volo_Abp_Identity_IdentityRoleDto,
+  Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
+  Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto,
+} from "@ayasofyazilim/saas/IdentityService";
 import {
   $Volo_Abp_Identity_ClaimTypeDto,
   $Volo_Abp_Identity_CreateClaimTypeDto,
@@ -21,6 +25,7 @@ import {
   $Volo_Abp_Identity_OrganizationUnitDto,
   $Volo_Abp_Identity_UpdateClaimTypeDto,
   $Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
+  $Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto,
   $Volo_Abp_OpenIddict_Applications_Dtos_CreateApplicationInput,
   $Volo_Abp_OpenIddict_Applications_Dtos_UpdateApplicationInput,
   $Volo_Abp_OpenIddict_Scopes_Dtos_CreateScopeInput,
@@ -39,18 +44,20 @@ import {
   $Volo_Saas_Host_Dtos_SaasTenantDto,
   $Volo_Saas_Host_Dtos_SaasTenantUpdateDto,
 } from "@ayasofyazilim/saas/SaasService";
+import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import type { AutoFormInputComponentProps } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 import { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import type { ErrorTypes } from "src/lib";
 import type { DataConfigArray } from "src/types";
 import { getBaseLink } from "src/utils";
-import type { ErrorTypes } from "src/lib";
 import {
   getAllRolesApi,
   moveAllUsersApi,
 } from "../../actions/IdentityService/actions";
+import { putApplicationTokenLifetimeApi } from "../../actions/IdentityService/put-actions";
 import {
   getAllEditionsApi,
   moveAllTenantsApi,
@@ -147,6 +154,52 @@ export const dataConfig: DataConfigArray = {
             "consentType",
           ],
           schema: $Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Token Lifetime",
+              description: "Token Lifetime",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Save",
+                },
+                formSchema: createZodObject(
+                  $Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto,
+                ),
+              },
+
+              callback: (values, triggerData, onOpenChange) => {
+                const _values =
+                  values as Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto;
+                const _triggerData =
+                  triggerData as Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto;
+
+                const putApplicationTokenLifetime = async (
+                  tokenLifetimeData: Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto,
+                  applicationId: string,
+                ) => {
+                  const response = await putApplicationTokenLifetimeApi({
+                    id: applicationId,
+                    requestBody: tokenLifetimeData,
+                  });
+
+                  if (response.type === "success") {
+                    toast.success("Token lifetime updated successfully.");
+                    onOpenChange && onOpenChange(false);
+                  } else {
+                    toast.error(
+                      response.message || "Failed to update token lifetime.",
+                    );
+                  }
+                };
+                void putApplicationTokenLifetime(
+                  _values,
+                  _triggerData.id || "",
+                );
+              },
+            },
+          ],
         },
         editFormSchema: {
           formPositions: [
