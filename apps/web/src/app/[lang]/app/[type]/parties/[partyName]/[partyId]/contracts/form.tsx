@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@/components/ui/sonner";
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto,
   PagedResultDto_ContractHeaderDetailForMerchantDto,
@@ -109,11 +110,7 @@ export default function Contracts({
             actionLocation: "table",
             cta: crmLanguageData.ExportCSV,
             onClick: () => {
-              router.push(
-                getBaseLink(
-                  `/app/admin/parties/${partyName}/${partyId}/contracts/new/`,
-                ),
-              );
+              toast.warning("Not implemented yet");
             },
           },
         ]}
