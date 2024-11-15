@@ -38,6 +38,8 @@ import {
 import type {
   GetApiSaasEditionsResponse,
   Volo_Saas_Host_Dtos_EditionDto,
+  Volo_Saas_Host_Dtos_SaasTenantDto,
+  Volo_Saas_Host_Dtos_SaasTenantSetPasswordDto,
 } from "@ayasofyazilim/saas/SaasService";
 import {
   $Volo_Saas_Host_Dtos_EditionCreateDto,
@@ -45,6 +47,7 @@ import {
   $Volo_Saas_Host_Dtos_EditionUpdateDto,
   $Volo_Saas_Host_Dtos_SaasTenantCreateDto,
   $Volo_Saas_Host_Dtos_SaasTenantDto,
+  $Volo_Saas_Host_Dtos_SaasTenantSetPasswordDto,
   $Volo_Saas_Host_Dtos_SaasTenantUpdateDto,
 } from "@ayasofyazilim/saas/SaasService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
@@ -63,11 +66,13 @@ import {
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
+  putUserTwoFactorApi,
 } from "../../actions/IdentityService/put-actions";
 import {
   getAllEditionsApi,
   moveAllTenantsApi,
 } from "../../actions/SaasService/actions";
+import { putTenantSetPasswordApi } from "../../actions/SaasService/put-actions";
 
 export const dataConfig: DataConfigArray = {
   openiddict: {
@@ -607,6 +612,59 @@ export const dataConfig: DataConfigArray = {
               type: "async",
             },
           },
+          actionList: () => [
+            {
+              type: "Dialog",
+              cta: "Set Password",
+              description: "Set Password",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Save",
+                },
+                formSchema: createZodObject(
+                  $Volo_Saas_Host_Dtos_SaasTenantSetPasswordDto,
+                ),
+                fieldConfig: {
+                  password: {
+                    fieldType: "password",
+                  },
+                },
+                values: {
+                  username: "admin",
+                },
+              },
+
+              callback: (values, triggerData, onOpenChange) => {
+                const _values =
+                  values as Volo_Saas_Host_Dtos_SaasTenantSetPasswordDto;
+                const _triggerData =
+                  triggerData as Volo_Saas_Host_Dtos_SaasTenantDto;
+                const putTenantSetPassword = async (
+                  tenantId: string,
+                  data: Volo_Saas_Host_Dtos_SaasTenantSetPasswordDto,
+                ) => {
+                  const response = await putTenantSetPasswordApi({
+                    id: tenantId,
+                    requestBody: data,
+                  });
+
+                  if (response.type === "success") {
+                    toast.success(
+                      "Username and Password updated successfully.",
+                    );
+                    onOpenChange && onOpenChange(false);
+                  } else {
+                    toast.error(
+                      response.message ||
+                        "Failed to update username and password.",
+                    );
+                  }
+                };
+                void putTenantSetPassword(_triggerData.id || "", _values);
+              },
+            },
+          ],
         },
         editFormSchema: {
           formPositions: [
@@ -917,6 +975,54 @@ export const dataConfig: DataConfigArray = {
                   }
                 };
                 void putUserChangePassword(_triggerData.id || "", _values);
+              },
+            },
+            {
+              type: "Dialog",
+              cta: "Two factor",
+              description: "Two factor",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Save",
+                },
+                formSchema: z.object({
+                  twoFactorAuthenticationEnabled: z.boolean().optional(),
+                }),
+              },
+
+              callback: (values, triggerData, onOpenChange) => {
+                const _values = values as {
+                  twoFactorAuthenticationEnabled: boolean;
+                };
+                const _triggerData = triggerData as Volo_Abp_Users_UserData;
+
+                const putUserTwoFactor = async (
+                  userId: string,
+                  enabled: boolean,
+                ) => {
+                  const response = await putUserTwoFactorApi({
+                    id: userId,
+                    enabled,
+                  });
+
+                  if (response.type === "success") {
+                    toast.success(
+                      "Two-factor authentication status updated successfully.",
+                    );
+                    onOpenChange && onOpenChange(false);
+                  } else {
+                    toast.error(
+                      response.message ||
+                        "Failed to update two-factor authentication status.",
+                    );
+                  }
+                };
+
+                void putUserTwoFactor(
+                  _triggerData.id || "",
+                  _values.twoFactorAuthenticationEnabled,
+                );
               },
             },
           ],
