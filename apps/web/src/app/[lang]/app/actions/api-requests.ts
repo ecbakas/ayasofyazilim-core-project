@@ -51,6 +51,7 @@ import type {
   GetApiIdentityUsersData,
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityRolesByIdMoveAllUsersData,
+  PutApiIdentityUsersByIdChangePasswordData,
   PutApiIdentityUsersByIdClaimsData,
   PutApiOpeniddictApplicationsByIdTokenLifetimeData,
 } from "@ayasofyazilim/saas/IdentityService";
@@ -544,6 +545,10 @@ export async function getApiRequests() {
         await identityClient.user.getApiIdentityUsersByIdClaims(data),
       putUserClaims: async (data: PutApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.putApiIdentityUsersByIdClaims(data),
+      "change-password": async (
+        data: PutApiIdentityUsersByIdChangePasswordData,
+      ) =>
+        await identityClient.user.putApiIdentityUsersByIdChangePassword(data),
     },
     editions: {
       getAllEditions: async () =>
