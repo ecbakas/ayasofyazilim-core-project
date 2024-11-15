@@ -49,6 +49,7 @@ import type {
   PutApiIdentityRolesByIdMoveAllUsersData,
   PutApiIdentityUsersByIdChangePasswordData,
   PutApiIdentityUsersByIdClaimsData,
+  PutApiIdentityUsersByIdTwoFactorByEnabledData,
   PutApiOpeniddictApplicationsByIdTokenLifetimeData,
 } from "@ayasofyazilim/saas/IdentityService";
 import type {
@@ -550,6 +551,12 @@ export async function getApiRequests() {
         data: PutApiIdentityUsersByIdChangePasswordData,
       ) =>
         await identityClient.user.putApiIdentityUsersByIdChangePassword(data),
+      "two-factor-enable": async (
+        data: PutApiIdentityUsersByIdTwoFactorByEnabledData,
+      ) =>
+        await identityClient.user.putApiIdentityUsersByIdTwoFactorByEnabled(
+          data,
+        ),
     },
     tenants: {
       "set-password": async (data: PutApiSaasTenantsByIdSetPasswordData) =>
