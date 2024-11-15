@@ -12,16 +12,15 @@ import {
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressTypeDto } from "@ayasofyazilim/saas/LocationService";
 import { Combobox } from "@repo/ayasofyazilim-ui/molecules/combobox";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
-import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
 import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getRefundTableHeaders } from "src/app/[lang]/app/[type]/settings/templates/refund/action";
 import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
+import { MerchantAddressWidget, RefundTableWidget } from "./contract-widgets";
 
 interface BaseContractHeaderFormProps<TForm> {
   partyName: "merchants";
@@ -159,60 +158,6 @@ export default function ContractHeaderForm<
     },
   });
 
-  const AddressWidget = useCallback(
-    (comboboxProps: WidgetProps) => {
-      return (
-        <CustomCombobox<AddressTypeDto>
-          {...comboboxProps}
-          disabled={loading}
-          emptyValue={
-            languageData["Contracts.Form.addressCommonDataId.emptyValue"]
-          }
-          list={addressList}
-          searchPlaceholder={
-            languageData["Contracts.Form.addressCommonDataId.searchPlaceholder"]
-          }
-          searchResultLabel={
-            languageData["Contracts.Form.addressCommonDataId.searchResultLabel"]
-          }
-          selectIdentifier="id"
-          selectLabel="addressLine"
-        />
-      );
-    },
-    [addressList, loading, languageData],
-  );
-
-  const RefundTableWidget = useCallback(
-    (comboboxProps: WidgetProps) => {
-      return (
-        <CustomCombobox<RefundTableHeaderDto>
-          {...comboboxProps}
-          disabled={loading}
-          emptyValue={
-            languageData[
-              "Contracts.Form.refundTableHeaders.refundTableHeaderId.emptyValue"
-            ]
-          }
-          list={refundTableHeaders}
-          searchPlaceholder={
-            languageData[
-              "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchPlaceholder"
-            ]
-          }
-          searchResultLabel={
-            languageData[
-              "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchResultLabel"
-            ]
-          }
-          selectIdentifier="id"
-          selectLabel="name"
-        />
-      );
-    },
-    [refundTableHeaders, loading, languageData],
-  );
-
   /*
    * This code updates the formData state when the defaultRefundTableHeader changes.
    * It sets the isDefault property to true for the refund table header that matches the defaultRefundTableHeader and preserves the rest of the form data.
@@ -301,8 +246,16 @@ export default function ContractHeaderForm<
       submitText={languageData["Contracts.Create.Submit"]}
       uiSchema={uiSchema}
       widgets={{
-        address: AddressWidget,
-        refundTable: RefundTableWidget,
+        address: MerchantAddressWidget({
+          loading,
+          addressList,
+          languageData,
+        }),
+        refundTable: RefundTableWidget({
+          loading,
+          refundTableHeaders,
+          languageData,
+        }),
       }}
       withScrollArea
     >
