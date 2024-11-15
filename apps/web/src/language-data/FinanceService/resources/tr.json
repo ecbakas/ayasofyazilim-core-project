@@ -1,3 +1,18 @@
 {
-  "Billing.New": "Yeni fatura"
+  "Billing.New": "Yeni fatura",
+  "Billing.New.Error": "Fatura eklenirken bir hata oluştu",
+  "Billing.New.Success": "Fatura başarıyla eklendi",
+  "Billing.Update.Success": "Fatura basarıyla guncellendi",
+  "Billing.Update.Fail": "Fatura guncellenirken bir hata olustu",
+  "Billing.Fetch.Fail": "Fatura verileri getirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+
+  "Form.merchantId": "Mağaza Adı",
+  "Form.date": "Tarih",
+  "Form.number": "Numara",
+  "Form.dueDate": "Vade Tarihi",
+  "Form.total": "Toplam",
+  "Form.unpaid": "Ödenmemiş",
+  "Form.status": "Durum",
+  "Form.period": "Dönem",
+  "Form.paymentStatus": "Ödeme Durumu"
 }

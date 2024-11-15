@@ -1,6 +1,7 @@
 {
   "Merchants": "Mağazalar",
   "Merchants.Description": "Mağazaları buradan görüntüleyebilirsiniz.",
+  "Merchant.Select": "Mağaza seç",
 
   "Merchants.New": "Yeni Mağaza",
   "Merchants.New.Description": "Buradan yeni mağaza oluşturabilirsiniz.",
@@ -11,6 +12,9 @@
   "Merchants.Edit.Description": "Mağazanın detaylarını buradan güncelleyebilirsiniz.",
   "Merchants.Edit.Success": "Mağaza başarıyla güncellendi.",
   "Merchants.Edit.Fail": "Mağaza güncellenirken bir hata oluştu.",
+
+  "Merchants.Fetch.Success": "Mağazalar basarıyla getirildi.",
+  "Merchants.Fetch.Fail": "Mağazalar getirilirken bir hata oluştu.",
 
   "Merchants.SubOrganization": "Alt Mağazalar",
   "Merchants.SubOrganization.Description": "Buradan mağazaya bağlı alt mağazaları görüntüleyebilirsiniz.",

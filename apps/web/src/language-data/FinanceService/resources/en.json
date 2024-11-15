@@ -1,3 +1,18 @@
 {
-  "Billing.New": "New Billing"
+  "Billing.New": "New Billing",
+  "Billing.New.Error": "Failed to add Billing",
+  "Billing.New.Success": " Billing Added Successfully",
+  "Billing.Update.Success": "Billing Updated Successfully",
+  "Billing.Update.Fail": "Failed to update Billing",
+  "Billing.Fetch.Fail": "An error occurred while fetching the billing data. Please try again later.",
+
+  "Form.merchantId": "Merchant Name",
+  "Form.date": "Date",
+  "Form.number": "Number",
+  "Form.dueDate": "Due Date",
+  "Form.total": "Total",
+  "Form.unpaid": "Unpaid",
+  "Form.status": "Status",
+  "Form.period": "Period",
+  "Form.paymentStatus": "Payment Status"
 }
