@@ -63,6 +63,7 @@ import {
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
+  putUserTwoFactorApi,
 } from "../../actions/IdentityService/put-actions";
 import {
   getAllEditionsApi,
@@ -917,6 +918,54 @@ export const dataConfig: DataConfigArray = {
                   }
                 };
                 void putUserChangePassword(_triggerData.id || "", _values);
+              },
+            },
+            {
+              type: "Dialog",
+              cta: "Two factor",
+              description: "Two factor",
+              componentType: "Autoform",
+              autoFormArgs: {
+                submit: {
+                  cta: "Save",
+                },
+                formSchema: z.object({
+                  twoFactorAuthenticationEnabled: z.boolean().optional(),
+                }),
+              },
+
+              callback: (values, triggerData, onOpenChange) => {
+                const _values = values as {
+                  twoFactorAuthenticationEnabled: boolean;
+                };
+                const _triggerData = triggerData as Volo_Abp_Users_UserData;
+
+                const putUserTwoFactor = async (
+                  userId: string,
+                  enabled: boolean,
+                ) => {
+                  const response = await putUserTwoFactorApi({
+                    id: userId,
+                    enabled,
+                  });
+
+                  if (response.type === "success") {
+                    toast.success(
+                      "Two-factor authentication status updated successfully.",
+                    );
+                    onOpenChange && onOpenChange(false);
+                  } else {
+                    toast.error(
+                      response.message ||
+                        "Failed to update two-factor authentication status.",
+                    );
+                  }
+                };
+
+                void putUserTwoFactor(
+                  _triggerData.id || "",
+                  _values.twoFactorAuthenticationEnabled,
+                );
               },
             },
           ],
