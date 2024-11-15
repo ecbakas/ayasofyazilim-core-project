@@ -59,7 +59,10 @@ import type {
   GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
   GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
 } from "@ayasofyazilim/saas/LocationService";
-import type { PutApiSaasEditionsByIdMoveAllTenantsData } from "@ayasofyazilim/saas/SaasService";
+import type {
+  PutApiSaasEditionsByIdMoveAllTenantsData,
+  PutApiSaasTenantsByIdSetPasswordData,
+} from "@ayasofyazilim/saas/SaasService";
 import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
@@ -82,7 +85,7 @@ import {
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<
   ApiRequestTypes,
-  "locations" | "editions" | "applications"
+  "locations" | "editions" | "applications" | "tenants"
 >;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -94,6 +97,7 @@ export type DeleteTableDataTypes = Exclude<
   | "tags"
   | "editions"
   | "applications"
+  | "tenants"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -106,6 +110,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "editions"
   | "billing"
   | "applications"
+  | "tenants"
 >;
 
 export async function getApiRequests() {
@@ -552,6 +557,10 @@ export async function getApiRequests() {
         await identityClient.user.putApiIdentityUsersByIdTwoFactorByEnabled(
           data,
         ),
+    },
+    tenants: {
+      "set-password": async (data: PutApiSaasTenantsByIdSetPasswordData) =>
+        await saasClient.tenant.putApiSaasTenantsByIdSetPassword(data),
     },
     editions: {
       getAllEditions: async () =>
