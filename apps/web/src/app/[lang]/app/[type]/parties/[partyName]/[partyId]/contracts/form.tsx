@@ -32,7 +32,8 @@ export default function Contracts({
 }) {
   const router = useRouter();
   const customColumns = columnsByData<ContractsForMerchantDto>({
-    row: $ContractsForMerchantDto.properties,
+    rows: $ContractsForMerchantDto.properties,
+    config: { locale: lang },
     languageData: {
       constantKey: "Contracts.Form",
       languageData: contractsLanguageData,
@@ -65,14 +66,6 @@ export default function Contracts({
       name: {
         prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
         targetAccessorKey: "id",
-      },
-    },
-    dates: {
-      validFrom: {
-        locale: lang,
-      },
-      validTo: {
-        locale: lang,
       },
     },
     icons: {

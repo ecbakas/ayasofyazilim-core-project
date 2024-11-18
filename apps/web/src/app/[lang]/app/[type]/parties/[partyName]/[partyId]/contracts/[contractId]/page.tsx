@@ -23,9 +23,9 @@ export default async function Page({
     params.contractId,
   );
   const contractSettings =
-    await getMerchantContractHeaderContractSettingsByHeaderIdApi(
-      params.contractId,
-    );
+    await getMerchantContractHeaderContractSettingsByHeaderIdApi({
+      id: params.contractId,
+    });
   const missingSteps = await getMerchantContractHeaderMissingStepsByIdApi({
     id: params.contractId,
   });
