@@ -104,6 +104,7 @@
   "Contracts.Settings.Form.deliveryFee": "Delivery fee",
   "Contracts.Settings.Form.goodsHaveSerialNumbers": "Goods have serial numbers",
   "Contracts.Settings.Form.factoring": "Factoring",
+  "Contracts.Settings.Form.setIsDefault": "Set as Default",
 
   "RefundTables.Title": "Refund tables",
   "RefundTables.Description": "Manage refund tables",

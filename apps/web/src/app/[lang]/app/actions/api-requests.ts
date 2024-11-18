@@ -5,6 +5,7 @@ import type {
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
 } from "@ayasofyazilim/saas/ContractService";
 import type {
   GetApiCrmServiceCustomsData,
@@ -194,6 +195,12 @@ export async function getApiRequests() {
         data: PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
       ) =>
         await contractsClient.contractsMerchant.postApiContractServiceMerchantsContractsContractHeadersByIdContractSettings(
+          data,
+        ),
+      putContractHeaderSetDefaultContractSettingByHeaderId: async (
+        data: PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
+      ) =>
+        await contractsClient.contractsMerchant.putApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSetting(
           data,
         ),
       putMerchantBase: async (data: PutApiCrmServiceMerchantsByIdData) => {

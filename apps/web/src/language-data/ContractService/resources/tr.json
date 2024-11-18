@@ -104,6 +104,7 @@
   "Contracts.Settings.Form.deliveryFee": "Teslimat ücreti",
   "Contracts.Settings.Form.goodsHaveSerialNumbers": "Malların seri numaraları var",
   "Contracts.Settings.Form.factoring": "Faktoring",
+  "Contracts.Settings.Form.setIsDefault": "Varsayılan olarak ayarla",
 
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",
