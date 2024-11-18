@@ -14,5 +14,16 @@
   "Form.unpaid": "Unpaid",
   "Form.status": "Status",
   "Form.period": "Period",
-  "Form.paymentStatus": "Payment Status"
+  "Form.paymentStatus": "Payment Status",
+  "Form.status.PAID": "Paid",
+  "Form.status.CREDITNOTE": "Credit Note",
+  "Form.status.CANCELLED": "Cancelled",
+  "Form.status.UNFINISHED": "Unfinished",
+  "Form.status.SENT": "Sent",
+  "Form.period.ONETIMEPERMONTH": "One Time Per Month",
+  "Form.period.TWOTIMEPERMONTH": "Two Time Per Month",
+  "Form.period.ONETIMEPERWEEK": "One Time Per Week",
+  "Form.paymentStatus.PAID": "Paid",
+  "Form.paymentStatus.NOTPAID": "Not Paid",
+  "Form.paymentStatus.PARTYLYPAID": "Partially Paid"
 }
