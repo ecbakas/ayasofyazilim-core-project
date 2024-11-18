@@ -1,6 +1,8 @@
 "use server";
 import { getBillingDetailApi } from "src/app/[lang]/app/actions/FinanceService/actions";
-import { getResourceData } from "src/language-data/FinanceService";
+import { getResourceData as getFinanceResources } from "src/language-data/FinanceService";
+import { getResourceData as getCRMResources } from "src/language-data/CRMService";
+import { getMerchantsApi } from "src/app/[lang]/app/actions/CrmService/actions";
 import Form from "./form";
 
 export default async function Page({
@@ -8,13 +10,20 @@ export default async function Page({
 }: {
   params: { lang: string; billingId: string };
 }) {
-  const { languageData } = await getResourceData(params.lang);
+  const { languageData: financeLanguageData } = await getFinanceResources(
+    params.lang,
+  );
   const billing = await getBillingDetailApi(params.billingId);
+  const { languageData: crmLanguageData } = await getCRMResources(params.lang);
+  const merchant = await getMerchantsApi();
+  const merchantsList =
+    (merchant.type === "success" && merchant.data.items) || [];
 
   if (billing.type !== "success") {
     return (
       <div className="error-message">
-        {billing.type + billing.message || languageData["Billing.Fetch.Fail"]}
+        {billing.type + billing.message ||
+          financeLanguageData["Billing.Fetch.Fail"]}
       </div>
     );
   }
@@ -25,7 +34,14 @@ export default async function Page({
     <Form
       billingData={billingList}
       billingId={params.billingId}
-      languageData={languageData}
+      languageData={{
+        finance: financeLanguageData,
+        crm: crmLanguageData,
+      }}
+      merchants={{
+        data: merchantsList,
+        success: merchant.type === "success",
+      }}
     />
   );
 }
