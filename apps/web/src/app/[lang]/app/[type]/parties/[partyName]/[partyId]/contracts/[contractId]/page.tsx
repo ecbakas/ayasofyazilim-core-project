@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import {
   getMerchantContractHeaderByIdApi,
+  getMerchantContractHeaderContractSettingsByHeaderIdApi,
   getMerchantContractHeaderMissingStepsByIdApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
@@ -21,6 +22,10 @@ export default async function Page({
   const contractHeaderDetails = await getMerchantContractHeaderByIdApi(
     params.contractId,
   );
+  const contractSettings =
+    await getMerchantContractHeaderContractSettingsByHeaderIdApi(
+      params.contractId,
+    );
   const missingSteps = await getMerchantContractHeaderMissingStepsByIdApi({
     id: params.contractId,
   });
@@ -39,6 +44,14 @@ export default async function Page({
       <Details
         addresses={addresses.data}
         contractHeaderDetails={contractHeaderDetails.data}
+        contractSettings={{
+          data:
+            contractSettings.type === "success"
+              ? contractSettings.data
+              : { items: [] },
+          success: contractSettings.type === "success",
+          message: contractSettings.message,
+        }}
         languageData={languageData}
         missingSteps={missingSteps.data}
         partyId={params.partyId}
