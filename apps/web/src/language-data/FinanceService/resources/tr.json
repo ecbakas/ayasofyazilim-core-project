@@ -14,5 +14,16 @@
   "Form.unpaid": "Ödenmemiş",
   "Form.status": "Durum",
   "Form.period": "Dönem",
-  "Form.paymentStatus": "Ödeme Durumu"
+  "Form.paymentStatus": "Ödeme Durumu",
+  "Form.status.PAID": "Ödendi",
+  "Form.status.CREDITNOTE": "Kredi Notu",
+  "Form.status.CANCELLED": "İptal Edildi",
+  "Form.status.UNFINISHED": "Tamamlanmamış",
+  "Form.status.SENT": "Gönderildi",
+  "Form.period.ONETIMEPERMONTH": "Ayda Bir Kez",
+  "Form.period.TWOTIMEPERMONTH": "Ayda İki Kez",
+  "Form.period.ONETIMEPERWEEK": "Haftada Bir Kez",
+  "Form.paymentStatus.PAID": "Ödendi",
+  "Form.paymentStatus.NOTPAID": "Ödenmedi",
+  "Form.paymentStatus.PARTYLYPAID": "Kısmen Ödendi"
 }

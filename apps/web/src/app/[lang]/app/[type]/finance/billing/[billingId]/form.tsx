@@ -1,6 +1,7 @@
 "use client";
 
 import { toast } from "@/components/ui/sonner";
+import type { UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type {
   UniRefund_FinanceService_Billings_BillingDto,
   UniRefund_FinanceService_Billings_UpdateBillingDto,
@@ -10,8 +11,10 @@ import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
   createFieldConfigWithResource,
+  CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { putBillingApi } from "src/app/[lang]/app/actions/FinanceService/put-actions";
+import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { FinanceServiceResource } from "src/language-data/FinanceService";
 
 const updateBillingSchema = createZodObject(
@@ -22,10 +25,18 @@ export default function Form({
   billingId,
   languageData,
   billingData,
+  merchants,
 }: {
   billingId: string;
-  languageData: FinanceServiceResource;
   billingData: UniRefund_FinanceService_Billings_BillingDto;
+  languageData: {
+    crm: CRMServiceServiceResource;
+    finance: FinanceServiceResource;
+  };
+  merchants: {
+    success: boolean;
+    data: UniRefund_CRMService_Merchants_MerchantProfileDto[];
+  };
 }) {
   async function updateBilling(
     data: UniRefund_FinanceService_Billings_UpdateBillingDto,
@@ -35,7 +46,7 @@ export default function Form({
       requestBody: data,
     });
     if (response.type === "success") {
-      toast.success(languageData["Billing.Update.Success"]);
+      toast.success(languageData.finance["Billing.Update.Success"]);
     } else {
       toast.error(response.type + response.message || ["Billing.Update.Fail"]);
     }
@@ -43,7 +54,29 @@ export default function Form({
 
   const translatedForm = createFieldConfigWithResource({
     schema: $UniRefund_FinanceService_Billings_UpdateBillingDto,
-    resources: languageData,
+    resources: languageData.finance,
+    extend: {
+      merchantId: {
+        renderer: (props) => {
+          return (
+            <CustomCombobox<UniRefund_CRMService_Merchants_MerchantProfileDto>
+              childrenProps={props}
+              disabled={!merchants.success}
+              emptyValue={
+                merchants.success
+                  ? languageData.crm["Merchant.Select"]
+                  : languageData.crm["Merchants.Fetch.Fail"]
+              }
+              list={merchants.data}
+              searchPlaceholder={languageData.finance["Select.Placeholder"]}
+              searchResultLabel={languageData.finance["Select.ResultLabel"]}
+              selectIdentifier="id"
+              selectLabel="name"
+            />
+          );
+        },
+      },
+    },
   });
 
   return (
@@ -58,7 +91,7 @@ export default function Form({
       values={billingData}
     >
       <AutoFormSubmit className="float-right">
-        {languageData["Edit.Save"]}
+        {languageData.finance["Edit.Save"]}
       </AutoFormSubmit>
     </AutoForm>
   );
