@@ -1,6 +1,7 @@
 "use server";
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
+  GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
 } from "@ayasofyazilim/saas/ContractService";
@@ -63,12 +64,14 @@ export async function getMerchantContractHeaderByIdApi(id: string) {
   }
 }
 export async function getMerchantContractHeaderContractSettingsByHeaderIdApi(
-  id: string,
+  data: GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
 ) {
   try {
     const requests = await getApiRequests();
     return structuredResponse(
-      await requests.merchants.getContractHeaderContractSettingsByHeaderId(id),
+      await requests.merchants.getContractHeaderContractSettingsByHeaderId(
+        data,
+      ),
     );
   } catch (error) {
     return structuredError(error);
