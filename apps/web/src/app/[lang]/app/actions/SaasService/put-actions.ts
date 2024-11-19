@@ -8,7 +8,7 @@ export async function putTenantSetPasswordApi(
 ) {
   try {
     const requests = await getApiRequests();
-    const dataResponse = await requests.tenants["set-password"](data);
+    const dataResponse = await requests.tenants.putSetPassword(data);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
