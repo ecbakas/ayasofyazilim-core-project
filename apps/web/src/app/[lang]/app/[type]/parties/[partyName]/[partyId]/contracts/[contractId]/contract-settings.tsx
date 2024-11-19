@@ -38,32 +38,17 @@ export function ContractSettingsSection({
   const { data } = contractSettings;
   const [settings, setSettings] =
     useState<PagedResultDto_ContractSettingDto>(data);
-  // const customColumns = columnsByData<ContractSettingDto>({
-  //   row: $ContractSettingDto.properties,
-  //   languageData: {
-  //     constantKey: "Contracts.Form",
-  //     languageData: languageData,
-  //   },
-  // });
-  // const handleFetch = ({ page, filter }: fetchRequestProps) => {
-  //   setLoading(true);
-  // };
   async function handleFetch() {
-    try {
-      setLoading(true);
-      const contractSettingsResponse = await getContractSettings({
-        id: contractHeaderDetails.id,
-      });
-      if (contractSettingsResponse.type === "success") {
-        setSettings(contractSettingsResponse.data);
-      } else {
-        toast.error(contractSettingsResponse.message);
-      }
-    } catch (e) {
-      toast.error(languageData["Fetch.Fail"]);
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const contractSettingsResponse = await getContractSettings({
+      id: contractHeaderDetails.id,
+    });
+    if (contractSettingsResponse.type === "success") {
+      setSettings(contractSettingsResponse.data);
+    } else {
+      toast.error(contractSettingsResponse.message);
     }
+    setLoading(false);
   }
   return (
     <SectionLayoutContent sectionId="contract-setting">
@@ -78,27 +63,30 @@ export function ContractSettingsSection({
             },
           }}
           columnsData={columnsData(languageData)}
+          data={settings.items}
           editable={false}
+          fetchRequest={() => {
+            void handleFetch();
+          }}
           renderSubComponent={(context) => {
             return (
               <SchemaFormForContractSettings
-                formData={context.original}
-                languageData={languageData}
                 addressList={addresses}
+                contractId={contractHeaderDetails.id}
+                formData={{
+                  ...context.original,
+                  invoicingAddressCommonDataId:
+                    context.original.invoicingAddressCommonData.id,
+                }}
+                languageData={languageData}
                 loading={loading}
                 setLoading={setLoading}
-                contractId={contractHeaderDetails.id}
                 type="edit"
               />
             );
           }}
           rowCount={data.totalCount}
           showView={false}
-          data={settings.items}
-          // detailedFilter={filter}
-          fetchRequest={() => {
-            void handleFetch();
-          }}
         />
       ) : (
         <SchemaFormForContractSettings
@@ -171,30 +159,25 @@ function SchemaFormForContractSettings({
   });
 
   async function handleContractSettingsSubmit(data: ContractSettingCreateDto) {
-    try {
-      setLoading(true);
-      const response =
-        await postMerchantContractHeaderContractSettingsByHeaderIdApi({
-          id: contractId,
-          requestBody: data,
-        });
-      if (response.type === "success") {
-        toast.success(response.message);
-      } else {
-        toast.success(response.message);
-        toastOnSubmit(data);
-      }
-    } catch (error) {
-      toast.error("Fatal error");
-    } finally {
-      setLoading(false);
+    const response =
+      await postMerchantContractHeaderContractSettingsByHeaderIdApi({
+        id: contractId,
+        requestBody: data,
+      });
+    if (response.type === "success") {
+      toast.success(response.message);
+    } else {
+      toast.success(response.message);
+      toastOnSubmit(data);
     }
+    setLoading(false);
   }
 
   return (
     <SchemaForm
       className="max-h-[500px] bg-white"
-      defaultSubmitClassName="pb-0"
+      defaultSubmitClassName="pr-4"
+      disabled={loading}
       filter={{
         type: "include",
         sort: true,
