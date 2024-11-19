@@ -27,6 +27,12 @@
   "Contracts.MissingSteps.Fail": "Gerekli adımlar alınırken bir hata oluştu.",
   "Contracts.MissingSteps.Missing": "Bu adım henüztamamlanmamış.",
 
+  "Contracts.name": "Kontrat Adı",
+  "Contracts.validFrom": "Başlangıç Tarihi",
+  "Contracts.validTo": "Bitiş Tarihi",
+  "Contracts.draft": "Taslak",
+  "Contracts.active": "Aktif",
+
   "Contracts.Form.webSite": "Web Sitesi",
   "Contracts.Form.status": "Durum",
   "Contracts.Form.status.none": "-",

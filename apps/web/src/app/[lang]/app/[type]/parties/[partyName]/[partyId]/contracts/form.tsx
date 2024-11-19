@@ -35,14 +35,14 @@ export default function Contracts({
     rows: $ContractsForMerchantDto.properties,
     config: { locale: lang },
     languageData: {
-      constantKey: "Contracts.Form",
+      constantKey: "Contracts",
       languageData: contractsLanguageData,
     },
     badges: {
       name: {
         values: [
           {
-            label: "Draft",
+            label: contractsLanguageData["Contracts.draft"],
             conditions: [
               {
                 when: (value) => value === true,
@@ -51,7 +51,7 @@ export default function Contracts({
             ],
           },
           {
-            label: "Active",
+            label: contractsLanguageData["Contracts.active"],
             conditions: [
               {
                 when: (value) => value === true,
