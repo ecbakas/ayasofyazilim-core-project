@@ -173,11 +173,10 @@ export const dataConfig: DataConfigArray = {
               componentType: "Autoform",
               autoFormArgs: {
                 preFetch: {
-                  functionCall: async (
-                    triggerData: Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto,
-                  ) => {
+                  functionCall: async (triggerData) => {
                     await Promise.resolve();
-                    const _triggerData = triggerData;
+                    const _triggerData =
+                      triggerData as Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto;
                     const returnValues: Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto =
                       {
                         accessTokenLifetime: 0,
