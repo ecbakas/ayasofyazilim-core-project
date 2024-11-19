@@ -62,6 +62,7 @@ import { getBaseLink } from "src/utils";
 import {
   getAllRolesApi,
   getApplicationTokenLifetimeApi,
+  getTwoFactorEnableApi,
   moveAllUsersApi,
 } from "../../actions/IdentityService/actions";
 import {
@@ -998,6 +999,19 @@ export const dataConfig: DataConfigArray = {
               description: "Two factor",
               componentType: "Autoform",
               autoFormArgs: {
+                preFetch: {
+                  functionCall: async (triggerData) => {
+                    const _triggerData = triggerData as Volo_Abp_Users_UserData;
+                    const returnValues = await getTwoFactorEnableApi(
+                      _triggerData.id || "",
+                    ).then((response) => {
+                      return typeof response.data === "boolean"
+                        ? { twoFactorAuthenticationEnabled: response.data }
+                        : response.data || {};
+                    });
+                    return returnValues;
+                  },
+                },
                 submit: {
                   cta: "Save",
                 },
