@@ -52,6 +52,7 @@ import type {
   GetApiIdentityRolesData,
   GetApiIdentityUsersByIdClaimsData,
   GetApiIdentityUsersData,
+  GetApiOpeniddictApplicationsByIdTokenLifetimeData,
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityRolesByIdMoveAllUsersData,
   PutApiIdentityUsersByIdChangePasswordData,
@@ -642,6 +643,12 @@ export async function getApiRequests() {
         }),
     },
     applications: {
+      getTokenLifetime: async (
+        data: GetApiOpeniddictApplicationsByIdTokenLifetimeData,
+      ) =>
+        await identityClient.applications.getApiOpeniddictApplicationsByIdTokenLifetime(
+          data,
+        ),
       putTokenLifetime: async (
         data: PutApiOpeniddictApplicationsByIdTokenLifetimeData,
       ) =>
