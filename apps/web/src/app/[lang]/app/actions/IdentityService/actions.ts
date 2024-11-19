@@ -122,3 +122,13 @@ export async function getApplicationTokenLifetimeApi(
     return structuredError(error);
   }
 }
+
+export async function getTwoFactorEnableApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.users.getTwoFactorEnable(id);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}

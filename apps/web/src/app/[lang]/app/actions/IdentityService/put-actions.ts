@@ -24,7 +24,7 @@ export async function putUserChangePasswordApi(
 ) {
   try {
     const requests = await getApiRequests();
-    const dataResponse = await requests.users["change-password"](data);
+    const dataResponse = await requests.users.putChangePassword(data);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
@@ -36,7 +36,7 @@ export async function putUserTwoFactorApi(
 ) {
   try {
     const requests = await getApiRequests();
-    const dataResponse = await requests.users["two-factor-enable"](data);
+    const dataResponse = await requests.users.putTwoFactorEnable(data);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
