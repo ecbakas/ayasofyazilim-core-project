@@ -7,7 +7,7 @@ import {
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import ContractHeaderForm from "../contract-header";
+import ContractHeaderForm from "../contract-header-form";
 
 export default async function Page({
   params,

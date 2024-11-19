@@ -193,7 +193,8 @@ function SchemaFormForContractSettings({
   return (
     <SchemaForm
       className="max-h-[500px] bg-white"
-      defaultSubmitClassName="pb-0"
+      defaultSubmitClassName="pr-4"
+      disabled={loading}
       filter={{
         type: "include",
         sort: true,

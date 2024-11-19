@@ -102,18 +102,13 @@ export default function ContractHeaderForm<
   useEffect(() => {
     async function fetchRefundTableHeaders() {
       setLoading(true);
-      try {
-        const response = await getRefundTableHeaders({ maxResultCount: 100 });
-        if (response.type === "error" || response.type === "api-error") {
-          toast.error(response.message || response.status);
-        } else {
-          setRefundTableHeaders(response.data.items || []);
-        }
-      } catch (error) {
-        toast.error("An error occurred while fetching refund table headers.");
-      } finally {
-        setLoading(false);
+      const response = await getRefundTableHeaders({ maxResultCount: 100 });
+      if (response.type === "error" || response.type === "api-error") {
+        toast.error(response.message || response.status);
+      } else {
+        setRefundTableHeaders(response.data.items || []);
       }
+      setLoading(false);
     }
     void fetchRefundTableHeaders();
   }, []);

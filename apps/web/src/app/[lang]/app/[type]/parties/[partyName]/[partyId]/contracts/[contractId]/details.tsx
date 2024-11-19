@@ -6,20 +6,17 @@ import {
 } from "@/components/ui/tooltip";
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
-  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as ContractHeaderForMerchantUpdateDto,
   PagedResultDto_ContractSettingDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
-import {
-  SectionLayout,
-  SectionLayoutContent,
-} from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
+import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { Circle } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import ContractHeaderForm from "../contract-header";
+import { ContractHeaderSection } from "./contract-header";
 import { ContractSettingsSection } from "./contract-settings";
+import { RebateSettingsSection } from "./rebate-settings";
 
 interface DetailsProp {
   contractHeaderDetails: ContractHeaderDetailForMerchantDto;
@@ -85,7 +82,11 @@ export default function Details({ ...props }: DetailsProp) {
       ]}
       vertical
     >
-      <ContractSection {...props} loading={loading} setLoading={setLoading} />
+      <ContractHeaderSection
+        {...props}
+        loading={loading}
+        setLoading={setLoading}
+      />
       <RebateSettingsSection
         {...props}
         loading={loading}
@@ -100,42 +101,6 @@ export default function Details({ ...props }: DetailsProp) {
     </SectionLayout>
   );
 }
-
-function ContractSection({ ...props }: SectionProps) {
-  const { contractHeaderDetails } = props;
-  const refundTableHeaders =
-    contractHeaderDetails.contractHeaderRefundTableHeaders.map((header) => {
-      return {
-        refundTableHeaderId: header.refundTableHeader.id,
-        validFrom: header.validFrom,
-        validTo: header.validTo,
-        isDefault: header.isDefault,
-      };
-    });
-  return (
-    <SectionLayoutContent sectionId="contract">
-      <ContractHeaderForm<ContractHeaderForMerchantUpdateDto>
-        formType="Update"
-        {...props}
-        formData={{
-          ...contractHeaderDetails,
-          status: contractHeaderDetails.status || "None",
-          addressCommonDataId: contractHeaderDetails.addressCommonData.id,
-          refundTableHeaders,
-        }}
-      />
-    </SectionLayoutContent>
-  );
-}
-
-function RebateSettingsSection({ languageData }: SectionProps) {
-  return (
-    <SectionLayoutContent sectionId="rebate-setting">
-      <>{languageData["Contracts.Create.RebateSettings"]}</>
-    </SectionLayoutContent>
-  );
-}
-
 function BadgeWithTooltip({
   label,
   languageData,
