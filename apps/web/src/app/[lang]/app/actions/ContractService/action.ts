@@ -4,6 +4,7 @@ import type {
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
 } from "@ayasofyazilim/saas/ContractService";
 import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
@@ -84,6 +85,20 @@ export async function postMerchantContractHeaderContractSettingsByHeaderIdApi(
     const requests = await getApiRequests();
     return structuredResponse(
       await requests.merchants.postContractHeaderContractSettingsByHeaderId(
+        data,
+      ),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putContractHeaderSetDefaultContractSettingByHeaderIdApi(
+  data: PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.merchants.putContractHeaderSetDefaultContractSettingByHeaderId(
         data,
       ),
     );

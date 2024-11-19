@@ -27,6 +27,12 @@
   "Contracts.MissingSteps.Fail": "Gerekli adımlar alınırken bir hata oluştu.",
   "Contracts.MissingSteps.Missing": "Bu adım henüztamamlanmamış.",
 
+  "Contracts.name": "Kontrat Adı",
+  "Contracts.validFrom": "Başlangıç Tarihi",
+  "Contracts.validTo": "Bitiş Tarihi",
+  "Contracts.draft": "Taslak",
+  "Contracts.active": "Aktif",
+
   "Contracts.Form.webSite": "Web Sitesi",
   "Contracts.Form.status": "Durum",
   "Contracts.Form.status.none": "-",
@@ -104,6 +110,7 @@
   "Contracts.Settings.Form.deliveryFee": "Teslimat ücreti",
   "Contracts.Settings.Form.goodsHaveSerialNumbers": "Malların seri numaraları var",
   "Contracts.Settings.Form.factoring": "Faktoring",
+  "Contracts.Settings.Form.setIsDefault": "Varsayılan olarak ayarla",
 
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",
