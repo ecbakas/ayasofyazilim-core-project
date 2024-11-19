@@ -3,6 +3,7 @@ import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
   GetApiIdentityUsersByIdClaimsData,
+  GetApiOpeniddictApplicationsByIdTokenLifetimeData,
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityRolesByIdMoveAllUsersData,
   PutApiIdentityUsersByIdClaimsData,
@@ -104,6 +105,18 @@ export async function moveAllUsersApi(
   try {
     const requests = await getApiRequests();
     const dataResponse = await requests.roles.MoveAllUsers(data);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getApplicationTokenLifetimeApi(
+  data: GetApiOpeniddictApplicationsByIdTokenLifetimeData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.applications.getTokenLifetime(data);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
