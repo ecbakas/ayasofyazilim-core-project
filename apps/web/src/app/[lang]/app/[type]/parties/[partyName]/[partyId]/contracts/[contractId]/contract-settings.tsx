@@ -1,5 +1,5 @@
 import type { ColumnsType } from "@repo/ayasofyazilim-ui/molecules/tables/types";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
@@ -19,9 +19,12 @@ import {
 import { cn } from "@/lib/utils";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { toastOnSubmit } from "@repo/ui/toast-on-submit";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
   postMerchantContractHeaderContractSettingsByHeaderIdApi,
+  putContractHeaderSetDefaultContractSettingByHeaderIdApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { MerchantAddressWidget } from "../contract-widgets";
@@ -38,32 +41,33 @@ export function ContractSettingsSection({
   const { data } = contractSettings;
   const [settings, setSettings] =
     useState<PagedResultDto_ContractSettingDto>(data);
-  // const customColumns = columnsByData<ContractSettingDto>({
-  //   row: $ContractSettingDto.properties,
-  //   languageData: {
-  //     constantKey: "Contracts.Form",
-  //     languageData: languageData,
-  //   },
-  // });
-  // const handleFetch = ({ page, filter }: fetchRequestProps) => {
-  //   setLoading(true);
-  // };
   async function handleFetch() {
-    try {
-      setLoading(true);
-      const contractSettingsResponse = await getContractSettings({
-        id: contractHeaderDetails.id,
-      });
-      if (contractSettingsResponse.type === "success") {
-        setSettings(contractSettingsResponse.data);
-      } else {
-        toast.error(contractSettingsResponse.message);
-      }
-    } catch (e) {
-      toast.error(languageData["Fetch.Fail"]);
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const contractSettingsResponse = await getContractSettings({
+      id: contractHeaderDetails.id,
+    });
+    if (contractSettingsResponse.type === "success") {
+      setSettings(contractSettingsResponse.data);
+    } else {
+      toast.error(contractSettingsResponse.message);
     }
+    setLoading(false);
+  }
+
+  async function setContractSettingDefault(id: string) {
+    setLoading(true);
+    const response =
+      await putContractHeaderSetDefaultContractSettingByHeaderIdApi({
+        id: contractHeaderDetails.id,
+        requestBody: { contractSettingId: id },
+      });
+    if (response.type === "success") {
+      toast.success(response.message);
+      void handleFetch();
+    } else {
+      toast.error(response.message);
+    }
+    setLoading(false);
   }
   return (
     <SectionLayoutContent sectionId="contract-setting">
@@ -74,31 +78,34 @@ export function ContractSettingsSection({
             filters: { container: "hidden" },
             table: {
               header:
-                "[&>tr>th:last-child]:max-w-content [&>tr>th:first-child]:w-full",
+                "[&>tr>th:last-child]:max-w-content [&>tr>th:last-child]:text-center [&>tr>th:first-child]:w-full",
             },
           }}
-          columnsData={columnsData(languageData)}
+          columnsData={columnsData(languageData, setContractSettingDefault)}
+          data={settings.items}
           editable={false}
+          fetchRequest={() => {
+            void handleFetch();
+          }}
           renderSubComponent={(context) => {
             return (
               <SchemaFormForContractSettings
-                formData={context.original}
-                languageData={languageData}
                 addressList={addresses}
+                contractId={contractHeaderDetails.id}
+                formData={{
+                  ...context.original,
+                  invoicingAddressCommonDataId:
+                    context.original.invoicingAddressCommonData.id,
+                }}
+                languageData={languageData}
                 loading={loading}
                 setLoading={setLoading}
-                contractId={contractHeaderDetails.id}
                 type="edit"
               />
             );
           }}
           rowCount={data.totalCount}
           showView={false}
-          data={settings.items}
-          // detailedFilter={filter}
-          fetchRequest={() => {
-            void handleFetch();
-          }}
         />
       ) : (
         <SchemaFormForContractSettings
@@ -132,7 +139,6 @@ function SchemaFormForContractSettings({
   type: "edit" | "create";
 }) {
   const switchFields: (keyof ContractSettingCreateDto)[] = [
-    "isDefault",
     "deliveryFee",
     "factoring",
     "excludeFromCashLimit",
@@ -163,32 +169,25 @@ function SchemaFormForContractSettings({
       ),
       isDefault: {
         "ui:widget": "switch",
-        "ui:options": {
-          disabled: true,
-        },
+        "ui:className": "hidden",
       },
     },
   });
 
   async function handleContractSettingsSubmit(data: ContractSettingCreateDto) {
-    try {
-      setLoading(true);
-      const response =
-        await postMerchantContractHeaderContractSettingsByHeaderIdApi({
-          id: contractId,
-          requestBody: data,
-        });
-      if (response.type === "success") {
-        toast.success(response.message);
-      } else {
-        toast.success(response.message);
-        toastOnSubmit(data);
-      }
-    } catch (error) {
-      toast.error("Fatal error");
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const response =
+      await postMerchantContractHeaderContractSettingsByHeaderIdApi({
+        id: contractId,
+        requestBody: data,
+      });
+    if (response.type === "success") {
+      toast.success(response.message);
+    } else {
+      toast.success(response.message);
+      toastOnSubmit(data);
     }
+    setLoading(false);
   }
 
   return (
@@ -236,6 +235,7 @@ function SchemaFormForContractSettings({
 
 function columnsData(
   languageData: ContractServiceResource,
+  onClick: (id: string) => Promise<void>,
 ): ColumnsType<ContractSettingDto> {
   return {
     type: "Custom",
@@ -246,38 +246,40 @@ function columnsData(
           header: () => languageData["Contracts.Settings.Form.name"],
           cell: ({ row }) =>
             row.getCanExpand() ? (
-              <button
-                className="flex cursor-pointer"
-                {...{
-                  onClick: row.getToggleExpandedHandler(),
-                }}
-                type="button"
-              >
-                {row.getIsExpanded() ? (
-                  <div className="flex items-center gap-2">
-                    <ChevronUp className="text-muted-foreground" />
-                    {row.original.name}
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <ChevronDown className="text-muted-foreground" />
-                    {row.original.name}
-                  </div>
-                )}
-              </button>
-            ) : (
-              ""
-            ),
+              <div className="flex items-center gap-2">
+                <Button
+                  className=""
+                  onClick={row.getToggleExpandedHandler()}
+                  size="icon"
+                  type="button"
+                  variant="outline"
+                >
+                  {row.getIsExpanded() ? (
+                    <ChevronUp className="w-4" />
+                  ) : (
+                    <ChevronDown className="w-4" />
+                  )}
+                </Button>
+                {row.original.name}
+              </div>
+            ) : null,
         },
         {
           id: "isDefault",
-          header: () => languageData["Contracts.Settings.Form.isDefault"],
           cell: ({ row }) => (
             <div className="flex w-full items-center justify-center gap-2">
               {row.original.isDefault ? (
-                <Check className="w-4 text-green-500" />
+                <Badge variant="outline">
+                  {languageData["Contracts.Settings.Form.isDefault"]}
+                </Badge>
               ) : (
-                "Set as default"
+                <Button
+                  onClick={() => void onClick(row.original.id)}
+                  size="sm"
+                  variant="outline"
+                >
+                  {languageData["Contracts.Settings.Form.setIsDefault"]}
+                </Button>
               )}
             </div>
           ),
