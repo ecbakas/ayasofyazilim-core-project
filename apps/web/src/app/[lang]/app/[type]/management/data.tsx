@@ -172,6 +172,22 @@ export const dataConfig: DataConfigArray = {
               description: "Token Lifetime",
               componentType: "Autoform",
               autoFormArgs: {
+                preFetch: {
+                  functionCall: async (triggerData) => {
+                    await Promise.resolve();
+                    const _triggerData =
+                      triggerData as Volo_Abp_OpenIddict_Applications_Dtos_ApplicationDto;
+                    const returnValues: Volo_Abp_OpenIddict_Applications_Dtos_ApplicationTokenLifetimeDto =
+                      {
+                        accessTokenLifetime: 0,
+                        authorizationCodeLifetime: 2,
+                        identityTokenLifetime: Number(
+                          _triggerData.extraProperties,
+                        ),
+                      };
+                    return returnValues;
+                  },
+                },
                 submit: {
                   cta: "Save",
                 },
