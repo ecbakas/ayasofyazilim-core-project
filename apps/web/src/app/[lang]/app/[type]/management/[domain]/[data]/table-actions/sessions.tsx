@@ -23,23 +23,20 @@ export default function SessionsComponent({
     useState<PagedResultDto_IdentitySessionDto>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function getSessions({ page }: { page: number }) {
+  const getSessions = async () => {
     setIsLoading(true);
     const response = await getUserSessionsApi({
-      maxResultCount: 10,
-      skipCount: page * 10,
       userId: rowId,
     });
     if (response.type === "error" || response.type === "api-error") {
       toast.error(
         `${response.status}: ${response.message || languageData["User.Sessions.Get.Fail"]}`,
       );
-      setIsLoading(false);
       return;
     }
     setSessionsData(response.data);
     setIsLoading(false);
-  }
+  };
 
   return (
     <DataTable
