@@ -5,7 +5,7 @@ import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto,
   PagedResultDto_ContractHeaderDetailForMerchantDto,
 } from "@ayasofyazilim/saas/ContractService";
-import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
+import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { tanstackTableCreateColumnsByRowData as columnsByData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
