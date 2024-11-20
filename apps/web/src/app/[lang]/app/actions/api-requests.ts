@@ -67,6 +67,7 @@ import type {
   GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
   GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
 } from "@ayasofyazilim/saas/LocationService";
+import type { GetApiRefundServiceRefundsData } from "@ayasofyazilim/saas/RefundService";
 import type {
   PutApiSaasEditionsByIdMoveAllTenantsData,
   PutApiSaasTenantsByIdSetPasswordData,
@@ -84,6 +85,7 @@ import {
   getFinanceServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
+  getRefundServiceClient,
   getSaasServiceClient,
   getTagServiceClient,
   getTravellersServiceClient,
@@ -106,6 +108,7 @@ export type DeleteTableDataTypes = Exclude<
   | "editions"
   | "applications"
   | "tenants"
+  | "refund"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -119,6 +122,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "billing"
   | "applications"
   | "tenants"
+  | "refund"
 >;
 
 export async function getApiRequests() {
@@ -131,6 +135,7 @@ export async function getApiRequests() {
   const exportValidationClient = await getExportValidationServiceClient();
   const tagClient = await getTagServiceClient();
   const financeClient = await getFinanceServiceClient();
+  const refundClient = await getRefundServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -543,7 +548,10 @@ export async function getApiRequests() {
         data: GetApiLocationServiceCitiesData, //this should be removed when the forms updated
       ) => await locationClient.city.getApiLocationServiceCities(data),
     },
-
+    refund: {
+      get: async (data: GetApiRefundServiceRefundsData) =>
+        await refundClient.refund.getApiRefundServiceRefunds(data),
+    },
     travellers: {
       get: async (data: GetApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.getApiTravellerServiceTravellers(data),
