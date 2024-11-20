@@ -50,6 +50,7 @@ import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
   GetApiIdentityRolesData,
+  GetApiIdentitySessionsData,
   GetApiIdentityUsersByIdClaimsData,
   GetApiIdentityUsersData,
   GetApiOpeniddictApplicationsByIdTokenLifetimeData,
@@ -123,6 +124,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "applications"
   | "tenants"
   | "refund"
+  | "sessions"
 >;
 
 export async function getApiRequests() {
@@ -595,6 +597,14 @@ export async function getApiRequests() {
         await identityClient.user.putApiIdentityUsersByIdTwoFactorByEnabled(
           data,
         ),
+    },
+    sessions: {
+      get: async (data: GetApiIdentitySessionsData) =>
+        await identityClient.sessions.getApiIdentitySessions(data),
+      deleteRow: async (id: string) =>
+        await identityClient.sessions.deleteApiIdentitySessionsById({
+          id,
+        }),
     },
     tenants: {
       putSetPassword: async (data: PutApiSaasTenantsByIdSetPasswordData) =>
