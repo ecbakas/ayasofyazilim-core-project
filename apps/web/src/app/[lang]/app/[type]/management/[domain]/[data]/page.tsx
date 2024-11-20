@@ -21,6 +21,7 @@ import { getResourceDataClient } from "src/language-data/IdentityService";
 import { createZodObject, getBaseLink } from "src/utils";
 import { dataConfig } from "../../data.tsx";
 import Claims from "./table-actions/claims";
+import SessionsComponent from "./table-actions/sessions.tsx";
 
 async function controlledFetch(
   url: string,
@@ -354,6 +355,23 @@ export default function Page({
       description: languageData["Claim.Add.Description"],
       componentType: "CustomComponent",
       callback: claimComponent,
+      content: <></>,
+    });
+  }
+
+  const session = async (row: { id: string }) => {
+    await Promise.resolve();
+    return <SessionsComponent lang={params.lang} rowId={row.id} />;
+  };
+
+  if (params.data === "user") {
+    columnsData.data.actionList?.push({
+      type: "Sheet",
+      cta: languageData["User.Sessions"],
+      loadingContent: <>Loading...</>,
+      description: languageData["User.Sessions.Description"],
+      componentType: "CustomComponent",
+      callback: session,
       content: <></>,
     });
   }
