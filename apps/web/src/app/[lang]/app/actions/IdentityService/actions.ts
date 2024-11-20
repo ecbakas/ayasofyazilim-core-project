@@ -2,6 +2,7 @@
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
+  GetApiIdentitySessionsData,
   GetApiIdentityUsersByIdClaimsData,
   GetApiOpeniddictApplicationsByIdTokenLifetimeData,
   PutApiIdentityRolesByIdClaimsData,
@@ -127,6 +128,26 @@ export async function getTwoFactorEnableApi(id: string) {
   try {
     const requests = await getApiRequests();
     const dataResponse = await requests.users.getTwoFactorEnable(id);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getUserSessionsApi(data: GetApiIdentitySessionsData) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.sessions.get(data);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function deleteUserSessionsApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.sessions.deleteRow(id);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
