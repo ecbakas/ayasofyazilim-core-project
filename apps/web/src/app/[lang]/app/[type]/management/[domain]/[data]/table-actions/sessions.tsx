@@ -23,9 +23,11 @@ export default function SessionsComponent({
     useState<PagedResultDto_IdentitySessionDto>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const getSessions = async () => {
+  const getSessions = async ({ page }: { page: number }) => {
     setIsLoading(true);
     const response = await getUserSessionsApi({
+      maxResultCount: 10,
+      skipCount: page * 10,
       userId: rowId,
     });
     if (response.type === "error" || response.type === "api-error") {
@@ -84,7 +86,9 @@ export default function SessionsComponent({
         },
       }}
       data={sessionsData?.items || []}
-      fetchRequest={void getSessions}
+      fetchRequest={(page) => {
+        void getSessions(page);
+      }}
       isLoading={isLoading}
       rowCount={sessionsData?.totalCount || 0}
       showView
