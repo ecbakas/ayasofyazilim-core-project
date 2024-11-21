@@ -22,7 +22,9 @@ import type { CellContext } from "@tanstack/react-table";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ChartBarIncreasing, CreditCard, DollarSign } from "lucide-react";
 import { getBaseLink } from "src/utils";
+import { localizeCurrency, localizeNumber } from "src/utils-number";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { getTravellers } from "../../../actions/TravellerService/actions";
 import { dataConfigOfParties } from "../../parties/table-data";
@@ -69,6 +71,10 @@ export default function Page({
   );
   const [travellers, setTravellers] =
     useState<GetApiTravellerServiceTravellersResponse>({});
+
+  const numberFormatter = (value: number) =>
+    localizeNumber(params.lang).format(value);
+  const currencyFormatter = localizeCurrency(params.lang);
 
   useEffect(() => {
     async function getMerchantsLocally() {
@@ -227,26 +233,25 @@ export default function Page({
   const summaryCards = [
     {
       title: "Total Tags",
-      content: `${tags?.totalCount}`,
-      description: "Total tags in the system",
-      footer: "",
+      content: numberFormatter(tags?.totalCount || 0),
+      icon: <ChartBarIncreasing className="size-4" />,
     },
     {
       title: "Total Sales",
-      content: `${summary?.totalSalesAmount || 0}`,
-      description: "Total tags in the system",
-      footer: "",
+      content: `+${numberFormatter(summary?.totalSalesAmount || 0)}`,
+      icon: <CreditCard className="size-4" />,
     },
     {
       title: "Total Refunds",
-      content: `${summary?.totalRefundAmount || 0}`,
-      description: "Total tags in the system",
-      footer: "",
+      content: currencyFormatter(
+        summary?.totalRefundAmount || 0,
+        summary?.currency || "TRY",
+      ),
+      icon: <DollarSign className="size-4" />,
     },
     {
       title: "Currency",
-      content: summary?.currency || "TRY",
-      description: "Total tags in the system",
+      content: summary?.currency || "",
       footer: "",
     },
   ];
