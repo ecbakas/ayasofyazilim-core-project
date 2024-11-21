@@ -33,4 +33,13 @@ export const unirefundNavbarDataFromDB: NavbarItemsFromDB[] = [
   ...contracts,
   ...operations,
   ...finance,
+  {
+    key: "refund",
+    displayName: "Refund",
+    description: "Refund",
+    href: "/refund",
+    icon: "tax",
+    parentNavbarItemKey: "/",
+    displayOrder: 1,
+  },
 ];
