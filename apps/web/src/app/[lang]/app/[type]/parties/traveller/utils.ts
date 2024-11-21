@@ -10,6 +10,7 @@ const travellerKeys: TravllersKeys[] = [
   "userAccountId",
   "residenceCountryCode2",
   "nationalityCountryCode2",
+  "hasUserAccount",
 ];
 
 export const travellerTableSchema: {
