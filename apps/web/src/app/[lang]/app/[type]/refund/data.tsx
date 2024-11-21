@@ -46,6 +46,13 @@ const refundTable: RefundTable = {
         })),
       },
     },
+    dateFilters: [
+      {
+        label: "Creation Time",
+        startAccessorKey: "timeFilterStartDate",
+        endAccessorKey: "timeFilterEndDate",
+      },
+    ],
   },
 };
 export const tableData = {
