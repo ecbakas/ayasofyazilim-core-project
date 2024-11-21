@@ -1,36 +1,8 @@
 "use server";
 
-import type {
-  PostApiTravellerServiceTravellersWithComponentsData,
-  UniRefund_TravellerService_Travellers_CreateTravellerResponseDto,
-} from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
-import type { ErrorTypes, ServerResponse } from "src/lib";
-import { getTravellersServiceClient, structuredError } from "src/lib";
-import { getTableData } from "../api-requests";
-
-export async function createTravellerWithComponents(
-  body: PostApiTravellerServiceTravellersWithComponentsData,
-): Promise<
-  | ServerResponse<UniRefund_TravellerService_Travellers_CreateTravellerResponseDto>
-  | ErrorTypes
-> {
-  try {
-    const client = await getTravellersServiceClient();
-    const response =
-      await client.traveller.postApiTravellerServiceTravellersWithComponents(
-        body,
-      );
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-      message: "Traveller created successfully",
-    };
-  } catch (error) {
-    return structuredError(error);
-  }
-}
+import { structuredError, structuredResponse } from "src/lib";
+import { getApiRequests, getTableData } from "../api-requests";
 
 export async function getTravellers(page: number, filter?: FilterColumnResult) {
   const response = await getTableData("travellers", page, 10, filter);
@@ -45,4 +17,25 @@ export async function getTravellers(page: number, filter?: FilterColumnResult) {
     type: response.type,
     data: { items: [], totalCount: 0 },
   };
+}
+
+export async function getTravellersDetailsApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.travellers.getDetail(id);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function deleteTravellerPersonalIdentificationApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse =
+      await requests.travellers.deleteTravellerPersonalIdentification(id);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
 }
