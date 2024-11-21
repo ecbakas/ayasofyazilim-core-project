@@ -18,8 +18,17 @@
   "Delete.Fail": "Veri silinirken bir hata oluştu.",
 
   "Fetch.Fail": "Veriler alırken bir hata oluştu.",
-  "Fetch.Fail.Country": "Ülkeleri alırken bir hata oluştu.",
-  "Fetch.Fail.City": "Şehirleri alırken bir hata oluştu.",
+
+  "Country.Select": "Ülke Seç",
+  "Region.Select": "Bölge Seç",
+  "City.Select": "Şehir Seç",
+  "District.Select": "İlçe Seç",
+  "Select.Placeholder": "Ara...",
+  "Select.ResultLabel": "0 arama sonucu.",
+  "PhoneNumber": "Telefon Numarası",
+
+  "Country.Fetch.Fail": "Ülkeler getirilirken bir hata oluştu..",
+  "City.Fetch.Fail": "Şehirleri getirilirken bir hata oluştu.",
 
   "ExportCSV": "CSV Dışa Aktar",
 
@@ -45,13 +54,6 @@
   "FileUploader.DragAndDropFilesHere": "Dosyaları buraya sürükleyin ya da seçmek için tıklatın",
   "FileUploader.YouCanUpload{0}files{1}each": "En fazla {0} dosya yükleyebilirsiniz (her biri en fazla {1})",
   "FileUploader.RemoveFile": "Dosyayı kaldır",
-  "Country.Select": "Ülke Seç",
-  "Region.Select": "Bölge Seç",
-  "City.Select": "Şehir Seç",
-  "District.Select": "İlçe Seç",
-  "Select.Placeholder": "Ara...",
-  "Select.ResultLabel": "0 arama sonucu.",
-  "PhoneNumber": "Telefon Numarası",
 
   "Form.name": "Tam İsim",
   "Form.email": "E-posta",
