@@ -15,7 +15,7 @@ import { postTravellerApi } from "src/app/[lang]/app/actions/TravellerService/po
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 import { getBaseLink } from "src/utils";
 
-const TravellerSchema = createZodObject(
+const createTravellerSchema = createZodObject(
   $UniRefund_TravellerService_Travellers_CreateTravellerDto,
 );
 
@@ -24,7 +24,7 @@ export default function Form({
   countryList,
 }: {
   languageData: TravellerServiceResource;
-  countryList: CountryDto[];
+  countryList: { data: CountryDto[]; success: boolean };
 }) {
   const router = useRouter();
 
@@ -37,8 +37,15 @@ export default function Form({
           renderer: (props) => (
             <CustomCombobox<CountryDto>
               childrenProps={props}
-              emptyValue={languageData["Country.Select"]}
-              list={countryList}
+              disabled={!countryList.success}
+              emptyValue={
+                countryList.success
+                  ? languageData["Country.Select"]
+                  : languageData["Country.Fetch.Fail"]
+              }
+              list={countryList.data}
+              searchPlaceholder={languageData["Select.Placeholder"]}
+              searchResultLabel={languageData["Select.ResultLabel"]}
               selectIdentifier="code2"
               selectLabel="name"
             />
@@ -48,8 +55,15 @@ export default function Form({
           renderer: (props) => (
             <CustomCombobox<CountryDto>
               childrenProps={props}
-              emptyValue={languageData["Country.Select"]}
-              list={countryList}
+              disabled={!countryList.success}
+              emptyValue={
+                countryList.success
+                  ? languageData["Country.Select"]
+                  : languageData["Country.Fetch.Fail"]
+              }
+              list={countryList.data}
+              searchPlaceholder={languageData["Select.Placeholder"]}
+              searchResultLabel={languageData["Select.ResultLabel"]}
               selectIdentifier="code2"
               selectLabel="name"
             />
@@ -71,7 +85,7 @@ export default function Form({
   return (
     <AutoForm
       fieldConfig={translatedForm}
-      formSchema={TravellerSchema}
+      formSchema={createTravellerSchema}
       onSubmit={(val) => {
         void createTraveller(val as TravellerDto);
       }}

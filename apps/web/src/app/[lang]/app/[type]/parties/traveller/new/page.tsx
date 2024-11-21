@@ -10,5 +10,13 @@ export default async function Page({ params }: { params: { lang: string } }) {
   const countryList =
     (countries.type === "success" && countries.data.items) || [];
 
-  return <Form countryList={countryList} languageData={languageData} />;
+  return (
+    <Form
+      countryList={{
+        data: countryList,
+        success: countries.type === "success",
+      }}
+      languageData={languageData}
+    />
+  );
 }
