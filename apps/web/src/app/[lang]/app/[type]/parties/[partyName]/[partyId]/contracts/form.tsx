@@ -85,6 +85,7 @@ export default function Contracts({
         }}
         columns={customColumns}
         data={contractsData.items || []}
+        fillerColumn="name"
         tableActions={[
           {
             type: "simple",
