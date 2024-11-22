@@ -61,6 +61,7 @@ export default function Page({
     schema:
       $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
     resources: languageData,
+    name: "Form.Summary",
   });
   function cellWithLink(
     cell: CellContext<

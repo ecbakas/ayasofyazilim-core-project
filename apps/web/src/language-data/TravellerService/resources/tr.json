@@ -16,6 +16,8 @@
   "Travellers.Fetch.Fail": "Yolcu verileri getirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
   "Travellers.Identifications.Delete.Error": "Kişisel kimlik silinirken bir hata oluştu.",
   "Travellers.Identifications.Delete.Success": "Kişisel kimlik basarılıyla silindi",
+  "Travellers.Identifications.Update.Success": "Kişisel kimlik başarıyla güncellendi",
+  "Travellers.Identifications.Update.Error": "Kişisel kimlik güncellenirken bir hata oluştu.",
 
   "Form.personalIdentification": "Kişisel Bilgiler",
   "Form.personalIdentification.firstName": "Ad",
@@ -31,7 +33,10 @@
   "Form.personalIdentification.identificationType.passport": "Pasaport",
 
   "Form.languagePreferenceCode": "Dil Tercihi",
-  "Form.genderTypeCode": "Cinsiyet",
-  "Form.genderTypeCode.male": "Erkek",
-  "Form.genderTypeCode.female": "Kadın"
+  "Form.Summary.genderTypeCode": "Cinsiyet",
+  "Form.Summary.genderTypeCode.male": "Erkek",
+  "Form.Summary.genderTypeCode.female": "Kadın",
+  "Form.gender": "Cinsiyet",
+  "Form.gender.male": "Erkek",
+  "Form.gender.female": "Kadın"
 }
