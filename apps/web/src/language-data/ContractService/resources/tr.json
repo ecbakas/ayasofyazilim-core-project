@@ -77,6 +77,9 @@
   "Contracts.Form.refundTableHeaders.validFrom": "Başlangıç Tarihi",
   "Contracts.Form.refundTableHeaders.validTo": "Bitiş Tarihi",
 
+  "Contracts.Settings.Form.Delete": "Sil",
+  "Contracts.Settings.Form.Delete.Description": "Bu kontrat ayarını silmek istediğinize emin misiniz?",
+  "Contracts.Settings.Form.Delete.Title": "Kontrat ayarını sil",
   "Contracts.Settings.Form.name": "Ayar adı",
   "Contracts.Settings.Form.referenceNumber": "Referans numarası",
   "Contracts.Settings.Form.termOfPayment": "Ödeme sıklığı",
@@ -111,6 +114,15 @@
   "Contracts.Settings.Form.goodsHaveSerialNumbers": "Malların seri numaraları var",
   "Contracts.Settings.Form.factoring": "Faktoring",
   "Contracts.Settings.Form.setIsDefault": "Varsayılan olarak ayarla",
+
+  "Contracts.Settings.SetIsDefault.Success": "Sözleşme ayarı başarıyla varsayılan olarak ayarlandı.",
+  "Contracts.Settings.SetIsDefault.Fail": "Sözleşme ayarı varsayılan olarak ayarlanamadı.",
+  "Contracts.Settings.Delete.Success": "Sözleşme ayarı başarıyla silindi.",
+  "Contracts.Settings.Delete.Fail": "Sözleşme ayarı silinirken bir hata oluştu.",
+  "Contracts.Settings.Create.Success": "Sözleşme ayarı başarıyla oluşturuldu.",
+  "Contracts.Settings.Create.Fail": "Sözleşme ayarı oluşturulurken bir hata oluştu.",
+  "Contracts.Settings.Edit.Success": "Sözleşme ayarı başarıyla kaydedildi.",
+  "Contracts.Settings.Edit.Fail": "Sözleşme ayarı kaydedilirken bir hata oluştu.",
 
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",
