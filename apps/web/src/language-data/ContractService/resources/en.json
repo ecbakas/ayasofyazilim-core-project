@@ -77,6 +77,9 @@
   "Contracts.Form.refundTableHeaders.validFrom": "Begin Date",
   "Contracts.Form.refundTableHeaders.validTo": "End Date",
 
+  "Contracts.Settings.Form.Delete": "Delete",
+  "Contracts.Settings.Form.Delete.Title": "Delete contract setting",
+  "Contracts.Settings.Form.Delete.Description": "Are you sure you want to delete this setting?",
   "Contracts.Settings.Form.name": "Setting name",
   "Contracts.Settings.Form.referenceNumber": "Reference number",
   "Contracts.Settings.Form.termOfPayment": "Payment term",

@@ -5,6 +5,7 @@ import type {
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
+  PutApiContractServiceMerchantsContractsContractSettingsByIdData,
 } from "@ayasofyazilim/saas/ContractService";
 import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
@@ -92,7 +93,31 @@ export async function postMerchantContractHeaderContractSettingsByHeaderIdApi(
     return structuredError(error);
   }
 }
-export async function putContractHeaderSetDefaultContractSettingByHeaderIdApi(
+export async function putMerchantContractContractSettingsByIdApi(
+  data: PutApiContractServiceMerchantsContractsContractSettingsByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.merchants.putContractSettingsById(data),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function deleteMerchantContractContractSettingsByIdApi(
+  id: string,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.merchants.deleteContractSettingsById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi(
   data: PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
 ) {
   try {

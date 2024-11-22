@@ -77,6 +77,9 @@
   "Contracts.Form.refundTableHeaders.validFrom": "Başlangıç Tarihi",
   "Contracts.Form.refundTableHeaders.validTo": "Bitiş Tarihi",
 
+  "Contracts.Settings.Form.Delete": "Sil",
+  "Contracts.Settings.Form.Delete.Description": "Bu kontrat ayarını silmek istediğinize emin misiniz?",
+  "Contracts.Settings.Form.Delete.Title": "Kontrat ayarını sil",
   "Contracts.Settings.Form.name": "Ayar adı",
   "Contracts.Settings.Form.referenceNumber": "Referans numarası",
   "Contracts.Settings.Form.termOfPayment": "Ödeme sıklığı",
