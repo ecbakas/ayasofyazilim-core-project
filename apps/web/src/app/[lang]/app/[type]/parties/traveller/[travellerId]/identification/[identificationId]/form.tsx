@@ -51,9 +51,17 @@ export default function Form({
       requestBody: { ...data, id: travellerData.personalIdentifications[0].id },
     });
     if (response.type === "success") {
-      toast.success(languageData["Travellers.Identifications.Update.Success"]);
+      toast.success(
+        response.message ||
+          languageData["Travellers.Identifications.Update.Success"],
+      );
     } else {
-      toast.error(languageData["Travellers.Identifications.Update.Error"]);
+      toast.error(
+        `${response.status}: ${
+          response.message ||
+          languageData["Travellers.Identifications.Update.Error"]
+        }`,
+      );
     }
   }
 
@@ -104,7 +112,7 @@ export default function Form({
 
   return (
     <AutoForm
-      className="p-4"
+      className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
       formSchema={updateBillingSchema}
       onSubmit={(values) => {
