@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import {
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
   postMerchantContractHeaderContractSettingsByHeaderIdApi,
-  putContractHeaderSetDefaultContractSettingByHeaderIdApi,
+  putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { MerchantAddressWidget } from "../contract-widgets";
@@ -57,10 +57,12 @@ export function ContractSettingsSection({
   async function setContractSettingDefault(id: string) {
     setLoading(true);
     const response =
-      await putContractHeaderSetDefaultContractSettingByHeaderIdApi({
-        id: contractHeaderDetails.id,
-        requestBody: { contractSettingId: id },
-      });
+      await putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi(
+        {
+          id: contractHeaderDetails.id,
+          requestBody: { contractSettingId: id },
+        },
+      );
     if (response.type === "success") {
       toast.success(response.message);
       void handleFetch();
