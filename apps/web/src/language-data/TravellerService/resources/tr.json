@@ -1,5 +1,9 @@
 {
   "Travellers": "Yolcular",
+  "Travellers.Personal.Identifications": "Kişisel Kimlikler",
+  "Travellers.Personal.Preferences": "Kişisel Tercihler",
+  "Travellers.Personal.Summary": "Kişisel Özet",
+
   "Travellers.Description": "Yolcu Detayları",
   "Travellers.Delete.Succes": "Yolcu başarılıyla silindi",
   "Travellers.Delete.Error": "Yolcu silinirken bir hata oluştu",
@@ -9,9 +13,13 @@
   "Travellers.ShowExpired": "Süresi Dolanları Göster",
   "Travellers.TravelDocumentNumber": "Seyahat Belge Numarası",
   "Travellers.Fail": "Yolcu kaydedilirken bir hata oluştu",
+  "Travellers.Fetch.Fail": "Yolcu verileri getirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
+  "Travellers.Identifications.Delete.Error": "Kişisel kimlik silinirken bir hata oluştu.",
+  "Travellers.Identifications.Delete.Success": "Kişisel kimlik basarılıyla silindi",
 
   "Form.personalIdentification": "Kişisel Bilgiler",
   "Form.personalIdentification.firstName": "Ad",
+  "Form.personalIdentification.middleName": "Orta Ad",
   "Form.personalIdentification.lastName": "Soyad",
   "Form.personalIdentification.travelDocumentNumber": "Seyahat Belgesi Numarası",
   "Form.personalIdentification.birthDate": "Doğum Tarihi",
@@ -23,7 +31,7 @@
   "Form.personalIdentification.identificationType.passport": "Pasaport",
 
   "Form.languagePreferenceCode": "Dil Tercihi",
-  "Form.gender": "Cinsiyet",
-  "Form.gender.male": "Erkek",
-  "Form.gender.female": "Kadın"
+  "Form.genderTypeCode": "Cinsiyet",
+  "Form.genderTypeCode.male": "Erkek",
+  "Form.genderTypeCode.female": "Kadın"
 }

@@ -1,5 +1,8 @@
 {
   "Travellers": "Travellers",
+  "Travellers.Personal.Identifications": "Personal Identifications",
+  "Travellers.Personal.Preferences": "Personal Preferences",
+  "Travellers.Personal.Summary": "Personal Summary",
   "Travellers.Description": "Traveller Details",
   "Travellers.Delete.Succes": "Traveller deleted successfully",
   "Travellers.Delete.Error": "Traveller could not be deleted",
@@ -9,9 +12,13 @@
   "Travellers.ShowExpired": "Show Expired",
   "Travellers.TravelDocumentNumber": "Travel Document Number",
   "Travellers.Fail": "An error occurred while saving the Traveller",
+  "Travellers.Fetch.Fail": "An error occurred while fetching the traveller data. Please try again later.",
+  "Travellers.Identifications.Delete.Error": "Failed to delete personal identification",
+  "Travellers.Identifications.Delete.Success": "Personal identification deleted successfully",
 
   "Form.personalIdentification": "Personal Information",
   "Form.personalIdentification.firstName": "First Name",
+  "Form.personalIdentification.middleName": "Middle Name",
   "Form.personalIdentification.lastName": "Last Name",
   "Form.personalIdentification.travelDocumentNumber": "Travel Document Number",
   "Form.personalIdentification.birthDate": "Date of Birth",
@@ -23,7 +30,7 @@
   "Form.personalIdentification.identificationType.passport": "Passport",
 
   "Form.languagePreferenceCode": "Preferred Language",
-  "Form.gender": "Gender",
-  "Form.gender.male": "Male",
-  "Form.gender.female": "Female"
+  "Form.genderTypeCode": "Gender",
+  "Form.genderTypeCode.male": "Male",
+  "Form.genderTypeCode.female": "Female"
 }

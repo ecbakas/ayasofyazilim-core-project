@@ -77,6 +77,9 @@ import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
   PostApiTravellerServiceTravellersData,
+  PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+  PutApiTravellerServiceTravellersByIdUpsertPersonalPreferenceData,
+  PutApiTravellerServiceTravellersByIdUpsertPersonalSummaryData,
 } from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import {
@@ -113,7 +116,6 @@ export type DeleteTableDataTypes = Exclude<
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
-  | "travellers"
   | "claims"
   | "roles"
   | "locations"
@@ -163,9 +165,7 @@ export async function getApiRequests() {
         ),
       deleteRow: async (id: string) =>
         await crmClient.merchant.deleteApiCrmServiceMerchantsByIdWithComponents(
-          {
-            id,
-          },
+          { id },
         ),
       getBasicInformation: async (data: { id: string }) =>
         await crmClient.merchant.getApiCrmServiceMerchantsByIdBasicInformation(
@@ -557,8 +557,34 @@ export async function getApiRequests() {
     travellers: {
       get: async (data: GetApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.getApiTravellerServiceTravellers(data),
+      getDetail: async (id: string) =>
+        await travellerClient.traveller.getApiTravellerServiceTravellersById({
+          id,
+        }),
       post: async (data: PostApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.postApiTravellerServiceTravellers(data),
+      putPersonalIdentification: async (
+        data: PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+      ) =>
+        await travellerClient.traveller.putApiTravellerServiceTravellersByIdUpsertPersonalIdentification(
+          data,
+        ),
+      putPersonalPreference: async (
+        data: PutApiTravellerServiceTravellersByIdUpsertPersonalPreferenceData,
+      ) =>
+        await travellerClient.traveller.putApiTravellerServiceTravellersByIdUpsertPersonalPreference(
+          data,
+        ),
+      putPersonalSummary: async (
+        data: PutApiTravellerServiceTravellersByIdUpsertPersonalSummaryData,
+      ) =>
+        await travellerClient.traveller.putApiTravellerServiceTravellersByIdUpsertPersonalSummary(
+          data,
+        ),
+      deleteTravellerPersonalIdentification: async (id: string) =>
+        await travellerClient.traveller.deleteApiTravellerServiceTravellersByIdDeletePersonalIdentification(
+          { id },
+        ),
     },
     claims: {
       get: async (data: GetApiIdentityClaimTypesData) =>
