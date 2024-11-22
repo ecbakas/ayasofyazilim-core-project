@@ -61,6 +61,7 @@ export default function Page({
     schema:
       $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
     resources: languageData,
+    name: "Form.Summary",
   });
   function cellWithLink(
     cell: CellContext<
@@ -138,7 +139,11 @@ export default function Page({
               actionList: [
                 {
                   cta: languageData.Delete,
-                  type: "Action",
+                  type: "Dialog",
+                  componentType: "ConfirmationDialog",
+                  description: languageData["Delete.Assurance"],
+                  cancelCTA: languageData.Cancel,
+                  variant: "destructive",
                   callback: (row: { id: string }) => {
                     void deleteTravellerPersonalIdentificationApi(row.id).then(
                       (response) => {

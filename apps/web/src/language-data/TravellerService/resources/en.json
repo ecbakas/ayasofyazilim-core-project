@@ -15,6 +15,8 @@
   "Travellers.Fetch.Fail": "An error occurred while fetching the traveller data. Please try again later.",
   "Travellers.Identifications.Delete.Error": "Failed to delete personal identification",
   "Travellers.Identifications.Delete.Success": "Personal identification deleted successfully",
+  "Travellers.Identifications.Update.Success": "personal identification Updated successfully",
+  "Travellers.Identifications.Update.Error": "Failed to update personal identification",
 
   "Form.personalIdentification": "Personal Information",
   "Form.personalIdentification.firstName": "First Name",
@@ -30,7 +32,10 @@
   "Form.personalIdentification.identificationType.passport": "Passport",
 
   "Form.languagePreferenceCode": "Preferred Language",
-  "Form.genderTypeCode": "Gender",
-  "Form.genderTypeCode.male": "Male",
-  "Form.genderTypeCode.female": "Female"
+  "Form.Summary.genderTypeCode": "Gender",
+  "Form.Summary.genderTypeCode.male": "Male",
+  "Form.Summary.genderTypeCode.female": "Female",
+  "Form.gender": "Gender",
+  "Form.gender.male": "Male",
+  "Form.gender.female": "Female"
 }
