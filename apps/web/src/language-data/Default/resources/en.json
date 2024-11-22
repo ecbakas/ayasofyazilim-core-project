@@ -16,10 +16,17 @@
   "Delete": "Delete",
   "Delete.Success": "Data deleted successfully.",
   "Delete.Fail": "An error occurred while deleting data.",
-
   "Fetch.Fail": "An error occurred while getting datas.",
-  "Fetch.Fail.Country": "An error occurred while fetching countries.",
-  "Fetch.Fail.City": "An error occurred while fetching cities.",
+
+  "Country.Select": "Select Country",
+  "Region.Select": "Select Region",
+  "City.Select": "Select City",
+  "District.Select": "Select District",
+  "Select.Placeholder": "Search...",
+  "Select.ResultLabel": "0 search result.",
+  "PhoneNumber": "Phone Number",
+  "Country.Fetch.Fail": "An error occurred while fetching countries.",
+  "City.Fetch.Fail": "An error occurred while fetching cities.",
 
   "ExportCSV": "Export CSV",
 
@@ -45,13 +52,6 @@
   "FileUploader.DragAndDropFilesHere": "Drag'n drop files here, or click to select files",
   "FileUploader.YouCanUpload{0}files{1}each": "You can upload {0} files (up to {1} each)",
   "FileUploader.RemoveFile": "Remove file",
-  "Country.Select": "Select Country",
-  "Region.Select": "Select Region",
-  "City.Select": "Select City",
-  "District.Select": "Select District",
-  "Select.Placeholder": "Search...",
-  "Select.ResultLabel": "0 search result.",
-  "PhoneNumber": "Phone Number",
 
   "Form.name": "Full Name",
   "Form.email": "Email",
