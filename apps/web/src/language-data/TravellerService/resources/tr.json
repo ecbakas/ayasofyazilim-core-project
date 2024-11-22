@@ -1,9 +1,12 @@
 {
   "Travellers": "Yolcular",
+  "Traveller": "Yolcu",
+  "Travellers.Edit.Description": "Yolcu bilgilerini buradan güncelleyebilirsiniz.",
+  "Travellers.Identifications.Edit.Description": "Yolcu kişisel bilgilerini buradan güncelleyebilirsiniz.",
   "Travellers.Personal.Identifications": "Kişisel Kimlikler",
+  "Travellers.Personal.Identification": "Yolcu Kişisel Kimlik",
   "Travellers.Personal.Preferences": "Kişisel Tercihler",
   "Travellers.Personal.Summary": "Kişisel Özet",
-
   "Travellers.Description": "Yolcu Detayları",
   "Travellers.Delete.Succes": "Yolcu başarılıyla silindi",
   "Travellers.Delete.Error": "Yolcu silinirken bir hata oluştu",
