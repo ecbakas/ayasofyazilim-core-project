@@ -8,6 +8,9 @@ export type TravllersKeys =
 const travellerKeys: TravllersKeys[] = [
   "id",
   "userAccountId",
+  "firstName",
+  "middleName",
+  "lastName",
   "residenceCountryCode2",
   "nationalityCountryCode2",
   "hasUserAccount",
