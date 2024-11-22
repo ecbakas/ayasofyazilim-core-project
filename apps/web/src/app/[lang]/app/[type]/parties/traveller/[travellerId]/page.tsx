@@ -23,10 +23,18 @@ export default async function Page({
   const travellerData = Traveller.data;
 
   return (
-    <Form
-      languageData={languageData}
-      travellerData={travellerData}
-      travellerId={params.travellerId}
-    />
+    <>
+      <Form
+        languageData={languageData}
+        travellerData={travellerData}
+        travellerId={params.travellerId}
+      />
+      <div className="hidden" id="page-title">
+        {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
+      </div>
+      <div className="hidden" id="page-description">
+        {languageData["Travellers.Edit.Description"]}
+      </div>
+    </>
   );
 }

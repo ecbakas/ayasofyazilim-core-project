@@ -1,6 +1,10 @@
 {
   "Travellers": "Travellers",
+  "Traveller": "Traveller",
+  "Travellers.Edit.Description": "You can update the traveller's details from here.",
+  "Travellers.Identifications.Edit.Description": "You can update the traveller's personal identification from here.",
   "Travellers.Personal.Identifications": "Personal Identifications",
+  "Travellers.Personal.Identification": "Traveller Personal Identification",
   "Travellers.Personal.Preferences": "Personal Preferences",
   "Travellers.Personal.Summary": "Personal Summary",
   "Travellers.Description": "Traveller Details",
