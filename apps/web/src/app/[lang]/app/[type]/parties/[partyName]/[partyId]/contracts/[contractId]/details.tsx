@@ -30,6 +30,7 @@ interface DetailsProp {
   languageData: ContractServiceResource;
   addresses: AddressCommonDataDto[];
   missingSteps: string[];
+  lang: string;
 }
 export type SectionProps = DetailsProp & {
   loading: boolean;

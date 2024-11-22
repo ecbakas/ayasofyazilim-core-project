@@ -52,6 +52,7 @@ export default async function Page({
           success: contractSettings.type === "success",
           message: contractSettings.message,
         }}
+        lang={params.lang}
         languageData={languageData}
         missingSteps={missingSteps.data}
         partyId={params.partyId}
