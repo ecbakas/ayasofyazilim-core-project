@@ -115,6 +115,15 @@
   "Contracts.Settings.Form.factoring": "Faktoring",
   "Contracts.Settings.Form.setIsDefault": "Varsayılan olarak ayarla",
 
+  "Contracts.Settings.SetIsDefault.Success": "Sözleşme ayarı başarıyla varsayılan olarak ayarlandı.",
+  "Contracts.Settings.SetIsDefault.Fail": "Sözleşme ayarı varsayılan olarak ayarlanamadı.",
+  "Contracts.Settings.Delete.Success": "Sözleşme ayarı başarıyla silindi.",
+  "Contracts.Settings.Delete.Fail": "Sözleşme ayarı silinirken bir hata oluştu.",
+  "Contracts.Settings.Create.Success": "Sözleşme ayarı başarıyla oluşturuldu.",
+  "Contracts.Settings.Create.Fail": "Sözleşme ayarı oluşturulurken bir hata oluştu.",
+  "Contracts.Settings.Edit.Success": "Sözleşme ayarı başarıyla kaydedildi.",
+  "Contracts.Settings.Edit.Fail": "Sözleşme ayarı kaydedilirken bir hata oluştu.",
+
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",
 

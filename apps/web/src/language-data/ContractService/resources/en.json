@@ -115,6 +115,15 @@
   "Contracts.Settings.Form.factoring": "Factoring",
   "Contracts.Settings.Form.setIsDefault": "Set as Default",
 
+  "Contracts.Settings.SetIsDefault.Success": "Contract setting successfully set.",
+  "Contracts.Settings.SetIsDefault.Fail": "Contract setting could not be set as default.",
+  "Contracts.Settings.Delete.Success": "Contract setting deleted successfully.",
+  "Contracts.Settings.Delete.Fail": "Error while deleting contract setting.",
+  "Contracts.Settings.Create.Success": "Contract setting created successfully.",
+  "Contracts.Settings.Create.Fail": "Error while creating contract setting.",
+  "Contracts.Settings.Edit.Success": "Contract setting saved successfully.",
+  "Contracts.Settings.Edit.Fail": "Error while saving contract setting.",
+
   "RefundTables.Title": "Refund tables",
   "RefundTables.Description": "Manage refund tables",
 
