@@ -14,6 +14,7 @@ export default async function Page({ params }: { params: { lang: string } }) {
       createOnNewPage
       createOnNewPageTitle={languageData[`Travellers.New`]}
       detailedFilter={filters}
+      editOnNewPage
       fetchRequest={(page, filter) => {
         "use server";
         return tableFetchRequest("travellers", page, filter);

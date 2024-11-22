@@ -22,6 +22,7 @@ const refundColumns = (languageData?: TanstackTableLanguageDataType) =>
     },
   );
 const refundTable: RefundTable = {
+  fillerColumn: "userDeviceName",
   filters: {
     facetedFilters: {
       statusesFilterStatuses: {

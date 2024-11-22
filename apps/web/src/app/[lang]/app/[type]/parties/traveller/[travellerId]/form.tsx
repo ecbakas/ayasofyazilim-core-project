@@ -1,102 +1,210 @@
-// TODO: ask for this case: if traveller has assigned tags and recipets, should we update it?
-// "use client";
+"use client";
+import { toast } from "@/components/ui/sonner";
+import type {
+  UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
+  UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+  UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+  UniRefund_TravellerService_Travellers_TravellerDetailProfileDto,
+} from "@ayasofyazilim/saas/TravellerService";
+import {
+  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
+  $UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+  $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+} from "@ayasofyazilim/saas/TravellerService";
+import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
+import AutoForm, {
+  AutoFormSubmit,
+  createFieldConfigWithResource,
+} from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import {
+  SectionLayout,
+  SectionLayoutContent,
+} from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
+import type { CellContext } from "@tanstack/react-table";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { deleteTravellerPersonalIdentificationApi } from "src/app/[lang]/app/actions/TravellerService/actions";
+import {
+  putTravellerPersonalPreferenceApi,
+  putTravellerPersonalSummaryApi,
+} from "src/app/[lang]/app/actions/TravellerService/put-actions";
+import type { TravellerServiceResource } from "src/language-data/TravellerService";
 
-// import { Card } from "@/components/ui/card";
-// import { toast } from "@/components/ui/sonner";
-// import type {
-//   GetApiTravellerServiceTravellersGetProfileDetailByIdResponse,
-//   UniRefund_TravellerService_Travellers_UpdateTravellerDto,
-// } from "@ayasofyazilim/saas/TravellerService";
-// import { $UniRefund_TravellerService_Travellers_UpdateTravellerDto } from "@ayasofyazilim/saas/TravellerService";
-// import { PageHeader } from "@repo/ayasofyazilim-ui/molecules/page-header";
-// import AutoForm, {
-//   AutoFormSubmit,
-// } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-// import Link from "next/link";
-// import { useEffect, useState } from "react";
-// import { isApiError } from "src/app/api/util";
-// import type { TravellerServiceResource } from "src/language-data/TravellerService";
-// import { createZodObject, getBaseLink } from "src/utils";
-// import { getTravellerById, updateTraveller } from "../actions";
+export default function Page({
+  languageData,
+  travellerId,
+  travellerData,
+}: {
+  languageData: TravellerServiceResource;
+  travellerId: string;
+  travellerData: UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
+}) {
+  const router = useRouter();
 
-// const generalInformationSchema = createZodObject(
-//   $UniRefund_TravellerService_Travellers_UpdateTravellerDto,
-//   Object.keys(
-//     $UniRefund_TravellerService_Travellers_UpdateTravellerDto.properties,
-//   ),
-// );
+  const updatPersonalPreferenceSchema = createZodObject(
+    $UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+  );
 
-// export default function Form({
-//   travellerId,
-//   languageData,
-// }: {
-//   travellerId: string;
-//   languageData: TravellerServiceResource;
-// }) {
-//   const [generalInformationData, setGeneralInformationData] =
-//     useState<GetApiTravellerServiceTravellersGetProfileDetailByIdResponse>();
-//   useEffect(() => {
-//     async function getTraveller() {
-//       try {
-//         const response = await getTravellerById({ id: travellerId });
-//         if (response.type === "success") {
-//           setGeneralInformationData(response.data);
-//         } else {
-//           toast.error(`${response.status}: ${response.message}`);
-//         }
-//       } catch (error) {
-//         if (isApiError(error)) {
-//           toast.error(error.message);
-//         }
-//         toast.error("Traveller fetch failed for unknown reason");
-//       }
-//     }
-//     void getTraveller();
-//   }, [travellerId]);
-//   return (
-//     <>
-//       <PageHeader
-//         LinkElement={Link}
-//         description={languageData.TravellerDescription}
-//         href={getBaseLink("app/admin/traveller")}
-//         title={`${languageData.TravellerDetail} - ${travellerId}`}
-//       />
-//       <Card className="h-full w-full flex-1 overflow-auto p-5">
-//         <AutoForm
-//           formClassName="border-0"
-//           formSchema={generalInformationSchema}
-//           onSubmit={(formdata) => {
-//             async function create() {
-//               const requestBody: UniRefund_TravellerService_Travellers_UpdateTravellerDto =
-//                 {
-//                   ...(formdata as UniRefund_TravellerService_Travellers_UpdateTravellerDto),
-//                   id: travellerId,
-//                 };
-//               try {
-//                 const resposnse = await updateTraveller({
-//                   requestBody,
-//                 });
-//                 if (resposnse.type === "success") {
-//                   toast.success("Traveller created successfully");
-//                 } else {
-//                   toast.error(`${resposnse.status}: ${resposnse.message}`);
-//                 }
-//               } catch (error) {
-//                 if (isApiError(error)) {
-//                   toast.error(error.message);
-//                 }
-//                 toast.error("Traveller creation failed for unknown reason");
-//               }
-//             }
-//             void create();
-//           }}
-//           values={generalInformationData}
-//         >
-//           <AutoFormSubmit className="float-right">
-//             <>{languageData.Save}</>
-//           </AutoFormSubmit>
-//         </AutoForm>
-//       </Card>
-//     </>
-//   );
-// }
+  const updatPersonalSummarySchema = createZodObject(
+    $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+  );
+
+  const translatedPersonalPreferenceForm = createFieldConfigWithResource({
+    schema:
+      $UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+    resources: languageData,
+  });
+
+  const translatedPersonalSummaryForm = createFieldConfigWithResource({
+    schema:
+      $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+    resources: languageData,
+  });
+  function cellWithLink(
+    cell: CellContext<
+      UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
+      unknown
+    >,
+  ) {
+    const id = cell.row.original.id || "";
+    const travelDocumentNumber = String(cell.getValue());
+    return (
+      <Link
+        className="text-blue-700"
+        href={`${travellerId}/identification/${id}`}
+      >
+        {travelDocumentNumber}
+      </Link>
+    );
+  }
+
+  function updateTravellerPersonalPreference(
+    data: UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+  ) {
+    void putTravellerPersonalPreferenceApi({
+      id: travellerId,
+      requestBody: data,
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
+
+  function updateTravellerPersonalSummary(
+    data: UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+  ) {
+    void putTravellerPersonalSummaryApi({
+      id: travellerId,
+      requestBody: data,
+    }).then((response) => {
+      handlePutResponse(response, router);
+    });
+  }
+
+  return (
+    <SectionLayout
+      sections={[
+        {
+          name: languageData["Travellers.Personal.Identifications"],
+          id: "identifications",
+        },
+        {
+          name: languageData["Travellers.Personal.Preferences"],
+          id: "preferences",
+        },
+        { name: languageData["Travellers.Personal.Summary"], id: "summary" },
+      ]}
+      vertical
+    >
+      <SectionLayoutContent sectionId="identifications">
+        <DataTable
+          columnsData={{
+            type: "Auto",
+            data: {
+              tableType:
+                $UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
+              excludeList: [
+                "id",
+                "firstName",
+                "lastName",
+                "middleName",
+                "nationalityCountryCode2",
+                "residenceCountryCode2",
+              ],
+              customCells: {
+                travelDocumentNumber: cellWithLink,
+              },
+              actionList: [
+                {
+                  cta: languageData.Delete,
+                  type: "Action",
+                  callback: (row: { id: string }) => {
+                    void deleteTravellerPersonalIdentificationApi(row.id).then(
+                      (response) => {
+                        if (
+                          response.type === "error" ||
+                          response.type === "api-error"
+                        ) {
+                          toast.error(
+                            `${response.status}: ${response.message || languageData["Travellers.Identifications.Delete.Error"]}`,
+                          );
+                        } else {
+                          toast.success(
+                            languageData[
+                              "Travellers.Identifications.Delete.Success"
+                            ],
+                          );
+                          router.back();
+                        }
+                      },
+                    );
+                  },
+                },
+              ],
+            },
+          }}
+          data={travellerData.personalIdentifications}
+          showView
+        />
+      </SectionLayoutContent>
+
+      <SectionLayoutContent sectionId="preferences">
+        <AutoForm
+          fieldConfig={translatedPersonalPreferenceForm}
+          formSchema={updatPersonalPreferenceSchema}
+          onSubmit={(values) => {
+            updateTravellerPersonalPreference(
+              values as UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
+            );
+          }}
+          values={{
+            languagePreferenceCode: travellerData.languagePreferenceCode,
+          }}
+        >
+          <AutoFormSubmit className="float-right">
+            {languageData["Edit.Save"]}
+          </AutoFormSubmit>
+        </AutoForm>
+      </SectionLayoutContent>
+      <SectionLayoutContent sectionId="summary">
+        <AutoForm
+          fieldConfig={translatedPersonalSummaryForm}
+          formSchema={updatPersonalSummarySchema}
+          onSubmit={(values) => {
+            updateTravellerPersonalSummary(
+              values as UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
+            );
+          }}
+          values={{
+            genderTypeCode: travellerData.gender,
+          }}
+        >
+          <AutoFormSubmit className="float-right">
+            {languageData["Edit.Save"]}
+          </AutoFormSubmit>
+        </AutoForm>
+      </SectionLayoutContent>
+    </SectionLayout>
+  );
+}
