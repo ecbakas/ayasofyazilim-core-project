@@ -13,10 +13,10 @@ export default async function Page({
   params: { travellerId: string; lang: string };
 }) {
   const { languageData } = await getResourceData(params.lang);
-  const Traveller = await getTravellersDetailsApi(params.travellerId);
+  const traveller = await getTravellersDetailsApi(params.travellerId);
   const countries = await getCountriesApi();
   const travellerData =
-    Traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
+    traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
   const countryList =
     (countries.type === "success" && countries.data.items) || [];
 

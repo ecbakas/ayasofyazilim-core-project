@@ -10,17 +10,17 @@ export default async function Page({
   params: { travellerId: string; lang: string };
 }) {
   const { languageData } = await getResourceData(params.lang);
-  const Traveller = await getTravellersDetailsApi(params.travellerId);
+  const traveller = await getTravellersDetailsApi(params.travellerId);
 
-  if (Traveller.type !== "success") {
+  if (traveller.type !== "success") {
     return (
       <div className="error-message">
-        {Traveller.type + Traveller.message ||
+        {traveller.type + traveller.message ||
           languageData["Travellers.Fetch.Fail"]}
       </div>
     );
   }
-  const travellerData = Traveller.data;
+  const travellerData = traveller.data;
 
   return (
     <>
