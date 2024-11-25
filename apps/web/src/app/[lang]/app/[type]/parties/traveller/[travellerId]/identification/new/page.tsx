@@ -15,10 +15,10 @@ export default async function Page({
   const { languageData } = await getResourceData(params.lang);
   const traveller = await getTravellersDetailsApi(params.travellerId);
   const countries = await getCountriesApi();
-  const travellerData =
-    traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
   const countryList =
     (countries.type === "success" && countries.data.items) || [];
+  const travellerData =
+    traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
 
   return (
     <>
@@ -28,14 +28,13 @@ export default async function Page({
           success: countries.type === "success",
         }}
         languageData={languageData}
-        travellerData={travellerData}
         travellerId={params.travellerId}
       />
       <div className="hidden" id="page-title">
-        {`${languageData["Travellers.Personal.Identification"]} (${travellerData.personalIdentifications[0].travelDocumentNumber})`}
+        {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
       </div>
       <div className="hidden" id="page-description">
-        {languageData["Travellers.Identifications.Edit.Description"]}
+        {languageData["Travellers.Create.Identification.Description"]}
       </div>
       <div className="hidden" id="page-back-link">
         {getBaseLink(`/app/admin/parties/traveller/${params.travellerId}`)}

@@ -1,6 +1,7 @@
 {
   "Travellers": "Travellers",
   "Traveller": "Traveller",
+  "Travellers.New.Identification": "New identification",
   "Travellers.Edit.Description": "You can update the traveller's details from here.",
   "Travellers.Identifications.Edit.Description": "You can update the traveller's personal identification from here.",
   "Travellers.Personal.Identifications": "Personal Identifications",
@@ -21,6 +22,7 @@
   "Travellers.Identifications.Delete.Success": "Personal identification deleted successfully",
   "Travellers.Identifications.Update.Success": "personal identification Updated successfully",
   "Travellers.Identifications.Update.Error": "Failed to update personal identification",
+  "Travellers.Create.Identification.Description": "You can add a new personal identification from here.",
 
   "Form.personalIdentification": "Personal Information",
   "Form.personalIdentification.firstName": "First Name",

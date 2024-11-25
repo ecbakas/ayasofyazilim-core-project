@@ -1,6 +1,7 @@
 {
   "Travellers": "Yolcular",
   "Traveller": "Yolcu",
+  "Travellers.New.Identification": "Yeni kimlik",
   "Travellers.Edit.Description": "Yolcu bilgilerini buradan güncelleyebilirsiniz.",
   "Travellers.Identifications.Edit.Description": "Yolcu kişisel bilgilerini buradan güncelleyebilirsiniz.",
   "Travellers.Personal.Identifications": "Kişisel Kimlikler",
@@ -21,6 +22,7 @@
   "Travellers.Identifications.Delete.Success": "Kişisel kimlik basarılıyla silindi",
   "Travellers.Identifications.Update.Success": "Kişisel kimlik başarıyla güncellendi",
   "Travellers.Identifications.Update.Error": "Kişisel kimlik güncellenirken bir hata oluştu.",
+  "Travellers.Create.Identification.Description": "Buradan yeni bir kişisel kimlik ekleyebilirsiniz.",
 
   "Form.personalIdentification": "Kişisel Bilgiler",
   "Form.personalIdentification.firstName": "Ad",
