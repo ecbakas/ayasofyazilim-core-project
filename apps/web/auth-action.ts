@@ -67,7 +67,9 @@ export async function signUpServer({
   password: string;
 }) {
   try {
-    const client = await getAccountServiceClient();
+    const client = await getAccountServiceClient({
+      __tenant: process.env.TENANT_ID || "",
+    });
     await client.account.postApiAccountRegister({
       requestBody: {
         userName,

@@ -11,7 +11,8 @@
     "HOSTNAME",
     "PORT",
     "TEST_USERNAME",
-    "TEST_PASSWORD"
+    "TEST_PASSWORD",
+    "TENANT_ID"
   ],
   "tasks": {
     "build": {
