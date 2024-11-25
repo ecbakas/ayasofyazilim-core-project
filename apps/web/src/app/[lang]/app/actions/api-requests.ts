@@ -3,6 +3,7 @@
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
@@ -100,7 +101,7 @@ import {
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<
   ApiRequestTypes,
-  "locations" | "editions" | "applications" | "tenants"
+  "locations" | "editions" | "applications" | "tenants" | "templates"
 >;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -114,6 +115,7 @@ export type DeleteTableDataTypes = Exclude<
   | "applications"
   | "tenants"
   | "refund"
+  | "templates"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -128,6 +130,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "tenants"
   | "refund"
   | "sessions"
+  | "templates"
 >;
 
 export async function getApiRequests() {
@@ -652,6 +655,14 @@ export async function getApiRequests() {
         await saasClient.edition.getApiSaasEditionsAll(),
       moveAllTenants: async (data: PutApiSaasEditionsByIdMoveAllTenantsData) =>
         await saasClient.edition.putApiSaasEditionsByIdMoveAllTenants(data),
+    },
+    templates: {
+      getRefundTableHeaders: async (
+        data: GetApiContractServiceRefundTablesRefundTableHeadersData,
+      ) =>
+        await contractsClient.refundTables.getApiContractServiceRefundTablesRefundTableHeaders(
+          data,
+        ),
     },
     "export-validation": {
       get: async (data: GetApiExportValidationServiceExportValidationData) =>
