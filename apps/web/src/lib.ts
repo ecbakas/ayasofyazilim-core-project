@@ -31,13 +31,15 @@ export async function getIdentityServiceClient() {
   });
 }
 
-export async function getAccountServiceClient() {
+export async function getAccountServiceClient(
+  customHeaders?: Record<string, string>,
+) {
   const session = await auth();
   const token = session?.access_token;
   return new AccountServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
-    HEADERS,
+    HEADERS: { ...HEADERS, ...customHeaders },
   });
 }
 
