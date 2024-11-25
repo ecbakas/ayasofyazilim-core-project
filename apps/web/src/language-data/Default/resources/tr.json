@@ -41,6 +41,11 @@
   "FullName": "Ad Soyad",
   "FirstName": "Ad",
   "LastName": "Soyad",
+  "CreationTime": "Olusturulma Zamanı",
+  "LastModificationTime": "Son Değişiklik Zamanı",
+  "IsActive": "Aktif",
+  "IsDeleted": "Silindi",
+  "IsDefault": "Varsayılan",
 
   "FileUploader.CannotUploadMoreThanOne": "Birden fazla dosya yükleyemezsiniz",
   "FileUploader.CannotUploadMoreThan{0}": "En fazla {0} dosya yükleyebilirsiniz",
