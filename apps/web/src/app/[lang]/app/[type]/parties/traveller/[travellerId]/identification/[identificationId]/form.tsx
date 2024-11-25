@@ -72,6 +72,7 @@ export default function Form({
     name: "Form.personalIdentification",
     extend: {
       nationalityCountryCode2: {
+        containerClassName: "gap-2",
         renderer: (props) => (
           <CustomCombobox<CountryDto>
             childrenProps={props}
@@ -90,6 +91,7 @@ export default function Form({
         ),
       },
       residenceCountryCode2: {
+        containerClassName: "gap-2",
         renderer: (props) => (
           <CustomCombobox<CountryDto>
             childrenProps={props}
@@ -114,6 +116,7 @@ export default function Form({
     <AutoForm
       className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
+      formClassName=" space-y-0 "
       formSchema={updateBillingSchema}
       onSubmit={(values) => {
         void putTravellerPersonalIdentification(

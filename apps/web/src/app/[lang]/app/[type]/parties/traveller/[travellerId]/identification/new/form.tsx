@@ -71,6 +71,7 @@ export default function Form({
     name: "Form.personalIdentification",
     extend: {
       nationalityCountryCode2: {
+        containerClassName: "gap-2",
         renderer: (props) => (
           <CustomCombobox<CountryDto>
             childrenProps={props}
@@ -89,6 +90,7 @@ export default function Form({
         ),
       },
       residenceCountryCode2: {
+        containerClassName: "gap-2",
         renderer: (props) => (
           <CustomCombobox<CountryDto>
             childrenProps={props}
