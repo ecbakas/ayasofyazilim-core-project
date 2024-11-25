@@ -14,47 +14,63 @@ import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/mole
 type RefundTable =
   TanstackTableCreationProps<UniRefund_RefundService_Refunds_GetListAsync_RefundListItem>;
 
-const refundColumns = (languageData?: TanstackTableLanguageDataType) =>
+const refundColumns = (
+  locale: string,
+  languageData?: TanstackTableLanguageDataType,
+) =>
   tanstackTableCreateColumnsByRowData<UniRefund_RefundService_Refunds_GetListAsync_RefundListItem>(
     {
       rows: $PagedResultDto_RefundListItem.properties.items.items.properties,
       languageData,
+      config: {
+        locale,
+      },
     },
   );
-const refundTable: RefundTable = {
-  fillerColumn: "userDeviceName",
-  filters: {
-    facetedFilters: {
-      statusesFilterStatuses: {
-        options: $UniRefund_RefundService_Enums_RefundStatus.enum.map((x) => ({
-          label: x,
-          value: x,
-        })),
-      },
-      statusesFilterReconciliationStatuses: {
-        options:
-          $UniRefund_RefundService_Enums_RefundReconciliationStatus.enum.map(
+
+const refundTable = (languageData?: Record<string, string>) => {
+  const table: RefundTable = {
+    fillerColumn: "userDeviceName",
+    filters: {
+      facetedFilters: {
+        statusesFilterStatuses: {
+          title: languageData?.Statuses || "Statuses",
+          options: $UniRefund_RefundService_Enums_RefundStatus.enum.map(
             (x) => ({
               label: x,
               value: x,
             }),
           ),
+        },
+        statusesFilterReconciliationStatuses: {
+          title:
+            languageData?.ReconciliationStatuses || "ReconciliationStatuses",
+          options:
+            $UniRefund_RefundService_Enums_RefundReconciliationStatus.enum.map(
+              (x) => ({
+                label: x,
+                value: x,
+              }),
+            ),
+        },
+        statusesFilterRefundTypes: {
+          title: languageData?.RefundTypes || "RefundTypes",
+          options: $UniRefund_TagService_Tags_RefundType.enum.map((x) => ({
+            label: x,
+            value: x,
+          })),
+        },
       },
-      statusesFilterRefundTypes: {
-        options: $UniRefund_TagService_Tags_RefundType.enum.map((x) => ({
-          label: x,
-          value: x,
-        })),
-      },
+      dateFilters: [
+        {
+          label: languageData?.CreationTime || "Creation Time",
+          startAccessorKey: "timeFilterStartDate",
+          endAccessorKey: "timeFilterEndDate",
+        },
+      ],
     },
-    dateFilters: [
-      {
-        label: "Creation Time",
-        startAccessorKey: "timeFilterStartDate",
-        endAccessorKey: "timeFilterEndDate",
-      },
-    ],
-  },
+  };
+  return table;
 };
 export const tableData = {
   refund: {
