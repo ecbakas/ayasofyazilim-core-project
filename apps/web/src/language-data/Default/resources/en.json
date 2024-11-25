@@ -39,6 +39,11 @@
   "FullName": "Full Name",
   "FirstName": "First Name",
   "LastName": "Last Name",
+  "CreationTime": "Creation Time",
+  "LastModificationTime": "Last Modification Time",
+  "IsActive": "Active",
+  "IsDeleted": "Deleted",
+  "IsDefault": "Default",
 
   "FileUploader.CannotUploadMoreThanOne": "Cannot upload more than 1 file at a time",
   "FileUploader.CannotUploadMoreThan{0}": "Cannot upload more than {0} files",
