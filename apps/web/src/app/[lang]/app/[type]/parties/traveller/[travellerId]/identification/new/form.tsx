@@ -1,10 +1,7 @@
 "use client";
 
 import { toast } from "@/components/ui/sonner";
-import type {
-  UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
-  UniRefund_TravellerService_Travellers_TravellerDetailProfileDto,
-} from "@ayasofyazilim/saas/TravellerService";
+import type { UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
 import { $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
@@ -12,6 +9,7 @@ import AutoForm, {
   createFieldConfigWithResource,
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import { useRouter } from "next/navigation";
 import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
 import { putTravellerPersonalIdentificationApi } from "src/app/[lang]/app/actions/TravellerService/put-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
@@ -35,26 +33,27 @@ const updateBillingSchema = createZodObject(
 export default function Form({
   languageData,
   travellerId,
-  travellerData,
   countryList,
 }: {
   languageData: TravellerServiceResource;
   travellerId: string;
-  travellerData: UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
   countryList: { data: CountryDto[]; success: boolean };
 }) {
+  const router = useRouter();
   async function putTravellerPersonalIdentification(
     data: UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
   ) {
     const response = await putTravellerPersonalIdentificationApi({
       id: travellerId,
-      requestBody: { ...data, id: travellerData.personalIdentifications[0].id },
+      requestBody: data,
     });
     if (response.type === "success") {
       toast.success(
         response.message ||
           languageData["Travellers.Identifications.Update.Success"],
       );
+      router.back();
+      router.refresh();
     } else {
       toast.error(
         `${response.status}: ${
@@ -116,17 +115,15 @@ export default function Form({
     <AutoForm
       className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
-      formClassName=" space-y-0 "
       formSchema={updateBillingSchema}
       onSubmit={(values) => {
         void putTravellerPersonalIdentification(
           values as UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
         );
       }}
-      values={travellerData.personalIdentifications[0]}
     >
       <AutoFormSubmit className="float-right">
-        {languageData["Edit.Save"]}
+        {languageData.Save}
       </AutoFormSubmit>
     </AutoForm>
   );

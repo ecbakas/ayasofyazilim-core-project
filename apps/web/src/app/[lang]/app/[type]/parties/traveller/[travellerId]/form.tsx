@@ -12,6 +12,7 @@ import {
   $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
 } from "@ayasofyazilim/saas/TravellerService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import jsonToCsv from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import AutoForm, {
   AutoFormSubmit,
@@ -31,6 +32,7 @@ import {
   putTravellerPersonalSummaryApi,
 } from "src/app/[lang]/app/actions/TravellerService/put-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import { getBaseLink } from "src/utils";
 
 export default function Page({
   languageData,
@@ -120,6 +122,25 @@ export default function Page({
     >
       <SectionLayoutContent sectionId="identifications">
         <DataTable
+          action={[
+            {
+              cta: languageData["Travellers.New.Identification"],
+              type: "NewPage",
+              href: getBaseLink(
+                `app/admin/parties/traveller/${travellerId}/identification/new`,
+              ),
+            },
+            {
+              cta: languageData.ExportCSV,
+              callback: () => {
+                jsonToCsv(
+                  travellerData.personalIdentifications,
+                  "Identifications",
+                );
+              },
+              type: "Action",
+            },
+          ]}
           columnsData={{
             type: "Auto",
             data: {
@@ -160,7 +181,7 @@ export default function Page({
                               "Travellers.Identifications.Delete.Success"
                             ],
                           );
-                          router.back();
+                          router.refresh();
                         }
                       },
                     );
