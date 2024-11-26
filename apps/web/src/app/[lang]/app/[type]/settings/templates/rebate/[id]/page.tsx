@@ -1,6 +1,6 @@
 "use server";
 import { getResourceData } from "src/language-data/ContractService";
-import TemplateDetails from "./template-details";
+import RebateForm from "../rebate-form";
 
 export default async function Page({
   params,
@@ -8,5 +8,5 @@ export default async function Page({
   params: { lang: string; type: string; id: string };
 }) {
   const { languageData } = await getResourceData(params.lang);
-  return <TemplateDetails languageData={languageData} templateId={params.id} />;
+  return <RebateForm formType="update" languageData={languageData} />;
 }

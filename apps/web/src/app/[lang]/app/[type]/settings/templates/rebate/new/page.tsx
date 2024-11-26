@@ -1,7 +1,7 @@
 import { getResourceData } from "src/language-data/ContractService";
-import NewRebate from "./new-rebate";
+import RebateForm from "../rebate-form";
 
 export default async function Page({ params }: { params: { lang: string } }) {
   const { languageData } = await getResourceData(params.lang);
-  return <NewRebate languageData={languageData} />;
+  return <RebateForm formType="create" languageData={languageData} />;
 }
