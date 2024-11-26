@@ -3,10 +3,12 @@
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
   PostApiContractServiceRefundTablesRefundTableHeadersData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
@@ -683,6 +685,18 @@ export async function getApiRequests() {
         data: PostApiContractServiceRefundTablesRefundFeeHeadersData,
       ) =>
         await contractsClient.refundTables.postApiContractServiceRefundTablesRefundFeeHeaders(
+          data,
+        ),
+      getRebateTableHeaders: async (
+        data: GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
+      ) =>
+        await contractsClient.rebateTables.getApiContractServiceRebateTablesRebateTableHeadersTemplates(
+          data,
+        ),
+      postRebateTableHeaders: async (
+        data: PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
+      ) =>
+        await contractsClient.rebateTables.postApiContractServiceRebateTablesRebateTableHeadersTemplates(
           data,
         ),
     },
