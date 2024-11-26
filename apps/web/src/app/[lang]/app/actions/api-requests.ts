@@ -3,9 +3,12 @@
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceRefundTablesRefundFeeHeadersData,
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PostApiContractServiceRefundTablesRefundFeeHeadersData,
+  PostApiContractServiceRefundTablesRefundTableHeadersData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
 } from "@ayasofyazilim/saas/ContractService";
@@ -661,6 +664,24 @@ export async function getApiRequests() {
         data: GetApiContractServiceRefundTablesRefundTableHeadersData,
       ) =>
         await contractsClient.refundTables.getApiContractServiceRefundTablesRefundTableHeaders(
+          data,
+        ),
+      postRefundTableHeaders: async (
+        data: PostApiContractServiceRefundTablesRefundTableHeadersData,
+      ) =>
+        await contractsClient.refundTables.postApiContractServiceRefundTablesRefundTableHeaders(
+          data,
+        ),
+      getRefundTableFeeHeaders: async (
+        data: GetApiContractServiceRefundTablesRefundFeeHeadersData,
+      ) =>
+        await contractsClient.refundTables.getApiContractServiceRefundTablesRefundFeeHeaders(
+          data,
+        ),
+      postRefundTableFeeHeaders: async (
+        data: PostApiContractServiceRefundTablesRefundFeeHeadersData,
+      ) =>
+        await contractsClient.refundTables.postApiContractServiceRefundTablesRefundFeeHeaders(
           data,
         ),
     },
