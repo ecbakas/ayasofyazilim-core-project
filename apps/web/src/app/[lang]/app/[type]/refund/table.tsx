@@ -3,7 +3,7 @@
 import type { PagedResultDto_RefundListItem } from "@ayasofyazilim/saas/RefundService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { tableData } from "./data";
+import { tableData } from "./table-data";
 
 function RefundTable({
   locale,

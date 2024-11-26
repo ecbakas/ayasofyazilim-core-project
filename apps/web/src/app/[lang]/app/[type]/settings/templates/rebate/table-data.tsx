@@ -5,6 +5,7 @@ import type {
   TanstackTableLanguageDataType,
 } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import { PlusCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
@@ -42,8 +43,9 @@ const rebateTableHeadersTable = (params: {
       {
         actionLocation: "table",
         type: "simple",
+        icon: PlusCircle,
         onClick: () => {
-          params.router.push(`new`);
+          params.router.push(`rebate/new`);
         },
         cta: params.languageData["RebateTables.Templates.Create"],
       },

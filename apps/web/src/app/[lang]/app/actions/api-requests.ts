@@ -681,7 +681,7 @@ export async function getApiRequests() {
         await contractsClient.refundTables.getApiContractServiceRefundTablesRefundFeeHeaders(
           data,
         ),
-      postRefundTableFeeHeaders: async (
+      postRefundFeeHeaders: async (
         data: PostApiContractServiceRefundTablesRefundFeeHeadersData,
       ) =>
         await contractsClient.refundTables.postApiContractServiceRefundTablesRefundFeeHeaders(

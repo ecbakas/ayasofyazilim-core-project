@@ -1,11 +1,26 @@
-import { getResourceData } from "src/language-data/ContractService";
-import RefundFees from "./refund-fees";
+"use server";
 
-export default async function Page({
-  params,
-}: {
-  params: { lang: string; type: string };
+import type { GetApiContractServiceRefundTablesRefundFeeHeadersData } from "@ayasofyazilim/saas/ContractService";
+import { notFound } from "next/navigation";
+import { getResourceData } from "src/language-data/ContractService";
+import { getRefundTableFeeHeadersApi } from "../../../../actions/ContractService/action";
+import Table from "./table";
+
+export default async function Page(props: {
+  params: { lang: string };
+  searchParams: Promise<GetApiContractServiceRefundTablesRefundFeeHeadersData>;
 }) {
-  const { languageData } = await getResourceData(params.lang);
-  return <RefundFees languageData={languageData} />;
+  const searchParams = await props.searchParams;
+  const response = await getRefundTableFeeHeadersApi(searchParams);
+  if (response.type !== "success") return notFound();
+
+  const { languageData } = await getResourceData(props.params.lang);
+
+  return (
+    <Table
+      languageData={languageData}
+      locale={props.params.lang}
+      response={response.data}
+    />
+  );
 }

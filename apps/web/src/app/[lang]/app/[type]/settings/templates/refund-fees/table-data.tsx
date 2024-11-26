@@ -1,9 +1,9 @@
 import type {
-  UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderCreateDto,
-  UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto,
+  UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderCreateDto,
+  UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
 import {
-  $PagedResultDto_RefundTableHeaderDto,
+  $PagedResultDto_RefundFeeHeaderDto,
   $UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderCreateDto,
 } from "@ayasofyazilim/saas/ContractService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
@@ -15,10 +15,10 @@ import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/mole
 import { CheckCircle, PlusCircle, XCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
-import { postRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
+import { postRefundFeeHeadersApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
 
-type RefundTableHeaders =
-  TanstackTableCreationProps<UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto>;
+type RefundFeeHeaders =
+  TanstackTableCreationProps<UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto>;
 
 const booleanOptions = {
   options: [
@@ -36,21 +36,20 @@ const booleanOptions = {
     },
   ],
 };
-const refundTableHeadersColumns = (
+const refundFeeHeadersColumns = (
   locale: string,
   languageData?: TanstackTableLanguageDataType,
 ) =>
-  tanstackTableCreateColumnsByRowData<UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto>(
+  tanstackTableCreateColumnsByRowData<UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto>(
     {
-      rows: $PagedResultDto_RefundTableHeaderDto.properties.items.items
+      rows: $PagedResultDto_RefundFeeHeaderDto.properties.items.items
         .properties,
       languageData,
       config: {
         locale,
       },
       faceted: {
-        isDefault: booleanOptions,
-        isBundling: booleanOptions,
+        isActive: booleanOptions,
       },
       links: {
         name: {
@@ -61,29 +60,17 @@ const refundTableHeadersColumns = (
     },
   );
 
-const refundTableHeadersTable = (params: {
+const refundFeeHeadersTable = (params: {
   languageData?: Record<string, string>;
   router: AppRouterInstance;
 }) => {
-  const table: RefundTableHeaders = {
+  const table: RefundFeeHeaders = {
     fillerColumn: "name",
     columnVisibility: {
       type: "show",
-      columns: [
-        "name",
-        "creationTime",
-        "lastModificationTime",
-        "isDefault",
-        "isBundling",
-      ],
+      columns: ["name", "creationTime", "isActive", "lastModificationTime"],
     },
-    columnOrder: [
-      "name",
-      "creationTime",
-      "lastModificationTime",
-      "isDefault",
-      "isBundling",
-    ],
+    columnOrder: ["name", "isActive", "creationTime", "lastModificationTime"],
     tableActions: [
       {
         type: "autoform-dialog",
@@ -93,9 +80,9 @@ const refundTableHeadersTable = (params: {
         submitText: "Save",
         title: "Create",
         onSubmit(row) {
-          void postRefundTableHeadersApi({
+          void postRefundFeeHeadersApi({
             requestBody:
-              row as UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderCreateDto,
+              row as UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderCreateDto,
           }).then((response) => {
             handlePostResponse(response, params.router);
           });
@@ -110,8 +97,8 @@ const refundTableHeadersTable = (params: {
 };
 
 export const tableData = {
-  refundTableHeaders: {
-    columns: refundTableHeadersColumns,
-    table: refundTableHeadersTable,
+  refundFeeHeaders: {
+    columns: refundFeeHeadersColumns,
+    table: refundFeeHeadersTable,
   },
 };
