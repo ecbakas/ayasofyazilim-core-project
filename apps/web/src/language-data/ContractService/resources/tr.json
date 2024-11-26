@@ -199,6 +199,7 @@
   "RebateTables.Templates.Preview.Calculate": "Hesapla",
 
   "RebateTables.Templates.Form.name": "İade Tablosu Adı",
+  "RebateTables.Templates.Form.isTemplate": "Şablon",
   "RebateTables.Templates.Form.rebateTableDetails": "İade Tablosu Detayları",
   "RebateTables.Templates.Form.rebateTableDetails.add": "İade tablosu detayı ekle",
   "RebateTables.Templates.Form.rebateTableDetails.delete": "Sil",
