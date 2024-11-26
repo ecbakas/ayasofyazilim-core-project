@@ -6,24 +6,14 @@ import { getApiRequests, getTableData } from "../api-requests";
 
 export async function getTravellers(page: number, filter?: FilterColumnResult) {
   const response = await getTableData("travellers", page, 10, filter);
-  if (response.type === "success") {
-    const data = response.data;
-    return {
-      type: "success",
-      data: { items: data.items || [], totalCount: data.totalCount || 0 },
-    };
-  }
-  return {
-    type: response.type,
-    data: { items: [], totalCount: 0 },
-  };
+  return response;
 }
 
 export async function getTravellersDetailsApi(id: string) {
   try {
     const requests = await getApiRequests();
-    const dataResponse = await requests.travellers.getDetail(id);
-    return structuredResponse(dataResponse);
+    const response = await requests.travellers.getDetail(id);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -32,9 +22,9 @@ export async function getTravellersDetailsApi(id: string) {
 export async function deleteTravellerPersonalIdentificationApi(id: string) {
   try {
     const requests = await getApiRequests();
-    const dataResponse =
+    const response =
       await requests.travellers.deleteTravellerPersonalIdentification(id);
-    return structuredResponse(dataResponse);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

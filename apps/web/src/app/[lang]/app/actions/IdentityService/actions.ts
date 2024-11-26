@@ -15,12 +15,8 @@ import { getApiRequests } from "../api-requests";
 export async function getClaimsApi(body: GetApiIdentityClaimTypesData = {}) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.claims.get(body),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.claims.get(body);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -31,12 +27,8 @@ export async function putRoleClaimsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.roles.putRoleClaims(body),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.roles.putRoleClaims(body);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -47,12 +39,8 @@ export async function getRoleClaimsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.roles.getRoleClaims(body),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.roles.getRoleClaims(body);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -63,12 +51,8 @@ export async function putUserClaimsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.users.putUserClaims(body),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.users.putUserClaims(body);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -79,12 +63,8 @@ export async function getUserClaimsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.users.getUserClaims(body),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.users.getUserClaims(body);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

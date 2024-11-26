@@ -1,6 +1,6 @@
 "use server";
 import type { GetApiExportValidationServiceExportValidationData } from "@ayasofyazilim/saas/ExportValidationService";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getExportValidationApi(
@@ -8,12 +8,8 @@ export async function getExportValidationApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests["export-validation"].get(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests["export-validation"].get(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -21,12 +17,8 @@ export async function getExportValidationApi(
 export async function getExportValidationDetailApi(id: string) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests["export-validation"].getDetail(id),
-      status: 200,
-      message: "",
-    };
+    const response = await requests["export-validation"].getDetail(id);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -34,12 +26,8 @@ export async function getExportValidationDetailApi(id: string) {
 export async function deleteExportValidationApi(id: string) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: requests["export-validation"].deleteRow(id),
-      status: 200,
-      message: "",
-    };
+    const response = await requests["export-validation"].deleteRow(id);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

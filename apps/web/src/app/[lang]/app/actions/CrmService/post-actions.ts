@@ -1,7 +1,7 @@
 "use server";
 
 import type { PostApiCrmServiceMerchantsByIdAffiliationsData } from "@ayasofyazilim/saas/CRMService";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function postAffiliationsApi(
@@ -15,12 +15,8 @@ export async function postAffiliationsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: requests[partyType].postAffiliations(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyType].postAffiliations(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

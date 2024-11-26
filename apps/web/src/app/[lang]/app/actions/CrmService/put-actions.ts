@@ -9,7 +9,7 @@ import type {
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
 } from "@ayasofyazilim/saas/CRMService";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function putMerchantBaseApi(
@@ -17,12 +17,8 @@ export async function putMerchantBaseApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests.merchants.putMerchantBase(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.merchants.putMerchantBase(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -39,12 +35,8 @@ export async function putCrmAddressApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putAddress(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].putAddress(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -61,12 +53,8 @@ export async function putCrmEmailAddressApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putEmailAddress(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].putEmailAddress(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -82,16 +70,13 @@ export async function putCrmTelephoneApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putTelephone(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].putTelephone(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
 }
+
 export async function putCrmOrganizationApi(
   partyName:
     | "merchants"
@@ -103,12 +88,8 @@ export async function putCrmOrganizationApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putOrganization(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].putOrganization(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -120,12 +101,8 @@ export async function putCrmIndividualNameApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putIndividualName(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].putIndividualName(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -133,17 +110,13 @@ export async function putCrmIndividualNameApi(
 
 export async function putCrmIndividualPersonalSummaryApi(
   partyName: "merchants",
-
   data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].putIndividualPersonalSummary(data),
-      status: 200,
-      message: "",
-    };
+    const response =
+      await requests[partyName].putIndividualPersonalSummary(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
