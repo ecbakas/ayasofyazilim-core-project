@@ -29,12 +29,10 @@ export async function getMerchantContractHeaderMissingStepsByIdApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.merchants.getContractHeaderMissingStepsById(data.id),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.merchants.getContractHeaderMissingStepsById(
+      data.id,
+    );
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -44,12 +42,8 @@ export async function postMerchantContractHeadersByMerchantIdApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.merchants.postContractHeadersById(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.merchants.postContractHeadersById(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -57,12 +51,8 @@ export async function postMerchantContractHeadersByMerchantIdApi(
 export async function getMerchantContractHeaderByIdApi(id: string) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.merchants.getContractHeaderById(id),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.merchants.getContractHeaderById(id);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

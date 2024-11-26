@@ -1,6 +1,6 @@
 "use server";
 import type { PostApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
-import { structuredError } from "../../../../../lib";
+import { structuredError, structuredResponse } from "../../../../../lib";
 import { getApiRequests } from "../api-requests";
 
 export async function postTravellerApi(
@@ -9,12 +9,7 @@ export async function postTravellerApi(
   try {
     const client = await getApiRequests();
     const response = await client.travellers.post(data);
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-      message: "Traveller created successfully",
-    };
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

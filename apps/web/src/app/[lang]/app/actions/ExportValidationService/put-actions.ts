@@ -1,6 +1,6 @@
 "use server";
 import type { PutApiExportValidationServiceExportValidationByIdData } from "@ayasofyazilim/saas/ExportValidationService";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function putExportValidationApi(
@@ -8,12 +8,8 @@ export async function putExportValidationApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: requests["export-validation"].put(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests["export-validation"].put(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }

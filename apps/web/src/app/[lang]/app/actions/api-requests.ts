@@ -99,6 +99,7 @@ import {
   getTagServiceClient,
   getTravellersServiceClient,
   structuredError,
+  structuredResponse,
 } from "src/lib";
 
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
@@ -763,12 +764,7 @@ export async function getTableData(
       skipCount: page * 10,
       ...filter,
     });
-    return {
-      type: "success",
-      data,
-      status: 200,
-      message: "",
-    };
+    return structuredResponse(data);
   } catch (error) {
     return structuredError(error);
   }
@@ -776,12 +772,8 @@ export async function getTableData(
 export async function deleteTableRow(type: DeleteTableDataTypes, id: string) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests[type].deleteRow(id),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[type].deleteRow(id);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -792,12 +784,8 @@ export async function getTableDataDetail(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests[type].getDetail(id),
-      status: 200,
-      message: "",
-    };
+    const data = await requests[type].getDetail(id);
+    return structuredResponse(data);
   } catch (error) {
     return structuredError(error);
   }
