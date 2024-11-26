@@ -1,3 +1,4 @@
+"use client";
 import type {
   UniRefund_ContractService_Rebates_RebateTableDetails_RebateTableDetailCreateDto as RebateTableDetailCreateDto,
   UniRefund_ContractService_Rebates_ProcessingFeeDetails_ProcessingFeeDetailCreateDto as ProcessingFeeDetailCreateDto,
@@ -12,6 +13,7 @@ import { tanstackTableEditableColumnsByRowData } from "@repo/ayasofyazilim-ui/mo
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { TableField } from "@repo/ayasofyazilim-ui/organisms/schema-form/fields";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
+import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { PlusCircle, Trash2 } from "lucide-react";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
@@ -19,14 +21,12 @@ type TypeWithId<Type, IdType = string> = Type & {
   id: IdType;
 };
 
-export default function RebateForm<TData>({
+export default function RebateForm({
   languageData,
   formType,
-  onSubmit,
 }: {
   languageData: ContractServiceResource;
   formType: "create" | "update";
-  onSubmit: (data: TData) => void;
 }) {
   const isCreate = formType === "create";
   const $Schema = isCreate
@@ -125,7 +125,7 @@ export default function RebateForm<TData>({
         }),
       }}
       onSubmit={(data) => {
-        onSubmit(data.formData as TData);
+        data.formData && toastOnSubmit(data.formData as object);
       }}
       schema={$Schema}
       submitText={languageData["RefundTables.Create.Submit"]}
