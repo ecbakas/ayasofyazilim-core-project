@@ -1,21 +1,21 @@
 "use client";
-import type { PagedResultDto_RefundTableHeaderDto } from "@ayasofyazilim/saas/ContractService";
+import type { PagedResultDto_RefundFeeHeaderDto } from "@ayasofyazilim/saas/ContractService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useRouter } from "next/navigation";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { tableData } from "./table-data";
 
-function RefundTable({
+function Table({
   locale,
   response,
   languageData,
 }: {
   locale: string;
-  response: PagedResultDto_RefundTableHeaderDto;
+  response: PagedResultDto_RefundFeeHeaderDto;
   languageData: ContractServiceResource;
 }) {
   const router = useRouter();
-  const columns = tableData.refundTableHeaders.columns(locale, {
+  const columns = tableData.refundFeeHeaders.columns(locale, {
     name: languageData.Name,
     creationTime: languageData.CreationTime,
     lastModificationTime: languageData.LastModificationTime,
@@ -23,7 +23,7 @@ function RefundTable({
     isDeleted: languageData.IsDeleted,
     isActive: languageData.IsActive,
   });
-  const table = tableData.refundTableHeaders.table({ languageData, router });
+  const table = tableData.refundFeeHeaders.table({ languageData, router });
   return (
     <TanstackTable
       {...table}
@@ -34,4 +34,4 @@ function RefundTable({
   );
 }
 
-export default RefundTable;
+export default Table;
