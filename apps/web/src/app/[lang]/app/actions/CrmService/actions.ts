@@ -7,7 +7,7 @@ import type {
   GetApiCrmServiceTaxOfficesData,
 } from "@ayasofyazilim/saas/CRMService";
 import type { ServerResponse } from "src/lib";
-import { structuredError } from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getMerchantsApi(
@@ -15,12 +15,8 @@ export async function getMerchantsApi(
 ): Promise<ServerResponse<GetApiCrmServiceMerchantsResponse>> {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.merchants.get(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.merchants.get(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -30,12 +26,8 @@ export async function getTaxOfficesApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests["tax-offices"].get(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests["tax-offices"].get(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -44,10 +36,8 @@ export async function getTaxOfficesApi(
 export async function getCustomsApi(data: GetApiCrmServiceCustomsData = {}) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.customs.get(data),
-    };
+    const response = await requests.customs.get(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -59,12 +49,10 @@ export async function getBasicInformationApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests[partyName].getBasicInformation({
-        id,
-      }),
-    };
+    const response = await requests[partyName].getBasicInformation({
+      id,
+    });
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -73,12 +61,10 @@ export async function getBasicInformationApi(
 export async function getAdressesApi(id: string, partyName: "merchants") {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests[partyName].getAdresses({
-        id,
-      }),
-    };
+    const response = await requests[partyName].getAdresses({
+      id,
+    });
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -89,12 +75,8 @@ export async function getIndividualsApi(
 ) {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success",
-      data: await requests.individuals.get(data),
-      status: 200,
-      message: "",
-    };
+    const response = await requests.individuals.get(data);
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
@@ -103,12 +85,8 @@ export async function getIndividualsApi(
 export async function getAffiliationCodeApi(partyName: "individuals") {
   try {
     const requests = await getApiRequests();
-    return {
-      type: "success" as const,
-      data: await requests[partyName].getAffiliationCode(),
-      status: 200,
-      message: "",
-    };
+    const response = await requests[partyName].getAffiliationCode();
+    return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
   }
