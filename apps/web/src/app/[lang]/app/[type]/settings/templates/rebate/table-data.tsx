@@ -5,12 +5,27 @@ import type {
   TanstackTableLanguageDataType,
 } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
-import { PlusCircle } from "lucide-react";
+import { CheckCircle, PlusCircle, XCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
 type RebateTableHeaders = TanstackTableCreationProps<RebateTableHeaderDto>;
-
+const booleanOptions = {
+  options: [
+    {
+      value: "true",
+      label: "",
+      icon: CheckCircle,
+      iconClassName: "text-green-700",
+    },
+    {
+      value: "false",
+      label: "",
+      icon: XCircle,
+      iconClassName: "text-red-700",
+    },
+  ],
+};
 const rebateTableHeadersColumns = (
   locale: string,
   languageData?: TanstackTableLanguageDataType,
@@ -26,6 +41,9 @@ const rebateTableHeadersColumns = (
         prefix: `/app/admin/settings/templates/rebate`,
         targetAccessorKey: "id",
       },
+    },
+    faceted: {
+      calculateNetCommissionInsteadOfRefund: booleanOptions,
     },
   });
 
