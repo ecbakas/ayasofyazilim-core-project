@@ -8,7 +8,7 @@ import RefundTable from "./table";
 
 export default async function Page(props: {
   params: { lang: string };
-  searchParams?: Promise<GetApiContractServiceRefundTablesRefundTableHeadersData>;
+  searchParams: Promise<GetApiContractServiceRefundTablesRefundTableHeadersData>;
 }) {
   const searchParams = await props.searchParams;
   const response = await getRefundTableHeadersApi(searchParams);

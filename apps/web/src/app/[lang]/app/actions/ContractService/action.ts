@@ -2,17 +2,14 @@
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceRefundTablesRefundFeeHeadersData,
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
 } from "@ayasofyazilim/saas/ContractService";
-import {
-  getContractServiceClient,
-  structuredError,
-  structuredResponse,
-} from "src/lib";
+import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getMerchantContractHeadersByMerchantIdApi(
@@ -138,14 +135,24 @@ export async function putMerchantContractContractHeaderSetDefaultContractSetting
 }
 
 export async function getRefundTableHeadersApi(
-  data?: GetApiContractServiceRefundTablesRefundTableHeadersData,
+  data: GetApiContractServiceRefundTablesRefundTableHeadersData,
 ) {
   try {
-    const requests = await getContractServiceClient();
+    const requests = await getApiRequests();
     return structuredResponse(
-      await requests.refundTables.getApiContractServiceRefundTablesRefundTableHeaders(
-        data,
-      ),
+      await requests.templates.getRefundTableHeaders(data),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundTableFeeHeadersApi(
+  data: GetApiContractServiceRefundTablesRefundFeeHeadersData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.templates.getRefundTableFeeHeaders(data),
     );
   } catch (error) {
     return structuredError(error);
