@@ -199,6 +199,7 @@
   "RebateTables.Templates.Preview.Calculate": "Calculate",
 
   "RebateTables.Templates.Form.name": "Rebate Table Name",
+  "RebateTables.Templates.Form.isTemplate": "Template",
   "RebateTables.Templates.Form.rebateTableDetails": "Rebate Table Details",
   "RebateTables.Templates.Form.rebateTableDetails.add": "Add rebate table detail",
   "RebateTables.Templates.Form.rebateTableDetails.delete": "Delete",
