@@ -3,16 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/sonner";
 import type {
-  Volo_Abp_PermissionManagement_UpdatePermissionDto,
   Volo_Abp_PermissionManagement_PermissionGrantInfoDto,
   Volo_Abp_PermissionManagement_PermissionGroupDto,
+  Volo_Abp_PermissionManagement_UpdatePermissionDto,
 } from "@ayasofyazilim/saas/AdministrationService";
 import Progress from "@repo/ayasofyazilim-ui/molecules/progress";
 import {
   SectionLayout,
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { getPermissionsApi } from "src/app/[lang]/app/actions/AdministrationService/actions";
 import { putPermissionsApi } from "src/app/[lang]/app/actions/AdministrationService/put-actions";
@@ -37,10 +36,12 @@ export default function PermissionsComponent({
   };
   roleName: string;
 }) {
-  const router = useRouter();
   const languageData = getResourceDataClient(params.lang);
   const [permissionsData, setPermissionsData] = useState<
     NormalizedPermissionGroup[]
+  >([]);
+  const [updatedPermissions, setUpdatedPermissions] = useState<
+    Volo_Abp_PermissionManagement_UpdatePermissionDto[]
   >([]);
 
   useEffect(() => {
@@ -71,20 +72,13 @@ export default function PermissionsComponent({
   }, [rowId, roleName, params.data, params.lang]);
 
   const updatePermissions = async () => {
-    const formattedPermissions: Volo_Abp_PermissionManagement_UpdatePermissionDto[] =
-      permissionsData.flatMap((group) =>
-        group.permissions.map((permission) => ({
-          name: permission.name || "",
-          isGranted: permission.isGranted,
-        })),
-      );
     const providerKey = params.data === "user" ? rowId : roleName;
     const providerName = params.data === "user" ? "U" : "R";
     const response = await putPermissionsApi({
       providerKey,
       providerName,
       requestBody: {
-        permissions: formattedPermissions,
+        permissions: updatedPermissions,
       },
     });
 
@@ -92,7 +86,7 @@ export default function PermissionsComponent({
       toast.success(
         response.message || languageData["Permissions.Update.Success"],
       );
-      router.refresh();
+      window.location.reload();
     } else {
       toast.error(
         `${response.status}: ${
@@ -102,6 +96,26 @@ export default function PermissionsComponent({
     }
   };
 
+  const updateChangedPermission = (
+    permissionName: string,
+    isGranted: boolean,
+  ) => {
+    setUpdatedPermissions((prevPermissions) => {
+      const existingPermissionIndex = prevPermissions.findIndex(
+        (p) => p.name === permissionName,
+      );
+      if (existingPermissionIndex >= 0) {
+        const updatedPermissionsList = [...prevPermissions];
+        updatedPermissionsList[existingPermissionIndex] = {
+          name: permissionName,
+          isGranted,
+        };
+        return updatedPermissionsList;
+      }
+      return [...prevPermissions, { name: permissionName, isGranted }];
+    });
+  };
+
   const togglePermission = useCallback(
     (groupName: string, permissionName: string) => {
       setPermissionsData((prevData) =>
@@ -109,11 +123,20 @@ export default function PermissionsComponent({
           if (group.name === groupName) {
             return {
               ...group,
-              permissions: group.permissions.map((permission) =>
-                permission.name === permissionName
-                  ? { ...permission, isGranted: !permission.isGranted }
-                  : permission,
-              ),
+              permissions: group.permissions.map((permission) => {
+                if (permission.name === permissionName) {
+                  const updatedPermission = {
+                    ...permission,
+                    isGranted: !permission.isGranted,
+                  };
+                  updateChangedPermission(
+                    permissionName,
+                    updatedPermission.isGranted,
+                  );
+                  return updatedPermission;
+                }
+                return permission;
+              }),
             };
           }
           return group;
@@ -138,6 +161,15 @@ export default function PermissionsComponent({
         return group;
       }),
     );
+
+    const groupPermissions = permissionsData.find(
+      (group) => group.name === groupName,
+    );
+    if (groupPermissions) {
+      groupPermissions.permissions.forEach((permission) => {
+        updateChangedPermission(permission.name || "", isGranted);
+      });
+    }
   };
 
   const toggleAllPermissions = (isGranted: boolean) => {
@@ -150,6 +182,16 @@ export default function PermissionsComponent({
         })),
       })),
     );
+
+    setUpdatedPermissions(() => {
+      const allPermissions = permissionsData.flatMap((group) =>
+        group.permissions.map((permission) => ({
+          name: permission.name || "",
+          isGranted,
+        })),
+      );
+      return allPermissions;
+    });
   };
 
   const renderPermissions = useCallback(
