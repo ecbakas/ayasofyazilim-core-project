@@ -22,6 +22,7 @@ import { createZodObject, getBaseLink } from "src/utils";
 import { dataConfig } from "../../data.tsx";
 import Claims from "./table-actions/claims";
 import SessionsComponent from "./table-actions/sessions.tsx";
+import PermissionsComponent from "./table-actions/permissions.tsx";
 
 async function controlledFetch(
   url: string,
@@ -346,7 +347,6 @@ export default function Page({
     await Promise.resolve();
     return <Claims params={params} rowId={row.id} />;
   };
-
   if (params.data === "role" || params.data === "user") {
     columnsData.data.actionList?.push({
       type: "Dialog",
@@ -358,12 +358,10 @@ export default function Page({
       content: <></>,
     });
   }
-
   const session = async (row: { id: string }) => {
     await Promise.resolve();
     return <SessionsComponent lang={params.lang} rowId={row.id} />;
   };
-
   if (params.data === "user") {
     columnsData.data.actionList?.push({
       type: "Sheet",
@@ -375,6 +373,29 @@ export default function Page({
       content: <></>,
     });
   }
+  const permissions = async (row: { id: string }, roleName: string) => {
+    await Promise.resolve();
+    return (
+      <PermissionsComponent
+        params={params}
+        roleName={roleName}
+        rowId={row.id}
+      />
+    );
+  };
+
+  if (params.data === "user" || params.data === "role") {
+    columnsData.data.actionList?.push({
+      type: "Sheet",
+      cta: languageData.Permissions,
+      loadingContent: <>Loading...</>,
+      description: languageData["Permissions.Description"],
+      componentType: "CustomComponent",
+      callback: (row) => permissions(row, row.name as string),
+      content: <></>,
+    });
+  }
+
   return (
     <Dashboard
       action={action}

@@ -29,6 +29,14 @@
   "Form.password": "Şifre",
   "Form.userName": "Kullanıcı Adı",
 
+  "Permissions": "İzinler",
+  "Permissions.Description": "İzinleri buradan yönetebilirsiniz.",
+  "Select.All": "Hepsini Seç",
+  "Grant.All.Permissions": "Tüm İzinleri Ver",
+  "Permissions.Get.Fail": "İzinler alınırken bir hata oluştu.",
+  "Permissions.Update.Success": "İzinler başarıyla kaydedildi.",
+  "Permissions.Update.Fail": "İzinler kaydedilirken bir hata oluştu.",
+
   "Claims": "Talepler",
   "ClaimType": "Talep Türü",
   "ClaimTypes": "Talep Türleri",

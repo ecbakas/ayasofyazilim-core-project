@@ -29,6 +29,14 @@
   "Form.password": "Password",
   "Form.userName": "User Name",
 
+  "Permissions": "Permissions",
+  "Permissions.Description": "You can manage the permissions from here.",
+  "Select.All": "Select All",
+  "Grant.All.Permissions": "Grant All Permissions",
+  "Permissions.Get.Fail": "An error occurred while getting permissions.",
+  "Permissions.Update.Success": "Permissions saved successfully.",
+  "Permissions.Update.Fail": "An error occurred while saving permissions.",
+
   "Claims": "Claims",
   "ClaimType": "Claim Type",
   "ClaimTypes": "Claim Types",

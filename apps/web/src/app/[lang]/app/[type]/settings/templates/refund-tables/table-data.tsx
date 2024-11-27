@@ -54,7 +54,7 @@ const refundTableHeadersColumns = (
       },
       links: {
         name: {
-          prefix: `test`,
+          prefix: `refund-tables`,
           targetAccessorKey: "id",
         },
       },

@@ -1,17 +1,28 @@
+import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
-import RefundHeader from "./refund-header";
+import { getRefundTableHeadersById } from "../../refund/action";
+import Form from "./form";
+import RefundTablesRuleForm from "./table";
 
 export default async function Page({
   params,
 }: {
-  params: { lang: string; id: string; type: string };
+  params: { lang: string; id: string };
 }): Promise<JSX.Element> {
+  const response = await getRefundTableHeadersById({ id: params.id });
+  if (response.type !== "success") return notFound();
+
   const { languageData } = await getResourceData(params.lang);
+
   return (
     <>
-      <RefundHeader languageData={languageData} params={params} />
+      <Form languageData={languageData} response={response.data} />
+      <RefundTablesRuleForm
+        languageData={languageData}
+        response={response.data}
+      />
       <div className="hidden" id="page-title">
-        {languageData["RefundTables.Edit.Title"]}
+        {response.data.name}
       </div>
       <div className="hidden" id="page-description">
         {languageData["RefundTables.Edit.Description"]}
