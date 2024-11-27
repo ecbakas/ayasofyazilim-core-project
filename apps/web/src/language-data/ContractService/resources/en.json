@@ -194,7 +194,16 @@
 
   "RefundFees.Page.Edit.Fee.Delete": "Delete",
 
+  "RebateTables.Templates.Delete": "Delete",
+
   "RebateTables.Templates.Create": "Create",
+  "RebateTables.Templates.Create.Submit": "Create",
+  "RebateTables.Templates.Create.Success": "Rebate table created successfully.",
+  "RebateTables.Templates.Create.Fail": "Error while creating rebate table.",
+  "RebateTables.Templates.Update.Submit": "Save",
+  "RebateTables.Templates.Update.Success": "Rebate table updated successfully.",
+  "RebateTables.Templates.Update.Fail": "Error while updating rebate table.",
+
   "RebateTables.Templates.Preview": "Preview",
   "RebateTables.Templates.Preview.Calculate": "Calculate",
 

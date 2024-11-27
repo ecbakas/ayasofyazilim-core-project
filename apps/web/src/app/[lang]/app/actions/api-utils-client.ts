@@ -6,10 +6,11 @@ import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.
 export const handlePutResponse = (
   response: { type: "success" | "error" | "api-error"; message: string },
   router: AppRouterInstance,
+  redirectTo?: string,
 ) => {
   if (response.type === "success") {
     toast.success("Updated successfully");
-    router.refresh();
+    redirectTo ? router.push(redirectTo) : router.refresh();
   } else {
     toast.error(response.message);
   }
@@ -18,10 +19,11 @@ export const handlePutResponse = (
 export const handlePostResponse = (
   response: { type: "success" | "error" | "api-error"; message: string },
   router: AppRouterInstance,
+  redirectTo?: string,
 ) => {
   if (response.type === "success") {
     toast.success("Created successfully");
-    router.refresh();
+    redirectTo ? router.push(redirectTo) : router.refresh();
   } else {
     toast.error(response.message);
   }
