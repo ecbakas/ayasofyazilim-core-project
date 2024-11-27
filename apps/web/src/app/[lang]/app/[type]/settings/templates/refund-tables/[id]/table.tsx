@@ -69,8 +69,7 @@ export default function RefundTablesRuleForm({
       }}
       formData={response.refundTableDetails || []}
       onSubmit={(data) => {
-        data.formData && toastOnSubmit(data.formData as object);
-        const formData = (data.formData ||
+        const formData = (data?.formData ||
           []) as UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto[];
 
         void postRefundTableHeadersRefundTableDetailsApi({
