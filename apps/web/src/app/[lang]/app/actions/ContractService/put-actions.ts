@@ -1,7 +1,7 @@
 "use server";
-
 import type {
   PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
+  PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
 } from "@ayasofyazilim/saas/ContractService";
 import { structuredError, structuredResponse } from "src/lib";
@@ -25,6 +25,17 @@ export async function putRefundTableHeadersApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.templates.putRefundTableHeaders(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putRefundFeeHeadersApi(
+  data: PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests.templates.putRefundFeeHeadersApi(data);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);

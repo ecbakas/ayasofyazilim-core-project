@@ -4,6 +4,8 @@ import type {
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
+  GetApiContractServiceRefundTablesRefundFeeHeadersDetailByIdData,
+  GetApiContractServiceRefundTablesRefundTableHeadersByIdData,
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
@@ -137,19 +139,42 @@ export async function getRefundTableHeadersApi(
     return structuredError(error);
   }
 }
-export async function getRefundTableFeeHeadersApi(
-  data: GetApiContractServiceRefundTablesRefundFeeHeadersData,
+export async function getRefundTableHeadersById(
+  data: GetApiContractServiceRefundTablesRefundTableHeadersByIdData,
 ) {
   try {
     const requests = await getApiRequests();
     return structuredResponse(
-      await requests.templates.getRefundTableFeeHeaders(data),
+      await requests.templates.getRefundTableHeadersById(data),
     );
   } catch (error) {
     return structuredError(error);
   }
 }
-
+export async function getRefundFeeHeadersApi(
+  data: GetApiContractServiceRefundTablesRefundFeeHeadersData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.templates.getRefundFeeHeaders(data),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundFeeHeadersByIdApi(
+  data: GetApiContractServiceRefundTablesRefundFeeHeadersDetailByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.templates.getRefundFeeHeadersById(data),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
 export async function getRebateTableHeadersApi(
   data: GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
 ) {
