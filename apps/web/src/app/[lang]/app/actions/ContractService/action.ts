@@ -162,3 +162,13 @@ export async function getRebateTableHeadersApi(
     return structuredError(error);
   }
 }
+export async function getRebateTableHeadersByIdApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.templates.getRebateTableHeadersById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}

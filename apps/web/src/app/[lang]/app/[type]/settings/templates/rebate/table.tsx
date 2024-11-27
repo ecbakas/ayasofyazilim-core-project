@@ -15,10 +15,7 @@ export default function RebateTable({
   lang: string;
 }) {
   const router = useRouter();
-  const columns = tableData.rebateTableHeaders.columns(lang, {
-    constantKey: "RebateTables.Templates.Form",
-    languageData,
-  });
+  const columns = tableData.rebateTableHeaders.columns(lang, languageData);
   const table = tableData.rebateTableHeaders.table({ languageData, router });
 
   return (
