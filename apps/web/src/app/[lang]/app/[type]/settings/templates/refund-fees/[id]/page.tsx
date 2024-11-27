@@ -1,44 +1,32 @@
-import {
-  SectionLayout,
-  SectionLayoutContent,
-} from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
+import { notFound } from "next/navigation";
+import { getRefundFeeHeadersByIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { getResourceData } from "src/language-data/ContractService";
-import { getRefundTableFeeHeadersDetailById } from "../../refund/action";
-import Edit from "./edit";
-import Preview from "./preview";
+import Form from "./form";
+import RefundFeeDetailsForm from "./table";
 
 export default async function Page({
   params,
 }: {
-  params: { id: string; lang: string; type: string };
-}) {
-  const details = await getRefundTableFeeHeadersDetailById({ id: params.id });
+  params: { lang: string; id: string };
+}): Promise<JSX.Element> {
+  const response = await getRefundFeeHeadersByIdApi({ id: params.id });
+  if (response.type !== "success") return notFound();
+
   const { languageData } = await getResourceData(params.lang);
-  if (details.type === "api-error") {
-    return <>Api Error</>;
-  }
-  if (details.type === "error") {
-    return <>Error</>;
-  }
+
   return (
-    <SectionLayout
-      sections={[
-        {
-          id: "edit",
-          name: languageData["RefundFees.Page.Edit.Edit"],
-        },
-        {
-          id: "preview",
-          name: languageData["RefundFees.Page.Edit.Preview"],
-        },
-      ]}
-    >
-      <SectionLayoutContent sectionId="edit">
-        <Edit details={details.data} languageData={languageData} />
-      </SectionLayoutContent>
-      <SectionLayoutContent sectionId="preview">
-        <Preview />
-      </SectionLayoutContent>
-    </SectionLayout>
+    <>
+      <Form languageData={languageData} response={response.data} />
+      <RefundFeeDetailsForm
+      // languageData={languageData}
+      // response={response.data}
+      />
+      <div className="hidden" id="page-title">
+        {response.data.name}
+      </div>
+      <div className="hidden" id="page-description">
+        {languageData["RefundTables.Edit.Description"]}
+      </div>
+    </>
   );
 }
