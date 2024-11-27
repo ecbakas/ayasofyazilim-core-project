@@ -1,6 +1,10 @@
 "use server";
 
 import type {
+  GetApiPermissionManagementPermissionsData,
+  PutApiPermissionManagementPermissionsData,
+} from "@ayasofyazilim/saas/AdministrationService";
+import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
@@ -90,6 +94,7 @@ import type {
 } from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import {
+  getAdministrationServiceClient,
   getContractServiceClient,
   getCRMServiceClient,
   getExportValidationServiceClient,
@@ -107,7 +112,12 @@ import {
 export type ApiRequestTypes = keyof Awaited<ReturnType<typeof getApiRequests>>;
 export type GetTableDataTypes = Exclude<
   ApiRequestTypes,
-  "locations" | "editions" | "applications" | "tenants" | "templates"
+  | "locations"
+  | "editions"
+  | "applications"
+  | "tenants"
+  | "templates"
+  | "permissions"
 >;
 export type DeleteTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -122,6 +132,7 @@ export type DeleteTableDataTypes = Exclude<
   | "tenants"
   | "refund"
   | "templates"
+  | "permissions"
 >;
 export type GetDetailTableDataTypes = Exclude<
   ApiRequestTypes,
@@ -137,6 +148,7 @@ export type GetDetailTableDataTypes = Exclude<
   | "refund"
   | "sessions"
   | "templates"
+  | "permissions"
 >;
 
 export async function getApiRequests() {
@@ -150,6 +162,7 @@ export async function getApiRequests() {
   const tagClient = await getTagServiceClient();
   const financeClient = await getFinanceServiceClient();
   const refundClient = await getRefundServiceClient();
+  const administrationClient = await getAdministrationServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -651,6 +664,16 @@ export async function getApiRequests() {
         await identityClient.sessions.deleteApiIdentitySessionsById({
           id,
         }),
+    },
+    permissions: {
+      getPermissions: async (data: GetApiPermissionManagementPermissionsData) =>
+        await administrationClient.permissions.getApiPermissionManagementPermissions(
+          data,
+        ),
+      putPermissions: async (data: PutApiPermissionManagementPermissionsData) =>
+        await administrationClient.permissions.putApiPermissionManagementPermissions(
+          data,
+        ),
     },
     tenants: {
       putSetPassword: async (data: PutApiSaasTenantsByIdSetPasswordData) =>
