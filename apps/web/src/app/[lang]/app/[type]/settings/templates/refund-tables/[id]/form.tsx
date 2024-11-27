@@ -1,14 +1,15 @@
 "use client";
-import {
-  $UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderUpdateDto,
+import type {
   UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto,
+  UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderUpdateDto,
 } from "@ayasofyazilim/saas/ContractService";
+import { $UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderUpdateDto } from "@ayasofyazilim/saas/ContractService";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import { putRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/put-actions";
-import { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/ContractService";
 
 function Form({
   response,
@@ -26,19 +27,20 @@ function Form({
   return (
     <SchemaForm
       fields={{}}
+      formData={response}
       onSubmit={(data) => {
         const formData = {
           id: response.id,
-          requestBody: data.formData,
+          requestBody:
+            data.formData as UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderUpdateDto,
         };
-        void putRefundTableHeadersApi(formData).then((res) =>
-          handlePutResponse(res, router),
-        );
+        void putRefundTableHeadersApi(formData).then((res) => {
+          handlePutResponse(res, router);
+        });
       }}
       schema={
         $UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderUpdateDto
       }
-      formData={response}
       submitText={languageData.Save}
       uiSchema={uiSchema}
     />

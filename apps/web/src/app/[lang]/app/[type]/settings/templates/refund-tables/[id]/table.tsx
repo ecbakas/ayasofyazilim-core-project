@@ -7,7 +7,6 @@ import { $UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetail
 import { tanstackTableEditableColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { TableField } from "@repo/ayasofyazilim-ui/organisms/schema-form/fields";
-import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
@@ -69,7 +68,7 @@ export default function RefundTablesRuleForm({
       }}
       formData={response.refundTableDetails || []}
       onSubmit={(data) => {
-        const formData = (data?.formData ||
+        const formData = (data.formData ||
           []) as UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto[];
 
         void postRefundTableHeadersRefundTableDetailsApi({
