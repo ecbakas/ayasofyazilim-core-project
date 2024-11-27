@@ -66,6 +66,7 @@
   "Form.personalIdentificationCommonDatas": "Personal information",
   "Form.personalPreferencesTypes": "Preferences",
   "Form.isDefault": "Default",
+  "Form.isActive": "Active",
 
   "Form.name.firstName": "First Name",
   "Form.name.lastName": "Last Name",
