@@ -60,13 +60,14 @@
   "FileUploader.YouCanUpload{0}files{1}each": "En fazla {0} dosya yükleyebilirsiniz (her biri en fazla {1})",
   "FileUploader.RemoveFile": "Dosyayı kaldır",
 
-  "Form.name": "Tam İsim",
+  "Form.name": "İsim",
   "Form.email": "E-posta",
   "Form.telephone": "Telefon",
   "Form.personalSummaries": "Özgeçmiş",
   "Form.address": "Adres",
   "Form.personalIdentificationCommonDatas": "Kişisel bilgiler",
   "Form.personalPreferencesTypes": "Tercihler",
+  "Form.isDefault": "Varsayılan",
 
   "Form.name.firstName": "Ad",
   "Form.name.lastName": "Soyad",

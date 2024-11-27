@@ -58,13 +58,14 @@
   "FileUploader.YouCanUpload{0}files{1}each": "You can upload {0} files (up to {1} each)",
   "FileUploader.RemoveFile": "Remove file",
 
-  "Form.name": "Full Name",
+  "Form.name": "Name",
   "Form.email": "Email",
   "Form.telephone": "Telephone",
   "Form.personalSummaries": "Summary",
   "Form.address": "Address",
   "Form.personalIdentificationCommonDatas": "Personal information",
   "Form.personalPreferencesTypes": "Preferences",
+  "Form.isDefault": "Default",
 
   "Form.name.firstName": "First Name",
   "Form.name.lastName": "Last Name",
