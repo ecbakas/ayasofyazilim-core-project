@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 import type {
   UniRefund_ContractService_Rebates_ProcessingFeeDetails_ProcessingFeeDetailCreateDto as ProcessingFeeDetailCreateDto,
   UniRefund_ContractService_Rebates_RebateTableDetails_RebateTableDetailCreateDto as RebateTableDetailCreateDto,
@@ -85,7 +86,10 @@ export default function RebateForm(props: RebateFormProps) {
       },
       calculateNetCommissionInsteadOfRefund: {
         "ui:widget": "switch",
-        "ui:className": "border rounded-md px-2",
+        "ui:className": cn(
+          "border rounded-md px-2",
+          isCreate && "md:col-span-2",
+        ),
       },
     },
   });
