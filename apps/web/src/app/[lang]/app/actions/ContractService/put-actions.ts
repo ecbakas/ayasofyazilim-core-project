@@ -1,7 +1,7 @@
 "use server";
-import { PutApiContractServiceRefundTablesRefundTableHeadersByIdData } from "@ayasofyazilim/saas/ContractService";
-import { getApiRequests } from "../api-requests";
+import type { PutApiContractServiceRefundTablesRefundTableHeadersByIdData } from "@ayasofyazilim/saas/ContractService";
 import { structuredError, structuredResponse } from "src/lib";
+import { getApiRequests } from "../api-requests";
 
 export async function putRefundTableHeadersApi(
   data: PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
