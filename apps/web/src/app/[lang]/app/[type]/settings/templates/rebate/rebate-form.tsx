@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type {
   UniRefund_ContractService_Rebates_ProcessingFeeDetails_ProcessingFeeDetailCreateDto as ProcessingFeeDetailCreateDto,
@@ -21,6 +20,10 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { PlusCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  handlePostResponse,
+  handlePutResponse,
+} from "src/app/[lang]/app/actions/api-utils-client";
 import { postRebateTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
 import { putRebateTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/put-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
@@ -94,40 +97,21 @@ export default function RebateForm(props: RebateFormProps) {
     },
   });
 
-  async function handleFormSubmit<T>(data: T) {
+  function handleFormSubmit<T>(data: T) {
     setLoading(true);
     if (isCreate) {
-      const response = await postRebateTableHeadersApi({
+      void postRebateTableHeadersApi({
         requestBody: data as RebateTableHeaderCreateDto,
+      }).then((response) => {
+        handlePostResponse(response, router, "../rebate");
       });
-      if (response.type === "success") {
-        toast.success(
-          response.message ||
-            languageData["RebateTables.Templates.Create.Success"],
-        );
-        router.push("../rebate");
-      } else {
-        toast.success(
-          response.message ||
-            languageData["RebateTables.Templates.Create.Fail"],
-        );
-      }
     } else {
-      const response = await putRebateTableHeadersApi({
+      void putRebateTableHeadersApi({
         id: props.id,
         requestBody: data as RebateTableHeaderDto,
+      }).then((response) => {
+        handlePutResponse(response, router);
       });
-      if (response.type === "success") {
-        toast.success(
-          response.message ||
-            languageData["RebateTables.Templates.Update.Success"],
-        );
-      } else {
-        toast.success(
-          response.message ||
-            languageData["RebateTables.Templates.Update.Fail"],
-        );
-      }
     }
     setLoading(false);
   }
@@ -199,11 +183,11 @@ export default function RebateForm(props: RebateFormProps) {
       formData={!isCreate ? props.formData : undefined}
       onSubmit={(data) => {
         if (isCreate) {
-          void handleFormSubmit<RebateTableHeaderCreateDto>(
+          handleFormSubmit<RebateTableHeaderCreateDto>(
             data.formData as RebateTableHeaderCreateDto,
           );
         } else {
-          void handleFormSubmit<RebateTableHeaderDto>(
+          handleFormSubmit<RebateTableHeaderDto>(
             data.formData as RebateTableHeaderDto,
           );
         }
