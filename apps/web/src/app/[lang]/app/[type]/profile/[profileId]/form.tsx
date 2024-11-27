@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirmation-modal";
+// import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirm-dialog";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import {
-  deleteBacker,
+  // deleteBacker,
   postBacker,
   postIndividual,
   putBacker,
@@ -46,17 +46,17 @@ export function BackerForm({
 }) {
   const [isCreated, setIsCreated] = useState(false);
   const backerData = initBackerData(backer);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  // const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const router = useRouter();
-  const [confirmDialogContent, setConfirmDialogContent] = useState<{
-    title: string;
-    description: string;
-    onConfirm: () => void;
-  }>({
-    title: "",
-    description: "",
-    onConfirm: () => undefined,
-  });
+  // const [confirmDialogContent, setConfirmDialogContent] = useState<{
+  //   title: string;
+  //   description: string;
+  //   onConfirm: () => void;
+  // }>({
+  //   title: "",
+  //   description: "",
+  //   onConfirm: () => undefined,
+  // });
   const functionTypes: Record<string, any> = {
     individual: {
       post: postIndividual,
@@ -105,22 +105,22 @@ export function BackerForm({
     }
   }
   function handleDeleteBacker(_backer: any) {
-    setConfirmDialogContent({
-      title: "Profili Sil",
-      description: `"${_backer.name}" isimli profili silmek istediğinize emin misiniz?`,
-      onConfirm: () => {
-        deleteBacker(profileId)
-          .then(() => {
-            router.back();
-            toast.success("Profil silindi.");
-          })
-          .catch(() => {
-            toast.error("Bir hata oluştu.");
-          });
-        setIsConfirmDialogOpen(false);
-      },
-    });
-    setIsConfirmDialogOpen(true);
+    // setConfirmDialogContent({
+    //   title: "Profili Sil",
+    //   description: `"${_backer.name}" isimli profili silmek istediğinize emin misiniz?`,
+    //   onConfirm: () => {
+    //     deleteBacker(profileId)
+    //       .then(() => {
+    //         router.back();
+    //         toast.success("Profil silindi.");
+    //       })
+    //       .catch(() => {
+    //         toast.error("Bir hata oluştu.");
+    //       });
+    //     setIsConfirmDialogOpen(false);
+    //   },
+    // });
+    // setIsConfirmDialogOpen(true);
   }
   return (
     <>
@@ -165,15 +165,18 @@ export function BackerForm({
         )}
       </AutoForm>
 
-      <ConfirmDialog
+      {/* <ConfirmDialog
         description={confirmDialogContent.description}
         isOpen={isConfirmDialogOpen}
-        onClose={() => {
-          setIsConfirmDialogOpen(false);
+        type="without-trigger"
+        closeProps={{
+          onClick: () => setIsConfirmDialogOpen(false),
         }}
-        onConfirm={confirmDialogContent.onConfirm}
+        confirmProps={{
+          onClick: confirmDialogContent.onConfirm,
+        }}
         title={confirmDialogContent.title}
-      />
+      /> */}
     </>
   );
 }
