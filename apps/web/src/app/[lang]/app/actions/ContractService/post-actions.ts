@@ -3,6 +3,7 @@
 import type {
   PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
+  PostApiContractServiceRefundTablesRefundTableHeadersByIdRefundTableDetailsData,
   PostApiContractServiceRefundTablesRefundTableHeadersData,
 } from "@ayasofyazilim/saas/ContractService";
 import { structuredError, structuredResponse } from "src/lib";
@@ -14,6 +15,18 @@ export async function postRefundTableHeadersApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.templates.postRefundTableHeaders(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function postRefundTableHeadersRefundTableDetailsApi(
+  data: PostApiContractServiceRefundTablesRefundTableHeadersByIdRefundTableDetailsData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response =
+      await requests.templates.postRefundTableHeadersRefundTableDetails(data);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
