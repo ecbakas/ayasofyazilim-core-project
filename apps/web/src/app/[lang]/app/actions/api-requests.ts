@@ -21,6 +21,7 @@ import type {
   PostApiContractServiceRefundTablesRefundTableHeadersData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
+  PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
   PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
 } from "@ayasofyazilim/saas/ContractService";
@@ -758,11 +759,21 @@ export async function getApiRequests() {
         await contractsClient.rebateTables.getApiContractServiceRebateTablesRebateTableHeadersTemplates(
           data,
         ),
+      putRebateTableHeaders: async (
+        data: PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
+      ) =>
+        await contractsClient.rebateTables.putApiContractServiceRebateTablesRebateTableHeadersById(
+          data,
+        ),
       postRebateTableHeaders: async (
         data: PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
       ) =>
         await contractsClient.rebateTables.postApiContractServiceRebateTablesRebateTableHeadersTemplates(
           data,
+        ),
+      getRebateTableHeadersById: async (id: string) =>
+        await contractsClient.rebateTables.getApiContractServiceRebateTablesRebateTableHeadersById(
+          { id },
         ),
     },
     "export-validation": {

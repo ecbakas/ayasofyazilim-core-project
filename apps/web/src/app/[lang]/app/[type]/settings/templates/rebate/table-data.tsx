@@ -1,9 +1,6 @@
 import type { UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as $RebateTableHeaderDto } from "@ayasofyazilim/saas/ContractService";
-import type {
-  TanstackTableCreationProps,
-  TanstackTableLanguageDataType,
-} from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
+import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { CheckCircle, PlusCircle, XCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -28,11 +25,14 @@ const booleanOptions = {
 };
 const rebateTableHeadersColumns = (
   locale: string,
-  languageData?: TanstackTableLanguageDataType,
+  languageData: ContractServiceResource,
 ) =>
   tanstackTableCreateColumnsByRowData<RebateTableHeaderDto>({
     rows: $RebateTableHeaderDto.properties,
-    languageData,
+    languageData: {
+      constantKey: "RebateTables.Templates.Form",
+      languageData,
+    },
     config: {
       locale,
     },
@@ -44,6 +44,23 @@ const rebateTableHeadersColumns = (
     },
     faceted: {
       calculateNetCommissionInsteadOfRefund: booleanOptions,
+    },
+    badges: {
+      name: {
+        values: [
+          {
+            label:
+              languageData["RebateTables.Templates.Form.isTemplate"] ||
+              "Template",
+            conditions: [
+              {
+                conditionAccessorKey: "isTemplate",
+                when: (value) => value === true,
+              },
+            ],
+          },
+        ],
+      },
     },
   });
 
