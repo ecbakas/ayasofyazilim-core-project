@@ -129,6 +129,9 @@ export default function PermissionsComponent({
                     ...permission,
                     isGranted: !permission.isGranted,
                   };
+                  if (!updatedPermission.isGranted) {
+                    updateChildPermissions(groupName, permissionName, false);
+                  }
                   updateChangedPermission(
                     permissionName,
                     updatedPermission.isGranted,
@@ -145,6 +148,32 @@ export default function PermissionsComponent({
     },
     [],
   );
+
+  const updateChildPermissions = (
+    groupName: string,
+    parentName: string,
+    isGranted: boolean,
+  ) => {
+    setPermissionsData((prevData) =>
+      prevData.map((group) => {
+        if (group.name === groupName) {
+          return {
+            ...group,
+            permissions: group.permissions.map((permission) => {
+              if (permission.parentName === parentName) {
+                return {
+                  ...permission,
+                  isGranted,
+                };
+              }
+              return permission;
+            }),
+          };
+        }
+        return group;
+      }),
+    );
+  };
 
   const toggleGroupPermissions = (groupName: string, isGranted: boolean) => {
     setPermissionsData((prevData) =>
