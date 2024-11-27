@@ -21,6 +21,7 @@ import type {
   PostApiContractServiceRefundTablesRefundTableHeadersData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
+  PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
 } from "@ayasofyazilim/saas/ContractService";
 import type {
@@ -743,6 +744,12 @@ export async function getApiRequests() {
         data: PostApiContractServiceRefundTablesRefundFeeHeadersData,
       ) =>
         await contractsClient.refundTables.postApiContractServiceRefundTablesRefundFeeHeaders(
+          data,
+        ),
+      putRefundFeeHeadersApi: async (
+        data: PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
+      ) =>
+        await contractsClient.refundTables.putApiContractServiceRefundTablesRefundFeeHeadersById(
           data,
         ),
       getRebateTableHeaders: async (
