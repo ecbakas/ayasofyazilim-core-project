@@ -43,11 +43,13 @@ export default function PermissionsComponent({
   const [updatedPermissions, setUpdatedPermissions] = useState<
     Volo_Abp_PermissionManagement_UpdatePermissionDto[]
   >([]);
+  const [loadingError, setLoadingError] = useState(false);
+  const isUserPage = params.data === "user";
 
   useEffect(() => {
     async function fetchPermissions() {
-      const providerKey = params.data === "user" ? rowId : roleName;
-      const providerName = params.data === "user" ? "U" : "R";
+      const providerKey = isUserPage ? rowId : roleName;
+      const providerName = isUserPage ? "U" : "R";
       const response = await getPermissionsApi({
         providerKey,
         providerName,
@@ -60,7 +62,9 @@ export default function PermissionsComponent({
             permissions: group.permissions ?? [],
           })) || [];
         setPermissionsData(normalizedGroups);
+        setLoadingError(false);
       } else {
+        setLoadingError(true);
         toast.error(
           `${response.status}: ${
             response.message || languageData["Permissions.Get.Fail"]
@@ -69,7 +73,32 @@ export default function PermissionsComponent({
       }
     }
     void fetchPermissions();
-  }, [rowId, roleName, params.data, params.lang]);
+  }, [rowId, roleName, isUserPage, params.lang]);
+
+  const handleUpdatePermissions = async () => {
+    const providerKey = isUserPage ? rowId : roleName;
+    const providerName = isUserPage ? "U" : "R";
+    const response = await putPermissionsApi({
+      providerKey,
+      providerName,
+      requestBody: {
+        permissions: updatedPermissions,
+      },
+    });
+
+    if (response.type === "success") {
+      toast.success(
+        response.message || languageData["Permissions.Update.Success"],
+      );
+      window.location.reload();
+    } else {
+      toast.error(
+        `${response.status}: ${
+          response.message || languageData["Permissions.Update.Fail"]
+        }`,
+      );
+    }
+  };
 
   const updateChangedPermission = (
     permissionName: string,
@@ -99,6 +128,12 @@ export default function PermissionsComponent({
             return {
               ...group,
               permissions: group.permissions.map((permission) => {
+                const hasRoleProvider = permission.grantedProviders?.some(
+                  (provider) => provider.providerName === "R",
+                );
+
+                if (isUserPage && hasRoleProvider) return permission;
+
                 if (permission.name === permissionName) {
                   const updatedPermission = {
                     ...permission,
@@ -127,7 +162,7 @@ export default function PermissionsComponent({
         }),
       );
     },
-    [],
+    [isUserPage],
   );
 
   const updateChildPermissions = (
@@ -141,7 +176,13 @@ export default function PermissionsComponent({
           return {
             ...group,
             permissions: group.permissions.map((permission) => {
-              if (permission.parentName === parentName) {
+              if (
+                permission.parentName === parentName &&
+                (!isUserPage ||
+                  !permission.grantedProviders?.some(
+                    (provider) => provider.providerName === "R",
+                  ))
+              ) {
                 updateChangedPermission(permission.name || "", isGranted);
                 return {
                   ...permission,
@@ -169,7 +210,13 @@ export default function PermissionsComponent({
           return {
             ...group,
             permissions: group.permissions.map((permission) => {
-              if (permission.name === parentName) {
+              if (
+                permission.name === parentName &&
+                (!isUserPage ||
+                  !permission.grantedProviders?.some(
+                    (provider) => provider.providerName === "R",
+                  ))
+              ) {
                 const updatedPermission = {
                   ...permission,
                   isGranted,
@@ -194,53 +241,40 @@ export default function PermissionsComponent({
     );
   };
 
-  const updatePermissions = async () => {
-    const providerKey = params.data === "user" ? rowId : roleName;
-    const providerName = params.data === "user" ? "U" : "R";
-    const response = await putPermissionsApi({
-      providerKey,
-      providerName,
-      requestBody: {
-        permissions: updatedPermissions,
-      },
-    });
-
-    if (response.type === "success") {
-      toast.success(
-        response.message || languageData["Permissions.Update.Success"],
-      );
-      window.location.reload();
-    } else {
-      toast.error(
-        `${response.status}: ${
-          response.message || languageData["Permissions.Update.Fail"]
-        }`,
-      );
-    }
-  };
-
   const toggleGroupPermissions = (groupName: string, isGranted: boolean) => {
     setPermissionsData((prevData) =>
       prevData.map((group) => {
         if (group.name === groupName) {
           return {
             ...group,
-            permissions: group.permissions.map((permission) => ({
-              ...permission,
-              isGranted,
-            })),
+            permissions: group.permissions.map((permission) => {
+              const hasRoleProvider = permission.grantedProviders?.some(
+                (provider) => provider.providerName === "R",
+              );
+              if (isUserPage && hasRoleProvider) {
+                return permission;
+              }
+              return {
+                ...permission,
+                isGranted,
+              };
+            }),
           };
         }
         return group;
       }),
     );
-
     const groupPermissions = permissionsData.find(
       (group) => group.name === groupName,
     );
     if (groupPermissions) {
       groupPermissions.permissions.forEach((permission) => {
-        updateChangedPermission(permission.name || "", isGranted);
+        const hasRoleProvider = permission.grantedProviders?.some(
+          (provider) => provider.providerName === "R",
+        );
+        if (!isUserPage || !hasRoleProvider) {
+          updateChangedPermission(permission.name || "", isGranted);
+        }
       });
     }
   };
@@ -249,19 +283,33 @@ export default function PermissionsComponent({
     setPermissionsData((prevData) =>
       prevData.map((group) => ({
         ...group,
-        permissions: group.permissions.map((permission) => ({
-          ...permission,
-          isGranted,
-        })),
+        permissions: group.permissions.map((permission) => {
+          const hasRoleProvider = permission.grantedProviders?.some(
+            (provider) => provider.providerName === "R",
+          );
+          if (isUserPage && hasRoleProvider) {
+            return permission;
+          }
+          return {
+            ...permission,
+            isGranted,
+          };
+        }),
       })),
     );
-
     setUpdatedPermissions(() => {
       const allPermissions = permissionsData.flatMap((group) =>
-        group.permissions.map((permission) => ({
-          name: permission.name || "",
-          isGranted,
-        })),
+        group.permissions
+          .filter((permission) => {
+            const hasRoleProvider = permission.grantedProviders?.some(
+              (provider) => provider.providerName === "R",
+            );
+            return !isUserPage || !hasRoleProvider;
+          })
+          .map((permission) => ({
+            name: permission.name || "",
+            isGranted,
+          })),
       );
       return allPermissions;
     });
@@ -280,27 +328,36 @@ export default function PermissionsComponent({
 
       return (
         <div className={parentName ? "ml-8" : "ml-8"}>
-          {permissions.map((permission) => (
-            <div className="mb-2 gap-2" key={permission.name}>
-              <Checkbox
-                checked={permission.isGranted || false}
-                className="mr-2"
-                onCheckedChange={() => {
-                  togglePermission(groupName, permission.name || "");
-                }}
-              />
-              <span>{permission.displayName}</span>
-              {renderPermissions(groupName, permission.name || "")}
-            </div>
-          ))}
+          {permissions.map((permission) => {
+            const hasRoleProvider = permission.grantedProviders?.some(
+              (provider) => provider.providerName === "R",
+            );
+
+            return (
+              <div className="mb-2 gap-2" key={permission.name}>
+                <Checkbox
+                  checked={permission.isGranted || false}
+                  className="mr-2"
+                  disabled={isUserPage ? hasRoleProvider : null}
+                  onCheckedChange={() => {
+                    togglePermission(groupName, permission.name || "");
+                  }}
+                />
+                <span>{permission.displayName}</span>
+                {renderPermissions(groupName, permission.name || "")}
+              </div>
+            );
+          })}
         </div>
       );
     },
-    [permissionsData, togglePermission],
+    [permissionsData, togglePermission, isUserPage],
   );
 
   if (!permissionsData.length) {
-    return <Progress value={100} variant="success" />;
+    return (
+      <Progress value={100} variant={loadingError ? "error" : "success"} />
+    );
   }
 
   return (
@@ -310,8 +367,19 @@ export default function PermissionsComponent({
           checked={permissionsData.every((group) =>
             group.permissions.every((p) => p.isGranted),
           )}
+          disabled={
+            isUserPage
+              ? permissionsData.every((group) =>
+                  group.permissions.every((p) =>
+                    p.grantedProviders?.some(
+                      (provider) => provider.providerName === "R",
+                    ),
+                  ),
+                )
+              : null
+          }
           onCheckedChange={(checked) => {
-            toggleAllPermissions(Boolean(checked));
+            toggleAllPermissions(checked === true);
           }}
         />
         <span className="text-sm font-medium">
@@ -333,8 +401,17 @@ export default function PermissionsComponent({
             <div className="flex items-center gap-2 ">
               <Checkbox
                 checked={group.permissions.every((p) => p.isGranted)}
+                disabled={
+                  isUserPage
+                    ? group.permissions.every((p) =>
+                        p.grantedProviders?.some(
+                          (provider) => provider.providerName === "R",
+                        ),
+                      )
+                    : null
+                }
                 onCheckedChange={(checked) => {
-                  toggleGroupPermissions(group.name || "", Boolean(checked));
+                  toggleGroupPermissions(group.name || "", checked === true);
                 }}
               />
               <span className="text-sm font-medium">
@@ -348,7 +425,10 @@ export default function PermissionsComponent({
       </SectionLayout>
 
       <div className="bottom-0 left-0 flex w-full justify-end bg-white p-4 shadow-md">
-        <Button onClick={() => void updatePermissions()} variant="default">
+        <Button
+          onClick={() => void handleUpdatePermissions()}
+          variant="default"
+        >
           {languageData["Edit.Save"]}
         </Button>
       </div>
