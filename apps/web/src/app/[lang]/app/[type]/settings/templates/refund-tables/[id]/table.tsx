@@ -17,7 +17,7 @@ type TypeWithId<Type, IdType = string> = Type & {
   id: IdType;
 };
 
-export default function RefundTablesRuleForm({
+export default function RefundTableDetailsForm({
   response,
   languageData,
 }: {
