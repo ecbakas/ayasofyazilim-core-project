@@ -338,7 +338,7 @@ export default function PermissionsComponent({
                 <Checkbox
                   checked={permission.isGranted || false}
                   className="mr-2"
-                  disabled={isUserPage ? hasRoleProvider : null}
+                  disabled={isUserPage ? hasRoleProvider : undefined}
                   onCheckedChange={() => {
                     togglePermission(groupName, permission.name || "");
                   }}
@@ -376,7 +376,7 @@ export default function PermissionsComponent({
                     ),
                   ),
                 )
-              : null
+              : undefined
           }
           onCheckedChange={(checked) => {
             toggleAllPermissions(checked === true);
@@ -408,7 +408,7 @@ export default function PermissionsComponent({
                           (provider) => provider.providerName === "R",
                         ),
                       )
-                    : null
+                    : undefined
                 }
                 onCheckedChange={(checked) => {
                   toggleGroupPermissions(group.name || "", checked === true);
