@@ -2,6 +2,7 @@
 
 import type {
   PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
+  PostApiContractServiceRefundTablesRefundFeeHeadersByIdRefundFeeDetailsData,
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
   PostApiContractServiceRefundTablesRefundTableHeadersByIdRefundTableDetailsData,
   PostApiContractServiceRefundTablesRefundTableHeadersData,
@@ -49,6 +50,18 @@ export async function postRefundFeeHeadersApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.templates.postRefundFeeHeaders(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function postRefundFeeHeadersRefundFeeDetailsApi(
+  data: PostApiContractServiceRefundTablesRefundFeeHeadersByIdRefundFeeDetailsData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response =
+      await requests.templates.postRefundFeeHeadersRefundTableDetails(data);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
