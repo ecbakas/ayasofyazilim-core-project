@@ -71,31 +71,6 @@ export default function PermissionsComponent({
     void fetchPermissions();
   }, [rowId, roleName, params.data, params.lang]);
 
-  const updatePermissions = async () => {
-    const providerKey = params.data === "user" ? rowId : roleName;
-    const providerName = params.data === "user" ? "U" : "R";
-    const response = await putPermissionsApi({
-      providerKey,
-      providerName,
-      requestBody: {
-        permissions: updatedPermissions,
-      },
-    });
-
-    if (response.type === "success") {
-      toast.success(
-        response.message || languageData["Permissions.Update.Success"],
-      );
-      window.location.reload();
-    } else {
-      toast.error(
-        `${response.status}: ${
-          response.message || languageData["Permissions.Update.Fail"]
-        }`,
-      );
-    }
-  };
-
   const updateChangedPermission = (
     permissionName: string,
     isGranted: boolean,
@@ -129,13 +104,19 @@ export default function PermissionsComponent({
                     ...permission,
                     isGranted: !permission.isGranted,
                   };
-                  if (!updatedPermission.isGranted) {
-                    updateChildPermissions(groupName, permissionName, false);
-                  }
                   updateChangedPermission(
                     permissionName,
                     updatedPermission.isGranted,
                   );
+                  if (!updatedPermission.isGranted) {
+                    updateChildPermissions(groupName, permissionName, false);
+                  } else {
+                    updateParentPermissions(
+                      groupName,
+                      permission.parentName || "",
+                      true,
+                    );
+                  }
                   return updatedPermission;
                 }
                 return permission;
@@ -161,6 +142,7 @@ export default function PermissionsComponent({
             ...group,
             permissions: group.permissions.map((permission) => {
               if (permission.parentName === parentName) {
+                updateChangedPermission(permission.name || "", isGranted);
                 return {
                   ...permission,
                   isGranted,
@@ -173,6 +155,68 @@ export default function PermissionsComponent({
         return group;
       }),
     );
+  };
+
+  const updateParentPermissions = (
+    groupName: string,
+    parentName: string | null,
+    isGranted: boolean,
+  ) => {
+    if (!parentName) return;
+    setPermissionsData((prevData) =>
+      prevData.map((group) => {
+        if (group.name === groupName) {
+          return {
+            ...group,
+            permissions: group.permissions.map((permission) => {
+              if (permission.name === parentName) {
+                const updatedPermission = {
+                  ...permission,
+                  isGranted,
+                };
+                updateChangedPermission(
+                  parentName,
+                  updatedPermission.isGranted,
+                );
+                updateParentPermissions(
+                  groupName,
+                  permission.parentName || "",
+                  isGranted,
+                );
+                return updatedPermission;
+              }
+              return permission;
+            }),
+          };
+        }
+        return group;
+      }),
+    );
+  };
+
+  const updatePermissions = async () => {
+    const providerKey = params.data === "user" ? rowId : roleName;
+    const providerName = params.data === "user" ? "U" : "R";
+    const response = await putPermissionsApi({
+      providerKey,
+      providerName,
+      requestBody: {
+        permissions: updatedPermissions,
+      },
+    });
+
+    if (response.type === "success") {
+      toast.success(
+        response.message || languageData["Permissions.Update.Success"],
+      );
+      window.location.reload();
+    } else {
+      toast.error(
+        `${response.status}: ${
+          response.message || languageData["Permissions.Update.Fail"]
+        }`,
+      );
+    }
   };
 
   const toggleGroupPermissions = (groupName: string, isGranted: boolean) => {
