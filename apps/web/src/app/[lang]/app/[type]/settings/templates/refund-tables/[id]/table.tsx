@@ -17,7 +17,7 @@ type TypeWithId<Type, IdType = string> = Type & {
   id: IdType;
 };
 
-export default function RefundTablesRuleForm({
+export default function RefundTableDetailsForm({
   response,
   languageData,
 }: {
@@ -48,18 +48,14 @@ export default function RefundTablesRuleForm({
             {
               type: "create-row",
               actionLocation: "table",
-              cta: languageData[
-                "RebateTables.Templates.Form.rebateTableDetails.add"
-              ],
+              cta: languageData["Rebate.Form.rebateTableDetails.add"],
               icon: PlusCircle,
             },
           ],
           rowActions: [
             {
               actionLocation: "row",
-              cta: languageData[
-                "RebateTables.Templates.Form.rebateTableDetails.delete"
-              ],
+              cta: languageData["Rebate.Form.rebateTableDetails.delete"],
               icon: Trash2,
               type: "delete-row",
             },

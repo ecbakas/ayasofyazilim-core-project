@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
 import { getRefundTableHeadersById } from "../../refund/action";
 import Form from "./form";
-import RefundTablesRuleForm from "./table";
+import RefundTableDetailsForm from "./table";
 
 export default async function Page({
   params,
@@ -17,7 +17,7 @@ export default async function Page({
   return (
     <>
       <Form languageData={languageData} response={response.data} />
-      <RefundTablesRuleForm
+      <RefundTableDetailsForm
         languageData={languageData}
         response={response.data}
       />

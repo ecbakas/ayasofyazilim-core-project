@@ -68,6 +68,7 @@
   "Form.personalIdentificationCommonDatas": "Kişisel bilgiler",
   "Form.personalPreferencesTypes": "Tercihler",
   "Form.isDefault": "Varsayılan",
+  "Form.isActive": "Aktif",
 
   "Form.name.firstName": "Ad",
   "Form.name.lastName": "Soyad",
