@@ -33,8 +33,7 @@ type TypeWithId<Type, IdType = string> = Type & {
 };
 type RebateFormProps = {
   languageData: ContractServiceResource;
-} & (RebateFormCreateProps | RebateFormUpdateProps);
-
+} & (RebateFormCreateProps | RebateFormUpdateProps | RebateFormAddProps);
 interface RebateFormCreateProps {
   formType: "create";
 }
@@ -42,6 +41,13 @@ interface RebateFormUpdateProps {
   formType: "update";
   id: string;
   formData: RebateTableHeaderDto;
+}
+
+interface RebateFormAddProps {
+  formType: "add";
+  id?: string;
+  formData?: RebateTableHeaderDto;
+  onSubmit: (data: RebateTableHeaderDto) => void;
 }
 
 export default function RebateForm(props: RebateFormProps) {
@@ -57,7 +63,7 @@ export default function RebateForm(props: RebateFormProps) {
   >({
     rows: $RebateTableDetailCreateDto.properties,
     languageData: {
-      constantKey: "RebateTables.Templates.Form.rebateTableDetails",
+      constantKey: "Rebate.Form.rebateTableDetails",
       languageData,
     },
     excludeColumns: ["extraProperties"],
@@ -66,7 +72,7 @@ export default function RebateForm(props: RebateFormProps) {
     tanstackTableEditableColumnsByRowData<ProcessingFeeDetailCreateDto>({
       rows: $ProcessingFeeDetailCreateDto.properties,
       languageData: {
-        constantKey: "RebateTables.Templates.Form.processingFeeDetails",
+        constantKey: "Rebate.Form.processingFeeDetails",
         languageData,
       },
       excludeColumns: ["extraProperties"],
@@ -74,7 +80,7 @@ export default function RebateForm(props: RebateFormProps) {
   const uiSchema = createUiSchemaWithResource({
     resources: languageData,
     schema: $Schema,
-    name: "RebateTables.Templates.Form",
+    name: "Rebate.Form",
     extend: {
       "ui:className": "md:grid md:grid-cols-2 md:gap-4",
       name: { "ui:className": "md:col-span-2" },
@@ -99,13 +105,13 @@ export default function RebateForm(props: RebateFormProps) {
 
   function handleFormSubmit<T>(data: T) {
     setLoading(true);
-    if (isCreate) {
+    if (props.formType === "create") {
       void postRebateTableHeadersApi({
         requestBody: data as RebateTableHeaderCreateDto,
       }).then((response) => {
         handlePostResponse(response, router, "../rebate");
       });
-    } else {
+    } else if (props.formType === "update") {
       void putRebateTableHeadersApi({
         id: props.id,
         requestBody: data as RebateTableHeaderDto,
@@ -123,7 +129,7 @@ export default function RebateForm(props: RebateFormProps) {
           editable: true,
           showPagination: false,
           columns: RebateTableColumns,
-          data: isCreate ? [] : props.formData.rebateTableDetails || [],
+          data: isCreate ? [] : props.formData?.rebateTableDetails || [],
           fillerColumn: "refundMethod",
           columnOrder: [
             "refundMethod",
@@ -135,18 +141,14 @@ export default function RebateForm(props: RebateFormProps) {
             {
               type: "create-row",
               actionLocation: "table",
-              cta: languageData[
-                "RebateTables.Templates.Form.rebateTableDetails.add"
-              ],
+              cta: languageData["Rebate.Form.rebateTableDetails.add"],
               icon: PlusCircle,
             },
           ],
           rowActions: [
             {
               actionLocation: "row",
-              cta: languageData[
-                "RebateTables.Templates.Form.rebateTableDetails.delete"
-              ],
+              cta: languageData["Rebate.Form.rebateTableDetails.delete"],
               icon: Trash2,
               type: "delete-row",
             },
@@ -156,24 +158,23 @@ export default function RebateForm(props: RebateFormProps) {
           editable: true,
           showPagination: false,
           columns: ProcessingFeeDetailsColumns,
-          data: isCreate ? [] : props.formData.processingFeeDetails || [],
+          data:
+            props.formType === "create"
+              ? []
+              : props.formData?.processingFeeDetails || [],
           fillerColumn: "name",
           tableActions: [
             {
               type: "create-row",
               actionLocation: "table",
-              cta: languageData[
-                "RebateTables.Templates.Form.processingFeeDetails.add"
-              ],
+              cta: languageData["Rebate.Form.processingFeeDetails.add"],
               icon: PlusCircle,
             },
           ],
           rowActions: [
             {
               actionLocation: "row",
-              cta: languageData[
-                "RebateTables.Templates.Form.processingFeeDetails.delete"
-              ],
+              cta: languageData["Rebate.Form.processingFeeDetails.delete"],
               icon: Trash2,
               type: "delete-row",
             },
@@ -193,15 +194,28 @@ export default function RebateForm(props: RebateFormProps) {
         }
       }}
       schema={$Schema}
+      tagName={props.formType === "add" ? "div" : "form"}
       uiSchema={uiSchema}
       useDefaultSubmit={false}
     >
       <div className="sticky bottom-0 z-50 flex justify-end gap-2 bg-white py-4">
-        <Button type="submit">
-          {isCreate
-            ? languageData["RebateTables.Templates.Create.Submit"]
-            : languageData["RebateTables.Templates.Update.Submit"]}
-        </Button>
+        {props.formType === "add" ? (
+          <Button
+            onClick={() => {
+              if (props.formData) props.onSubmit(props.formData);
+            }}
+            type="button"
+          >
+            {languageData["Rebate.Add.Submit"]}
+          </Button>
+        ) : (
+          <Button type="submit">
+            {props.formType === "create" &&
+              languageData["Rebate.Create.Submit"]}
+            {props.formType === "update" &&
+              languageData["Rebate.Update.Submit"]}
+          </Button>
+        )}
       </div>
     </SchemaForm>
   );

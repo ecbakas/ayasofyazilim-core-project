@@ -319,7 +319,7 @@ async function MyDataTable({
       <div className="justify-end-between mt-4 flex">
         <Input placeholder="SIS" type="number" />
         <Button className="ml-4">
-          {languageData["RebateTables.Templates.Preview.Calculate"]}
+          {languageData["Rebate.Preview.Calculate"]}
         </Button>
       </div>
       <DataTable

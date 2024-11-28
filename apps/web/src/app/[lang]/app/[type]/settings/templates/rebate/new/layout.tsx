@@ -22,7 +22,7 @@ export default function Layout({ children, params }: LayoutProps) {
 
   const navbarItems = [
     {
-      name: languageData["RebateTables.Templates.Create"],
+      name: languageData["Rebate.Create"],
       id: "new",
       link: getBaseLink(
         "settings/templates/rebate/new",
@@ -33,7 +33,7 @@ export default function Layout({ children, params }: LayoutProps) {
       ),
     },
     {
-      name: languageData["RebateTables.Templates.Preview"],
+      name: languageData["Rebate.Preview"],
       id: "new/preview",
       link: getBaseLink(
         "settings/templates/rebate/new/preview",

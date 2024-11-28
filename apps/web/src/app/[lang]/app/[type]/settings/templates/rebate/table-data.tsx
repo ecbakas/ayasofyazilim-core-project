@@ -30,7 +30,7 @@ const rebateTableHeadersColumns = (
   tanstackTableCreateColumnsByRowData<RebateTableHeaderDto>({
     rows: $RebateTableHeaderDto.properties,
     languageData: {
-      constantKey: "RebateTables.Templates.Form",
+      constantKey: "Rebate.Form",
       languageData,
     },
     config: {
@@ -49,9 +49,7 @@ const rebateTableHeadersColumns = (
       name: {
         values: [
           {
-            label:
-              languageData["RebateTables.Templates.Form.isTemplate"] ||
-              "Template",
+            label: languageData["Rebate.Form.isTemplate"] || "Template",
             conditions: [
               {
                 conditionAccessorKey: "isTemplate",
@@ -82,7 +80,7 @@ const rebateTableHeadersTable = (params: {
         onClick: () => {
           params.router.push(`rebate/new`);
         },
-        cta: params.languageData["RebateTables.Templates.Create"],
+        cta: params.languageData["Rebate.Create"],
       },
     ],
   };
