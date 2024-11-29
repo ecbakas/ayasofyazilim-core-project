@@ -302,7 +302,10 @@ function SchemaFormForContractSettings({
       const response =
         await postMerchantContractHeaderContractSettingsByHeaderIdApi({
           id: submitId,
-          requestBody: data,
+          requestBody: {
+            ...data,
+            isDefault: false,
+          },
         });
       if (response.type === "success") {
         toast.success(

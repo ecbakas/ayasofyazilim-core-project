@@ -1,6 +1,10 @@
 import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
-import type { UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto as RefundTableHeaderDto } from "@ayasofyazilim/saas/ContractService";
+import type {
+  UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto as RefundTableHeaderDto,
+  UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto,
+} from "@ayasofyazilim/saas/ContractService";
+import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressTypeDto } from "@ayasofyazilim/saas/LocationService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
@@ -66,6 +70,67 @@ export function RefundTableWidget({
             "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchResultLabel"
           ]
         }
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    );
+  }
+  return Widget;
+}
+
+export function RebateTableWidget({
+  loading,
+  languageData,
+  rebateTableHeaders,
+}: {
+  loading: boolean;
+  languageData: ContractServiceResource;
+  rebateTableHeaders: RebateTableHeaderDto[] | undefined;
+}) {
+  function Widget(comboboxProps: WidgetProps) {
+    return (
+      <CustomCombobox<RebateTableHeaderDto>
+        {...comboboxProps}
+        disabled={loading}
+        emptyValue={
+          languageData["Rebate.Form.rebateTableHeadersFromTemplate.id"]
+        }
+        list={rebateTableHeaders}
+        searchPlaceholder={
+          languageData[
+            "Rebate.Form.rebateTableHeadersFromTemplate.id.searchPlaceholder"
+          ]
+        }
+        searchResultLabel={
+          languageData[
+            "Rebate.Form.rebateTableHeadersFromTemplate.id.searchResultLabel"
+          ]
+        }
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    );
+  }
+  return Widget;
+}
+
+export function MerchantStoresWidget({
+  loading,
+  languageData,
+  list,
+}: {
+  loading: boolean;
+  languageData: ContractServiceResource;
+  list: StoreProfileDto[] | undefined;
+}) {
+  function Widget(props: WidgetProps) {
+    return (
+      <CustomCombobox<StoreProfileDto>
+        {...props}
+        disabled={loading}
+        list={list}
+        searchPlaceholder={languageData["Select.Placeholder"]}
+        searchResultLabel={languageData["Select.ResultLabel"]}
         selectIdentifier="id"
         selectLabel="name"
       />

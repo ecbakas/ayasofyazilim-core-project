@@ -2,9 +2,11 @@
 import type {
   GetApiCrmServiceCustomsData,
   GetApiCrmServiceIndividualsData,
+  GetApiCrmServiceMerchantsByIdSubMerchantsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceMerchantsResponse,
   GetApiCrmServiceTaxOfficesData,
+  UniRefund_CRMService_Merchants_StoreProfilePagedResultDto,
 } from "@ayasofyazilim/saas/CRMService";
 import type { ServerResponse } from "src/lib";
 import { structuredError, structuredResponse } from "src/lib";
@@ -16,6 +18,23 @@ export async function getMerchantsApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.merchants.get(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getSubMerchantsByMerchantIdApi(
+  data: GetApiCrmServiceMerchantsByIdSubMerchantsData,
+): Promise<
+  ServerResponse<UniRefund_CRMService_Merchants_StoreProfilePagedResultDto>
+> {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests.merchants.getSubCompanies({
+      ...data,
+      maxResultCount: data.maxResultCount || 10,
+      skipCount: data.skipCount || 0,
+    });
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);

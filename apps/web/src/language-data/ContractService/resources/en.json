@@ -224,6 +224,8 @@
   "Rebate.Form.processingFeeDetails.name": "Processing fee name",
   "Rebate.Form.processingFeeDetails.amount": "Amount",
   "Rebate.Form.calculateNetCommissionInsteadOfRefund": "Calculate net commission instead of refund",
+  "Rebate.Form.validFrom": "Valid from",
+  "Rebate.Form.validTo": "Valid to",
 
   "Rebate.Form.referenceNumber": "Reference number",
   "Rebate.Form.isTrustedMerchant": "Trusted merchant",
