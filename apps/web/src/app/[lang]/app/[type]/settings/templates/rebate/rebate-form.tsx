@@ -127,7 +127,6 @@ export default function RebateForm(props: RebateFormProps) {
       fields={{
         RebateTable: TableField<TypeWithId<RebateTableDetailCreateDto>>({
           editable: true,
-          showPagination: false,
           columns: RebateTableColumns,
           data: isCreate ? [] : props.formData?.rebateTableDetails || [],
           fillerColumn: "refundMethod",
@@ -156,7 +155,6 @@ export default function RebateForm(props: RebateFormProps) {
         }),
         ProcessingFeeDetails: TableField<ProcessingFeeDetailCreateDto>({
           editable: true,
-          showPagination: false,
           columns: ProcessingFeeDetailsColumns,
           data:
             props.formType === "create"
@@ -183,14 +181,12 @@ export default function RebateForm(props: RebateFormProps) {
       }}
       formData={!isCreate ? props.formData : undefined}
       onSubmit={(data) => {
+        if (!data.formData) return;
+
         if (isCreate) {
-          handleFormSubmit<RebateTableHeaderCreateDto>(
-            data.formData as RebateTableHeaderCreateDto,
-          );
+          handleFormSubmit<RebateTableHeaderCreateDto>(data.formData);
         } else {
-          handleFormSubmit<RebateTableHeaderDto>(
-            data.formData as RebateTableHeaderDto,
-          );
+          handleFormSubmit<RebateTableHeaderDto>(data.formData);
         }
       }}
       schema={$Schema}
