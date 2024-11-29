@@ -224,6 +224,8 @@
   "Rebate.Form.processingFeeDetails.name": "İşlem ücreti adı",
   "Rebate.Form.processingFeeDetails.amount": "Tutar",
   "Rebate.Form.calculateNetCommissionInsteadOfRefund": "İade yerine net komisyon hesapla",
+  "Rebate.Form.validFrom": "Valid from",
+  "Rebate.Form.validTo": "Valid to",
 
   "Rebate.Form.referenceNumber": "Referans numarası",
   "Rebate.Form.isTrustedMerchant": "Güvenilir tüccar",
