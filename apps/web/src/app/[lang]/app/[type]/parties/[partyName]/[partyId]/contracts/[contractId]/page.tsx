@@ -3,8 +3,12 @@ import {
   getMerchantContractHeaderByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi,
   getMerchantContractHeaderMissingStepsByIdApi,
+  getRebateTableHeadersApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
-import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
+import {
+  getAdressesApi,
+  getSubMerchantsByMerchantIdApi,
+} from "src/app/[lang]/app/actions/CrmService/actions";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 import Details from "./details";
@@ -28,6 +32,10 @@ export default async function Page({
     });
   const missingSteps = await getMerchantContractHeaderMissingStepsByIdApi({
     id: params.contractId,
+  });
+  const rebateTables = await getRebateTableHeadersApi({});
+  const subMerchants = await getSubMerchantsByMerchantIdApi({
+    id: params.partyId,
   });
   const addresses = await getAdressesApi(params.partyId, params.partyName);
   if (
@@ -57,6 +65,22 @@ export default async function Page({
         missingSteps={missingSteps.data}
         partyId={params.partyId}
         partyName={params.partyName}
+        rebateTables={{
+          data:
+            rebateTables.type === "success"
+              ? rebateTables.data.items || []
+              : [],
+          success: rebateTables.type === "success",
+          message: rebateTables.message,
+        }}
+        subMerchants={{
+          data:
+            subMerchants.type === "success"
+              ? subMerchants.data.items || []
+              : [],
+          success: subMerchants.type === "success",
+          message: subMerchants.message,
+        }}
       />
       <div className="hidden" id="page-title">
         {languageData["Contracts.Edit.Title"]} - (

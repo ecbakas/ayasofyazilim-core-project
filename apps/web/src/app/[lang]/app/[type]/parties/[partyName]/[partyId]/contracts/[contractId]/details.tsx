@@ -7,12 +7,14 @@ import {
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
   PagedResultDto_ContractSettingDto,
+  UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { Circle } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
+import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { ContractHeaderSection } from "./contract-header";
 import { ContractSettingsSection } from "./contract-settings";
@@ -22,6 +24,16 @@ interface DetailsProp {
   contractHeaderDetails: ContractHeaderDetailForMerchantDto;
   contractSettings: {
     data: PagedResultDto_ContractSettingDto;
+    message?: string;
+    success: boolean;
+  };
+  rebateTables: {
+    data: RebateTableHeaderDto[];
+    message?: string;
+    success: boolean;
+  };
+  subMerchants: {
+    data: StoreProfileDto[];
     message?: string;
     success: boolean;
   };
