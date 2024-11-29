@@ -46,7 +46,7 @@ const isCreateForm = (
 ): obj is ContractHeaderForMerchantCreateDto => !("status" in obj);
 
 export default function ContractHeaderForm<
-  TForm =
+  TForm extends
     | ContractHeaderForMerchantCreateDto
     | ContractHeaderForMerchantUpdateDto,
 >(props: BaseContractHeaderFormProps<TForm>): JSX.Element {
@@ -191,7 +191,7 @@ export default function ContractHeaderForm<
   }, [defaultRefundTableHeader]);
 
   return (
-    <SchemaForm
+    <SchemaForm<TForm>
       className="grid gap-2"
       disabled={loading}
       filter={{
@@ -213,9 +213,7 @@ export default function ContractHeaderForm<
       formData={formData}
       onChange={(data) => {
         if (!data.formData) return;
-        const _formData = data.formData as
-          | ContractHeaderForMerchantUpdateDto
-          | ContractHeaderForMerchantCreateDto;
+        const _formData = data.formData;
         const filtered = refundTableHeaders?.filter((t1) => {
           return (
             _formData.refundTableHeaders?.filter(
@@ -231,7 +229,7 @@ export default function ContractHeaderForm<
             undefined,
         );
         handleDefaultRefundTableHeader();
-        setFormData(_formData as TForm);
+        setFormData(_formData);
       }}
       onSubmit={(data) => {
         if (!data.formData || !defaultRefundTableHeader) return;
