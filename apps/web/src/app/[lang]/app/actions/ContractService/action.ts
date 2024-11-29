@@ -3,8 +3,8 @@ import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
+  GetApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
-  GetApiContractServiceRefundTablesRefundFeeHeadersDetailByIdData,
   GetApiContractServiceRefundTablesRefundTableHeadersByIdData,
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
@@ -164,7 +164,7 @@ export async function getRefundFeeHeadersApi(
   }
 }
 export async function getRefundFeeHeadersByIdApi(
-  data: GetApiContractServiceRefundTablesRefundFeeHeadersDetailByIdData,
+  data: GetApiContractServiceRefundTablesRefundFeeHeadersByIdData,
 ) {
   try {
     const requests = await getApiRequests();

@@ -1,8 +1,5 @@
 "use client";
-import type {
-  UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto,
-  UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpdateDto,
-} from "@ayasofyazilim/saas/ContractService";
+import type { UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpdateDto } from "@ayasofyazilim/saas/ContractService";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
@@ -31,8 +28,7 @@ function Form({
       onSubmit={(data) => {
         const formData = {
           id: response.id,
-          requestBody:
-            data.formData as UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpdateDto,
+          requestBody: data.formData,
         };
         void putRefundFeeHeadersApi(formData).then((res) => {
           handlePutResponse(res, router);

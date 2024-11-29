@@ -18,8 +18,8 @@ export default async function Page({
     <>
       <Form languageData={languageData} response={response.data} />
       <RefundFeeDetailsForm
-      // languageData={languageData}
-      // response={response.data}
+        languageData={languageData}
+        response={response.data}
       />
       <div className="hidden" id="page-title">
         {response.data.name}

@@ -225,7 +225,7 @@ export function ContractSettingsSection({
       ) : (
         <SchemaFormForContractSettings
           addressList={addresses}
-          formData={{ isDefault: true }}
+          formData={{}}
           handleFetch={handleFetch}
           languageData={languageData}
           loading={loading}
@@ -302,10 +302,7 @@ function SchemaFormForContractSettings({
       const response =
         await postMerchantContractHeaderContractSettingsByHeaderIdApi({
           id: submitId,
-          requestBody: {
-            ...data,
-            isDefault: false,
-          },
+          requestBody: data,
         });
       if (response.type === "success") {
         toast.success(
@@ -374,15 +371,13 @@ function SchemaFormForContractSettings({
       withScrollArea
     >
       <div className="sticky bottom-0 z-50 flex justify-end gap-2 bg-white py-4">
-        {!formData.isDefault && (
-          <DeleteDialog
-            handleFetch={handleFetch}
-            languageData={languageData}
-            setLoading={setLoading}
-            setTempSettings={setTempSettings}
-            submitId={type === "temp" ? "$temp" : submitId}
-          />
-        )}
+        <DeleteDialog
+          handleFetch={handleFetch}
+          languageData={languageData}
+          setLoading={setLoading}
+          setTempSettings={setTempSettings}
+          submitId={type === "temp" ? "$temp" : submitId}
+        />
         <Button type="submit">
           {type === "edit"
             ? languageData["Contracts.Edit.Submit"]

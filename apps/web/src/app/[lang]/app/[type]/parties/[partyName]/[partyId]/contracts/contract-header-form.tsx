@@ -16,8 +16,10 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getRefundTableHeaders } from "src/app/[lang]/app/[type]/settings/templates/refund/action";
-import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import {
+  getRefundTableHeadersApi,
+  postMerchantContractHeadersByMerchantIdApi,
+} from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 import { MerchantAddressWidget, RefundTableWidget } from "./contract-widgets";
@@ -102,7 +104,7 @@ export default function ContractHeaderForm<
   useEffect(() => {
     async function fetchRefundTableHeaders() {
       setLoading(true);
-      const response = await getRefundTableHeaders({ maxResultCount: 100 });
+      const response = await getRefundTableHeadersApi({ maxResultCount: 100 });
       if (response.type === "error" || response.type === "api-error") {
         toast.error(response.message || response.status);
       } else {
