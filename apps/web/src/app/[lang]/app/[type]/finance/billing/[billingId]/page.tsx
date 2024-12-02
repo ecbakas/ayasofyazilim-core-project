@@ -31,17 +31,25 @@ export default async function Page({
   const billingList = billing.data;
 
   return (
-    <Form
-      billingData={billingList}
-      billingId={params.billingId}
-      languageData={{
-        finance: financeLanguageData,
-        crm: crmLanguageData,
-      }}
-      merchants={{
-        data: merchantsList,
-        success: merchant.type === "success",
-      }}
-    />
+    <>
+      <Form
+        billingData={billingList}
+        billingId={params.billingId}
+        languageData={{
+          finance: financeLanguageData,
+          crm: crmLanguageData,
+        }}
+        merchants={{
+          data: merchantsList,
+          success: merchant.type === "success",
+        }}
+      />
+      <div className="hidden" id="page-title">
+        {financeLanguageData["Billing.Edit"]}
+      </div>
+      <div className="hidden" id="page-description">
+        {financeLanguageData["Billing.Edit.Description"]}
+      </div>
+    </>
   );
 }

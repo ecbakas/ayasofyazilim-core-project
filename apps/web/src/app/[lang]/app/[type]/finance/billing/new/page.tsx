@@ -15,15 +15,23 @@ export default async function Page({ params }: { params: { lang: string } }) {
     (merchant.type === "success" && merchant.data.items) || [];
 
   return (
-    <Form
-      languageData={{
-        finance: financeLanguageData,
-        crm: crmLanguageData,
-      }}
-      merchants={{
-        data: merchantsList,
-        success: merchant.type === "success",
-      }}
-    />
+    <>
+      <Form
+        languageData={{
+          finance: financeLanguageData,
+          crm: crmLanguageData,
+        }}
+        merchants={{
+          data: merchantsList,
+          success: merchant.type === "success",
+        }}
+      />
+      <div className="hidden" id="page-title">
+        {financeLanguageData["Billing.New"]}
+      </div>
+      <div className="hidden" id="page-description">
+        {financeLanguageData["Billing.New.Description"]}
+      </div>
+    </>
   );
 }
