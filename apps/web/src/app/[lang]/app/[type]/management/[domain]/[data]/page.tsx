@@ -354,7 +354,7 @@ export default function Page({
       loadingContent: <>Loading...</>,
       description: languageData["Claim.Add.Description"],
       componentType: "CustomComponent",
-      callback: claimComponent,
+      customComponentRendering: claimComponent,
       content: <></>,
     });
   }
@@ -369,17 +369,22 @@ export default function Page({
       loadingContent: <>Loading...</>,
       description: languageData["User.Sessions.Description"],
       componentType: "CustomComponent",
-      callback: session,
+      customComponentRendering: session,
       content: <></>,
     });
   }
-  const permissions = async (row: { id: string }, roleName: string) => {
+  const permissions = async (
+    row: { id: string },
+    roleName: string,
+    setIsOpen?: (e: boolean) => void,
+  ) => {
     await Promise.resolve();
     return (
       <PermissionsComponent
         params={params}
         roleName={roleName}
         rowId={row.id}
+        setIsOpen={setIsOpen}
       />
     );
   };
@@ -391,7 +396,8 @@ export default function Page({
       loadingContent: <>Loading...</>,
       description: languageData["Permissions.Description"],
       componentType: "CustomComponent",
-      callback: (row) => permissions(row, row.name as string),
+      customComponentRendering: (row, setIsOpen) =>
+        permissions(row, row.name as string, setIsOpen),
       content: <></>,
     });
   }

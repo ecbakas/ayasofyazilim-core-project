@@ -28,6 +28,7 @@ export default function PermissionsComponent({
   rowId,
   params,
   roleName,
+  setIsOpen,
 }: {
   rowId: string;
   params: {
@@ -35,6 +36,7 @@ export default function PermissionsComponent({
     data: string;
   };
   roleName: string;
+  setIsOpen?: (e: boolean) => void;
 }) {
   const languageData = getResourceDataClient(params.lang);
   const [permissionsData, setPermissionsData] = useState<
@@ -78,7 +80,7 @@ export default function PermissionsComponent({
       toast.success(
         response.message || languageData["Permissions.Update.Success"],
       );
-      window.location.reload();
+      setIsOpen && setIsOpen(false);
     } else {
       toast.error(
         `${response.status}: ${response.message || languageData["Permissions.Update.Fail"]}`,
