@@ -39,9 +39,7 @@ export default function RefundTableDetailsForm({
           TypeWithId<UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto>
         >({
           editable: true,
-          showPagination: false,
           columns: RebateTableColumns,
-          // @ts-expect-error UNI-577
           data: response.refundTableDetails || [],
           fillerColumn: "id",
           tableActions: [
@@ -64,8 +62,7 @@ export default function RefundTableDetailsForm({
       }}
       formData={response.refundTableDetails || []}
       onSubmit={(data) => {
-        const formData = (data.formData ||
-          []) as UniRefund_ContractService_Refunds_RefundTableDetails_RefundTableDetailCreateDto[];
+        const formData = data.formData;
 
         void postRefundTableHeadersRefundTableDetailsApi({
           id: response.id,
