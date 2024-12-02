@@ -1,4 +1,5 @@
 import type { TableData } from "@repo/ui/utils/table/table-utils";
+import type policies from "./app/[lang]/page-policy/policies.json";
 
 export interface DataConfig {
   displayName: string;
@@ -7,3 +8,5 @@ export interface DataConfig {
 }
 
 export type DataConfigArray = Record<string, DataConfig>;
+
+export type Policy = keyof typeof policies;
