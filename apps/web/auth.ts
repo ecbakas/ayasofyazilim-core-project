@@ -1,13 +1,14 @@
+import type { AdapterUser } from "@auth/core/adapters";
+import "@auth/core/jwt";
 import type { GetApiAccountMyProfileResponse } from "@ayasofyazilim/saas/AccountService";
 import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import {
+  getGrantedPolicies,
   getMyProfile,
   obtainAccessTokenByRefreshToken,
   signInWithCredentials,
 } from "auth-action";
-import "@auth/core/jwt";
-import type { AdapterUser } from "@auth/core/adapters";
 
 export type Awaitable<T> = T | PromiseLike<T>;
 
@@ -32,6 +33,7 @@ declare module "next-auth" {
     error?: "RefreshAccessTokenError" | string;
     access_token?: string;
     user?: GetApiAccountMyProfileResponse;
+    grantedPolicies?: Record<string, boolean>;
   }
 }
 declare module "@auth/core/jwt" {
@@ -116,10 +118,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       }
       const userData = await getMyProfile(typedToken.access_token);
+      const grantedPolicies = await getGrantedPolicies(typedToken.access_token);
       return {
         ...session,
         user: userData,
         access_token: typedToken.access_token,
+        grantedPolicies: grantedPolicies || {},
       };
     },
     async jwt({ token, user }) {
