@@ -201,3 +201,18 @@ export async function obtainAccessTokenByRefreshToken(refreshToken: string) {
   const json: User | TokenError = (await response.json()) as User | TokenError;
   return json;
 }
+export async function getGrantedPolicies(token: string) {
+  const client = new AccountServiceClient({
+    TOKEN: token,
+    BASE: process.env.BASE_URL,
+    HEADERS: {
+      "X-Requested-With": "XMLHttpRequest",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const configuration =
+    await client.abpApplicationConfiguration.getApiAbpApplicationConfiguration();
+  const grantedPolicies = configuration.auth?.grantedPolicies;
+  return grantedPolicies;
+}
