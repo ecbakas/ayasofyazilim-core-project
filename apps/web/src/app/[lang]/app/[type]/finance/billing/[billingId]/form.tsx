@@ -1,6 +1,5 @@
 "use client";
 
-import { toast } from "@/components/ui/sonner";
 import type { UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type {
   UniRefund_FinanceService_Billings_BillingDto,
@@ -14,6 +13,7 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import { putBillingApi } from "src/app/[lang]/app/actions/FinanceService/put-actions";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { FinanceServiceResource } from "src/language-data/FinanceService";
@@ -47,12 +47,7 @@ export default function Form({
       id: billingId,
       requestBody: data,
     });
-    if (response.type === "success") {
-      toast.success(languageData.finance["Billing.Update.Success"]);
-      router.refresh();
-    } else {
-      toast.error(response.type + response.message || ["Billing.Update.Fail"]);
-    }
+    handlePutResponse(response, router);
   }
 
   const translatedForm = createFieldConfigWithResource({
