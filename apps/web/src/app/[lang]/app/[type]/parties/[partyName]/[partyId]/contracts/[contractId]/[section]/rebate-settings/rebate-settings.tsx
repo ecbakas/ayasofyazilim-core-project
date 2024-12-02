@@ -1,3 +1,6 @@
+"use client";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -8,13 +11,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto } from "@ayasofyazilim/saas/CRMService";
-import { Badge } from "@/components/ui/badge";
 import type {
   UniRefund_ContractService_Rebates_MinimumNetCommissions_MinimumNetCommissionCreateDto as MinimumNetCommissionCreateDto,
   UniRefund_ContractService_Rebates_RebateSettings_RebateSettingCreateDto as RebateSettingCreateDto,
-  UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderFromTemplateCreateDto as RebateTableHeaderFromTemplateCreateDto,
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto,
+  UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderFromTemplateCreateDto as RebateTableHeaderFromTemplateCreateDto,
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderNotTemplateCreateDto as RebateTableHeaderNotTemplateCreateDto,
 } from "@ayasofyazilim/saas/ContractService";
 import {
@@ -22,23 +23,29 @@ import {
   $UniRefund_ContractService_Rebates_RebateSettings_RebateSettingCreateDto as $RebateSettingCreateDto,
   $UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderFromTemplateCreateDto as $RebateTableHeaderFromTemplateCreateDto,
 } from "@ayasofyazilim/saas/ContractService";
+import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto } from "@ayasofyazilim/saas/CRMService";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { useState } from "react";
 import RebateForm from "src/app/[lang]/app/[type]/settings/templates/rebate/rebate-form";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { MerchantStoresWidget, RebateTableWidget } from "../contract-widgets";
-import type { SectionProps } from "./details";
+import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import {
+  MerchantStoresWidget,
+  RebateTableWidget,
+} from "../../../contract-widgets";
 
-export function RebateSettingsSection({
+export function RebateSettings({
   languageData,
-  loading,
   rebateTables,
   subMerchants,
-}: SectionProps) {
+}: {
+  languageData: ContractServiceResource;
+  rebateTables: RebateTableHeaderDto[];
+  subMerchants: StoreProfileDto[];
+}) {
   const uiSchema = createUiSchemaWithResource({
     schema: $RebateSettingCreateDto,
     resources: languageData,
@@ -48,7 +55,9 @@ export function RebateSettingsSection({
         "ui:widget": "switch",
       },
       rebateTableHeaders: {
-        "ui:field": "CreateRebateTableField",
+        items: {
+          "ui:field": "CreateRebateTableField",
+        },
       },
       rebateTableHeadersFromTemplate: {
         items: {
@@ -64,31 +73,27 @@ export function RebateSettingsSection({
   });
 
   return (
-    <SectionLayoutContent sectionId="rebate-setting">
-      <SchemaForm<RebateSettingCreateDto>
-        className="md:max-w-2xl"
-        fields={{
-          CreateRebateTableField: CreateRebateTableField({
-            languageData,
-          }),
-          SelectRebateTableField: SelectRebateTableField({
-            languageData,
-            rebateTableHeaders: rebateTables.data,
-          }),
-          CreateMinimumNetCommissionField: CreateMinimumNetCommissionField({
-            loading,
-            languageData,
-            subMerchants: subMerchants.data,
-          }),
-        }}
-        onSubmit={(data) => {
-          toastOnSubmit(data.formData as object);
-        }}
-        schema={$RebateSettingCreateDto}
-        uiSchema={uiSchema}
-        widgets={{}}
-      />
-    </SectionLayoutContent>
+    <SchemaForm<RebateSettingCreateDto>
+      fields={{
+        CreateRebateTableField: CreateRebateTableField({
+          languageData,
+        }),
+        SelectRebateTableField: SelectRebateTableField({
+          languageData,
+          rebateTableHeaders: rebateTables,
+        }),
+        CreateMinimumNetCommissionField: CreateMinimumNetCommissionField({
+          loading: false,
+          languageData,
+          subMerchants,
+        }),
+      }}
+      onSubmit={(data) => {
+        toastOnSubmit(data.formData as object);
+      }}
+      schema={$RebateSettingCreateDto}
+      uiSchema={uiSchema}
+    />
   );
 }
 
@@ -109,7 +114,7 @@ function SelectRebateTableField({
       <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger asChild>
           <Button
-            className="w-full justify-start"
+            className="h-12 w-full justify-start"
             type="button"
             variant="ghost"
           >
@@ -136,8 +141,9 @@ function SelectRebateTableField({
           </SheetHeader>
           <SchemaForm<RebateTableHeaderFromTemplateCreateDto>
             className="h-full p-0 [&>fieldset]:border-0 [&>fieldset]:p-0"
+            formData={_formData}
             onSubmit={(data) => {
-              props.onChange(data);
+              props.onChange(data.formData);
               setOpen(false);
             }}
             schema={$RebateTableHeaderFromTemplateCreateDto}
@@ -193,7 +199,7 @@ function CreateRebateTableField({
           <Button
             className="h-12 w-full justify-start"
             type="button"
-            variant="outline"
+            variant="ghost"
           >
             {_formData.name && _formData.validFrom && _formData.validTo ? (
               <div className="flex items-center gap-2">
@@ -253,7 +259,9 @@ function CreateMinimumNetCommissionField({
   function Field(props: FieldProps) {
     const _formData: MinimumNetCommissionCreateDto =
       props.formData as MinimumNetCommissionCreateDto;
+    const hasValue: boolean = Object.keys(props.formData as object).length > 0;
     const [open, setOpen] = useState(false);
+    handlePutResponse;
     return (
       <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger asChild>
@@ -262,7 +270,21 @@ function CreateMinimumNetCommissionField({
             type="button"
             variant="ghost"
           >
-            Please select an minimum net commission
+            {hasValue ? (
+              <div className="flex items-center gap-2">
+                <span>{_formData.amount}</span>
+                <div className="space-x-2">
+                  <Badge variant="outline">
+                    {new Date(_formData.validFrom).toLocaleDateString()}
+                  </Badge>
+                  <Badge variant="outline">
+                    {new Date(_formData.validTo).toLocaleDateString()}
+                  </Badge>
+                </div>
+              </div>
+            ) : (
+              "Please select an minimum net commission"
+            )}
           </Button>
         </SheetTrigger>
         <SheetContent>

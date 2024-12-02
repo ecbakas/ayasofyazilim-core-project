@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,10 +13,11 @@ import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingCreateDto as ContractSettingCreateUpdateDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
   UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingDto as ContractSettingDto,
+  PagedResultDto_ContractSettingDto,
 } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingCreateDto as $ContractSettingCreateUpdateDto } from "@ayasofyazilim/saas/ContractService";
-import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
@@ -23,10 +25,10 @@ import {
   bulkCreateUiSchema,
   createUiSchemaWithResource,
 } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import type { TanstackTableTableActionsType } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
+import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import {
   deleteMerchantContractContractSettingsByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
@@ -35,8 +37,7 @@ import {
   putMerchantContractContractSettingsByIdApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { MerchantAddressWidget } from "../contract-widgets";
-import type { SectionProps } from "./details";
+import { MerchantAddressWidget } from "../../../contract-widgets";
 
 interface ContractSettingsTable {
   id: string;
@@ -58,18 +59,23 @@ const $ContractSettingsTable = {
     type: "string",
   },
 };
-export function ContractSettingsSection({
+export function ContractSettings({
   languageData,
   contractSettings,
   contractHeaderDetails,
-  addresses,
+  addressList,
   lang,
-  loading,
-  setLoading,
-}: SectionProps) {
-  const { data } = contractSettings;
+}: {
+  languageData: ContractServiceResource;
+  contractSettings: PagedResultDto_ContractSettingDto;
+  contractHeaderDetails: ContractHeaderDetailForMerchantDto;
+  addressList: AddressCommonDataDto[];
+  lang: string;
+}) {
+  const [loading, setLoading] = useState(false);
+  const { items } = contractSettings;
   const [settings, setSettings] = useState<ContractSettingsTable[]>(
-    data.items?.map((item) => {
+    items?.map((item) => {
       return {
         id: item.id,
         name: item.name,
@@ -132,7 +138,7 @@ export function ContractSettingsSection({
     (row: ContractSettingsTable) => {
       return (
         <SchemaFormForContractSettings
-          addressList={addresses}
+          addressList={addressList}
           formData={{
             ...row.details,
             invoicingAddressCommonDataId:
@@ -148,7 +154,7 @@ export function ContractSettingsSection({
         />
       );
     },
-    [addresses, tempSettings, contractHeaderDetails],
+    [addressList, tempSettings, contractHeaderDetails],
   );
 
   const ColumnIsDefault = useCallback((row: ContractSettingsTable) => {
@@ -209,7 +215,7 @@ export function ContractSettingsSection({
         ]
       : undefined;
   return (
-    <SectionLayoutContent className="px-5 py-0" sectionId="contract-setting">
+    <>
       {settings.length > 0 ? (
         <TanstackTable
           columnVisibility={{
@@ -224,7 +230,7 @@ export function ContractSettingsSection({
         />
       ) : (
         <SchemaFormForContractSettings
-          addressList={addresses}
+          addressList={addressList}
           formData={{}}
           handleFetch={handleFetch}
           languageData={languageData}
@@ -234,7 +240,7 @@ export function ContractSettingsSection({
           type="create"
         />
       )}
-    </SectionLayoutContent>
+    </>
   );
 }
 function SchemaFormForContractSettings({
