@@ -1,12 +1,17 @@
 {
   "Billing.New": "New Billing",
+  "Billing.Edit": "Edit Billing",
+  "Billing.Delete": "Delete Billing",
   "Billing.New.Error": "Failed to add Billing",
   "Billing.New.Success": " Billing Added Successfully",
   "Billing.Update.Success": "Billing Updated Successfully",
   "Billing.Update.Fail": "Failed to update Billing",
   "Billing.Fetch.Fail": "An error occurred while fetching the billing data. Please try again later.",
+  "Billing.New.Description": "You can add a new billing from here.",
+  "Billing.Edit.Description": "You can update the billing details from here.",
 
   "Form.merchantId": "Merchant Name",
+  "Form.merchantName": "Merchant Name",
   "Form.date": "Date",
   "Form.number": "Number",
   "Form.dueDate": "Due Date",
@@ -21,9 +26,9 @@
   "Form.status.UNFINISHED": "Unfinished",
   "Form.status.SENT": "Sent",
   "Form.period.ONETIMEPERMONTH": "One Time Per Month",
-  "Form.period.TWOTIMEPERMONTH": "Two Time Per Month",
+  "Form.period.TWOTIMESPERMONTH": "Two Time Per Month",
   "Form.period.ONETIMEPERWEEK": "One Time Per Week",
   "Form.paymentStatus.PAID": "Paid",
   "Form.paymentStatus.NOTPAID": "Not Paid",
-  "Form.paymentStatus.PARTYLYPAID": "Partially Paid"
+  "Form.paymentStatus.PARTIALLYPAID": "Partially Paid"
 }
