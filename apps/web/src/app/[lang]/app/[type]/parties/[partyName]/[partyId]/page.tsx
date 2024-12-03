@@ -183,9 +183,8 @@ export default async function Page({
           {params.partyName === "merchants" && (
             <Contracts
               contractsData={contracts.data}
-              contractsLanguageData={contractsLanguageData}
-              crmLanguageData={languageData}
               lang={params.lang}
+              languageData={{ ...languageData, ...contractsLanguageData }}
               partyId={params.partyId}
               partyName={params.partyName}
             />

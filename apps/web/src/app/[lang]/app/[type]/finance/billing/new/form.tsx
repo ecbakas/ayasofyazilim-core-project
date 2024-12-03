@@ -46,6 +46,7 @@ export default function Page({
     } else {
       toast.success([languageData.finance["Billing.New.Success"]]);
       router.push(getBaseLink(`/app/admin/finance/billing`));
+      router.refresh();
     }
   }
 
