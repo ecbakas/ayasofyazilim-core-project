@@ -2,7 +2,7 @@
 
 import type {
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
-  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantUpdateDto as ContractHeaderForMerchantUpdateDto,
+  UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto as RefundTableHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
@@ -14,35 +14,29 @@ export function ContractHeader({
   partyId,
   addressList,
   languageData,
+  refundTableHeaders,
 }: {
   contractHeaderDetails: ContractHeaderDetailForMerchantDto;
   partyName: "merchants";
   partyId: string;
   addressList: AddressCommonDataDto[];
+  refundTableHeaders: RefundTableHeaderDto[];
   languageData: ContractServiceResource;
 }) {
-  const refundTableHeaders =
-    contractHeaderDetails.contractHeaderRefundTableHeaders.map((header) => {
-      return {
-        refundTableHeaderId: header.refundTableHeader.id,
-        validFrom: header.validFrom,
-        validTo: header.validTo,
-        isDefault: header.isDefault,
-      };
-    });
   return (
-    <ContractHeaderForm<ContractHeaderForMerchantUpdateDto>
+    <ContractHeaderForm
       addresses={addressList}
+      contractId={contractHeaderDetails.id}
       formData={{
         ...contractHeaderDetails,
         status: contractHeaderDetails.status || "None",
         addressCommonDataId: contractHeaderDetails.addressCommonData.id,
-        refundTableHeaders,
       }}
-      formType="Update"
+      formType="update"
       languageData={languageData}
       partyId={partyId}
       partyName={partyName}
+      refundTableHeaders={refundTableHeaders}
     />
   );
 }
