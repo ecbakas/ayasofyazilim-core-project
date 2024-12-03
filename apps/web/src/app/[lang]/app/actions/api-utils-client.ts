@@ -37,6 +37,18 @@ export const handlePostResponse = <T>(
     toast.error(response.message);
   }
 };
+export const handleDeleteResponse = (
+  response: { type: "success" | "error" | "api-error"; message: string },
+  router: AppRouterInstance,
+  redirectTo?: string,
+) => {
+  if (response.type === "success") {
+    toast.success("Deleted successfully");
+    redirectTo ? router.push(redirectTo) : router.refresh();
+  } else {
+    toast.error(response.message);
+  }
+};
 export const handleGetResponseError = (response: {
   type: "success" | "error" | "api-error";
   message: string;

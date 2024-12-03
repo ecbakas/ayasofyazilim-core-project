@@ -1,12 +1,17 @@
 {
   "Billing.New": "Yeni fatura",
+  "Billing.Edit": "Fatura düzenle",
+  "Billing.Delete": "Fatura sil",
   "Billing.New.Error": "Fatura eklenirken bir hata oluştu",
   "Billing.New.Success": "Fatura başarıyla eklendi",
-  "Billing.Update.Success": "Fatura basarıyla guncellendi",
+  "Billing.Update.Success": "Fatura basarıyla güncellendi",
   "Billing.Update.Fail": "Fatura guncellenirken bir hata olustu",
   "Billing.Fetch.Fail": "Fatura verileri getirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+  "Billing.New.Description": "Buradan yeni fatura ekleyebilirsiniz.",
+  "Billing.Edit.Description": "Fatura detaylarını buradan güncelleyebilirsiniz.",
 
   "Form.merchantId": "Mağaza Adı",
+  "Form.merchantName": "Mağaza Adı",
   "Form.date": "Tarih",
   "Form.number": "Numara",
   "Form.dueDate": "Vade Tarihi",
@@ -21,9 +26,9 @@
   "Form.status.UNFINISHED": "Tamamlanmamış",
   "Form.status.SENT": "Gönderildi",
   "Form.period.ONETIMEPERMONTH": "Ayda Bir Kez",
-  "Form.period.TWOTIMEPERMONTH": "Ayda İki Kez",
+  "Form.period.TWOTIMESPERMONTH": "Ayda İki Kez",
   "Form.period.ONETIMEPERWEEK": "Haftada Bir Kez",
   "Form.paymentStatus.PAID": "Ödendi",
   "Form.paymentStatus.NOTPAID": "Ödenmedi",
-  "Form.paymentStatus.PARTYLYPAID": "Kısmen Ödendi"
+  "Form.paymentStatus.PARTIALLYPAID": "Kısmen Ödendi"
 }
