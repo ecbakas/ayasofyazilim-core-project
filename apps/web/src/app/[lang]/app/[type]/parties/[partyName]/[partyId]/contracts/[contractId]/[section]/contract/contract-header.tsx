@@ -6,7 +6,6 @@ import type {
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import ContractHeaderForm from "../../../contract-header-form";
 
 export function ContractHeader({
@@ -25,23 +24,19 @@ export function ContractHeader({
   languageData: ContractServiceResource;
 }) {
   return (
-    <PagePolicy
-      requiredPolicies={["ContractService.ContractHeaderForMerchant.Edit"]}
-    >
-      <ContractHeaderForm
-        addresses={addressList}
-        contractId={contractHeaderDetails.id}
-        formData={{
-          ...contractHeaderDetails,
-          status: contractHeaderDetails.status || "None",
-          addressCommonDataId: contractHeaderDetails.addressCommonData.id,
-        }}
-        formType="update"
-        languageData={languageData}
-        partyId={partyId}
-        partyName={partyName}
-        refundTableHeaders={refundTableHeaders}
-      />
-    </PagePolicy>
+    <ContractHeaderForm
+      addresses={addressList}
+      contractId={contractHeaderDetails.id}
+      formData={{
+        ...contractHeaderDetails,
+        status: contractHeaderDetails.status || "None",
+        addressCommonDataId: contractHeaderDetails.addressCommonData.id,
+      }}
+      formType="update"
+      languageData={languageData}
+      partyId={partyId}
+      partyName={partyName}
+      refundTableHeaders={refundTableHeaders}
+    />
   );
 }
