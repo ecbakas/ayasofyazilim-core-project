@@ -1,5 +1,6 @@
 "use server";
 import type {
+  PutApiContractServiceMerchantsContractsContractHeadersByIdData,
   PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
   PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
@@ -36,6 +37,18 @@ export async function putRefundFeeHeadersApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.templates.putRefundFeeHeadersApi(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putMerchantContractHeadersByIdApi(
+  data: PutApiContractServiceMerchantsContractsContractHeadersByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests.merchants.putContractHeadersById(data);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);

@@ -20,6 +20,7 @@ import type {
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
   PostApiContractServiceRefundTablesRefundTableHeadersByIdRefundTableDetailsData,
   PostApiContractServiceRefundTablesRefundTableHeadersData,
+  PutApiContractServiceMerchantsContractsContractHeadersByIdData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
   PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
@@ -178,6 +179,8 @@ export async function getApiRequests() {
           .merchant,
       get: async (data: GetApiCrmServiceMerchantsData) =>
         await crmClient.merchant.getApiCrmServiceMerchants(data),
+      getById: async (id: string) =>
+        await crmClient.merchant.getApiCrmServiceMerchantsById({ id }),
       getSubCompanies: async (data: {
         id: string;
         maxResultCount: number;
@@ -214,6 +217,12 @@ export async function getApiRequests() {
         data: PostApiContractServiceMerchantsByIdContractsContractHeadersData,
       ) =>
         await contractsClient.contractsMerchant.postApiContractServiceMerchantsByIdContractsContractHeaders(
+          data,
+        ),
+      putContractHeadersById: async (
+        data: PutApiContractServiceMerchantsContractsContractHeadersByIdData,
+      ) =>
+        await contractsClient.contractsMerchant.putApiContractServiceMerchantsContractsContractHeadersById(
           data,
         ),
       getContractHeaderMissingStepsById: async (id: string) =>
