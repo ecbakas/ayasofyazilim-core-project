@@ -1,32 +1,25 @@
 "use server";
-import TableComponent from "@repo/ui/TableComponent";
-import { $UniRefund_FinanceService_Billings_BillingDto } from "@ayasofyazilim/saas/FinanceService";
-import { getResourceData } from "src/language-data/FinanceService";
-import { deleteTableRow } from "../../../actions/api-requests";
-import { tableFetchRequest } from "../../../actions/table-utils";
 
-export default async function Page({ params }: { params: { lang: string } }) {
-  const { languageData } = await getResourceData(params.lang);
+import type { GetApiFinanceServiceBillingsData } from "@ayasofyazilim/saas/FinanceService";
+import { notFound } from "next/navigation";
+import { getResourceData } from "src/language-data/FinanceService";
+import { getBillingApi } from "../../../actions/FinanceService/actions";
+import BillingTable from "./table";
+
+export default async function Page(props: {
+  params: { lang: string };
+  searchParams: Promise<GetApiFinanceServiceBillingsData>;
+}) {
+  const searchParams = await props.searchParams;
+  const response = await getBillingApi(searchParams);
+  if (response.type !== "success") return notFound();
+  const { languageData } = await getResourceData(props.params.lang);
+
   return (
-    <TableComponent
-      createOnNewPage
-      createOnNewPageTitle={languageData["Billing.New"]}
-      deleteRequest={async (id) => {
-        "use server";
-        const response = await deleteTableRow("billing", id);
-        return response;
-      }}
-      deleteableRow
-      editOnNewPage
-      fetchRequest={(page) => {
-        "use server";
-        return tableFetchRequest("billing", page);
-      }}
+    <BillingTable
       languageData={languageData}
-      tableSchema={{
-        excludeList: ["id"],
-        schema: $UniRefund_FinanceService_Billings_BillingDto,
-      }}
+      locale={props.params.lang}
+      response={response.data}
     />
   );
 }
