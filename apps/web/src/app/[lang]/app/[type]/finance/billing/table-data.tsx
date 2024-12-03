@@ -1,4 +1,3 @@
-import { toast } from "@/components/ui/sonner";
 import type { UniRefund_FinanceService_Billings_BillingDto } from "@ayasofyazilim/saas/FinanceService";
 import { $PagedResultDto_BillingDto } from "@ayasofyazilim/saas/FinanceService";
 import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
@@ -7,6 +6,7 @@ import { Trash } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { FinanceServiceResource } from "src/language-data/FinanceService";
 import { deleteBillingApi } from "../../../actions/FinanceService/actions";
+import { handleDeleteResponse } from "../../../actions/api-utils-client";
 
 type BillingTable =
   TanstackTableCreationProps<UniRefund_FinanceService_Billings_BillingDto>;
@@ -31,80 +31,47 @@ const billingColumns = (locale: string, languageData: FinanceServiceResource) =>
       },
       badges: {
         merchantName: {
-          values: [
-            {
-              label: languageData["Form.paymentStatus.PAID"],
-              badgeClassName: "text-green-500 bg-green-100 border-green-500",
-              conditions: [
-                {
-                  conditionAccessorKey: "paymentStatus",
-                  when: (value) => value === "PAID",
-                },
-              ],
-            },
-            {
-              label: languageData["Form.paymentStatus.NOTPAID"],
-              badgeClassName: "text-red-500 bg-red-100 border-red-500",
-              conditions: [
-                {
-                  conditionAccessorKey: "paymentStatus",
-                  when: (value) => value === "NOTPAID",
-                },
-              ],
-            },
-            {
-              label: languageData["Form.paymentStatus.PARTIALLYPAID"],
-              badgeClassName: "text-orange-500 bg-orange-100 border-orange-500",
-              conditions: [
-                {
-                  conditionAccessorKey: "paymentStatus",
-                  when: (value) => value === "PARTIALLYPAID",
-                },
-              ],
-            },
-          ],
+          values:
+            $PagedResultDto_BillingDto.properties.items.items.properties.paymentStatus.enum.map(
+              (status) => {
+                const badgeClasses = {
+                  PAID: "text-green-500 bg-green-100 border-green-500",
+                  NOTPAID: "text-red-500 bg-red-100 border-red-500",
+                  PARTIALLYPAID:
+                    "text-orange-500 bg-orange-100 border-orange-500",
+                };
+                return {
+                  label: languageData[`Form.paymentStatus.${status}`],
+                  badgeClassName: badgeClasses[status],
+                  conditions: [
+                    {
+                      conditionAccessorKey: "paymentStatus",
+                      when: (value) => value === status,
+                    },
+                  ],
+                };
+              },
+            ),
         },
       },
       faceted: {
         period: {
-          options: [
-            {
-              label: languageData["Form.period.ONETIMEPERMONTH"],
-              value: "ONETIMEPERMONTH",
-            },
-            {
-              label: languageData["Form.period.TWOTIMESPERMONTH"],
-              value: "TWOTIMESPERMONTH",
-            },
-            {
-              label: languageData["Form.period.ONETIMEPERWEEK"],
-              value: "ONETIMEPERWEEK",
-            },
-          ],
+          options:
+            $PagedResultDto_BillingDto.properties.items.items.properties.period.enum.map(
+              (x) => ({
+                label: languageData[`Form.period.${x}`],
+                value: x,
+              }),
+            ),
         },
         status: {
-          options: [
-            {
-              label: languageData["Form.status.CANCELLED"],
-              value: "CANCELLED",
-            },
-            {
-              label: languageData["Form.status.CREDITNOTE"],
-              value: "CREDITNOTE",
-            },
-            {
-              label: languageData["Form.status.PAID"],
-              value: "PAID",
-            },
-            {
-              label: languageData["Form.status.SENT"],
-              value: "SENT",
-            },
-            {
-              label: languageData["Form.status.UNFINISHED"],
-              value: "UNFINISHED",
-            },
-          ],
+          options:
+            $PagedResultDto_BillingDto.properties.items.items.properties.status.enum.map(
+              (x) => ({
+                label: languageData[`Form.status.${x}`],
+                value: x,
+              }),
+            ),
         },
       },
     },
@@ -142,12 +109,7 @@ const billingTable = (
         icon: Trash,
         onConfirm: (row) => {
           void deleteBillingApi(row.id || "").then((response) => {
-            if (response.type === "success") {
-              toast.success(response.message || languageData["Delete.Success"]);
-              router.refresh();
-            } else {
-              toast.error(response.message || languageData["Delete.Fail"]);
-            }
+            handleDeleteResponse(response, router);
           });
         },
         title: languageData["Billing.Delete"],

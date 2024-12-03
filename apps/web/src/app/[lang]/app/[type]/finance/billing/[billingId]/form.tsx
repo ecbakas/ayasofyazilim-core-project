@@ -40,14 +40,15 @@ export default function Form({
   };
 }) {
   const router = useRouter();
-  async function updateBilling(
+  function updateBilling(
     data: UniRefund_FinanceService_Billings_UpdateBillingDto,
   ) {
-    const response = await putBillingApi({
+    void putBillingApi({
       id: billingId,
       requestBody: data,
+    }).then((response) => {
+      handlePutResponse(response, router);
     });
-    handlePutResponse(response, router);
   }
 
   const translatedForm = createFieldConfigWithResource({
@@ -82,10 +83,11 @@ export default function Form({
       fieldConfig={translatedForm}
       formSchema={updateBillingSchema}
       onSubmit={(formdata) => {
-        void updateBilling(
+        updateBilling(
           formdata as UniRefund_FinanceService_Billings_UpdateBillingDto,
         );
       }}
+      stickyChildren
       values={billingData}
     >
       <AutoFormSubmit className="float-right">
