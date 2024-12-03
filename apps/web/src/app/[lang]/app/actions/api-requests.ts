@@ -267,6 +267,10 @@ export async function getApiRequests() {
         await contractsClient.contractsMerchant.postApiContractServiceMerchantsContractsContractHeadersByIdRebateSettings(
           data,
         ),
+      postContractHeaderValidateByHeaderId: async (id: string) =>
+        await contractsClient.contractsMerchant.postApiContractServiceMerchantsContractsContractHeadersByIdValidate(
+          { id },
+        ),
       putMerchantBase: async (data: PutApiCrmServiceMerchantsByIdData) => {
         return await crmClient.merchant.putApiCrmServiceMerchantsById({
           requestBody: data.requestBody,
