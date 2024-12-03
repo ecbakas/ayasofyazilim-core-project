@@ -72,6 +72,9 @@ function checkForChildLink(
   item: NavbarItemsFromDB,
   filteredItems: NavbarItemsFromDB[],
 ): string | null {
+  if (item.href) {
+    return item.href;
+  }
   const isVisibleChild = filteredItems.find(
     (i) => i.parentNavbarItemKey === item.key,
   );
@@ -115,7 +118,7 @@ export function getNavbarFromDB(
   const filteredItems = processedItems.filter((item) => !item.hidden);
 
   filteredItems
-    .filter((item) => item.href === null && item.parentNavbarItemKey === prefix)
+    .filter((item) => item.href === null)
     .forEach((item) => {
       checkForChildLink(item, filteredItems);
     });
