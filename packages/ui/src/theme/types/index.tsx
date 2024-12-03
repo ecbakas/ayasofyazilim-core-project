@@ -6,6 +6,7 @@ export type NavbarItemsFromDB = {
   href: string | null;
   icon: string;
   displayOrder: number;
+  requiredPolicies?: string[];
 };
 export type BreadcrumbItemType = NavbarItemsFromDB & {
   subNavbarItems: NavbarItemsFromDB[];
