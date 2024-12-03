@@ -42,12 +42,14 @@ export function RebateSettings({
   languageData,
   rebateTables,
   subMerchants,
-  partyId,
+  contractId,
+  lang,
 }: {
   languageData: ContractServiceResource;
   rebateTables: RebateTableHeaderDto[];
   subMerchants: StoreProfileDto[];
-  partyId: string;
+  contractId: string;
+  lang: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -76,19 +78,29 @@ export function RebateSettings({
       },
     },
   });
-
+  const dateFormat: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  };
   return (
     <SchemaForm<RebateSettingCreateDto>
       disabled={loading}
       fields={{
         CreateRebateTableField: CreateRebateTableField({
+          dateFormat,
+          lang,
           languageData,
         }),
         SelectRebateTableField: SelectRebateTableField({
+          dateFormat,
+          lang,
           languageData,
           rebateTableHeaders: rebateTables,
         }),
         CreateMinimumNetCommissionField: CreateMinimumNetCommissionField({
+          dateFormat,
+          lang,
           loading,
           languageData,
           subMerchants,
@@ -98,7 +110,7 @@ export function RebateSettings({
         if (!data.formData) return;
         setLoading(true);
         void postMerchantContractHeaderRebateSettingByHeaderIdApi({
-          id: partyId,
+          id: contractId,
           requestBody: data.formData,
         })
           .then((res) => {
@@ -115,9 +127,13 @@ export function RebateSettings({
 }
 
 function SelectRebateTableField({
+  lang,
+  dateFormat,
   languageData,
   rebateTableHeaders,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   languageData: ContractServiceResource;
   rebateTableHeaders: RebateTableHeaderDto[];
 }) {
@@ -140,10 +156,16 @@ function SelectRebateTableField({
                 <span>{selectedRebateTableHeader.name}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>
@@ -204,8 +226,12 @@ function SelectRebateTableField({
 }
 
 function CreateRebateTableField({
+  lang,
+  dateFormat,
   languageData,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   languageData: ContractServiceResource;
 }) {
   function Field(props: FieldProps) {
@@ -225,10 +251,16 @@ function CreateRebateTableField({
                 <span>{_formData.name}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>
@@ -269,10 +301,14 @@ function CreateRebateTableField({
 }
 
 function CreateMinimumNetCommissionField({
+  lang,
+  dateFormat,
   loading,
   languageData,
   subMerchants,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   loading: boolean;
   languageData: ContractServiceResource;
   subMerchants: StoreProfileDto[];
@@ -295,10 +331,16 @@ function CreateMinimumNetCommissionField({
                 <span>{_formData.amount}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>

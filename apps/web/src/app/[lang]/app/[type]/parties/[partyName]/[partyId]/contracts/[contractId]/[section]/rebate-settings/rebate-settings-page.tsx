@@ -7,9 +7,11 @@ import { RebateSettings } from "./rebate-settings";
 export default async function RebateSettingsPage({
   lang,
   partyId,
+  contractId,
 }: {
   lang: string;
   partyId: string;
+  contractId: string;
 }) {
   const { languageData } = await getResourceData(lang);
   const rebateTables = await getRebateTableHeadersApi({});
@@ -21,8 +23,9 @@ export default async function RebateSettingsPage({
   }
   return (
     <RebateSettings
+      contractId={contractId}
+      lang={lang}
       languageData={languageData}
-      partyId={partyId}
       rebateTables={rebateTables.data.items || []}
       subMerchants={subMerchants.data.items || []}
     />
