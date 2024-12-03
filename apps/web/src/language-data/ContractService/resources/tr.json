@@ -228,7 +228,7 @@
   "Rebate.Form.validTo": "Valid to",
 
   "Rebate.Form.referenceNumber": "Referans numarası",
-  "Rebate.Form.isTrustedMerchant": "Güvenilir tüccar",
+  "Rebate.Form.isTrustedMerchant": "Güvenilir mağaza",
   "Rebate.Form.rebateStatementPeriod": "İade beyanname dönemi",
   "Rebate.Form.rebateTableHeadersFromTemplate": "İade tablosu şablonu",
   "Rebate.Form.rebateTableHeadersFromTemplate.id": "İade tablosu şablonu",
