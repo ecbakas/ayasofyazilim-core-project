@@ -1,12 +1,5 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
-import {
-  contracts,
-  finance,
-  management,
-  operations,
-  parties,
-  settings,
-} from "../groups";
+import { finance, management, operations, parties, settings } from "../groups";
 
 export const unirefundNavbarDataFromDB: NavbarItemsFromDB[] = [
   {
@@ -30,16 +23,16 @@ export const unirefundNavbarDataFromDB: NavbarItemsFromDB[] = [
   ...management,
   ...settings,
   ...parties,
-  ...contracts,
   ...operations,
   ...finance,
   {
     key: "refund",
     displayName: "Refund",
     description: "Refund",
-    href: "/refund",
+    href: "refund",
     icon: "tax",
     parentNavbarItemKey: "/",
     displayOrder: 1,
+    requiredPolicies: ["RefundService.Refunds"],
   },
 ];

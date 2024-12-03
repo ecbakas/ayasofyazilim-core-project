@@ -30,6 +30,7 @@ export default async function Layout({
     `${lang}/${prefix}`,
     languageData,
     appName,
+    session,
   );
   const profileMenuProps = getProfileMenuFromDB(languageData);
   profileMenuProps.info.name =
