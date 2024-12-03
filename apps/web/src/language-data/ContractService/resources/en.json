@@ -231,6 +231,7 @@
   "Rebate.Form.isTrustedMerchant": "Trusted merchant",
   "Rebate.Form.rebateStatementPeriod": "Rebate statement period",
   "Rebate.Form.rebateTableHeadersFromTemplate": "Rebate table headers from template",
+  "Rebate.Form.rebateTableHeadersFromTemplate.title": "Please select an rebate table header template",
   "Rebate.Form.rebateTableHeadersFromTemplate.id": "Rebate table headers from template",
   "Rebate.Form.rebateTableHeadersFromTemplate.id.emptyValue": "Please select an rebate table",
   "Rebate.Form.rebateTableHeadersFromTemplate.id.searchPlaceholder": "Search for an rebate table",
@@ -239,8 +240,14 @@
   "Rebate.Form.rebateTableHeadersFromTemplate.validTo": "Valid to",
   "Rebate.Form.contactInformationTypeId": "Contact information type",
   "Rebate.Form.minimumNetCommissions": "Minimum net commissions",
+  "Rebate.Form.minimumNetCommissions.title": "You can add minimum net commission from here",
   "Rebate.Form.minimumNetCommissions.amount": "Minimum net commission amount",
   "Rebate.Form.minimumNetCommissions.validFrom": "Valid from",
   "Rebate.Form.minimumNetCommissions.validTo": "Valid to",
-  "Rebate.Form.minimumNetCommissions.appliedOrganizationId": "Applied organization"
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId": "Applied organization",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.emptyValue": "Please select an organization",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.searchPlaceholder": "Search for an organization",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.searchResultLabel": "There is no organization with that value.",
+  "Rebate.Form.rebateTableHeaders": "Rebate table headers",
+  "Rebate.Form.rebateTableHeaders.title": "You can create rebate table template from here"
 }
