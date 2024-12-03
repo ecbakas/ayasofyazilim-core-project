@@ -47,7 +47,8 @@ interface UpdateContractHeaderFormProps {
 export default function ContractHeaderForm(
   props: ContractHeaderFormProps,
 ): JSX.Element {
-  const { languageData, partyId, addresses, refundTableHeaders } = props;
+  const { languageData, partyId, addresses, partyName, refundTableHeaders } =
+    props;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [addressList] = useState<AddressTypeDto[]>(addresses);
@@ -128,12 +129,11 @@ export default function ContractHeaderForm(
             id: partyId,
             requestBody: data.formData as ContractHeaderForMerchantCreateDto,
           }).then((response) => {
-            handlePostResponse(response, router);
-            // , {
-            // prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
-            // suffix: "contract",
-            // identifier: "id",
-            // }
+            handlePostResponse(response, router, {
+              prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
+              suffix: "contract",
+              identifier: "id",
+            });
           });
         } else {
           void putMerchantContractHeadersByIdApi({
