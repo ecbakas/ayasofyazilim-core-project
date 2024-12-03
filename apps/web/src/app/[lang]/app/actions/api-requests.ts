@@ -14,6 +14,7 @@ import type {
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PostApiContractServiceMerchantsContractsContractHeadersByIdRebateSettingsData,
   PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   PostApiContractServiceRefundTablesRefundFeeHeadersByIdRefundFeeDetailsData,
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
@@ -249,6 +250,12 @@ export async function getApiRequests() {
         data: PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
       ) =>
         await contractsClient.contractsMerchant.putApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSetting(
+          data,
+        ),
+      postContractHeaderRebateSettingByHeaderId: async (
+        data: PostApiContractServiceMerchantsContractsContractHeadersByIdRebateSettingsData,
+      ) =>
+        await contractsClient.contractsMerchant.postApiContractServiceMerchantsContractsContractHeadersByIdRebateSettings(
           data,
         ),
       putMerchantBase: async (data: PutApiCrmServiceMerchantsByIdData) => {

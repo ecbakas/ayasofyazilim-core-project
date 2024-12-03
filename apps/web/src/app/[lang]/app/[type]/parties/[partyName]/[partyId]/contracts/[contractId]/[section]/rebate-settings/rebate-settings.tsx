@@ -27,11 +27,12 @@ import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto 
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import RebateForm from "src/app/[lang]/app/[type]/settings/templates/rebate/rebate-form";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { postMerchantContractHeaderRebateSettingByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
+import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import {
   MerchantStoresWidget,
   RebateTableWidget,
@@ -41,11 +42,15 @@ export function RebateSettings({
   languageData,
   rebateTables,
   subMerchants,
+  partyId,
 }: {
   languageData: ContractServiceResource;
   rebateTables: RebateTableHeaderDto[];
   subMerchants: StoreProfileDto[];
+  partyId: string;
 }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const uiSchema = createUiSchemaWithResource({
     schema: $RebateSettingCreateDto,
     resources: languageData,
@@ -74,6 +79,7 @@ export function RebateSettings({
 
   return (
     <SchemaForm<RebateSettingCreateDto>
+      disabled={loading}
       fields={{
         CreateRebateTableField: CreateRebateTableField({
           languageData,
@@ -83,13 +89,24 @@ export function RebateSettings({
           rebateTableHeaders: rebateTables,
         }),
         CreateMinimumNetCommissionField: CreateMinimumNetCommissionField({
-          loading: false,
+          loading,
           languageData,
           subMerchants,
         }),
       }}
       onSubmit={(data) => {
-        toastOnSubmit(data.formData as object);
+        if (!data.formData) return;
+        setLoading(true);
+        void postMerchantContractHeaderRebateSettingByHeaderIdApi({
+          id: partyId,
+          requestBody: data.formData,
+        })
+          .then((res) => {
+            handlePostResponse(res, router);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }}
       schema={$RebateSettingCreateDto}
       uiSchema={uiSchema}
@@ -131,13 +148,15 @@ function SelectRebateTableField({
                 </div>
               </div>
             ) : (
-              "Please select an rebate table header template"
+              languageData["Rebate.Form.rebateTableHeadersFromTemplate.title"]
             )}
           </Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Select</SheetTitle>
+            <SheetTitle>
+              {languageData["Rebate.Form.rebateTableHeaders.title"]}
+            </SheetTitle>
           </SheetHeader>
           <SchemaForm<RebateTableHeaderFromTemplateCreateDto>
             className="h-full p-0 [&>fieldset]:border-0 [&>fieldset]:p-0"
@@ -171,10 +190,10 @@ function SelectRebateTableField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </SchemaForm>
         </SheetContent>
@@ -214,13 +233,15 @@ function CreateRebateTableField({
                 </div>
               </div>
             ) : (
-              "You can create rebate table template here"
+              languageData["Rebate.Form.rebateTableHeaders.title"]
             )}
           </Button>
         </SheetTrigger>
         <SheetContent className="w-screen pb-20 sm:max-w-full lg:w-[50vw]">
           <SheetHeader>
-            <SheetTitle>Create</SheetTitle>
+            <SheetTitle>
+              {languageData["Rebate.Form.rebateTableHeaders.title"]}
+            </SheetTitle>
           </SheetHeader>
           <RebateForm
             formData={_formData}
@@ -234,10 +255,10 @@ function CreateRebateTableField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </RebateForm>
         </SheetContent>
@@ -261,7 +282,6 @@ function CreateMinimumNetCommissionField({
       props.formData as MinimumNetCommissionCreateDto;
     const hasValue: boolean = Object.keys(props.formData as object).length > 0;
     const [open, setOpen] = useState(false);
-    handlePutResponse;
     return (
       <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger asChild>
@@ -283,7 +303,7 @@ function CreateMinimumNetCommissionField({
                 </div>
               </div>
             ) : (
-              "Please select an minimum net commission"
+              languageData["Rebate.Form.minimumNetCommissions.title"]
             )}
           </Button>
         </SheetTrigger>
@@ -328,10 +348,10 @@ function CreateMinimumNetCommissionField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </SchemaForm>
         </SheetContent>

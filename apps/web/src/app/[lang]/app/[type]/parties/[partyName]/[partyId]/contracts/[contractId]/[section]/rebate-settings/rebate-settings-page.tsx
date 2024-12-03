@@ -22,6 +22,7 @@ export default async function RebateSettingsPage({
   return (
     <RebateSettings
       languageData={languageData}
+      partyId={partyId}
       rebateTables={rebateTables.data.items || []}
       subMerchants={subMerchants.data.items || []}
     />

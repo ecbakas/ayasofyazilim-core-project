@@ -230,8 +230,9 @@
   "Rebate.Form.referenceNumber": "Referans numarası",
   "Rebate.Form.isTrustedMerchant": "Güvenilir tüccar",
   "Rebate.Form.rebateStatementPeriod": "İade beyanname dönemi",
-  "Rebate.Form.rebateTableHeadersFromTemplate": "İade tablosu başlıkları şablonundan",
-  "Rebate.Form.rebateTableHeadersFromTemplate.id": "İade tablosu başlıkları şablonundan",
+  "Rebate.Form.rebateTableHeadersFromTemplate": "İade tablosu şablonu",
+  "Rebate.Form.rebateTableHeadersFromTemplate.id": "İade tablosu şablonu",
+  "Rebate.Form.rebateTableHeadersFromTemplate.title": "Lütfen bir iade tablosu şablonu seçin",
   "Rebate.Form.rebateTableHeadersFromTemplate.id.emptyValue": "Lütfen bir iade tablosu seçin",
   "Rebate.Form.rebateTableHeadersFromTemplate.id.searchPlaceholder": "Bir iade tablosu ara",
   "Rebate.Form.rebateTableHeadersFromTemplate.id.searchResultLabel": "Girilen değere sahip bir iade tablosu yok.",
@@ -239,8 +240,14 @@
   "Rebate.Form.rebateTableHeadersFromTemplate.validTo": "Bitiş tarihi",
   "Rebate.Form.contactInformationTypeId": "İletişim bilgisi türü",
   "Rebate.Form.minimumNetCommissions": "Minimum net komisyonlar",
+  "Rebate.Form.minimumNetCommissions.title": "Buradan minimum net komisyon ekleyebilirsiniz",
   "Rebate.Form.minimumNetCommissions.amount": "Minimum net komisyon tutarı",
   "Rebate.Form.minimumNetCommissions.validFrom": "Başlangıç tarihi",
   "Rebate.Form.minimumNetCommissions.validTo": "Bitiş tarihi",
-  "Rebate.Form.minimumNetCommissions.appliedOrganizationId": "Uygulanan organizasyon"
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId": "Uygulanan organizasyon",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.emptyValue": "Lütfen bir organizasyon seçin",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.searchPlaceholder": "Bir organizasyon ara",
+  "Rebate.Form.minimumNetCommissions.appliedOrganizationId.searchResultLabel": "Girilen değere sahip bir organizasyon yok.",
+  "Rebate.Form.rebateTableHeaders": "İade tablosu başlıkları",
+  "Rebate.Form.rebateTableHeaders.title": "İade tablosu şablonu oluşturun"
 }
