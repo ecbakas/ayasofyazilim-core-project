@@ -1,6 +1,7 @@
 "use server";
 
 import type {
+  PostApiContractServiceMerchantsContractsContractHeadersByIdRebateSettingsData,
   PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   PostApiContractServiceRefundTablesRefundFeeHeadersByIdRefundFeeDetailsData,
   PostApiContractServiceRefundTablesRefundFeeHeadersData,
@@ -63,6 +64,18 @@ export async function postRefundFeeHeadersRefundFeeDetailsApi(
     const response =
       await requests.templates.postRefundFeeHeadersRefundTableDetails(data);
     return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function postMerchantContractHeaderRebateSettingByHeaderIdApi(
+  data: PostApiContractServiceMerchantsContractsContractHeadersByIdRebateSettingsData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.merchants.postContractHeaderRebateSettingByHeaderId(data),
+    );
   } catch (error) {
     return structuredError(error);
   }

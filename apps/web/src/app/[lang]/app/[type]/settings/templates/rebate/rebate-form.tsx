@@ -181,8 +181,10 @@ export default function RebateForm(props: RebateFormProps) {
         keys: [
           "name",
           "calculateNetCommissionInsteadOfRefund",
-          "rebateTableDetails",
-          "processingFeeDetails",
+          "validFrom",
+          "validTo",
+          "*rebateTableDetails",
+          "*processingFeeDetails",
         ],
       }}
       formData={formData[props.formType]}
