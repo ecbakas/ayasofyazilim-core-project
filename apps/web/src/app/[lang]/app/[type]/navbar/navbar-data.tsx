@@ -1,4 +1,5 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
+import type { Session } from "next-auth";
 import type { AbpUiNavigationResource } from "src/language-data/AbpUiNavigation";
 import { unirefundNavbarDataFromDB } from "./projects/unirefund";
 import { ayshopgoNavbarDataFromDB } from "./projects/ayshopgo";
@@ -15,13 +16,50 @@ export function getNavbarFromDB(
   prefix: string,
   languageData: AbpUiNavigationResource,
   appName: string,
+  session: Session | null,
 ) {
   const navbarDataFromDB: NavbarItemsFromDB[] = JSON.parse(
     JSON.stringify(dbData[appName as keyof typeof dbData]),
   ) as NavbarItemsFromDB[];
 
   function processItems(items: NavbarItemsFromDB[]) {
+    function checkForChildLink(
+      item: NavbarItemsFromDB,
+      filteredItems: NavbarItemsFromDB[],
+    ): string | null {
+      const isVisibleChild = filteredItems.find(
+        (i) => i.parentNavbarItemKey === item.key,
+      );
+      if (!isVisibleChild) {
+        item.hidden = true;
+        return null;
+      }
+      if (isVisibleChild.href) {
+        item.href = isVisibleChild.href;
+        return item.href;
+      }
+      const childHref: string | null = checkForChildLink(
+        isVisibleChild,
+        filteredItems,
+      );
+      if (!childHref) {
+        item.hidden = true;
+      } else {
+        item.href = childHref;
+      }
+      return item.href;
+    }
+
     items.forEach((item) => {
+      if (item.requiredPolicies) {
+        const missingPolicies = item.requiredPolicies.filter(
+          (policy) => !session?.grantedPolicies?.[policy],
+        );
+        if (missingPolicies.length > 0) {
+          item.hidden = true;
+        }
+      }
+
       if (item.href) {
         item.href = `${prefix}/${item.href}`;
       }
@@ -52,8 +90,16 @@ export function getNavbarFromDB(
 
       item.description = desc || `**${item.description}`;
     });
+    const filteredItems = items.filter((item) => !item.hidden);
+    filteredItems
+      .filter(
+        (item) => item.href === null && item.parentNavbarItemKey === prefix,
+      )
+      .forEach((item) => {
+        checkForChildLink(item, filteredItems);
+      });
+    return filteredItems.filter((item) => !item.hidden);
   }
 
-  processItems(navbarDataFromDB);
-  return navbarDataFromDB;
+  return processItems(navbarDataFromDB);
 }

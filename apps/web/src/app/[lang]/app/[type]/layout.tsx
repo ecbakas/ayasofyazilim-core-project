@@ -6,7 +6,6 @@ import { signOutServer } from "auth-action";
 import unirefund from "public/unirefund.png";
 import { getResourceData } from "src/language-data/AbpUiNavigation";
 import { getBaseLink } from "src/utils";
-import filterNavbarByGrantedPolicies from "../../page-policy/utils";
 import { getNavbarFromDB } from "./navbar/navbar-data";
 import { getProfileMenuFromDB } from "./navbar/navbar-profile-data";
 
@@ -27,8 +26,10 @@ export default async function Layout({
   const appName = process.env.APPLICATION_NAME || "UNIREFUND";
   const baseURL = getBaseLink("/", true, lang);
 
-  const navbarFromDB = filterNavbarByGrantedPolicies(
-    getNavbarFromDB(`${lang}/${prefix}`, languageData, appName),
+  const navbarFromDB = getNavbarFromDB(
+    `${lang}/${prefix}`,
+    languageData,
+    appName,
     session,
   );
   const profileMenuProps = getProfileMenuFromDB(languageData);
