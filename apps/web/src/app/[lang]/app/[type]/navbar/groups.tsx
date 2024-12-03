@@ -5,7 +5,7 @@ export const management: NavbarItemsFromDB[] = [
     key: "management",
     displayName: "Management",
     description: "View and manage your management settings.",
-    href: "management/openiddict/applications",
+    href: null,
     icon: "management",
     parentNavbarItemKey: "/",
     displayOrder: 1,
@@ -14,10 +14,11 @@ export const management: NavbarItemsFromDB[] = [
     key: "management/openiddict",
     displayName: "OpenIdDict",
     description: "Manage Open ID dict settings.",
-    href: "management/openiddict/applications",
+    href: null,
     icon: "id",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/openiddict/applications",
@@ -27,6 +28,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "app",
     parentNavbarItemKey: "management/openiddict",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/openiddict/scopes",
@@ -36,15 +38,17 @@ export const management: NavbarItemsFromDB[] = [
     icon: "scope",
     parentNavbarItemKey: "management/openiddict",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/admin",
     displayName: "Admin",
     description: "Access administrative tools and settings.",
-    href: "management/admin/languages",
+    href: null,
     icon: "management",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/admin/languages",
@@ -54,6 +58,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "language",
     parentNavbarItemKey: "management/admin",
     displayOrder: 1,
+    requiredPolicies: ["LanguageManagement.Languages"],
   },
   {
     key: "management/admin/language-texts",
@@ -63,15 +68,17 @@ export const management: NavbarItemsFromDB[] = [
     icon: "book",
     parentNavbarItemKey: "management/admin",
     displayOrder: 1,
+    requiredPolicies: ["LanguageManagement.LanguageTexts"],
   },
   {
     key: "management/saas",
     displayName: "Saas",
     description: "Manage SaaS configurations and settings.",
-    href: "management/saas/edition",
+    href: null,
     icon: "management",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/saas/edition",
@@ -81,6 +88,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "edition",
     parentNavbarItemKey: "management/saas",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/saas/tenant",
@@ -90,15 +98,17 @@ export const management: NavbarItemsFromDB[] = [
     icon: "globe",
     parentNavbarItemKey: "management/saas",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Dashboard.Tenant"],
   },
   {
     key: "management/identity",
     displayName: "Identity",
     description: "Manage user identities and roles.",
-    href: "management/identity/role",
+    href: null,
     icon: "management",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Settings"],
   },
   {
     key: "management/identity/role",
@@ -108,6 +118,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "role",
     parentNavbarItemKey: "management/identity",
     displayOrder: 1,
+    requiredPolicies: ["AbpIdentity.Roles"],
   },
   {
     key: "management/identity/user",
@@ -117,6 +128,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "identity",
     parentNavbarItemKey: "management/identity",
     displayOrder: 1,
+    requiredPolicies: ["AbpIdentity.Users"],
   },
   {
     key: "management/identity/claim-type",
@@ -126,6 +138,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "scan",
     parentNavbarItemKey: "management/identity",
     displayOrder: 1,
+    requiredPolicies: ["AbpIdentity.Roles"],
   },
   {
     key: "management/identity/security-logs",
@@ -135,6 +148,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "lock",
     parentNavbarItemKey: "management/identity",
     displayOrder: 1,
+    requiredPolicies: ["AbpIdentity.SecurityLogs"],
   },
   {
     key: "management/identity/organization",
@@ -144,6 +158,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "building",
     parentNavbarItemKey: "management/identity",
     displayOrder: 1,
+    requiredPolicies: ["AbpIdentity.OrganizationUnits"],
   },
   {
     key: "management/audit-logs/audit-logs",
@@ -153,6 +168,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "log",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["AuditLogging.AuditLogs"],
   },
   {
     key: "management/text-templates/text-templates",
@@ -162,6 +178,7 @@ export const management: NavbarItemsFromDB[] = [
     icon: "text",
     parentNavbarItemKey: "management",
     displayOrder: 1,
+    requiredPolicies: ["LanguageManagement.LanguageTexts"],
   },
 ];
 export const settings: NavbarItemsFromDB[] = [
@@ -169,7 +186,7 @@ export const settings: NavbarItemsFromDB[] = [
     key: "settings",
     displayName: "Settings",
     description: "Access settings settings and tools.",
-    href: "settings/product/vats",
+    href: null,
     icon: "settings",
     parentNavbarItemKey: "/",
     displayOrder: 1,
@@ -178,7 +195,7 @@ export const settings: NavbarItemsFromDB[] = [
     key: "settings/product",
     displayName: "Product",
     description: "Configure VAT settings and rules.",
-    href: "settings/product/vats",
+    href: null,
     icon: "settings",
     parentNavbarItemKey: "settings",
     displayOrder: 1,
@@ -191,6 +208,7 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "vat",
     parentNavbarItemKey: "settings/product",
     displayOrder: 1,
+    requiredPolicies: ["SettingService.Vats"],
   },
   {
     key: "settings/product/product-groups",
@@ -200,6 +218,7 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "product",
     parentNavbarItemKey: "settings/product",
     displayOrder: 1,
+    requiredPolicies: ["SettingService.ProductGroupVats"],
   },
   {
     key: "settings/tenant",
@@ -209,12 +228,13 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "settings",
     parentNavbarItemKey: "settings",
     displayOrder: 1,
+    requiredPolicies: ["UniRefund.Dashboard.Tenant"],
   },
   {
     key: "settings/templates",
     displayName: "Templates",
     description: "Manage templates.",
-    href: "settings/templates",
+    href: null,
     icon: "layer",
     parentNavbarItemKey: "settings",
     displayOrder: 1,
@@ -227,6 +247,7 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "settings",
     parentNavbarItemKey: "settings/templates",
     displayOrder: 1,
+    requiredPolicies: ["ContractService.RefundFeeHeader"],
   },
   {
     key: "settings/templates/refund-tables",
@@ -236,6 +257,7 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "settings",
     parentNavbarItemKey: "settings/templates",
     displayOrder: 1,
+    requiredPolicies: ["ContractService.RefundTableHeader"],
   },
   {
     key: "settings/templates/rebate",
@@ -245,6 +267,7 @@ export const settings: NavbarItemsFromDB[] = [
     icon: "settings",
     parentNavbarItemKey: "settings/templates",
     displayOrder: 1,
+    requiredPolicies: ["ContractService.RebateSetting"],
   },
 ];
 export const parties: NavbarItemsFromDB[] = [
@@ -252,7 +275,7 @@ export const parties: NavbarItemsFromDB[] = [
     key: "parties",
     displayName: "Parties",
     description: "Manage customer relationship management settings.",
-    href: "parties/merchants",
+    href: null,
     icon: "layer",
     parentNavbarItemKey: "/",
     displayOrder: 1,
@@ -265,6 +288,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "shop",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.Merchants"],
   },
   {
     key: "parties/refund-points",
@@ -274,6 +298,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "refund",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.RefundPoints"],
   },
   {
     key: "parties/customs",
@@ -283,6 +308,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "container",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.Customs"],
   },
   {
     key: "parties/tax-free",
@@ -292,6 +318,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "tax",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.TaxFrees"],
   },
   {
     key: "parties/tax-offices",
@@ -301,6 +328,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "taxOffice",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.TaxOffices"],
   },
   {
     key: "parties/individuals",
@@ -310,6 +338,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "user",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
+    requiredPolicies: ["CRMService.Individuals"],
   },
   {
     key: "parties/traveller",
@@ -319,71 +348,7 @@ export const parties: NavbarItemsFromDB[] = [
     icon: "plane",
     parentNavbarItemKey: "parties",
     displayOrder: 1,
-  },
-];
-export const contracts: NavbarItemsFromDB[] = [
-  {
-    key: "contracts/contracts",
-    displayName: "Contracts",
-    description: "View and manage contract details.",
-    href: "contracts/contracts",
-    icon: "dashboard",
-    parentNavbarItemKey: "contracts",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/rebate",
-    displayName: "Rebate",
-    description: "Manage rebate settings and configurations.",
-    href: "contracts/rebate/company-settings",
-    icon: "percent",
-    parentNavbarItemKey: "contracts",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/rebate/company-settings",
-    displayName: "CompanySettings",
-    description: "Manage company-specific rebate settings.",
-    href: "contracts/rebate/company-settings",
-    icon: "settings",
-    parentNavbarItemKey: "contracts/rebate",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/rebate/templates",
-    displayName: "Templates",
-    description: "Manage rebate templates and configurations.",
-    href: "contracts/rebate/templates",
-    icon: "template",
-    parentNavbarItemKey: "contracts/rebate",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/refund",
-    displayName: "Refund",
-    description: "Manage refund settings and details.",
-    href: "contracts/refund/refund-tables",
-    icon: "refund",
-    parentNavbarItemKey: "contracts",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/refund/refund-tables",
-    displayName: "RefundTables",
-    description: "Manage refund tables and configurations.",
-    href: "contracts/refund/refund-tables",
-    icon: "table",
-    parentNavbarItemKey: "contracts/refund",
-    displayOrder: 1,
-  },
-  {
-    key: "contracts/refund/refund-fees",
-    displayName: "RefundFees",
-    description: "Manage refund fees and settings.",
-    href: "contracts/refund/refund-fees",
-    icon: "refund",
-    parentNavbarItemKey: "contracts/refund",
-    displayOrder: 1,
+    requiredPolicies: ["TravellerService.Travellers"],
   },
 ];
 export const operations: NavbarItemsFromDB[] = [
@@ -391,7 +356,7 @@ export const operations: NavbarItemsFromDB[] = [
     key: "operations",
     displayName: "Operations",
     description: "Access and manage operational settings.",
-    href: "operations/details",
+    href: null,
     icon: "operation",
     parentNavbarItemKey: "/",
     displayOrder: 1,
@@ -404,6 +369,7 @@ export const operations: NavbarItemsFromDB[] = [
     icon: "dashboard",
     parentNavbarItemKey: "operations",
     displayOrder: 1,
+    requiredPolicies: ["TagService.Tags"],
   },
   {
     key: "operations/export-validation",
@@ -413,6 +379,7 @@ export const operations: NavbarItemsFromDB[] = [
     icon: "tax",
     parentNavbarItemKey: "operations",
     displayOrder: 1,
+    requiredPolicies: ["ExportValidationService.ExportValidations"],
   },
 ];
 export const finance: NavbarItemsFromDB[] = [
@@ -420,10 +387,11 @@ export const finance: NavbarItemsFromDB[] = [
     key: "finance",
     displayName: "Finance",
     description: "Access and manage finance settings.",
-    href: "finance/billing",
+    href: null,
     icon: "tax",
     parentNavbarItemKey: "/",
     displayOrder: 1,
+    requiredPolicies: ["FinanceService.Billings"],
   },
   {
     key: "finance/billing",
@@ -433,5 +401,6 @@ export const finance: NavbarItemsFromDB[] = [
     icon: "log",
     parentNavbarItemKey: "finance",
     displayOrder: 1,
+    requiredPolicies: ["FinanceService.Billings"],
   },
 ];
