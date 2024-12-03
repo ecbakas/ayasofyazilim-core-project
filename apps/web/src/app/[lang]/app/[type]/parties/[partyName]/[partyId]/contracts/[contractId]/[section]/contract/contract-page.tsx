@@ -1,6 +1,8 @@
 import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
+import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
+import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { ContractHeader } from "./contract-header";
 
 export default async function ContractPage({
@@ -17,6 +19,8 @@ export default async function ContractPage({
   addressList: AddressCommonDataDto[];
 }) {
   const { languageData } = await getResourceData(lang);
+  const refundTableHeaders = await getRefundTableHeadersApi({});
+  if (refundTableHeaders.type !== "success") return notFound();
   return (
     <ContractHeader
       addressList={addressList}
@@ -24,6 +28,7 @@ export default async function ContractPage({
       languageData={languageData}
       partyId={partyId}
       partyName={partyName}
+      refundTableHeaders={refundTableHeaders.data.items || []}
     />
   );
 }

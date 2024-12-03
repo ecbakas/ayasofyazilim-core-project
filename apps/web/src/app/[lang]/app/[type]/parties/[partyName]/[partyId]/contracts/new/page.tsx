@@ -1,12 +1,12 @@
-import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderForMerchantCreateDto as ContractHeaderForMerchantCreateDto } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
 import {
   getAdressesApi,
-  getBasicInformationApi,
+  getMerchantByIdApi,
 } from "src/app/[lang]/app/actions/CrmService/actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
+import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
 import ContractHeaderForm from "../contract-header-form";
 
 export default async function Page({
@@ -18,29 +18,31 @@ export default async function Page({
     lang: string;
   };
 }) {
-  const basicInformation = await getBasicInformationApi(
-    params.partyId,
-    params.partyName,
-  );
   const addresses = await getAdressesApi(params.partyId, params.partyName);
-  if (basicInformation.type !== "success" || addresses.type !== "success") {
+  const refundTableHeaders = await getRefundTableHeadersApi({});
+  const merchantDetails = await getMerchantByIdApi(params.partyId);
+  if (
+    addresses.type !== "success" ||
+    refundTableHeaders.type !== "success" ||
+    merchantDetails.type !== "success"
+  ) {
     return notFound();
   }
   const { languageData } = await getResourceData(params.lang);
   return (
     <>
-      <ContractHeaderForm<ContractHeaderForMerchantCreateDto>
-        formType="Create"
+      <ContractHeaderForm
+        addresses={addresses.data}
+        formType="create"
         languageData={languageData}
         partyId={params.partyId}
         partyName={params.partyName}
-        addresses={addresses.data}
-        // basicInformation={basicInformation}
+        refundTableHeaders={refundTableHeaders.data.items || []}
       />
       <PageHeader
         languageData={languageData}
         params={params}
-        title={basicInformation.data.name || params.partyId}
+        title={merchantDetails.data.name}
       />
     </>
   );
