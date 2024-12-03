@@ -16,15 +16,13 @@ import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 
 export default function Contracts({
-  crmLanguageData,
-  contractsLanguageData,
+  languageData,
   contractsData,
   partyId,
   partyName,
   lang,
 }: {
-  crmLanguageData: CRMServiceServiceResource;
-  contractsLanguageData: ContractServiceResource;
+  languageData: CRMServiceServiceResource & ContractServiceResource;
   contractsData: PagedResultDto_ContractHeaderDetailForMerchantDto;
   partyId: string;
   partyName: "merchants";
@@ -36,13 +34,13 @@ export default function Contracts({
     config: { locale: lang },
     languageData: {
       constantKey: "Contracts",
-      languageData: contractsLanguageData,
+      languageData,
     },
     badges: {
       name: {
         values: [
           {
-            label: contractsLanguageData["Contracts.draft"],
+            label: languageData["Contracts.draft"],
             conditions: [
               {
                 when: (value) => value === true,
@@ -51,7 +49,7 @@ export default function Contracts({
             ],
           },
           {
-            label: contractsLanguageData["Contracts.active"],
+            label: languageData["Contracts.active"],
             conditions: [
               {
                 when: (value) => value === true,
@@ -66,6 +64,7 @@ export default function Contracts({
       name: {
         prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
         targetAccessorKey: "id",
+        suffix: "/contract",
       },
     },
     icons: {
@@ -90,7 +89,7 @@ export default function Contracts({
           {
             type: "simple",
             actionLocation: "table",
-            cta: crmLanguageData["Contracts.New"],
+            cta: languageData["Contracts.New"],
             onClick: () => {
               router.push(
                 getBaseLink(
@@ -102,7 +101,7 @@ export default function Contracts({
           {
             type: "simple",
             actionLocation: "table",
-            cta: crmLanguageData.ExportCSV,
+            cta: languageData.ExportCSV,
             onClick: () => {
               toast.warning("Not implemented yet");
             },
