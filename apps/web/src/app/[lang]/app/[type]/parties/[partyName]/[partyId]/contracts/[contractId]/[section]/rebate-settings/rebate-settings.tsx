@@ -27,11 +27,12 @@ import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto 
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { toastOnSubmit } from "@repo/ui/toast-on-submit";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import RebateForm from "src/app/[lang]/app/[type]/settings/templates/rebate/rebate-form";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
+import { postMerchantContractHeaderRebateSettingByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
+import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import {
   MerchantStoresWidget,
   RebateTableWidget,
@@ -41,11 +42,17 @@ export function RebateSettings({
   languageData,
   rebateTables,
   subMerchants,
+  contractId,
+  lang,
 }: {
   languageData: ContractServiceResource;
   rebateTables: RebateTableHeaderDto[];
   subMerchants: StoreProfileDto[];
+  contractId: string;
+  lang: string;
 }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const uiSchema = createUiSchemaWithResource({
     schema: $RebateSettingCreateDto,
     resources: languageData,
@@ -71,25 +78,47 @@ export function RebateSettings({
       },
     },
   });
-
+  const dateFormat: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  };
   return (
     <SchemaForm<RebateSettingCreateDto>
+      disabled={loading}
       fields={{
         CreateRebateTableField: CreateRebateTableField({
+          dateFormat,
+          lang,
           languageData,
         }),
         SelectRebateTableField: SelectRebateTableField({
+          dateFormat,
+          lang,
           languageData,
           rebateTableHeaders: rebateTables,
         }),
         CreateMinimumNetCommissionField: CreateMinimumNetCommissionField({
-          loading: false,
+          dateFormat,
+          lang,
+          loading,
           languageData,
           subMerchants,
         }),
       }}
       onSubmit={(data) => {
-        toastOnSubmit(data.formData as object);
+        if (!data.formData) return;
+        setLoading(true);
+        void postMerchantContractHeaderRebateSettingByHeaderIdApi({
+          id: contractId,
+          requestBody: data.formData,
+        })
+          .then((res) => {
+            handlePostResponse(res, router);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }}
       schema={$RebateSettingCreateDto}
       uiSchema={uiSchema}
@@ -98,9 +127,13 @@ export function RebateSettings({
 }
 
 function SelectRebateTableField({
+  lang,
+  dateFormat,
   languageData,
   rebateTableHeaders,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   languageData: ContractServiceResource;
   rebateTableHeaders: RebateTableHeaderDto[];
 }) {
@@ -123,21 +156,29 @@ function SelectRebateTableField({
                 <span>{selectedRebateTableHeader.name}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>
             ) : (
-              "Please select an rebate table header template"
+              languageData["Rebate.Form.rebateTableHeadersFromTemplate.title"]
             )}
           </Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Select</SheetTitle>
+            <SheetTitle>
+              {languageData["Rebate.Form.rebateTableHeaders.title"]}
+            </SheetTitle>
           </SheetHeader>
           <SchemaForm<RebateTableHeaderFromTemplateCreateDto>
             className="h-full p-0 [&>fieldset]:border-0 [&>fieldset]:p-0"
@@ -171,10 +212,10 @@ function SelectRebateTableField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </SchemaForm>
         </SheetContent>
@@ -185,8 +226,12 @@ function SelectRebateTableField({
 }
 
 function CreateRebateTableField({
+  lang,
+  dateFormat,
   languageData,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   languageData: ContractServiceResource;
 }) {
   function Field(props: FieldProps) {
@@ -206,21 +251,29 @@ function CreateRebateTableField({
                 <span>{_formData.name}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>
             ) : (
-              "You can create rebate table template here"
+              languageData["Rebate.Form.rebateTableHeaders.title"]
             )}
           </Button>
         </SheetTrigger>
         <SheetContent className="w-screen pb-20 sm:max-w-full lg:w-[50vw]">
           <SheetHeader>
-            <SheetTitle>Create</SheetTitle>
+            <SheetTitle>
+              {languageData["Rebate.Form.rebateTableHeaders.title"]}
+            </SheetTitle>
           </SheetHeader>
           <RebateForm
             formData={_formData}
@@ -234,10 +287,10 @@ function CreateRebateTableField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </RebateForm>
         </SheetContent>
@@ -248,10 +301,14 @@ function CreateRebateTableField({
 }
 
 function CreateMinimumNetCommissionField({
+  lang,
+  dateFormat,
   loading,
   languageData,
   subMerchants,
 }: {
+  lang: string;
+  dateFormat: Intl.DateTimeFormatOptions;
   loading: boolean;
   languageData: ContractServiceResource;
   subMerchants: StoreProfileDto[];
@@ -261,7 +318,6 @@ function CreateMinimumNetCommissionField({
       props.formData as MinimumNetCommissionCreateDto;
     const hasValue: boolean = Object.keys(props.formData as object).length > 0;
     const [open, setOpen] = useState(false);
-    handlePutResponse;
     return (
       <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger asChild>
@@ -275,15 +331,21 @@ function CreateMinimumNetCommissionField({
                 <span>{_formData.amount}</span>
                 <div className="space-x-2">
                   <Badge variant="outline">
-                    {new Date(_formData.validFrom).toLocaleDateString()}
+                    {new Date(_formData.validFrom).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                   <Badge variant="outline">
-                    {new Date(_formData.validTo).toLocaleDateString()}
+                    {new Date(_formData.validTo).toLocaleDateString(
+                      lang,
+                      dateFormat,
+                    )}
                   </Badge>
                 </div>
               </div>
             ) : (
-              "Please select an minimum net commission"
+              languageData["Rebate.Form.minimumNetCommissions.title"]
             )}
           </Button>
         </SheetTrigger>
@@ -328,10 +390,10 @@ function CreateMinimumNetCommissionField({
             <SheetFooter className="mt-2">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {languageData.Cancel}
                 </Button>
               </SheetClose>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{languageData.Save}</Button>
             </SheetFooter>
           </SchemaForm>
         </SheetContent>
