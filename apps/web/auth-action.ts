@@ -8,6 +8,16 @@ import { isApiError } from "src/app/api/util";
 import { getAccountServiceClient } from "src/lib";
 import { getBaseLink } from "src/utils";
 
+interface ApiErrorResponse {
+  error: {
+    code: string;
+    message: string;
+    details: string | null;
+    data: Record<string, unknown>;
+    validationErrors: string | null;
+  };
+}
+
 const TOKEN_URL = `${process.env.BASE_URL}/connect/token`;
 const OPENID_URL = `${process.env.BASE_URL}/.well-known/openid-configuration`;
 
@@ -83,9 +93,10 @@ export async function signUpServer({
     };
   } catch (error: unknown) {
     if (isApiError(error)) {
+      const errorBody = error.body as ApiErrorResponse;
       return {
         status: error.status,
-        description: error.statusText,
+        description: `SignUp server error ${error.statusText}: ${errorBody.error.message.split(",").join("\n")}`,
       };
     }
     return {
