@@ -1,8 +1,7 @@
 "use client";
 
-import { toast } from "@/components/ui/sonner";
-import type { UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
-import { $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
+import type { UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
+import { $UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
@@ -10,20 +9,21 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
+import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { CountryDto } from "src/app/[lang]/app/actions/LocationService/types";
-import { putTravellerPersonalIdentificationApi } from "src/app/[lang]/app/actions/TravellerService/put-actions";
+import { postTravellerIdentificationApi } from "src/app/[lang]/app/actions/TravellerService/post-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 
-const updateBillingSchema = createZodObject(
-  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
+const createTravellerIdentificationSchema = createZodObject(
+  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto,
   [
     "travelDocumentNumber",
     "firstName",
-    "lastName",
     "middleName",
+    "lastName",
+    "birthDate",
     "issueDate",
     "expirationDate",
-    "birthDate",
     "nationalityCountryCode2",
     "residenceCountryCode2",
     "identificationType",
@@ -40,33 +40,20 @@ export default function Form({
   countryList: { data: CountryDto[]; success: boolean };
 }) {
   const router = useRouter();
-  async function putTravellerPersonalIdentification(
-    data: UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
+  function postTravellerIdentification(
+    data: UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto,
   ) {
-    const response = await putTravellerPersonalIdentificationApi({
+    void postTravellerIdentificationApi({
       id: travellerId,
       requestBody: data,
+    }).then((response) => {
+      handlePostResponse(response, router, `..`);
     });
-    if (response.type === "success") {
-      toast.success(
-        response.message ||
-          languageData["Travellers.Identifications.Update.Success"],
-      );
-      router.back();
-      router.refresh();
-    } else {
-      toast.error(
-        `${response.status}: ${
-          response.message ||
-          languageData["Travellers.Identifications.Update.Error"]
-        }`,
-      );
-    }
   }
 
   const translatedForm = createFieldConfigWithResource({
     schema:
-      $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
+      $UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto,
     resources: languageData,
     name: "Form.personalIdentification",
     extend: {
@@ -115,10 +102,10 @@ export default function Form({
     <AutoForm
       className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
-      formSchema={updateBillingSchema}
+      formSchema={createTravellerIdentificationSchema}
       onSubmit={(values) => {
-        void putTravellerPersonalIdentification(
-          values as UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
+        postTravellerIdentification(
+          values as UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto,
         );
       }}
     >
