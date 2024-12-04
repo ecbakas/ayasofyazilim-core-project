@@ -7,6 +7,7 @@ import type { ContractServiceResource } from "src/language-data/ContractService"
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import ContractHeaderForm from "../contract-header-form";
 
 export default async function Page({
@@ -30,21 +31,25 @@ export default async function Page({
   }
   const { languageData } = await getResourceData(params.lang);
   return (
-    <>
-      <ContractHeaderForm
-        addresses={addresses.data}
-        formType="create"
-        languageData={languageData}
-        partyId={params.partyId}
-        partyName={params.partyName}
-        refundTableHeaders={refundTableHeaders.data.items || []}
-      />
-      <PageHeader
-        languageData={languageData}
-        params={params}
-        title={merchantDetails.data.name}
-      />
-    </>
+    <PagePolicy
+      requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
+    >
+      <>
+        <ContractHeaderForm
+          addresses={addresses.data}
+          formType="create"
+          languageData={languageData}
+          partyId={params.partyId}
+          partyName={params.partyName}
+          refundTableHeaders={refundTableHeaders.data.items || []}
+        />
+        <PageHeader
+          languageData={languageData}
+          params={params}
+          title={merchantDetails.data.name}
+        />
+      </>
+    </PagePolicy>
   );
 }
 

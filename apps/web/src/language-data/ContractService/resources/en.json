@@ -32,6 +32,7 @@
   "Contracts.validTo": "End Date",
   "Contracts.draft": "Draft",
   "Contracts.active": "Active",
+  "Contracts.setActive": "Set active",
 
   "Contracts.Form.webSite": "Web Site",
   "Contracts.Form.status": "Status",

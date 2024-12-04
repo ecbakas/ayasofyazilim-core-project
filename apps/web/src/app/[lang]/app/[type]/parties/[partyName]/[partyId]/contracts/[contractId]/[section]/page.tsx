@@ -20,6 +20,7 @@ import {
 } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import ContractPage from "./contract/contract-page";
 import ContractSettingsPage from "./contract-settings/contract-settings-page";
 import RebateSettingsPage from "./rebate-settings/rebate-settings-page";
@@ -53,71 +54,82 @@ export default async function Page({
     return notFound();
   }
   return (
-    <>
-      <SectionLayout
-        defaultActiveSectionId={section}
-        linkElement={Link}
-        sections={[
-          {
-            id: "contract",
-            link: "contract",
-            name: languageData["Contracts.Create.ContractHeader"],
-            disabled: false,
-          },
-          {
-            id: "rebate-settings",
-            link: "rebate-settings",
-            disabled: false,
-            ...setSectionOptions(
-              "RebateSettings",
-              languageData["Contracts.Create.RebateSettings"],
-              languageData,
-              missingSteps.data,
-            ),
-          },
-          {
-            id: "contract-settings",
-            link: "contract-settings",
-            disabled: false,
-            ...setSectionOptions(
-              "ContractSetting",
-              languageData["Contracts.Create.ContractSettings"],
-              languageData,
-              missingSteps.data,
-            ),
-          },
-        ]}
-        vertical
-      >
-        <SectionLayoutContent sectionId={section}>
-          {section === "contract" && (
-            <ContractPage
-              {...params}
-              addressList={addressList.data}
-              contractHeaderDetails={contractHeaderDetails.data}
-            />
-          )}
-          {section === "contract-settings" && (
-            <ContractSettingsPage
-              {...params}
-              addressList={addressList.data}
-              contractHeaderDetails={contractHeaderDetails.data}
-            />
-          )}
-          {section === "rebate-settings" && <RebateSettingsPage {...params} />}
-        </SectionLayoutContent>
-      </SectionLayout>
-      <div className="hidden" id="page-title">
-        {languageData["Contracts.Edit.Title"]} - (
-        {contractHeaderDetails.data.name})
-      </div>
-      <div className="hidden" id="page-description">
-        {languageData["Contracts.Edit.Description"]}
-      </div>
-      <div className="hidden" id="page-back-link">
-        {getBaseLink(`/app/admin/parties/${partyName}/${partyId}`)}
-      </div>
-    </>
+    <PagePolicy
+      requiredPolicies={[
+        "ContractService.ContractHeaderForMerchant",
+        "ContractService.ContractSetting.Edit",
+        "ContractService.RebateSetting.Edit",
+        "ContractService.ContractHeaderForMerchant.Edit",
+      ]}
+    >
+      <>
+        <SectionLayout
+          defaultActiveSectionId={section}
+          linkElement={Link}
+          sections={[
+            {
+              id: "contract",
+              link: "contract",
+              name: languageData["Contracts.Create.ContractHeader"],
+              disabled: false,
+            },
+            {
+              id: "rebate-settings",
+              link: "rebate-settings",
+              disabled: false,
+              ...setSectionOptions(
+                "RebateSettings",
+                languageData["Contracts.Create.RebateSettings"],
+                languageData,
+                missingSteps.data,
+              ),
+            },
+            {
+              id: "contract-settings",
+              link: "contract-settings",
+              disabled: false,
+              ...setSectionOptions(
+                "ContractSetting",
+                languageData["Contracts.Create.ContractSettings"],
+                languageData,
+                missingSteps.data,
+              ),
+            },
+          ]}
+          vertical
+        >
+          <SectionLayoutContent sectionId={section}>
+            {section === "contract" && (
+              <ContractPage
+                {...params}
+                addressList={addressList.data}
+                contractHeaderDetails={contractHeaderDetails.data}
+              />
+            )}
+            {section === "contract-settings" && (
+              <ContractSettingsPage
+                {...params}
+                addressList={addressList.data}
+                contractHeaderDetails={contractHeaderDetails.data}
+              />
+            )}
+            {section === "rebate-settings" && (
+              <RebateSettingsPage {...params} />
+            )}
+          </SectionLayoutContent>
+        </SectionLayout>
+        <div className="hidden" id="page-title">
+          {languageData["Contracts.Edit.Title"]} - (
+          {contractHeaderDetails.data.name})
+        </div>
+        <div className="hidden" id="page-description">
+          {languageData["Contracts.Edit.Description"]}
+        </div>
+        <div className="hidden" id="page-back-link">
+          {getBaseLink(`/app/admin/parties/${partyName}/${partyId}`)}
+        </div>
+      </>
+    </PagePolicy>
   );
 }
 
