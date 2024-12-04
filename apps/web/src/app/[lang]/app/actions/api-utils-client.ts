@@ -6,11 +6,12 @@ import type { ServerResponse } from "src/lib";
 
 export const handlePutResponse = (
   response: { type: "success" | "error" | "api-error"; message: string },
-  router: AppRouterInstance,
+  router?: AppRouterInstance,
   redirectTo?: string,
 ) => {
   if (response.type === "success") {
     toast.success("Updated successfully");
+    if (!router) return;
     if (redirectTo) {
       router.push(redirectTo);
     }
@@ -22,13 +23,14 @@ export const handlePutResponse = (
 
 export const handlePostResponse = <T>(
   response: ServerResponse<T>,
-  router: AppRouterInstance,
+  router?: AppRouterInstance,
   redirectTo?:
     | string
     | { prefix: string; identifier: keyof T; suffix?: string },
 ) => {
   if (response.type === "success") {
     toast.success("Created successfully");
+    if (!router) return;
     if (typeof redirectTo === "string") {
       router.push(redirectTo);
     } else if (redirectTo) {
@@ -43,11 +45,12 @@ export const handlePostResponse = <T>(
 };
 export const handleDeleteResponse = (
   response: { type: "success" | "error" | "api-error"; message: string },
-  router: AppRouterInstance,
+  router?: AppRouterInstance,
   redirectTo?: string,
 ) => {
   if (response.type === "success") {
     toast.success("Deleted successfully");
+    if (!router) return;
     if (redirectTo) {
       router.push(redirectTo);
     }

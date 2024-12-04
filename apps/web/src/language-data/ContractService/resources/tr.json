@@ -33,6 +33,14 @@
   "Contracts.draft": "Taslak",
   "Contracts.active": "Aktif",
 
+  "Contracts.Actions.Validate": "Doğrula",
+  "Contracts.Actions.Validate.Success": "Sözleşme basarıyla doğrulandı.",
+  "Contracts.Actions.Delete": "Sil",
+  "Contracts.Actions.Delete.Title": "Sözleşmeyi sil",
+  "Contracts.Actions.Delete.Description": "Bu sözleşmeyi silmek istediğinizden emin misiniz?",
+  "Contracts.Actions.CheckMissingSteps": "Eksik adımları kontrol et",
+  "Contracts.Actions.CheckMissingSteps.Success": "Tebrikler! Sözleşmede eksik adım bulunmadı.",
+
   "Contracts.Form.webSite": "Web Sitesi",
   "Contracts.Form.status": "Durum",
   "Contracts.Form.status.none": "-",

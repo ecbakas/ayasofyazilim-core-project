@@ -39,6 +39,7 @@ export default async function Page({
           addresses={addresses.data}
           formType="create"
           languageData={languageData}
+          loading={false}
           partyId={params.partyId}
           partyName={params.partyName}
           refundTableHeaders={refundTableHeaders.data.items || []}
