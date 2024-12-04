@@ -17,7 +17,8 @@ import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import {
   handlePostResponse,
   handlePutResponse,
@@ -33,6 +34,8 @@ type ContractHeaderFormProps = {
   languageData: ContractServiceResource;
   addresses: AddressTypeDto[];
   refundTableHeaders: RefundTableHeaderDto[];
+  loading: boolean;
+  setLoading?: Dispatch<SetStateAction<boolean>>;
 } & (CreateContractHeaderFormProps | UpdateContractHeaderFormProps);
 
 interface CreateContractHeaderFormProps {
@@ -47,12 +50,21 @@ interface UpdateContractHeaderFormProps {
 export default function ContractHeaderForm(
   props: ContractHeaderFormProps,
 ): JSX.Element {
-  const { languageData, partyId, addresses, partyName, refundTableHeaders } =
-    props;
+  const {
+    languageData,
+    partyId,
+    addresses,
+    partyName,
+    refundTableHeaders,
+    loading,
+    setLoading,
+  } = props;
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [addressList] = useState<AddressTypeDto[]>(addresses);
-
+  const [formLoading, setFormLoading] = useState(loading || false);
+  useEffect(() => {
+    if (setLoading) setLoading(formLoading);
+  }, [formLoading]);
   const $Schema = {
     create: $ContractHeaderForMerchantCreateDto,
     update: $ContractHeaderForMerchantUpdateDto,
@@ -97,9 +109,10 @@ export default function ContractHeaderForm(
   return (
     <SchemaForm
       className="grid gap-2"
-      disabled={loading}
+      disabled={formLoading || loading}
       fields={{
         RefundTableHeadersItemField: RefundTableHeadersItemField({
+          loading,
           languageData,
           refundTableHeaders,
         }),
@@ -123,27 +136,34 @@ export default function ContractHeaderForm(
       formData={formData[props.formType]}
       onSubmit={(data) => {
         if (!data.formData) return;
-        setLoading(true);
+        setFormLoading(true);
         if (props.formType === "create") {
           void postMerchantContractHeadersByMerchantIdApi({
             id: partyId,
             requestBody: data.formData as ContractHeaderForMerchantCreateDto,
-          }).then((response) => {
-            handlePostResponse(response, router, {
-              prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
-              suffix: "contract",
-              identifier: "id",
+          })
+            .then((response) => {
+              handlePostResponse(response, router, {
+                prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
+                suffix: "contract",
+                identifier: "id",
+              });
+            })
+            .finally(() => {
+              setFormLoading(false);
             });
-          });
         } else {
           void putMerchantContractHeadersByIdApi({
             id: props.contractId,
             requestBody: data.formData as ContractHeaderForMerchantUpdateDto,
-          }).then((response) => {
-            handlePutResponse(response, router);
-          });
+          })
+            .then((response) => {
+              handlePutResponse(response, router);
+            })
+            .finally(() => {
+              setFormLoading(false);
+            });
         }
-        setLoading(false);
       }}
       schema={$Schema[props.formType]}
       submitText={languageData["Contracts.Create.Submit"]}
@@ -163,9 +183,11 @@ export default function ContractHeaderForm(
 function RefundTableHeadersItemField({
   languageData,
   refundTableHeaders,
+  loading,
 }: {
   languageData: ContractServiceResource;
   refundTableHeaders: RefundTableHeaderDto[];
+  loading: boolean;
 }) {
   function Field(props: FieldProps) {
     const [open, setOpen] = useState(false);
@@ -175,7 +197,7 @@ function RefundTableHeadersItemField({
       props.formData as ContractHeaderRefundTableHeaderCreateAndUpdateDto;
     const hasValue: boolean = Object.keys(props.formData as object).length > 0;
     const [defaultItem, setDefaultItem] = useState<boolean>(
-      hasValue ? _formData.isDefault ?? false : props.index === 0,
+      hasValue ? _formData.isDefault ?? true : props.index === 0,
     );
 
     const uiSchema = createUiSchemaWithResource({
@@ -189,11 +211,15 @@ function RefundTableHeadersItemField({
       },
     });
     return (
-      <div className="grid w-full grid-cols-2 gap-2 rounded-md p-2">
+      <div
+        className="grid w-full grid-cols-2 gap-2 rounded-md p-2"
+        key={props.idSchema.$id}
+      >
         <div className="relative flex h-9 items-center gap-2 text-nowrap">
           <input
             className="accent-primary"
             defaultChecked={defaultItem}
+            disabled={loading}
             id={props.idSchema.$id}
             name="setDefault"
             onChange={(e) => {
@@ -210,7 +236,12 @@ function RefundTableHeadersItemField({
         </div>
         <Sheet onOpenChange={setOpen} open={open}>
           <SheetTrigger asChild>
-            <Button className="w-full" type="button" variant="outline">
+            <Button
+              className="w-full"
+              disabled={loading}
+              type="button"
+              variant="outline"
+            >
               {hasValue ? (
                 <div>
                   {
