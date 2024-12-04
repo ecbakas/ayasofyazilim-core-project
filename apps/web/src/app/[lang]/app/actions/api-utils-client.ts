@@ -11,7 +11,10 @@ export const handlePutResponse = (
 ) => {
   if (response.type === "success") {
     toast.success("Updated successfully");
-    redirectTo ? router.push(redirectTo) : router.refresh();
+    if (redirectTo) {
+      router.push(redirectTo);
+    }
+    router.refresh();
   } else {
     toast.error(response.message);
   }
@@ -33,6 +36,7 @@ export const handlePostResponse = <T>(
       const id = (response.data[identifier] as string).toString();
       router.push(`${prefix}/${id}/${suffix}`);
     }
+    router.refresh();
   } else {
     toast.error(response.message);
   }
@@ -44,7 +48,10 @@ export const handleDeleteResponse = (
 ) => {
   if (response.type === "success") {
     toast.success("Deleted successfully");
-    redirectTo ? router.push(redirectTo) : router.refresh();
+    if (redirectTo) {
+      router.push(redirectTo);
+    }
+    router.refresh();
   } else {
     toast.error(response.message);
   }
