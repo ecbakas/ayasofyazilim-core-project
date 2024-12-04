@@ -80,3 +80,16 @@ export async function postMerchantContractHeaderRebateSettingByHeaderIdApi(
     return structuredError(error);
   }
 }
+
+export async function postMerchantContractHeaderValidateByHeaderIdApi(
+  id: string,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests.merchants.postContractHeaderValidateByHeaderId(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}

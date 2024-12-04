@@ -14,7 +14,7 @@ import { getMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/ac
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
 import Address from "./address/form";
-import Contracts from "./contracts/form";
+import Contracts from "./contracts/table";
 import Email from "./email/form";
 import IndividualTable from "./individuals-table/table";
 import MerchantForm from "./merchant/form";

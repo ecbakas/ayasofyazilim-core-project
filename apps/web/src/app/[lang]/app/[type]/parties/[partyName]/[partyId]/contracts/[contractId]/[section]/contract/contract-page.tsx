@@ -3,6 +3,7 @@ import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto 
 import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
 import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import { ContractHeader } from "./contract-header";
 
 export default async function ContractPage({
@@ -22,13 +23,17 @@ export default async function ContractPage({
   const refundTableHeaders = await getRefundTableHeadersApi({});
   if (refundTableHeaders.type !== "success") return notFound();
   return (
-    <ContractHeader
-      addressList={addressList}
-      contractHeaderDetails={contractHeaderDetails}
-      languageData={languageData}
-      partyId={partyId}
-      partyName={partyName}
-      refundTableHeaders={refundTableHeaders.data.items || []}
-    />
+    <PagePolicy
+      requiredPolicies={["ContractService.ContractHeaderForMerchant.Edit"]}
+    >
+      <ContractHeader
+        addressList={addressList}
+        contractHeaderDetails={contractHeaderDetails}
+        languageData={languageData}
+        partyId={partyId}
+        partyName={partyName}
+        refundTableHeaders={refundTableHeaders.data.items || []}
+      />
+    </PagePolicy>
   );
 }

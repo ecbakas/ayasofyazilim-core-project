@@ -32,6 +32,7 @@
   "Contracts.validTo": "Bitiş Tarihi",
   "Contracts.draft": "Taslak",
   "Contracts.active": "Aktif",
+  "Contracts.setActive": "Aktifleştir",
 
   "Contracts.Form.webSite": "Web Sitesi",
   "Contracts.Form.status": "Durum",
