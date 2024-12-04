@@ -239,6 +239,10 @@ export async function getApiRequests() {
         await contractsClient.contractsMerchant.putApiContractServiceMerchantsContractsContractSettingsById(
           data,
         ),
+      deleteContractHeadersById: async (id: string) =>
+        await contractsClient.contractsMerchant.deleteApiContractServiceMerchantsContractsContractHeadersById(
+          { id },
+        ),
       deleteContractSettingsById: async (id: string) =>
         await contractsClient.contractsMerchant.deleteApiContractServiceMerchantsContractsContractSettingsById(
           { id },
