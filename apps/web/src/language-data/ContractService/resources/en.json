@@ -32,7 +32,6 @@
   "Contracts.validTo": "End Date",
   "Contracts.draft": "Draft",
   "Contracts.active": "Active",
-  "Contracts.setActive": "Set active",
 
   "Contracts.Form.webSite": "Web Site",
   "Contracts.Form.status": "Status",
@@ -75,9 +74,11 @@
   "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchPlaceholder": "Search for an refund table",
   "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchResultLabel": "There is no refund table with that value.",
   "Contracts.Form.refundTableHeaders.isDefault": "Default",
+  "Contracts.Form.refundTableHeaders.edit": "Edit",
   "Contracts.Form.refundTableHeaders.validFrom": "Begin Date",
   "Contracts.Form.refundTableHeaders.validTo": "End Date",
 
+  "Contracts.Settings.Form.Add": "Add contract setting",
   "Contracts.Settings.Form.Delete": "Delete",
   "Contracts.Settings.Form.Delete.Title": "Delete contract setting",
   "Contracts.Settings.Form.Delete.Description": "Are you sure you want to delete this setting?",
@@ -231,6 +232,13 @@
   "Rebate.Form.referenceNumber": "Reference number",
   "Rebate.Form.isTrustedMerchant": "Trusted merchant",
   "Rebate.Form.rebateStatementPeriod": "Rebate statement period",
+  "Rebate.Form.rebateStatementPeriod.ui:placeholder": "Please select an rebate statement period",
+  "Rebate.Form.rebateStatementPeriod.None": "-",
+  "Rebate.Form.rebateStatementPeriod.Monthly": "Monthly",
+  "Rebate.Form.rebateStatementPeriod.Quarterly": "Quarterly",
+  "Rebate.Form.rebateStatementPeriod.BiAnnualy": "Bi-annualy",
+  "Rebate.Form.rebateStatementPeriod.Annualy": "Annualy",
+
   "Rebate.Form.rebateTableHeadersFromTemplate": "Rebate table headers from template",
   "Rebate.Form.rebateTableHeadersFromTemplate.title": "Please select an rebate table header template",
   "Rebate.Form.rebateTableHeadersFromTemplate.id": "Rebate table headers from template",
