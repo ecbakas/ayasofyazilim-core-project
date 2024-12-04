@@ -1,6 +1,6 @@
 "use server";
 import type {
-  PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+  PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
   PutApiTravellerServiceTravellersByIdUpsertPersonalPreferenceData,
   PutApiTravellerServiceTravellersByIdUpsertPersonalSummaryData,
 } from "@ayasofyazilim/saas/TravellerService";
@@ -8,7 +8,7 @@ import { structuredError, structuredResponse } from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function putTravellerPersonalIdentificationApi(
-  data: PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+  data: PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
 ) {
   try {
     const requests = await getApiRequests();

@@ -1,8 +1,8 @@
 "use client";
 
 import { toast } from "@/components/ui/sonner";
-import type { UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
-import { $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
+import type { UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
+import { $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto } from "@ayasofyazilim/saas/TravellerService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import AutoForm, {
   AutoFormSubmit,
@@ -15,7 +15,7 @@ import { putTravellerPersonalIdentificationApi } from "src/app/[lang]/app/action
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 
 const updateBillingSchema = createZodObject(
-  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
+  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
   [
     "travelDocumentNumber",
     "firstName",
@@ -41,7 +41,7 @@ export default function Form({
 }) {
   const router = useRouter();
   async function putTravellerPersonalIdentification(
-    data: UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
+    data: UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
   ) {
     const response = await putTravellerPersonalIdentificationApi({
       id: travellerId,
@@ -66,7 +66,7 @@ export default function Form({
 
   const translatedForm = createFieldConfigWithResource({
     schema:
-      $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
+      $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
     resources: languageData,
     name: "Form.personalIdentification",
     extend: {
@@ -118,7 +118,7 @@ export default function Form({
       formSchema={updateBillingSchema}
       onSubmit={(values) => {
         void putTravellerPersonalIdentification(
-          values as UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpsertPersonalIdentificationDto,
+          values as UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,
         );
       }}
     >

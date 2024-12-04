@@ -74,21 +74,6 @@ export async function getCustomsApi(data: GetApiCrmServiceCustomsData = {}) {
   }
 }
 
-export async function getBasicInformationApi(
-  id: string,
-  partyName: "merchants",
-) {
-  try {
-    const requests = await getApiRequests();
-    const response = await requests[partyName].getBasicInformation({
-      id,
-    });
-    return structuredResponse(response);
-  } catch (error) {
-    return structuredError(error);
-  }
-}
-
 export async function getAdressesApi(id: string, partyName: "merchants") {
   try {
     const requests = await getApiRequests();

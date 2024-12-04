@@ -97,7 +97,7 @@ import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
   PostApiTravellerServiceTravellersData,
-  PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+  PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
   PutApiTravellerServiceTravellersByIdUpsertPersonalPreferenceData,
   PutApiTravellerServiceTravellersByIdUpsertPersonalSummaryData,
 } from "@ayasofyazilim/saas/TravellerService";
@@ -201,10 +201,7 @@ export async function getApiRequests() {
         await crmClient.merchant.deleteApiCrmServiceMerchantsByIdWithComponents(
           { id },
         ),
-      getBasicInformation: async (data: { id: string }) =>
-        await crmClient.merchant.getApiCrmServiceMerchantsByIdBasicInformation(
-          data,
-        ),
+
       getAdresses: async (data: { id: string }) =>
         await crmClient.merchant.getApiCrmServiceMerchantsByIdAddresses(data),
       getContractHeadersByMerchantId: async (
@@ -628,9 +625,9 @@ export async function getApiRequests() {
       post: async (data: PostApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.postApiTravellerServiceTravellers(data),
       putPersonalIdentification: async (
-        data: PutApiTravellerServiceTravellersByIdUpsertPersonalIdentificationData,
+        data: PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
       ) =>
-        await travellerClient.traveller.putApiTravellerServiceTravellersByIdUpsertPersonalIdentification(
+        await travellerClient.traveller.putApiTravellerServiceTravellersByIdUpdatePersonalIdentification(
           data,
         ),
       putPersonalPreference: async (
