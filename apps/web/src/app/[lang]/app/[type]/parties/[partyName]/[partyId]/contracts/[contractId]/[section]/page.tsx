@@ -38,9 +38,8 @@ export default async function Page({
 }) {
   const { lang, contractId, partyId, partyName, section } = params;
   const { languageData } = await getResourceData(lang);
-  const missingSteps = await getMerchantContractHeaderMissingStepsByIdApi({
-    id: contractId,
-  });
+  const missingSteps =
+    await getMerchantContractHeaderMissingStepsByIdApi(contractId);
   const contractHeaderDetails =
     await getMerchantContractHeaderByIdApi(contractId);
 
