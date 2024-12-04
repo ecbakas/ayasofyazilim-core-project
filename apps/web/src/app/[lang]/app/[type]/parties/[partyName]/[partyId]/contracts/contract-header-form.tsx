@@ -18,7 +18,7 @@ import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/ty
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   handlePostResponse,
   handlePutResponse,
@@ -62,9 +62,10 @@ export default function ContractHeaderForm(
   const router = useRouter();
   const [addressList] = useState<AddressTypeDto[]>(addresses);
   const [formLoading, setFormLoading] = useState(loading || false);
-  useEffect(() => {
-    if (setLoading) setLoading(formLoading);
-  }, [formLoading]);
+  function handleLoading(_loading: boolean) {
+    if (setLoading) setLoading(_loading);
+    setFormLoading(_loading);
+  }
   const $Schema = {
     create: $ContractHeaderForMerchantCreateDto,
     update: $ContractHeaderForMerchantUpdateDto,
@@ -136,7 +137,7 @@ export default function ContractHeaderForm(
       formData={formData[props.formType]}
       onSubmit={(data) => {
         if (!data.formData) return;
-        setFormLoading(true);
+        handleLoading(true);
         if (props.formType === "create") {
           void postMerchantContractHeadersByMerchantIdApi({
             id: partyId,
@@ -150,7 +151,7 @@ export default function ContractHeaderForm(
               });
             })
             .finally(() => {
-              setFormLoading(false);
+              handleLoading(false);
             });
         } else {
           void putMerchantContractHeadersByIdApi({
@@ -161,7 +162,7 @@ export default function ContractHeaderForm(
               handlePutResponse(response, router);
             })
             .finally(() => {
-              setFormLoading(false);
+              handleLoading(false);
             });
         }
       }}
