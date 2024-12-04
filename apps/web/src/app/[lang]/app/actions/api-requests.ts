@@ -96,6 +96,7 @@ import type {
 import type { GetApiTagServiceTagData } from "@ayasofyazilim/saas/TagService";
 import type {
   GetApiTravellerServiceTravellersData,
+  PostApiTravellerServiceTravellersByIdCreatePersonalIdentificationData,
   PostApiTravellerServiceTravellersData,
   PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
   PutApiTravellerServiceTravellersByIdUpsertPersonalPreferenceData,
@@ -624,6 +625,12 @@ export async function getApiRequests() {
         }),
       post: async (data: PostApiTravellerServiceTravellersData) =>
         await travellerClient.traveller.postApiTravellerServiceTravellers(data),
+      postTravellerIdentification: async (
+        data: PostApiTravellerServiceTravellersByIdCreatePersonalIdentificationData,
+      ) =>
+        await travellerClient.traveller.postApiTravellerServiceTravellersByIdCreatePersonalIdentification(
+          data,
+        ),
       putPersonalIdentification: async (
         data: PutApiTravellerServiceTravellersByIdUpdatePersonalIdentificationData,
       ) =>
