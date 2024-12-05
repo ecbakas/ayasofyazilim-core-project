@@ -1,16 +1,13 @@
-import { tanstackTableCreateColumnsByRowData as columnsByData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import { toast } from "@/components/ui/sonner";
 import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { toast } from "@/components/ui/sonner";
 import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
-import { CircleCheck } from "lucide-react";
+import { tanstackTableCreateColumnsByRowData as columnsByData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
-import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client";
 
 const contractsTableColumns = ({
   languageData,
@@ -102,21 +99,6 @@ const contractsTable = (props: {
         cta: languageData.ExportCSV,
         onClick: () => {
           toast.warning("Not implemented yet");
-        },
-      },
-    ],
-    rowActions: [
-      {
-        type: "simple",
-        actionLocation: "row",
-        icon: CircleCheck,
-        cta: languageData["Contracts.setActive"],
-        onClick: (rowData) => {
-          void postMerchantContractHeaderValidateByHeaderIdApi(rowData.id).then(
-            (response) => {
-              handlePostResponse(response, router);
-            },
-          );
         },
       },
     ],

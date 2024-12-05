@@ -208,6 +208,10 @@ function RefundTableHeadersItemField({
       extend: {
         refundTableHeaderId: {
           "ui:widget": "refundTable",
+          "ui:title":
+            languageData[
+              "Contracts.Form.refundTableHeaders.refundTableHeaderId"
+            ],
         },
       },
     });
@@ -252,7 +256,7 @@ function RefundTableHeadersItemField({
                   }
                 </div>
               ) : (
-                "Edit"
+                languageData["Contracts.Form.refundTableHeaders.edit"]
               )}
             </Button>
           </SheetTrigger>
