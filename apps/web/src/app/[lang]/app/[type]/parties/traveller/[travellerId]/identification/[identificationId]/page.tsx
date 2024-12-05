@@ -10,7 +10,7 @@ import Form from "./form";
 export default async function Page({
   params,
 }: {
-  params: { travellerId: string; lang: string };
+  params: { travellerId: string; lang: string; identificationId: string };
 }) {
   const { languageData } = await getResourceData(params.lang);
   const traveller = await getTravellersDetailsApi(params.travellerId);
@@ -27,6 +27,7 @@ export default async function Page({
           data: countryList,
           success: countries.type === "success",
         }}
+        identificationId={params.identificationId}
         languageData={languageData}
         travellerData={travellerData}
         travellerId={params.travellerId}
