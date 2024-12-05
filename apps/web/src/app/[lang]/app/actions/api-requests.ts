@@ -7,6 +7,7 @@ import type {
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   GetApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
@@ -14,6 +15,7 @@ import type {
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PostApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdRebateSettingsData,
   PostApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   PostApiContractServiceRefundTablesRefundFeeHeadersByIdRefundFeeDetailsData,
@@ -244,6 +246,18 @@ export async function getApiRequests() {
       deleteContractSettingsById: async (id: string) =>
         await contractsClient.contractsMerchant.deleteApiContractServiceMerchantsContractsContractSettingsById(
           { id },
+        ),
+      getContractHeadersContractStoresByHeaderId: async (
+        data: GetApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
+      ) =>
+        await contractsClient.contractsMerchant.getApiContractServiceMerchantsContractsContractHeadersByIdContractStores(
+          data,
+        ),
+      postContractHeadersContractStoresByHeaderId: async (
+        data: PostApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
+      ) =>
+        await contractsClient.contractsMerchant.postApiContractServiceMerchantsContractsContractHeadersByIdContractStores(
+          data,
         ),
       getContractHeaderContractSettingsByHeaderId: async (
         data: GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
