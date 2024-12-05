@@ -2,6 +2,7 @@
 import type {
   GetApiContractServiceMerchantsByIdContractsContractHeadersData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  GetApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
   GetApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
@@ -9,6 +10,7 @@ import type {
   GetApiContractServiceRefundTablesRefundTableHeadersData,
   PostApiContractServiceMerchantsByIdContractsContractHeadersData,
   PostApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
+  PostApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
 } from "@ayasofyazilim/saas/ContractService";
@@ -43,6 +45,32 @@ export async function postMerchantContractHeadersByMerchantIdApi(
   try {
     const requests = await getApiRequests();
     const response = await requests.merchants.postContractHeadersById(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getMerchantContractHeadersContractStoresByHeaderIdApi(
+  data: GetApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response =
+      await requests.merchants.getContractHeadersContractStoresByHeaderId(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function postMerchantContractHeadersContractStoresByHeaderIdApi(
+  data: PostApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response =
+      await requests.merchants.postContractHeadersContractStoresByHeaderId(
+        data,
+      );
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
