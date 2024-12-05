@@ -18,6 +18,7 @@
 
   "Contracts.Create.ContractHeader": "Contract",
   "Contracts.Create.RebateSettings": "Rebate settings",
+  "Contracts.Create.Stores": "Stores",
   "Contracts.Create.ContractSettings": "Contract settings",
 
   "Contracts.Create.Success": "Contract created.",
