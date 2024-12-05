@@ -84,6 +84,17 @@ export default async function Page({
               ),
             },
             {
+              id: "stores",
+              link: "stores",
+              disabled: false,
+              ...setSectionOptions(
+                "Stores",
+                languageData["Contracts.Create.Stores"],
+                languageData,
+                missingSteps.data,
+              ),
+            },
+            {
               id: "contract-settings",
               link: "contract-settings",
               disabled: false,
