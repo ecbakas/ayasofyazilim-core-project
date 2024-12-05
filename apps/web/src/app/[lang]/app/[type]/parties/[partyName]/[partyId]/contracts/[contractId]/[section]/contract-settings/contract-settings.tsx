@@ -1,24 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type {
-  UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingCreateDto as ContractSettingCreateUpdateDto,
   UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractHeaderDetailForMerchantDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingCreateDto as ContractSettingCreateUpdateDto,
   UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingDto as ContractSettingDto,
   PagedResultDto_ContractSettingDto,
 } from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingCreateDto as $ContractSettingCreateUpdateDto } from "@ayasofyazilim/saas/ContractService";
+import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
+import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirm-dialog";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
+import type { TanstackTableTableActionsType } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import {
@@ -27,8 +21,12 @@ import {
 } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
-import type { TanstackTableTableActionsType } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
-import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressCommonDataDto } from "@ayasofyazilim/saas/LocationService";
+import { useRouter } from "next/navigation";
+import {
+  handleDeleteResponse,
+  handlePostResponse,
+  handlePutResponse,
+} from "src/app/[lang]/app/actions/api-utils-client";
 import {
   deleteMerchantContractContractSettingsByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
@@ -72,6 +70,7 @@ export function ContractSettings({
   addressList: AddressCommonDataDto[];
   lang: string;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { items } = contractSettings;
   const [settings, setSettings] = useState<ContractSettingsTable[]>(
@@ -110,30 +109,6 @@ export function ContractSettings({
     setLoading(false);
   }
 
-  async function setContractSettingDefault(id: string) {
-    setLoading(true);
-    const response =
-      await putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi(
-        {
-          id: contractHeaderDetails.id,
-          requestBody: { contractSettingId: id },
-        },
-      );
-    if (response.type === "success") {
-      toast.success(
-        response.message ||
-          languageData["Contracts.Settings.SetIsDefault.Success"],
-      );
-    } else {
-      toast.error(
-        response.message ||
-          languageData["Contracts.Settings.SetIsDefault.Fail"],
-      );
-    }
-    await handleFetch();
-    setLoading(false);
-  }
-
   const RowForm = useCallback(
     (row: ContractSettingsTable) => {
       return (
@@ -156,20 +131,33 @@ export function ContractSettings({
     },
     [addressList, tempSettings, contractHeaderDetails],
   );
-
-  const ColumnIsDefault = useCallback((row: ContractSettingsTable) => {
+  const SetDefaultAction = useCallback((row: ContractSettingsTable) => {
+    if (row.isDefault || tempSettings) return <></>;
     return (
-      <>
-        {!row.isDefault && !tempSettings && (
-          <Button
-            onClick={() => void setContractSettingDefault(row.id)}
-            size="sm"
-            variant="outline"
-          >
-            {languageData["Contracts.Settings.Form.setIsDefault"]}
-          </Button>
-        )}
-      </>
+      <Button
+        disabled={loading}
+        onClick={() => {
+          setLoading(true);
+          void putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi(
+            {
+              id: contractHeaderDetails.id,
+              requestBody: { contractSettingId: row.id },
+            },
+          )
+            .then((res) => {
+              handlePutResponse(res, router);
+            })
+            .finally(() => {
+              void handleFetch().then(() => {
+                setLoading(false);
+              });
+            });
+        }}
+        size="sm"
+        variant="outline"
+      >
+        {languageData["Contracts.Settings.Form.setIsDefault"]}
+      </Button>
     );
   }, []);
   const columns = tanstackTableCreateColumnsByRowData<ContractSettingsTable>({
@@ -180,7 +168,7 @@ export function ContractSettings({
     custom: {
       isDefault: {
         showHeader: false,
-        content: (row) => ColumnIsDefault(row),
+        content: (row) => SetDefaultAction(row),
       },
     },
     badges: {
@@ -206,7 +194,7 @@ export function ContractSettings({
       ? [
           {
             actionLocation: "table",
-            cta: "Add new setting",
+            cta: languageData["Contracts.Settings.Form.Add"],
             type: "simple",
             onClick: () => {
               setTempSettings({ name: "New", id: "$temp" });
@@ -214,33 +202,32 @@ export function ContractSettings({
           },
         ]
       : undefined;
+  if (settings.length > 0) {
+    return (
+      <TanstackTable
+        columnVisibility={{
+          columns: ["id", "details"],
+          type: "hide",
+        }}
+        columns={columns}
+        data={tempSettings ? [...settings, tempSettings] : settings}
+        expandedRowComponent={(row) => RowForm(row)}
+        fillerColumn="name"
+        tableActions={tableActions}
+      />
+    );
+  }
   return (
-    <>
-      {settings.length > 0 ? (
-        <TanstackTable
-          columnVisibility={{
-            columns: ["id", "details"],
-            type: "hide",
-          }}
-          columns={columns}
-          data={tempSettings ? [...settings, tempSettings] : settings}
-          expandedRowComponent={(row) => RowForm(row)}
-          fillerColumn="name"
-          tableActions={tableActions}
-        />
-      ) : (
-        <SchemaFormForContractSettings
-          addressList={addressList}
-          formData={{}}
-          handleFetch={handleFetch}
-          languageData={languageData}
-          loading={loading}
-          setLoading={setLoading}
-          submitId={contractHeaderDetails.id}
-          type="create"
-        />
-      )}
-    </>
+    <SchemaFormForContractSettings
+      addressList={addressList}
+      formData={{}}
+      handleFetch={handleFetch}
+      languageData={languageData}
+      loading={loading}
+      setLoading={setLoading}
+      submitId={contractHeaderDetails.id}
+      type="create"
+    />
   );
 }
 function SchemaFormForContractSettings({
@@ -264,6 +251,7 @@ function SchemaFormForContractSettings({
   type: "edit" | "create" | "temp";
   handleFetch: () => Promise<void>;
 }) {
+  const router = useRouter();
   const switchFields: (keyof ContractSettingCreateUpdateDto)[] = [
     "deliveryFee",
     "factoring",
@@ -300,47 +288,8 @@ function SchemaFormForContractSettings({
     },
   });
 
-  async function handleContractSettingsSubmit(
-    data: ContractSettingCreateUpdateDto,
-  ) {
-    setLoading(true);
-    if (type === "create" || type === "temp") {
-      const response =
-        await postMerchantContractHeaderContractSettingsByHeaderIdApi({
-          id: submitId,
-          requestBody: data,
-        });
-      if (response.type === "success") {
-        toast.success(
-          response.message || languageData["Contracts.Settings.Create.Success"],
-        );
-      } else {
-        toast.error(
-          response.message || languageData["Contracts.Settings.Create.Fail"],
-        );
-      }
-      await handleFetch();
-    } else {
-      const response = await putMerchantContractContractSettingsByIdApi({
-        id: submitId,
-        requestBody: data,
-      });
-      if (response.type === "success") {
-        toast.success(
-          response.message || languageData["Contracts.Settings.Edit.Success"],
-        );
-      } else {
-        toast.error(
-          response.message || languageData["Contracts.Settings.Edit.Fail"],
-        );
-      }
-    }
-    await handleFetch();
-    setLoading(false);
-  }
-
   return (
-    <SchemaForm
+    <SchemaForm<Partial<ContractSettingCreateUpdateDto>>
       className="bg-white"
       defaultSubmitClassName="pr-4"
       disabled={loading}
@@ -360,9 +309,35 @@ function SchemaFormForContractSettings({
       }}
       formData={formData}
       onSubmit={(data) => {
-        void handleContractSettingsSubmit(
-          data.formData as ContractSettingCreateUpdateDto,
-        );
+        if (!data.formData) return;
+        setLoading(true);
+        if (type === "create" || type === "temp") {
+          void postMerchantContractHeaderContractSettingsByHeaderIdApi({
+            id: submitId,
+            requestBody: data.formData as ContractSettingCreateUpdateDto,
+          })
+            .then((response) => {
+              handlePostResponse(response, router);
+            })
+            .finally(() => {
+              void handleFetch().then(() => {
+                setLoading(false);
+              });
+            });
+        } else {
+          void putMerchantContractContractSettingsByIdApi({
+            id: submitId,
+            requestBody: data.formData as ContractSettingCreateUpdateDto,
+          })
+            .then((response) => {
+              handlePostResponse(response, router);
+            })
+            .finally(() => {
+              void handleFetch().then(() => {
+                setLoading(false);
+              });
+            });
+        }
       }}
       schema={$ContractSettingCreateUpdateDto}
       uiSchema={uiSchema}
@@ -407,52 +382,37 @@ function DeleteDialog({
   setTempSettings?: Dispatch<SetStateAction<ContractSettingsTable | undefined>>;
   handleFetch: () => Promise<void>;
 }) {
-  async function handleDelete() {
-    if (submitId === "$temp" && setTempSettings) {
-      setTempSettings(undefined);
-      return;
-    }
-    setLoading(true);
-    const response =
-      await deleteMerchantContractContractSettingsByIdApi(submitId);
-    if (response.type === "success") {
-      toast.success(
-        response.message || languageData["Contracts.Settings.Delete.Success"],
-      );
-    } else {
-      toast.error(
-        response.message || languageData["Contracts.Settings.Delete.Fail"],
-      );
-    }
-    await handleFetch();
-    setLoading(false);
-  }
+  const router = useRouter();
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button type="button" variant="destructive">
-          {languageData["Contracts.Settings.Form.Delete"]}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            {languageData["Contracts.Settings.Form.Delete.Title"]}
-          </DialogTitle>
-          <DialogDescription>
-            {languageData["Contracts.Settings.Form.Delete.Description"]}
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button
-            onClick={() => void handleDelete()}
-            type="button"
-            variant="destructive"
-          >
-            {languageData["Contracts.Settings.Form.Delete"]}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <ConfirmDialog
+      confirmProps={{
+        variant: "destructive",
+        closeAfterConfirm: true,
+        onConfirm: () => {
+          if (submitId === "$temp" && setTempSettings) {
+            setTempSettings(undefined);
+            return;
+          }
+          setLoading(true);
+          void deleteMerchantContractContractSettingsByIdApi(submitId)
+            .then((response) => {
+              handleDeleteResponse(response, router);
+            })
+            .finally(() => {
+              void handleFetch().then(() => {
+                setLoading(false);
+              });
+            });
+        },
+      }}
+      description={languageData["Contracts.Settings.Form.Delete.Description"]}
+      title={languageData["Contracts.Settings.Form.Delete.Title"]}
+      triggerProps={{
+        type: "button",
+        variant: "outline",
+        children: languageData["Contracts.Settings.Form.Delete"],
+      }}
+      type="with-trigger"
+    />
   );
 }
