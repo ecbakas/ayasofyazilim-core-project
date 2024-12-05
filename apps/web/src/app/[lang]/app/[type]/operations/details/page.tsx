@@ -19,10 +19,10 @@ import type {
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { CellContext } from "@tanstack/react-table";
+import { ChartBarIncreasing, CreditCard, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ChartBarIncreasing, CreditCard, DollarSign } from "lucide-react";
 import { getBaseLink } from "src/utils";
 import { localizeCurrency, localizeNumber } from "src/utils-number";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
@@ -59,13 +59,13 @@ function cellWithDate(
   });
 }
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: {
     lang: string;
   };
-}): JSX.Element {
+}): Promise<JSX.Element> {
   const [merchant, setMerchant] = useState<PagedResultDto_MerchantProfileDto>(
     {},
   );
@@ -151,7 +151,7 @@ export default function Page({
           data: { items: [], totalCount: 0 },
         };
       },
-      detailedFilters: getTravellerFilterClient("en"),
+      detailedFilters: await getTravellerFilterClient("en"),
     },
   };
   const filters: DetailedFilter[] = Object.values(typedFilters);
