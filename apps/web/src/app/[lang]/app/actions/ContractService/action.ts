@@ -27,14 +27,11 @@ export async function getMerchantContractHeadersByMerchantIdApi(
     return structuredError(error);
   }
 }
-export async function getMerchantContractHeaderMissingStepsByIdApi(
-  data: GetApiContractServiceMerchantsByIdContractsContractHeadersData,
-) {
+export async function getMerchantContractHeaderMissingStepsByIdApi(id: string) {
   try {
     const requests = await getApiRequests();
-    const response = await requests.merchants.getContractHeaderMissingStepsById(
-      data.id,
-    );
+    const response =
+      await requests.merchants.getContractHeaderMissingStepsById(id);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
