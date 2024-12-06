@@ -24,7 +24,7 @@ import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import ContractPage from "./contract/contract-page";
 import ContractSettingsPage from "./contract-settings/contract-settings-page";
 import RebateSettingsPage from "./rebate-settings/rebate-settings-page";
-import ContractStoresPage from "./stores/page";
+import ContractStoresPage from "./stores/contract-stores-page";
 
 export default async function Page({
   params,

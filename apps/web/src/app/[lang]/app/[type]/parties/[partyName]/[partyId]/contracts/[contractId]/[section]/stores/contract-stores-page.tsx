@@ -1,7 +1,7 @@
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getMerchantContractHeadersContractStoresByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import PagePolicy from "src/app/[lang]/page-policy/page-policy";
-import ContractStoresTable from "./table";
+import { ContractStoresTable } from "./table";
 
 export default async function ContractStoresPage({
   languageData,

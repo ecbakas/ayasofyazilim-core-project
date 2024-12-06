@@ -5,7 +5,7 @@ import type { UniRefund_ContractService_ContractsForMerchant_ContractStores_Cont
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { tableData } from "./_components/table-data";
 
-export default function ContractStoresTable({
+export function ContractStoresTable({
   languageData,
   contractStores,
 }: {
