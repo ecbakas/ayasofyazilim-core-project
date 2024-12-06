@@ -1,7 +1,9 @@
+import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
+import type { ColumnFilter } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 import { getResourceDataClient } from "src/language-data/TravellerService";
-import type { DetailedFilterTraveller } from "./utils.server";
+import type { CountryDto } from "../../../actions/LocationService/types";
 
 export type TravllersKeys =
   keyof typeof $UniRefund_TravellerService_Travellers_TravellerListProfileDto.properties;
@@ -23,20 +25,32 @@ export const travellerTableSchema: {
   excludeList: travellerKeys,
   schema: $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
 };
-
-export function getTravellerFilterClient(lang: string) {
+export type DetailedFilterTraveller = ColumnFilter & {
+  name: keyof GetApiTravellerServiceTravellersData;
+};
+export function getTravellerFilterClient(
+  lang: string,
+  nationalitiesData: CountryDto[],
+) {
   const languageData = getResourceDataClient(lang);
-  return getTravellerFilters(languageData);
+  return getTravellerFilters(languageData, nationalitiesData);
 }
 
 export function getTravellerFilters(
   languageData: TravellerServiceResource,
-): DetailedFilterTraveller[] {
+  nationalitiesData: CountryDto[],
+) {
   const filters: DetailedFilterTraveller[] = [
     {
       name: "showExpired",
       displayName: languageData["Travellers.ShowExpired"],
       type: "boolean",
+      value: "false",
+    },
+    {
+      name: "travelDocumentNumber",
+      displayName: languageData["Travellers.TravelDocumentNumber"],
+      type: "string",
       value: "",
     },
     {
@@ -46,36 +60,33 @@ export function getTravellerFilters(
       value: "",
     },
     {
-      name: "fullName",
-      displayName: languageData.FirstName,
-      type: "string",
+      name: "nationalities",
+      displayName: languageData.Nationalities,
+      type: "select-multiple",
       value: "",
+      multiSelectProps: {
+        options: [
+          ...nationalitiesData.map((item) => ({
+            label: item.name,
+            value: item.code2,
+          })),
+        ],
+      },
     },
     {
-      name: "fullName",
-      displayName: languageData.LastName,
-      type: "string",
+      name: "residences",
+      displayName: languageData.Residences,
+      type: "select-multiple",
       value: "",
-    },
-    {
-      name: "travelDocumentNumber",
-      displayName: languageData["Travellers.TravelDocumentNumber"],
-      type: "string",
-      value: "",
-    },
-    {
-      name: "username",
-      displayName: languageData.UserName,
-      type: "string",
-      value: "",
-    },
-    {
-      name: "phoneNumber",
-      displayName: languageData.PhoneNumber,
-      type: "string",
-      value: "",
+      multiSelectProps: {
+        options: [
+          ...nationalitiesData.map((item) => ({
+            label: item.name,
+            value: item.code2,
+          })),
+        ],
+      },
     },
   ];
-
   return filters;
 }
