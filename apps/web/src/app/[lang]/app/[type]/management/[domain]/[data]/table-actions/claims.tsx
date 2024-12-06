@@ -34,6 +34,7 @@ type ClaimsProps =
 
 export default function Claims({
   rowId,
+  setIsOpen,
   params,
 }: {
   rowId: string;
@@ -41,6 +42,7 @@ export default function Claims({
     lang: string;
     data: string;
   };
+  setIsOpen?: (e: boolean) => void;
 }) {
   const languageData = getResourceDataClient(params.lang);
   const [claims, setClaims] = useState<Volo_Abp_Identity_ClaimTypeDto[]>([]);
@@ -96,6 +98,7 @@ export default function Claims({
     }
     if (response && response.type === "success") {
       toast.success(languageData["Claim.New.Succes"]);
+      setIsOpen && setIsOpen(false);
     } else {
       toast.error(response?.message || languageData["Claim.New.Fail"]);
     }

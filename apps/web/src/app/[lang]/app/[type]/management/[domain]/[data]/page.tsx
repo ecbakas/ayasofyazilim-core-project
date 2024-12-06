@@ -343,9 +343,12 @@ export default function Page({
     },
   });
 
-  const claimComponent = async (row: { id: string }) => {
+  const claimComponent = async (
+    row: { id: string },
+    setIsOpen?: (e: boolean) => void,
+  ) => {
     await Promise.resolve();
-    return <Claims params={params} rowId={row.id} />;
+    return <Claims params={params} rowId={row.id} setIsOpen={setIsOpen} />;
   };
   if (params.data === "role" || params.data === "user") {
     columnsData.data.actionList?.push({
@@ -354,7 +357,7 @@ export default function Page({
       loadingContent: <>Loading...</>,
       description: languageData["Claim.Add.Description"],
       componentType: "CustomComponent",
-      customComponentRendering: claimComponent,
+      customComponentRendering: (setIsOpen) => claimComponent(setIsOpen),
       content: <></>,
     });
   }
