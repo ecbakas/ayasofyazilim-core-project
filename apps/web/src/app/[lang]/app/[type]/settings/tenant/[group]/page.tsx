@@ -1,10 +1,9 @@
 "use server";
 
-import type { UniRefund_SettingService_CountrySettings_CountrySettingDto } from "@ayasofyazilim/saas/SettingService";
-import { getResourceData } from "src/language-data/SettingService";
-import { getSettingServiceClient } from "src/lib";
+import { notFound } from "next/navigation";
+import { getCountrySettingsApi } from "src/app/[lang]/app/actions/AdministrationService/actions";
+import { getResourceData } from "src/language-data/AdministrationService";
 import TenantSettingsPage from "./group";
-import { mockSettingsResponse } from "./mock-settings-response";
 
 export default async function Page({
   params,
@@ -13,21 +12,17 @@ export default async function Page({
 }) {
   const group = params.group;
 
-  let tenantSettings: UniRefund_SettingService_CountrySettings_CountrySettingDto;
-  try {
-    const client = await getSettingServiceClient();
-    tenantSettings =
-      await client.countrySetting.getApiSettingServiceCountrySettings();
-  } catch (e) {
-    tenantSettings = mockSettingsResponse;
+  const tenantSettings = await getCountrySettingsApi();
+  const { languageData } = await getResourceData(params.lang);
+  if (tenantSettings.type !== "success") {
+    return notFound();
   }
 
-  const { resources } = await getResourceData(params.lang);
   return (
     <TenantSettingsPage
-      list={tenantSettings}
+      languageData={languageData}
+      list={tenantSettings.data}
       path={group}
-      resources={resources}
     />
   );
 }
