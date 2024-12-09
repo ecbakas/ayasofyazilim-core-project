@@ -97,7 +97,6 @@ const billingTable = (
         },
       },
     ],
-    excludeColumns: ["id", "merchantId", "paymentStatus"],
     rowActions: [
       {
         actionLocation: "row",
