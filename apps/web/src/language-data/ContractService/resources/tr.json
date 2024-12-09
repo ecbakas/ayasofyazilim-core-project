@@ -1,4 +1,9 @@
 {
+  "Contracts.Contract": "Sözleşme",
+  "Contracts.RebateSettings": "Komisyon ayarları",
+  "Contracts.Stores": "Mağazalar",
+  "Contracts.ContractSettings": "Sözleşme ayarları",
+
   "Refund": "İade",
   "RefundTables": "İade Tabloları",
 
@@ -138,7 +143,7 @@
   "Contracts.Stores.name": "Mağaza adı",
   "Contracts.Stores.fullAddress": "Tam adres",
   "Contracts.Stores.manager": "Yönetici",
-  "Contracts.Stores.contractSetting": "Sözleşme ayarı",
+  "Contracts.Stores.contractSettingId": "Sözleşme ayarı",
   "Contracts.Stores.receiptType": "Fiş türü",
   "Contracts.Stores.receiptType.None": "-",
   "Contracts.Stores.receiptType.NoBarcodeNumber": "Barkod Numarası Yok",
@@ -146,6 +151,10 @@
   "Contracts.Stores.receiptType.Barcode": "Barkod",
   "Contracts.Stores.receiptType.QRCodeIntegration": "QR Kod Entegrasyonu",
   "Contracts.Stores.receiptType.UniRefundVoucherIntegration": "Unirefund Cüzdan Entegrasyonu",
+  "Contracts.Stores.Save.Title": "Ayarları yenile",
+  "Contracts.Stores.Save.Description": "Mağazalar için ayarlar yenilenecek. Devam etmek istiyor musunuz?",
+  "Contracts.Stores.Save.Success": "Ayarlar başarıyla yenilendi.",
+  "Contracts.Stores.Save.Fail": "Ayarlar yenilenirken bir hata oluştu.",
 
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",

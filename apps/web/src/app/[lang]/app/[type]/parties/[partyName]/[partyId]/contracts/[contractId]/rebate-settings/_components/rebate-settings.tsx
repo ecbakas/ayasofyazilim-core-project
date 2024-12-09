@@ -36,7 +36,7 @@ import { handlePostResponse } from "src/app/[lang]/app/actions/api-utils-client"
 import {
   MerchantStoresWidget,
   RebateTableWidget,
-} from "../../../contract-widgets";
+} from "../../../_components/contract-widgets";
 
 export function RebateSettings({
   languageData,
