@@ -55,6 +55,7 @@ export default function Form({
     schema: $UniRefund_FinanceService_Billings_UpdateBillingDto,
     resources: languageData.finance,
     extend: {
+      number: { containerClassName: "gap-2" },
       merchantId: {
         renderer: (props) => {
           return (
@@ -80,6 +81,7 @@ export default function Form({
 
   return (
     <AutoForm
+      className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
       formSchema={updateBillingSchema}
       onSubmit={(formdata) => {
