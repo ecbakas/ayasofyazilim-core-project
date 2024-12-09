@@ -222,3 +222,36 @@ export async function getRebateTableHeadersByIdApi(id: string) {
     return structuredError(error);
   }
 }
+
+export async function getRefundPointContractHeadersByRefundPointIdApi(
+  id: string,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeaderById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointContractHeaderMissingStepsById(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeaderMissingStepsById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointContractHeaderById(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeaderById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
