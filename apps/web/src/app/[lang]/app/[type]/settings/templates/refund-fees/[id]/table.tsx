@@ -1,5 +1,8 @@
 "use client";
-import { $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateByListDto } from "@ayasofyazilim/saas/ContractService";
+import {
+  $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateByListDto,
+  $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto,
+} from "@ayasofyazilim/saas/ContractService";
 import type {
   UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto,
   UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto,
@@ -28,8 +31,29 @@ export default function RefundFeeDetailsForm({
   const RebateFeeColumns = tanstackTableEditableColumnsByRowData<
     TypeWithId<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto>
   >({
-    rows: $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateByListDto
-      .properties.refundFeeDetails.items.properties,
+    rows: {
+      ...$UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto.properties,
+      feeType: {
+        ...$UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto
+          .properties.feeType,
+        enum: $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto.properties.feeType.enum.map(
+          (item) => ({
+            value: item,
+            label: item,
+          }),
+        ),
+      },
+      refundMethod: {
+        ...$UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto
+          .properties.refundMethod,
+        enum: $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto.properties.refundMethod.enum.map(
+          (item) => ({
+            value: item,
+            label: item,
+          }),
+        ),
+      },
+    },
     excludeColumns: ["extraProperties"],
   });
   return (

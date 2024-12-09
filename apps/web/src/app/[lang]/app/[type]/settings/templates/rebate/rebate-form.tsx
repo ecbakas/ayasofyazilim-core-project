@@ -68,7 +68,27 @@ export default function RebateForm(props: RebateFormProps) {
   };
   const RebateTableColumns =
     tanstackTableEditableColumnsByRowData<RebateTableDetailCreateDto>({
-      rows: $RebateTableDetailCreateDto.properties,
+      rows: {
+        ...$RebateTableDetailCreateDto.properties,
+        refundMethod: {
+          ...$RebateTableDetailCreateDto.properties.refundMethod,
+          enum: $RebateTableDetailCreateDto.properties.refundMethod.enum.map(
+            (item) => ({
+              value: item,
+              label: item,
+            }),
+          ),
+        },
+        variableFee: {
+          ...$RebateTableDetailCreateDto.properties.variableFee,
+          enum: $RebateTableDetailCreateDto.properties.variableFee.enum.map(
+            (item) => ({
+              value: item,
+              label: item,
+            }),
+          ),
+        },
+      },
       languageData: {
         constantKey: "Rebate.Form.rebateTableDetails",
         languageData,
