@@ -1,4 +1,9 @@
 {
+  "Contracts.Contract": "Contract",
+  "Contracts.RebateSettings": "Rebate settings",
+  "Contracts.Stores": "Stores",
+  "Contracts.ContractSettings": "Contract settings",
+
   "Refund": "Refund",
   "RefundTables": "Refund tables",
 
