@@ -19,7 +19,7 @@ const contractStoresTableColumns = ({
   return tanstackTableEditableColumnsByRowData<ContractStoreDetailedDto>({
     rows: {
       ...$ContractStoreDetailedDto.properties,
-      contractSetting: {
+      contractSettingId: {
         type: "enum",
         enum: contractSettings.map((item) => {
           return {
@@ -64,7 +64,7 @@ const contractStoresTableColumns = ({
       languageData,
       constantKey: "Contracts.Stores",
     },
-    editableColumns: ["receiptType", "contractSetting"],
+    editableColumns: ["receiptType", "contractSettingId"],
   });
 };
 
@@ -77,7 +77,7 @@ const contractsTable = () => {
         "name",
         "fullAddress",
         "manager",
-        "contractSetting",
+        "contractSettingId",
         "receiptType",
       ],
     },

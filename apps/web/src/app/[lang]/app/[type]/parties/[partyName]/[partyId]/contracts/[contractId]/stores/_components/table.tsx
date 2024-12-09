@@ -1,12 +1,15 @@
 "use client";
-import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
-import { useParams } from "next/navigation";
+import { toast } from "@/components/ui/sonner";
 import type {
-  UniRefund_ContractService_ContractsForMerchant_ContractStores_ContractStoreDetailedDto as ContractStoreDetailedDto,
   UniRefund_ContractService_ContractsForMerchant_ContractSettings_ContractSettingDto as ContractSettingDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractStores_ContractStoreCreateAndUpdateDto as ContractStoreCreateAndUpdateDto,
+  UniRefund_ContractService_ContractsForMerchant_ContractStores_ContractStoreDetailedDto as ContractStoreDetailedDto,
 } from "@ayasofyazilim/saas/ContractService";
-import { Button } from "@/components/ui/button";
+import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirm-dialog";
+import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { postMerchantContractHeaderContractStoresByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { tableData } from "./table-data";
 
@@ -19,7 +22,12 @@ export function ContractStoresTable({
   contractStores: ContractStoreDetailedDto[];
   contractSettings: ContractSettingDto[];
 }) {
-  const { lang } = useParams<{ lang: string }>();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { lang, contractId } = useParams<{
+    lang: string;
+    contractId: string;
+  }>();
   const columns = tableData.columns({
     lang,
     languageData,
@@ -40,9 +48,57 @@ export function ContractStoresTable({
         }}
         {...table}
       />
-      <Button className="w-full max-w-lg" disabled={updatedData.length === 0}>
-        {languageData.Save}
-      </Button>
+      <ConfirmDialog
+        closeProps={{
+          children: languageData.Cancel,
+        }}
+        confirmProps={{
+          children: languageData.Save,
+          onConfirm: () => {
+            const mappedData: ContractStoreCreateAndUpdateDto[] =
+              updatedData.map((item) => {
+                return {
+                  contractSettingId: item.contractSettingId || "",
+                  receiptType: item.receiptType,
+                  contractTypeIdentifiersSubId:
+                    item.contractTypeIdentifiersSubId,
+                };
+              });
+            setLoading(true);
+            void postMerchantContractHeaderContractStoresByHeaderIdApi({
+              id: contractId,
+              requestBody: {
+                contractStores: mappedData,
+              },
+            })
+              .then((response) => {
+                if (response.type === "success") {
+                  toast.success(languageData["Contracts.Stores.Save.Success"]);
+                  router.refresh();
+                  setUpdatedData([]);
+                } else {
+                  toast.error(
+                    response.message ||
+                      languageData["Contracts.Stores.Save.Fail"],
+                  );
+                }
+              })
+              .finally(() => {
+                setLoading(false);
+              });
+          },
+          closeAfterConfirm: true,
+        }}
+        description={languageData["Contracts.Stores.Save.Description"]}
+        loading={loading}
+        title={languageData["Contracts.Stores.Save.Title"]}
+        triggerProps={{
+          className: "w-full max-w-lg",
+          disabled: updatedData.length === 0 || loading,
+          children: languageData.Save,
+        }}
+        type="with-trigger"
+      />
     </div>
   );
 }
