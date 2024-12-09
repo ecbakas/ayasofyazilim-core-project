@@ -35,7 +35,7 @@ import {
   putMerchantContractContractSettingsByIdApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { MerchantAddressWidget } from "../../../contract-widgets";
+import { MerchantAddressWidget } from "../../../_components/contract-widgets";
 
 interface ContractSettingsTable {
   id: string;

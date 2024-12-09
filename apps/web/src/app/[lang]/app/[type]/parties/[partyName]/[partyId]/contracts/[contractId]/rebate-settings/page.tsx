@@ -3,17 +3,18 @@ import { getResourceData } from "src/language-data/ContractService";
 import { getRebateTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { getSubMerchantsByMerchantIdApi } from "src/app/[lang]/app/actions/CrmService/actions";
 import PagePolicy from "src/app/[lang]/page-policy/page-policy";
-import { RebateSettings } from "./rebate-settings";
+import { RebateSettings } from "./_components/rebate-settings";
 
-export default async function RebateSettingsPage({
-  lang,
-  partyId,
-  contractId,
+export default async function Page({
+  params,
 }: {
-  lang: string;
-  partyId: string;
-  contractId: string;
+  params: {
+    lang: string;
+    partyId: string;
+    contractId: string;
+  };
 }) {
+  const { lang, partyId, contractId } = params;
   const { languageData } = await getResourceData(lang);
   const rebateTables = await getRebateTableHeadersApi({});
   const subMerchants = await getSubMerchantsByMerchantIdApi({

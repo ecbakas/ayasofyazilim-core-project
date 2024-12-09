@@ -1,4 +1,9 @@
 {
+  "Contracts.Contract": "Sözleşme",
+  "Contracts.RebateSettings": "Komisyon ayarları",
+  "Contracts.Stores": "Mağazalar",
+  "Contracts.ContractSettings": "Sözleşme ayarları",
+
   "Refund": "İade",
   "RefundTables": "İade Tabloları",
 
