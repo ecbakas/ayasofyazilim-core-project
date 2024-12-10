@@ -10,19 +10,15 @@ export default async function Page({
 }: {
   params: { group: string; lang: string };
 }) {
-  const group = params.group;
-
   const tenantSettings = await getCountrySettingsApi();
   const { languageData } = await getResourceData(params.lang);
   if (tenantSettings.type !== "success") {
     return notFound();
   }
-
   return (
     <TenantSettingsPage
       languageData={languageData}
       list={tenantSettings.data}
-      path={group}
     />
   );
 }

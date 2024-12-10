@@ -23,8 +23,8 @@ import AutoForm, {
   FieldConfig,
   ZodObjectOrWrapped,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout";
-import { useEffect, useState } from "react";
+import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
+import { usePathname } from "next/navigation";
 
 export type AllowedValueTypeModelNameStringEnum =
   | "ToggleStringValueType"
@@ -318,36 +318,6 @@ function createJsonSchema(
   return schema;
 }
 
-function Content(
-  fieldConfig: FieldConfig<{ [x: string]: any }>,
-  formSchema: any,
-  dependencies: Dependency<{ [x: string]: any }>[],
-  onSubmit: (data: any) => void,
-) {
-  return (
-    <div className="min-w-3xl mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 py-8">
-      <AutoForm
-        className="w-full"
-        formSchema={formSchema}
-        onSubmit={(data) => {
-          onSubmit({
-            countrySettings: Object.keys(data).map((key) => {
-              return {
-                key: key,
-                value: data[key],
-              };
-            }),
-          });
-        }}
-        fieldConfig={fieldConfig}
-        dependencies={dependencies}
-      >
-        <AutoFormSubmit className="float-right" />
-      </AutoForm>
-    </div>
-  );
-}
-
 function description(text: string) {
   if (!text) return text;
   if (text.length < 100)
@@ -364,100 +334,54 @@ function description(text: string) {
 
 export function SettingsView({
   list,
+  tabList,
   resources,
-  path,
-  onSettingPageChange,
   onSubmit,
 }: {
-  path: string;
   list: UniRefund_SettingService_CountrySettings_CountrySettingDto;
+  tabList: Array<{
+    label: string;
+    href: string;
+  }>;
   resources?: any;
-  onSettingPageChange: (oldPath: string, newPath: string) => void;
   onSubmit: (data: any) => void;
 }) {
-  function initialActiveGroup() {
-    const activeGroupByPath = list.groups?.find(
-      (item: { key: string }) => item.key === path,
-    );
-    if (activeGroupByPath) return activeGroupByPath;
-    return list?.groups?.[0];
-  }
-
-  const [activeGroup, setActiveGroup] = useState<
-    UniRefund_SettingService_Groups_GroupDto | undefined
-  >(initialActiveGroup);
-
-  const [content, setContent] = useState<React.ReactElement>(() => {
-    const group = activeGroup || list?.groups?.[0] || {};
-    let schema = createSchema(group);
-    const formSchema = createZodObject(
-      schema,
-      group.items?.map(
-        (item: UniRefund_SettingService_Items_GroupItemDto) => item.key,
-      ) || [],
-    ) as ZodObjectOrWrapped;
-    const fieldConfig = createFieldConfig(group, resources);
-    const dependencies = createDependencies(group);
-    return Content(fieldConfig, formSchema, dependencies, onSubmit);
-  });
-  useEffect(() => {
-    window.history.pushState(
-      null,
-      "",
-      window.location.href.replace("home", list?.groups?.[0].key || ""),
-    );
-  }, []);
-
-  function onSectionChange(sectionId: string) {
-    if (sectionId === activeGroup?.key) return;
-    const group =
-      list?.groups?.find(
-        (s: UniRefund_SettingService_Groups_GroupDto) => s.key === sectionId,
-      ) ||
-      list?.groups?.[0] ||
-      {};
-    let schema = createSchema(group);
-    const formSchema = createZodObject(
-      schema,
-      group?.items?.map(
-        (item: UniRefund_SettingService_Items_GroupItemDto) => item.key,
-      ) || [],
-    ) as ZodObjectOrWrapped;
-    const fieldConfig = createFieldConfig(group, resources);
-    const dependencies = createDependencies(group);
-
-    setContent(Content(fieldConfig, formSchema, dependencies, onSubmit));
-    setActiveGroup(group);
-    if (onSettingPageChange)
-      onSettingPageChange(activeGroup?.key || "", sectionId);
-  }
+  if (!list || !list.groups || !list.isEnabled) return null;
+  const pathname = usePathname();
+  const activeGroup = list.groups.find(
+    (x) => x.key === pathname.split("/").at(-1),
+  );
+  if (!activeGroup) return null;
+  let schema = createSchema(activeGroup);
+  const formSchema = createZodObject(
+    schema,
+    activeGroup.items?.map(
+      (item: UniRefund_SettingService_Items_GroupItemDto) => item.key,
+    ) || [],
+  ) as ZodObjectOrWrapped;
+  const fieldConfig = createFieldConfig(activeGroup, resources);
+  const dependencies = createDependencies(activeGroup);
   return (
-    <SectionLayout
-      sections={
-        list?.groups?.map((group: any, index: any) => {
-          return {
-            id: group.key,
-            name:
-              resources?.SettingService?.texts[group.displayName] ??
-              group.displayName,
-            value: content,
-          };
-        }) || [
-          {
-            id: "default",
-            name: "Default",
-            value: content,
-          },
-        ]
-      }
-      defaultActiveSectionId={activeGroup?.key || list?.groups?.[0].key || ""}
-      openOnNewPage={false}
-      showContentInSamePage={true}
-      onSectionChange={onSectionChange}
-      vertical={true}
-      className=""
-      content={content}
-      contentClassName="flex flex-col"
-    />
+    <TabLayout tabList={tabList}>
+      <AutoForm
+        className="w-full"
+        formSchema={formSchema}
+        onSubmit={(data) => {
+          onSubmit({
+            countrySettings: Object.keys(data).map((key) => {
+              return {
+                key: key,
+                value: data[key],
+              };
+            }),
+          });
+        }}
+        fieldConfig={fieldConfig}
+        dependencies={dependencies}
+        stickyChildren
+      >
+        <AutoFormSubmit className="float-right" />
+      </AutoForm>
+    </TabLayout>
   );
 }
