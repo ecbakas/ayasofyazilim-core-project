@@ -1,42 +1,84 @@
 "use client";
-import type { UniRefund_AdministrationService_CountrySettings_SetCountrySettingsByListDto } from "@ayasofyazilim/saas/AdministrationService";
-import type { UniRefund_SettingService_CountrySettings_CountrySettingDto } from "@ayasofyazilim/saas/SettingService";
-import { SettingsView } from "@repo/ui/settings-view";
-import { useRouter } from "next/navigation";
+import type { UniRefund_AdministrationService_CountrySettings_SetCountrySettingsByListDto as SetCountrySettingsByListDto } from "@ayasofyazilim/saas/AdministrationService";
+import type {
+  UniRefund_SettingService_CountrySettings_CountrySettingDto as CountrySettingDto,
+  UniRefund_SettingService_Items_GroupItemDto as GroupItemDto,
+} from "@ayasofyazilim/saas/SettingService";
+import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import AutoForm, {
+  AutoFormSubmit,
+} from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { putCountrySettingsApi } from "src/app/[lang]/app/actions/AdministrationService/put-actions";
 import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
 import type { AdministrationServiceResource } from "src/language-data/AdministrationService";
+import {
+  createDependencies,
+  createFieldConfig,
+  createSchema,
+} from "./_components/utils";
 
 export default function TenantSettingsPage({
   list,
   languageData,
-  path,
 }: {
-  path: string;
-  list: UniRefund_SettingService_CountrySettings_CountrySettingDto;
+  list: CountrySettingDto;
   languageData: AdministrationServiceResource;
 }) {
   const router = useRouter();
-  function onSettingPageChange(oldPath: string, newPath: string) {
-    window.history.pushState(
-      null,
-      "",
-      window.location.href.replace(oldPath || "", newPath),
-    );
-  }
-  return (
-    <SettingsView
-      list={list}
-      onSettingPageChange={onSettingPageChange}
-      onSubmit={(data) => {
-        void putCountrySettingsApi(
-          data as UniRefund_AdministrationService_CountrySettings_SetCountrySettingsByListDto,
-        ).then((response) => {
-          handlePutResponse(response, router);
-        });
-      }}
-      path={path}
-      resources={languageData}
-    />
+  const { group } = useParams<{ group: string }>();
+  const activeGroup = list.groups.find((x) => x.key === group);
+  if (!activeGroup) return notFound();
+
+  const schema = createSchema(activeGroup);
+  const formSchema = createZodObject(
+    schema,
+    activeGroup.items?.map((item: GroupItemDto) => item.key) || [],
   );
+  const fieldConfig = createFieldConfig(activeGroup, languageData);
+  const dependencies = createDependencies(activeGroup);
+  const tabList = createTabListFromList(list, languageData);
+  return (
+    <TabLayout orientation="horizontal" tabList={tabList}>
+      <AutoForm
+        className="w-full"
+        dependencies={dependencies}
+        fieldConfig={fieldConfig}
+        formSchema={formSchema}
+        onSubmit={(data) => {
+          const manupulatedData = {
+            countrySettings: Object.keys(data).map((key) => {
+              return {
+                key,
+                value: data[key] as string,
+              };
+            }),
+          };
+          void putCountrySettingsApi(
+            manupulatedData as SetCountrySettingsByListDto,
+          ).then((response) => {
+            handlePutResponse(response, router);
+          });
+        }}
+        stickyChildren
+      >
+        <AutoFormSubmit className="float-right" />
+      </AutoForm>
+    </TabLayout>
+  );
+}
+
+function createTabListFromList(
+  list: CountrySettingDto,
+  languageData: AdministrationServiceResource,
+) {
+  return list.groups.map((item) => {
+    return {
+      label:
+        languageData[item.displayName as keyof typeof languageData] ||
+        item.displayName,
+      href: item.key,
+    };
+  });
 }
