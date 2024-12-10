@@ -11,3 +11,14 @@ export async function deleteMerchantContractHeaderByIdApi(id: string) {
     return structuredError(error);
   }
 }
+
+export async function deleteRefundPointContractHeadersById(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].deleteContractHeadersById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}

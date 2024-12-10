@@ -4,6 +4,7 @@ import type {
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractSettingsData,
   GetApiContractServiceMerchantsContractsContractHeadersByIdContractStoresData,
   GetApiContractServiceRebateTablesRebateTableHeadersTemplatesData,
+  GetApiContractServiceRefundPointsByIdContractsContractHeadersData,
   GetApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   GetApiContractServiceRefundTablesRefundFeeHeadersData,
   GetApiContractServiceRefundTablesRefundTableHeadersByIdData,
@@ -217,6 +218,39 @@ export async function getRebateTableHeadersByIdApi(id: string) {
     const requests = await getApiRequests();
     return structuredResponse(
       await requests.templates.getRebateTableHeadersById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function getRefundPointContractHeadersByRefundPointIdApi(
+  data: GetApiContractServiceRefundPointsByIdContractsContractHeadersData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeadersByRefundPointId(data),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointContractHeaderMissingStepsById(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeaderMissingStepsById(id),
+    );
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointContractHeaderById(id: string) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].getContractHeaderById(id),
     );
   } catch (error) {
     return structuredError(error);

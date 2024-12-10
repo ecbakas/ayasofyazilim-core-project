@@ -67,6 +67,7 @@ export default function Form({
           />
         ),
       },
+      referenceId: { containerClassName: "gap-2" },
       tagId: {
         renderer: (props) => (
           <CustomCombobox<UniRefund_TagService_Tags_TagListItemDto>
@@ -85,6 +86,7 @@ export default function Form({
 
   return (
     <AutoForm
+      className="grid gap-4 space-y-0 pb-4 md:grid-cols-1 lg:grid-cols-2 "
       fieldConfig={translatedForm}
       formSchema={ExportValidationSchema}
       onSubmit={(formdata) => {

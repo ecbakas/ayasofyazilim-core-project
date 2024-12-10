@@ -1,4 +1,9 @@
 {
+  "Contracts.Contract": "Contract",
+  "Contracts.RebateSettings": "Rebate settings",
+  "Contracts.Stores": "Stores",
+  "Contracts.ContractSettings": "Contract settings",
+
   "Refund": "Refund",
   "RefundTables": "Refund tables",
 
@@ -138,7 +143,7 @@
   "Contracts.Stores.name": "Store name",
   "Contracts.Stores.fullAddress": "Full address",
   "Contracts.Stores.manager": "Manager",
-  "Contracts.Stores.contractSetting": "Contract setting",
+  "Contracts.Stores.contractSettingId": "Contract setting",
   "Contracts.Stores.receiptType": "Receipt type",
   "Contracts.Stores.receiptType.None": "-",
   "Contracts.Stores.receiptType.NoBarcodeNumber": "No barcode number",
@@ -146,6 +151,10 @@
   "Contracts.Stores.receiptType.Barcode": "Barcode",
   "Contracts.Stores.receiptType.QRCodeIntegration": "QR Code integration",
   "Contracts.Stores.receiptType.UniRefundVoucherIntegration": "Unirefund voucher integration",
+  "Contracts.Stores.Save.Title": "Overwrite settings",
+  "Contracts.Stores.Save.Description": "You are about to overwrite settings for stores. Are you sure you want to continue?",
+  "Contracts.Stores.Save.Success": "Settings overwritten successfully.",
+  "Contracts.Stores.Save.Fail": "Error while overwriting settings.",
 
   "RefundTables.Title": "Refund tables",
   "RefundTables.Description": "Manage refund tables",

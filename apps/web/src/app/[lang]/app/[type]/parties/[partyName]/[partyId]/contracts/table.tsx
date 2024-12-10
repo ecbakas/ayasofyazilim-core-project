@@ -6,7 +6,7 @@ import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-l
 import { useRouter } from "next/navigation";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import { tableData } from "./table-data";
+import { tableData } from "./_components/table-data";
 
 export default function Contracts(props: {
   languageData: CRMServiceServiceResource & ContractServiceResource;
