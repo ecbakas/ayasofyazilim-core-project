@@ -322,14 +322,23 @@ function Content(
   fieldConfig: FieldConfig<{ [x: string]: any }>,
   formSchema: any,
   dependencies: Dependency<{ [x: string]: any }>[],
+  onSubmit: (data: any) => void,
 ) {
   return (
     <div className="min-w-3xl mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 py-8">
       <AutoForm
         className="w-full"
         formSchema={formSchema}
-        onParsedValuesChange={(e) => {}}
-        onSubmit={(e) => {}}
+        onSubmit={(data) => {
+          onSubmit({
+            countrySettings: Object.keys(data).map((key) => {
+              return {
+                key: key,
+                value: data[key],
+              };
+            }),
+          });
+        }}
         fieldConfig={fieldConfig}
         dependencies={dependencies}
       >
@@ -358,11 +367,13 @@ export function SettingsView({
   resources,
   path,
   onSettingPageChange,
+  onSubmit,
 }: {
   path: string;
   list: UniRefund_SettingService_CountrySettings_CountrySettingDto;
   resources?: any;
   onSettingPageChange: (oldPath: string, newPath: string) => void;
+  onSubmit: (data: any) => void;
 }) {
   function initialActiveGroup() {
     const activeGroupByPath = list.groups?.find(
@@ -387,7 +398,7 @@ export function SettingsView({
     ) as ZodObjectOrWrapped;
     const fieldConfig = createFieldConfig(group, resources);
     const dependencies = createDependencies(group);
-    return Content(fieldConfig, formSchema, dependencies);
+    return Content(fieldConfig, formSchema, dependencies, onSubmit);
   });
   useEffect(() => {
     window.history.pushState(
@@ -415,7 +426,7 @@ export function SettingsView({
     const fieldConfig = createFieldConfig(group, resources);
     const dependencies = createDependencies(group);
 
-    setContent(Content(fieldConfig, formSchema, dependencies));
+    setContent(Content(fieldConfig, formSchema, dependencies, onSubmit));
     setActiveGroup(group);
     if (onSettingPageChange)
       onSettingPageChange(activeGroup?.key || "", sectionId);
