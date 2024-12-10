@@ -17,7 +17,7 @@ import { getMerchantContractHeaderMissingStepsByIdApi } from "src/app/[lang]/app
 import { deleteMerchantContractHeaderByIdApi } from "src/app/[lang]/app/actions/ContractService/delete-actions";
 import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import ContractHeaderForm from "../../../_components/contract-header-form";
+import MerchantContractHeaderForm from "../../../_components/contract-header-form/merchant";
 
 export function ContractHeader({
   contractHeaderDetails,
@@ -43,7 +43,7 @@ export function ContractHeader({
         loading={loading}
         setLoading={setLoading}
       />
-      <ContractHeaderForm
+      <MerchantContractHeaderForm
         addresses={addressList}
         contractId={contractHeaderDetails.id}
         formData={{
