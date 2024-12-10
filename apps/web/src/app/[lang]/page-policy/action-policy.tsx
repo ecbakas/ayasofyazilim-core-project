@@ -3,10 +3,10 @@ import type { Policy } from "src/types";
 
 export default function isActionGranted(
   requiredPolicies: Policy[],
-  grantedPolicies: Record<Policy, boolean>,
+  grantedPolicies: Record<Policy, boolean> | undefined,
 ) {
   const missingPolicies = requiredPolicies.filter(
-    (policy) => !grantedPolicies[policy],
+    (policy) => !grantedPolicies?.[policy],
   );
   if (missingPolicies.length > 0) {
     return false;
