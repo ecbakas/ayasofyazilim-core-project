@@ -8,7 +8,7 @@ import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
 import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
 import PagePolicy from "src/app/[lang]/page-policy/page-policy";
-import ContractHeaderForm from "../_components/contract-header-form";
+import MerchantContractHeaderForm from "../_components/contract-header-form/merchant";
 
 export default async function Page({
   params,
@@ -35,7 +35,7 @@ export default async function Page({
       requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
     >
       <>
-        <ContractHeaderForm
+        <MerchantContractHeaderForm
           addresses={addresses.data}
           formType="create"
           languageData={languageData}

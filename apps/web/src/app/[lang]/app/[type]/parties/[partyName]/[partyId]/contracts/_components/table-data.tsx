@@ -1,5 +1,8 @@
 import { toast } from "@/components/ui/sonner";
-import type { UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
+import type {
+  UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as ContractsForMerchantDto,
+  UniRefund_ContractService_ContractsForRefundPoint_ContractHeaders_ContractHeaderDetailForRefundPointDto as ContractsForRefundPointDto,
+} from "@ayasofyazilim/saas/ContractService";
 import { $UniRefund_ContractService_ContractsForMerchant_ContractHeaders_ContractHeaderDetailForMerchantDto as $ContractsForMerchantDto } from "@ayasofyazilim/saas/ContractService";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
@@ -8,6 +11,7 @@ import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
+import type { ContractPartyName } from "./types";
 
 const contractsTableColumns = ({
   languageData,
@@ -17,10 +21,10 @@ const contractsTableColumns = ({
 }: {
   languageData: CRMServiceServiceResource & ContractServiceResource;
   lang: string;
-  partyName: "merchants";
+  partyName: ContractPartyName;
   partyId: string;
 }) => {
-  return columnsByData<ContractsForMerchantDto>({
+  return columnsByData<ContractsForMerchantDto | ContractsForRefundPointDto>({
     rows: $ContractsForMerchantDto.properties,
     config: { locale: lang },
     languageData: {
@@ -69,12 +73,14 @@ const contractsTableColumns = ({
 
 const contractsTable = (props: {
   languageData: CRMServiceServiceResource & ContractServiceResource;
-  partyName: "merchants";
+  partyName: ContractPartyName;
   partyId: string;
   router: AppRouterInstance;
 }) => {
   const { languageData, partyName, partyId, router } = props;
-  const table: TanstackTableCreationProps<ContractsForMerchantDto> = {
+  const table: TanstackTableCreationProps<
+    ContractsForMerchantDto | ContractsForRefundPointDto
+  > = {
     fillerColumn: "name",
     columnVisibility: {
       type: "show",
