@@ -84,7 +84,6 @@ export default async function Page({
     { name: languageData.Email, id: "email" },
     { name: languageData[formData.subEntityName], id: "SubCompany" },
     { name: languageData.Individuals, id: "individuals" },
-    { name: languageData.Contracts, id: "contracts" },
   ];
 
   if (organizationData) {
@@ -104,6 +103,12 @@ export default async function Page({
       name: languageData.Merchants,
       id: "merchant-base",
     });
+  }
+  if (
+    params.partyName === "refund-points" ||
+    params.partyName === "merchants"
+  ) {
+    sections.push({ name: languageData.Contracts, id: "contracts" });
   }
 
   return (
