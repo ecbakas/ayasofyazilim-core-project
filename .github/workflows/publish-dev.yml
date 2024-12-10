@@ -82,23 +82,23 @@ jobs:
   publish_unirefund_dev:
     runs-on: self-hosted
     steps:
-      - name: Run unierfund
+      - name: Run Unirefund
         run: ssh ubuntu "cd ~/frontend/unirefund_dev && chmod 777 publish.sh && ./publish.sh 1453 unirefund_web"
-  publish_upwithcrowd_dev:
-    runs-on: self-hosted
-    needs: publish_unirefund_dev
-    steps:
-      - name: Run upwithcrowd
-        run: ssh ubuntu "cd ~/frontend/upwithcrowd_dev && chmod 777 publish.sh && ./publish.sh 2020 upwithcrowd_web"
-  publish_ayshopgo_dev:
-    runs-on: self-hosted
-    needs: publish_upwithcrowd_dev
-    steps:
-      - name: Run ayshopgo
-        run: ssh ubuntu "cd ~/frontend/ayshopgo_dev && chmod 777 publish.sh && ./publish.sh 1071 ayshopgo_web"
-  publish_tahsilet_dev:
-    runs-on: self-hosted
-    needs: publish_ayshopgo_dev
-    steps:
-      - name: Run tahsilet
-        run: ssh ubuntu "cd ~/frontend/tahsilet_dev && chmod 777 publish.sh && ./publish.sh 1025 tahsilet_web"
+  #publish_upwithcrowd_dev:
+    #runs-on: self-hosted
+    #needs: publish_unirefund_dev
+    #steps:
+      #- name: Run upwithcrowd
+        #run: ssh ubuntu "cd ~/frontend/upwithcrowd_dev && chmod 777 publish.sh && ./publish.sh 2020 upwithcrowd_web"
+  #publish_ayshopgo_dev:
+    #runs-on: self-hosted
+    #needs: publish_upwithcrowd_dev
+    #steps:
+      #- name: Run ayshopgo
+        #run: ssh ubuntu "cd ~/frontend/ayshopgo_dev && chmod 777 publish.sh && ./publish.sh 1071 ayshopgo_web"
+  #publish_tahsilet_dev:
+    #runs-on: self-hosted
+    #needs: publish_ayshopgo_dev
+    #steps:
+      #- name: Run tahsilet
+        #run: ssh ubuntu "cd ~/frontend/tahsilet_dev && chmod 777 publish.sh && ./publish.sh 1025 tahsilet_web"
