@@ -28,14 +28,11 @@ import { localizeCurrency, localizeNumber } from "src/utils-number";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import { getTravellers } from "../../../actions/TravellerService/actions";
 import { dataConfigOfParties } from "../../parties/table-data";
-import type { TravllersKeys } from "../../parties/traveller/utils";
-import {
-  getTravellerFilterClient,
-  travellerTableSchema,
-} from "../../parties/traveller/utils";
 import type { DetailedFilter, TypedFilter } from "../filter";
 import { typedCommonFilter } from "../filter";
 import type { CountryDto } from "../../../actions/LocationService/types";
+import { getTravellerFilterClient, travellerTableSchema } from "./utils";
+import type { TravllersKeys } from "./utils";
 import { getMerchants, getSummary, getTags } from "./actions";
 
 function cellWithLink(
