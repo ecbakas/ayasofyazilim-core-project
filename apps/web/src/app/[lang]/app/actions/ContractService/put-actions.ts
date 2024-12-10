@@ -2,6 +2,7 @@
 import type {
   PutApiContractServiceMerchantsContractsContractHeadersByIdData,
   PutApiContractServiceRebateTablesRebateTableHeadersByIdData,
+  PutApiContractServiceRefundPointsContractsContractHeadersByIdData,
   PutApiContractServiceRefundTablesRefundFeeHeadersByIdData,
   PutApiContractServiceRefundTablesRefundTableHeadersByIdData,
 } from "@ayasofyazilim/saas/ContractService";
@@ -50,6 +51,19 @@ export async function putMerchantContractHeadersByIdApi(
     const requests = await getApiRequests();
     const response = await requests.merchants.putContractHeadersById(data);
     return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putRefundPointContractHeadersById(
+  data: PutApiContractServiceRefundPointsContractsContractHeadersByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    return structuredResponse(
+      await requests["refund-points"].putContractHeadersById(data),
+    );
   } catch (error) {
     return structuredError(error);
   }
