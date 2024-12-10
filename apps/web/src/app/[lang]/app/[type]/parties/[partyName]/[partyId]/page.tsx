@@ -4,13 +4,16 @@ import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout-v
 import { notFound } from "next/navigation";
 import { getTableDataDetail } from "src/app/[lang]/app/actions/api-requests";
 import {
+  getMerchantContractHeadersByMerchantIdApi,
+  getRefundPointContractHeadersByRefundPointIdApi,
+} from "src/app/[lang]/app/actions/ContractService/action";
+import {
   getMerchantsApi,
   getTaxOfficesApi,
 } from "src/app/[lang]/app/actions/CrmService/actions";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
-import { getResourceData } from "src/language-data/CRMService";
 import { getResourceData as getContractsResourceData } from "src/language-data/ContractService";
-import { getMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import { getResourceData } from "src/language-data/CRMService";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
 import Address from "./address/form";
@@ -67,11 +70,19 @@ export default async function Page({
       )) ||
     [];
 
-  const contracts = await getMerchantContractHeadersByMerchantIdApi({
-    id: params.partyId,
-  });
+  let contracts;
+  if (params.partyName === "refund-points") {
+    contracts = await getRefundPointContractHeadersByRefundPointIdApi({
+      id: params.partyId,
+    });
+  }
+  if (params.partyName === "merchants") {
+    contracts = await getMerchantContractHeadersByMerchantIdApi({
+      id: params.partyId,
+    });
+  }
 
-  if (contracts.type !== "success") {
+  if (!contracts || contracts.type !== "success") {
     notFound();
   }
   const taxOffices = await getTaxOfficesApi();
@@ -185,15 +196,16 @@ export default async function Page({
             partyId={params.partyId}
             partyName={params.partyName}
           />
-          {params.partyName === "merchants" && (
-            <Contracts
-              contractsData={contracts.data}
-              lang={params.lang}
-              languageData={{ ...languageData, ...contractsLanguageData }}
-              partyId={params.partyId}
-              partyName={params.partyName}
-            />
-          )}
+          {params.partyName === "merchants" ||
+            (params.partyName === "refund-points" && (
+              <Contracts
+                contractsData={contracts.data}
+                lang={params.lang}
+                languageData={{ ...languageData, ...contractsLanguageData }}
+                partyId={params.partyId}
+                partyName={params.partyName}
+              />
+            ))}
         </SectionLayout>
       </div>
       <div className="hidden" id="page-title">

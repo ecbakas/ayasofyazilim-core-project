@@ -1,18 +1,24 @@
 "use client";
 
-import type { PagedResultDto_ContractHeaderDetailForMerchantDto } from "@ayasofyazilim/saas/ContractService";
+import type {
+  PagedResultDto_ContractHeaderDetailForMerchantDto,
+  PagedResultDto_ContractHeaderDetailForRefundPointDto,
+} from "@ayasofyazilim/saas/ContractService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { tableData } from "./_components/table-data";
+import type { ContractPartyName } from "./_components/types";
 
 export default function Contracts(props: {
   languageData: CRMServiceServiceResource & ContractServiceResource;
-  contractsData: PagedResultDto_ContractHeaderDetailForMerchantDto;
+  contractsData:
+    | PagedResultDto_ContractHeaderDetailForMerchantDto
+    | PagedResultDto_ContractHeaderDetailForRefundPointDto;
   partyId: string;
-  partyName: "merchants";
+  partyName: ContractPartyName;
   lang: string;
 }) {
   const router = useRouter();
