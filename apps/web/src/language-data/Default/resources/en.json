@@ -5,6 +5,9 @@
   "Cancel": "Cancel",
   "Edit.Save": "Save Changes",
 
+  "Yes": "Yes",
+  "No": "No",
+
   "New": "New",
   "New.Success": "Created successfully.",
   "New.Fail": "An error occurred while creating the record.",
