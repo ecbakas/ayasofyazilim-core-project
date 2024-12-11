@@ -14,6 +14,7 @@ import { LocationServiceClient } from "@ayasofyazilim/saas/LocationService";
 import { ExportValidationServiceClient } from "@ayasofyazilim/saas/ExportValidationService";
 import { FinanceServiceClient } from "@ayasofyazilim/saas/FinanceService";
 import { RefundServiceClient } from "@ayasofyazilim/saas/RefundService";
+import type { Session } from "next-auth";
 import { auth } from "auth";
 import { isApiError } from "./app/api/util";
 
@@ -21,9 +22,8 @@ const HEADERS = {
   "X-Requested-With": "XMLHttpRequest",
   "Content-Type": "application/json",
 };
-export async function getIdentityServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getIdentityServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new IdentityServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -33,9 +33,9 @@ export async function getIdentityServiceClient() {
 
 export async function getAccountServiceClient(
   customHeaders?: Record<string, string>,
+  session?: Session | null,
 ) {
-  const session = await auth();
-  const token = session?.access_token;
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new AccountServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -43,9 +43,8 @@ export async function getAccountServiceClient(
   });
 }
 
-export async function getProjectServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getProjectServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new ProjectServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL ?? "",
@@ -53,9 +52,8 @@ export async function getProjectServiceClient() {
   });
 }
 
-export async function getSaasServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getSaasServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new SaasServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -63,9 +61,10 @@ export async function getSaasServiceClient() {
   });
 }
 
-export async function getSettingServiceClient(): Promise<SettingServiceClient> {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getSettingServiceClient(
+  session?: Session | null,
+): Promise<SettingServiceClient> {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new SettingServiceClient({
     BASE: process.env.BASE_URL,
     TOKEN: token,
@@ -73,9 +72,10 @@ export async function getSettingServiceClient(): Promise<SettingServiceClient> {
   });
 }
 
-export async function getContractServiceClient(): Promise<ContractServiceClient> {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getContractServiceClient(
+  session?: Session | null,
+): Promise<ContractServiceClient> {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new ContractServiceClient({
     BASE: process.env.BASE_URL,
     TOKEN: token,
@@ -83,9 +83,8 @@ export async function getContractServiceClient(): Promise<ContractServiceClient>
   });
 }
 
-export async function getAdministrationServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getAdministrationServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new AdministrationServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -93,9 +92,10 @@ export async function getAdministrationServiceClient() {
   });
 }
 
-export async function getBackerServiceClient(): Promise<BackerServiceClient> {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getBackerServiceClient(
+  session?: Session | null,
+): Promise<BackerServiceClient> {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new BackerServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -103,9 +103,10 @@ export async function getBackerServiceClient(): Promise<BackerServiceClient> {
   });
 }
 
-export async function getCRMServiceClient(): Promise<CRMServiceClient> {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getCRMServiceClient(
+  session?: Session | null,
+): Promise<CRMServiceClient> {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new CRMServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -113,9 +114,8 @@ export async function getCRMServiceClient(): Promise<CRMServiceClient> {
   });
 }
 
-export async function getTravellersServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getTravellersServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new TravellerServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -123,9 +123,8 @@ export async function getTravellersServiceClient() {
   });
 }
 
-export async function getTagServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getTagServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new TagServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -133,9 +132,8 @@ export async function getTagServiceClient() {
   });
 }
 
-export async function getLocationServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getLocationServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new LocationServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -143,9 +141,10 @@ export async function getLocationServiceClient() {
   });
 }
 
-export async function getExportValidationServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getExportValidationServiceClient(
+  session?: Session | null,
+) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new ExportValidationServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -153,9 +152,8 @@ export async function getExportValidationServiceClient() {
   });
 }
 
-export async function getFinanceServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getFinanceServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new FinanceServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
@@ -163,9 +161,8 @@ export async function getFinanceServiceClient() {
   });
 }
 
-export async function getRefundServiceClient() {
-  const session = await auth();
-  const token = session?.access_token;
+export async function getRefundServiceClient(session?: Session | null) {
+  const token = session?.access_token || (await auth())?.access_token; // will be removed in future
   return new RefundServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
