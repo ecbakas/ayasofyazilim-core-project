@@ -5,6 +5,7 @@ import { getResourceData } from "src/language-data/TravellerService";
 import { getTravellersDetailsApi } from "src/app/[lang]/app/actions/TravellerService/actions";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
 import { getBaseLink } from "src/utils";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import Form from "./form";
 
 export default async function Page({
@@ -21,24 +22,26 @@ export default async function Page({
     traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
 
   return (
-    <>
-      <Form
-        countryList={{
-          data: countryList,
-          success: countries.type === "success",
-        }}
-        languageData={languageData}
-        travellerId={params.travellerId}
-      />
-      <div className="hidden" id="page-title">
-        {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
-      </div>
-      <div className="hidden" id="page-description">
-        {languageData["Travellers.Create.Identification.Description"]}
-      </div>
-      <div className="hidden" id="page-back-link">
-        {getBaseLink(`/app/admin/parties/traveller/${params.travellerId}`)}
-      </div>
-    </>
+    <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+      <>
+        <Form
+          countryList={{
+            data: countryList,
+            success: countries.type === "success",
+          }}
+          languageData={languageData}
+          travellerId={params.travellerId}
+        />
+        <div className="hidden" id="page-title">
+          {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
+        </div>
+        <div className="hidden" id="page-description">
+          {languageData["Travellers.Create.Identification.Description"]}
+        </div>
+        <div className="hidden" id="page-back-link">
+          {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
+        </div>
+      </>
+    </PagePolicy>
   );
 }

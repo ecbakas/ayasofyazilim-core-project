@@ -52,7 +52,7 @@ export default function Form({
   ) {
     void putTravellerPersonalIdentificationApi({
       id: travellerId,
-      requestBody: { ...data, id: travellerData.personalIdentifications[0].id },
+      requestBody: { ...data, id: identificationId },
     }).then((response) => {
       handlePutResponse(response, router);
     });
