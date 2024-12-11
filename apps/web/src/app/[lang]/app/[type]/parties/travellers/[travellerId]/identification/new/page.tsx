@@ -5,6 +5,7 @@ import { getResourceData } from "src/language-data/TravellerService";
 import { getTravellersDetailsApi } from "src/app/[lang]/app/actions/TravellerService/actions";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
 import { getBaseLink } from "src/utils";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import Form from "./form";
 
 export default async function Page({
@@ -22,14 +23,16 @@ export default async function Page({
 
   return (
     <>
-      <Form
-        countryList={{
-          data: countryList,
-          success: countries.type === "success",
-        }}
-        languageData={languageData}
-        travellerId={params.travellerId}
-      />
+      <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+        <Form
+          countryList={{
+            data: countryList,
+            success: countries.type === "success",
+          }}
+          languageData={languageData}
+          travellerId={params.travellerId}
+        />
+      </PagePolicy>
       <div className="hidden" id="page-title">
         {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
       </div>
@@ -37,7 +40,7 @@ export default async function Page({
         {languageData["Travellers.Create.Identification.Description"]}
       </div>
       <div className="hidden" id="page-back-link">
-        {getBaseLink(`/app/admin/parties/traveller/${params.travellerId}`)}
+        {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
       </div>
     </>
   );

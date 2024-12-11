@@ -2,6 +2,7 @@
 
 import { getResourceData } from "src/language-data/TravellerService";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import Form from "./form";
 
 export default async function Page({ params }: { params: { lang: string } }) {
@@ -11,12 +12,14 @@ export default async function Page({ params }: { params: { lang: string } }) {
     (countries.type === "success" && countries.data.items) || [];
 
   return (
-    <Form
-      countryList={{
-        data: countryList,
-        success: countries.type === "success",
-      }}
-      languageData={languageData}
-    />
+    <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+      <Form
+        countryList={{
+          data: countryList,
+          success: countries.type === "success",
+        }}
+        languageData={languageData}
+      />
+    </PagePolicy>
   );
 }
