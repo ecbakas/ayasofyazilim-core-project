@@ -111,7 +111,9 @@ export async function sendPasswordResetCodeServer({
   email: string;
 }) {
   try {
-    const client = await getAccountServiceClient();
+    const client = await getAccountServiceClient({
+      __tenant: process.env.TENANT_ID || "F3B84A96-8A04-87B7-D3C3-3A1675322587",
+    });
     await client.account.postApiAccountSendPasswordResetCode({
       requestBody: {
         email,
