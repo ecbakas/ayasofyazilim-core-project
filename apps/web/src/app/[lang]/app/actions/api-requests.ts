@@ -110,6 +110,7 @@ import type {
   PutApiTravellerServiceTravellersByIdUpsertPersonalSummaryData,
 } from "@ayasofyazilim/saas/TravellerService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
+import { auth } from "auth";
 import {
   getAdministrationServiceClient,
   getContractServiceClient,
@@ -169,17 +170,19 @@ export type GetDetailTableDataTypes = Exclude<
 >;
 
 export async function getApiRequests() {
-  const crmClient = await getCRMServiceClient();
-  const travellerClient = await getTravellersServiceClient();
-  const contractsClient = await getContractServiceClient();
-  const locationClient = await getLocationServiceClient();
-  const identityClient = await getIdentityServiceClient();
-  const saasClient = await getSaasServiceClient();
-  const exportValidationClient = await getExportValidationServiceClient();
-  const tagClient = await getTagServiceClient();
-  const financeClient = await getFinanceServiceClient();
-  const refundClient = await getRefundServiceClient();
-  const administrationClient = await getAdministrationServiceClient();
+  const session = await auth();
+  const crmClient = await getCRMServiceClient(session);
+  const travellerClient = await getTravellersServiceClient(session);
+  const contractsClient = await getContractServiceClient(session);
+  const locationClient = await getLocationServiceClient(session);
+  const identityClient = await getIdentityServiceClient(session);
+  const saasClient = await getSaasServiceClient(session);
+  const exportValidationClient =
+    await getExportValidationServiceClient(session);
+  const tagClient = await getTagServiceClient(session);
+  const financeClient = await getFinanceServiceClient(session);
+  const refundClient = await getRefundServiceClient(session);
+  const administrationClient = await getAdministrationServiceClient(session);
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
