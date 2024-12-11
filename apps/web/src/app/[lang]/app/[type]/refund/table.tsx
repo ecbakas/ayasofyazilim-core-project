@@ -2,7 +2,9 @@
 
 import type { PagedResultDto_RefundListItem } from "@ayasofyazilim/saas/RefundService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
+import { useRouter } from "next/navigation";
 import type { ContractServiceResource } from "src/language-data/ContractService";
+import useGrantedPolicies from "src/app/hooks/use-granted-policies";
 import { tableData } from "./table-data";
 
 function RefundTable({
@@ -14,8 +16,10 @@ function RefundTable({
   response: PagedResultDto_RefundListItem;
   languageData: ContractServiceResource;
 }) {
+  const grantedPolicies = useGrantedPolicies();
+  const router = useRouter();
   const columns = tableData.refund.columns(locale);
-  const table = tableData.refund.table(languageData);
+  const table = tableData.refund.table(languageData, router, grantedPolicies);
 
   return (
     <TanstackTable
