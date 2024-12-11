@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
 import { getRebateTableHeadersByIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import RebateForm from "../rebate-form";
 
 export default async function Page({
@@ -14,11 +15,22 @@ export default async function Page({
   if (details.type !== "success") return notFound();
 
   return (
-    <RebateForm
-      formData={details.data}
-      formType="update"
-      id={params.id}
-      languageData={languageData}
-    />
+    <PagePolicy
+      requiredPolicies={[
+        "ContractService.RebateTableDetail.Create",
+        "ContractService.RebateTableDetail.Edit",
+        "ContractService.RebateTableDetail.Delete",
+        "ContractService.RebateTableHeader.Create",
+        "ContractService.RebateTableHeader.Edit",
+        "ContractService.RebateTableHeader.Delete",
+      ]}
+    >
+      <RebateForm
+        formData={details.data}
+        formType="update"
+        id={params.id}
+        languageData={languageData}
+      />
+    </PagePolicy>
   );
 }
