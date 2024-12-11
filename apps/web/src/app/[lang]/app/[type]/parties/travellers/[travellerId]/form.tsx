@@ -1,19 +1,15 @@
 "use client";
-import { toast } from "@/components/ui/sonner";
 import type {
-  UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
   UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
   UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
   UniRefund_TravellerService_Travellers_TravellerDetailProfileDto,
 } from "@ayasofyazilim/saas/TravellerService";
 import {
-  $UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
   $UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
   $UniRefund_TravellerService_PersonalSummaries_UpsertPersonalSummaryDto,
 } from "@ayasofyazilim/saas/TravellerService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
-import jsonToCsv from "@repo/ayasofyazilim-ui/lib/json-to-csv";
-import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
+import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import AutoForm, {
   AutoFormSubmit,
   createFieldConfigWithResource,
@@ -22,17 +18,15 @@ import {
   SectionLayout,
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
-import type { CellContext } from "@tanstack/react-table";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { handlePutResponse } from "src/app/[lang]/app/actions/api-utils-client";
-import { deleteTravellerPersonalIdentificationApi } from "src/app/[lang]/app/actions/TravellerService/actions";
 import {
   putTravellerPersonalPreferenceApi,
   putTravellerPersonalSummaryApi,
 } from "src/app/[lang]/app/actions/TravellerService/put-actions";
+import useGrantedPolicies from "src/app/hooks/use-granted-policies";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
-import { getBaseLink } from "src/utils";
+import { tableData } from "./identification-table-data";
 
 export default function Page({
   languageData,
@@ -65,23 +59,20 @@ export default function Page({
     resources: languageData,
     name: "Form.Summary",
   });
-  function cellWithLink(
-    cell: CellContext<
-      UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
-      unknown
-    >,
-  ) {
-    const id = cell.row.original.id || "";
-    const travelDocumentNumber = String(cell.getValue());
-    return (
-      <Link
-        className="text-blue-700"
-        href={`${travellerId}/identification/${id}`}
-      >
-        {travelDocumentNumber}
-      </Link>
-    );
-  }
+  const grantedPolicies = useGrantedPolicies();
+  const { lang } = useParams<{ lang: string }>();
+  const columns = tableData.identifications.columns(
+    lang,
+    languageData,
+    grantedPolicies,
+    travellerId,
+  );
+  const table = tableData.identifications.table(
+    languageData,
+    router,
+    grantedPolicies,
+    travellerId,
+  );
 
   function updateTravellerPersonalPreference(
     data: UniRefund_TravellerService_PersonalPreferencesTypes_UpsertPersonalPreferenceDto,
@@ -121,77 +112,11 @@ export default function Page({
       vertical
     >
       <SectionLayoutContent sectionId="identifications">
-        <DataTable
-          action={[
-            {
-              cta: languageData["Travellers.New.Identification"],
-              type: "NewPage",
-              href: getBaseLink(
-                `app/admin/parties/traveller/${travellerId}/identification/new`,
-              ),
-            },
-            {
-              cta: languageData.ExportCSV,
-              callback: () => {
-                jsonToCsv(
-                  travellerData.personalIdentifications,
-                  "Identifications",
-                );
-              },
-              type: "Action",
-            },
-          ]}
-          columnsData={{
-            type: "Auto",
-            data: {
-              tableType:
-                $UniRefund_TravellerService_PersonalIdentificationCommonDatas_PersonalIdentificationProfileDto,
-              excludeList: [
-                "id",
-                "firstName",
-                "lastName",
-                "middleName",
-                "nationalityCountryCode2",
-                "residenceCountryCode2",
-              ],
-              customCells: {
-                travelDocumentNumber: cellWithLink,
-              },
-              actionList: [
-                {
-                  cta: languageData.Delete,
-                  type: "Dialog",
-                  componentType: "ConfirmationDialog",
-                  description: languageData["Delete.Assurance"],
-                  cancelCTA: languageData.Cancel,
-                  variant: "destructive",
-                  callback: (row: { id: string }) => {
-                    void deleteTravellerPersonalIdentificationApi(row.id).then(
-                      (response) => {
-                        if (
-                          response.type === "error" ||
-                          response.type === "api-error"
-                        ) {
-                          toast.error(
-                            `${response.status}: ${response.message || languageData["Travellers.Identifications.Delete.Error"]}`,
-                          );
-                        } else {
-                          toast.success(
-                            languageData[
-                              "Travellers.Identifications.Delete.Success"
-                            ],
-                          );
-                          router.refresh();
-                        }
-                      },
-                    );
-                  },
-                },
-              ],
-            },
-          }}
+        <TanstackTable
+          {...table}
+          columns={columns}
           data={travellerData.personalIdentifications}
-          showView
+          rowCount={travellerData.personalIdentifications.length || 0}
         />
       </SectionLayoutContent>
 

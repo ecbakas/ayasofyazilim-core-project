@@ -8,11 +8,37 @@ import {
 import type {
   TanstackTableCreationProps,
   TanstackTableLanguageDataType,
+  TanstackTableTableActionsType,
 } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import { PlusCircle } from "lucide-react";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import isActionGranted from "src/app/[lang]/page-policy/action-policy";
+import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { Policy } from "src/types";
 
 type RefundTable =
   TanstackTableCreationProps<UniRefund_RefundService_Refunds_GetListAsync_RefundListItem>;
+
+function refundTableActions(
+  languageData: ContractServiceResource,
+  router: AppRouterInstance,
+  grantedPolicies: Record<Policy, boolean>,
+) {
+  const actions: TanstackTableTableActionsType[] = [];
+  if (isActionGranted(["RefundService.Refunds.Create"], grantedPolicies)) {
+    actions.push({
+      type: "simple",
+      actionLocation: "table",
+      cta: languageData.New,
+      icon: PlusCircle,
+      onClick() {
+        router.push("refund/new");
+      },
+    });
+  }
+  return actions;
+}
 
 const refundColumns = (
   locale: string,
@@ -28,13 +54,19 @@ const refundColumns = (
     },
   );
 
-const refundTable = (languageData?: Record<string, string>) => {
+function refundTable(
+  languageData: ContractServiceResource,
+  router: AppRouterInstance,
+  grantedPolicies: Record<Policy, boolean>,
+): RefundTable {
   const table: RefundTable = {
     fillerColumn: "userDeviceName",
+    tableActions: refundTableActions(languageData, router, grantedPolicies),
+
     filters: {
       facetedFilters: {
         statusesFilterStatuses: {
-          title: languageData?.Statuses || "Statuses",
+          title: "Statuses",
           options: $UniRefund_RefundService_Enums_RefundStatus.enum.map(
             (x) => ({
               label: x,
@@ -43,8 +75,7 @@ const refundTable = (languageData?: Record<string, string>) => {
           ),
         },
         statusesFilterReconciliationStatuses: {
-          title:
-            languageData?.ReconciliationStatuses || "ReconciliationStatuses",
+          title: "ReconciliationStatuses",
           options:
             $UniRefund_RefundService_Enums_RefundReconciliationStatus.enum.map(
               (x) => ({
@@ -54,7 +85,7 @@ const refundTable = (languageData?: Record<string, string>) => {
             ),
         },
         statusesFilterRefundTypes: {
-          title: languageData?.RefundTypes || "RefundTypes",
+          title: "RefundTypes",
           options: $UniRefund_TagService_Tags_RefundType.enum.map((x) => ({
             label: x,
             value: x,
@@ -63,7 +94,7 @@ const refundTable = (languageData?: Record<string, string>) => {
       },
       dateFilters: [
         {
-          label: languageData?.CreationTime || "Creation Time",
+          label: "Creation Time",
           startAccessorKey: "timeFilterStartDate",
           endAccessorKey: "timeFilterEndDate",
         },
@@ -71,7 +102,7 @@ const refundTable = (languageData?: Record<string, string>) => {
     },
   };
   return table;
-};
+}
 export const tableData = {
   refund: {
     columns: refundColumns,

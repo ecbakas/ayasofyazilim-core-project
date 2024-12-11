@@ -41,7 +41,7 @@ export default async function Page(props: {
 
   const { languageData } = await getResourceData(props.params.lang);
   return (
-    <PagePolicy requiredPolicies={["CRMService.TaxOffices"]}>
+    <PagePolicy requiredPolicies={["TravellerService.Travellers"]}>
       <TravellersTable
         countryList={countryList}
         languageData={languageData}

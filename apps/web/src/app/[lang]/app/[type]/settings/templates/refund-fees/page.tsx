@@ -3,6 +3,7 @@
 import type { GetApiContractServiceRefundTablesRefundFeeHeadersData } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/ContractService";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import { getRefundFeeHeadersApi } from "../../../../actions/ContractService/action";
 import Table from "./table";
 
@@ -17,10 +18,17 @@ export default async function Page(props: {
   const { languageData } = await getResourceData(props.params.lang);
 
   return (
-    <Table
-      languageData={languageData}
-      locale={props.params.lang}
-      response={response.data}
-    />
+    <PagePolicy
+      requiredPolicies={[
+        "ContractService.RefundFeeHeader",
+        "ContractService.RefundFeeDetail",
+      ]}
+    >
+      <Table
+        languageData={languageData}
+        locale={props.params.lang}
+        response={response.data}
+      />
+    </PagePolicy>
   );
 }

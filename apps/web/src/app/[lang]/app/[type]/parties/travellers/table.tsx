@@ -20,12 +20,12 @@ function TravellersTable({
   const grantedPolicies = useGrantedPolicies();
   const router = useRouter();
   const { lang } = useParams<{ lang: string }>();
-  const columns = tableData.taxOffices.columns(
+  const columns = tableData.travellers.columns(
     lang,
     languageData,
     grantedPolicies,
   );
-  const table = tableData.taxOffices.table(
+  const table = tableData.travellers.table(
     languageData,
     router,
     countryList,
