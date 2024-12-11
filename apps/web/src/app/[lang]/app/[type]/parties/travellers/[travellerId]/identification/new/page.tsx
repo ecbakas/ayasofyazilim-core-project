@@ -22,8 +22,8 @@ export default async function Page({
     traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
 
   return (
-    <>
-      <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+    <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+      <>
         <Form
           countryList={{
             data: countryList,
@@ -32,16 +32,16 @@ export default async function Page({
           languageData={languageData}
           travellerId={params.travellerId}
         />
-      </PagePolicy>
-      <div className="hidden" id="page-title">
-        {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
-      </div>
-      <div className="hidden" id="page-description">
-        {languageData["Travellers.Create.Identification.Description"]}
-      </div>
-      <div className="hidden" id="page-back-link">
-        {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
-      </div>
-    </>
+        <div className="hidden" id="page-title">
+          {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
+        </div>
+        <div className="hidden" id="page-description">
+          {languageData["Travellers.Create.Identification.Description"]}
+        </div>
+        <div className="hidden" id="page-back-link">
+          {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
+        </div>
+      </>
+    </PagePolicy>
   );
 }

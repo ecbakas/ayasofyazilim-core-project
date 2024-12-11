@@ -22,8 +22,8 @@ export default async function Page({
     (countries.type === "success" && countries.data.items) || [];
 
   return (
-    <>
-      <PagePolicy requiredPolicies={["TravellerService.Travellers.Edit"]}>
+    <PagePolicy requiredPolicies={["TravellerService.Travellers.Edit"]}>
+      <>
         <Form
           countryList={{
             data: countryList,
@@ -34,16 +34,16 @@ export default async function Page({
           travellerData={travellerData}
           travellerId={params.travellerId}
         />
-      </PagePolicy>
-      <div className="hidden" id="page-title">
-        {`${languageData["Travellers.Personal.Identification"]} (${travellerData.personalIdentifications[0].travelDocumentNumber})`}
-      </div>
-      <div className="hidden" id="page-description">
-        {languageData["Travellers.Identifications.Edit.Description"]}
-      </div>
-      <div className="hidden" id="page-back-link">
-        {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
-      </div>
-    </>
+        <div className="hidden" id="page-title">
+          {`${languageData["Travellers.Personal.Identification"]} (${travellerData.personalIdentifications[0].travelDocumentNumber})`}
+        </div>
+        <div className="hidden" id="page-description">
+          {languageData["Travellers.Identifications.Edit.Description"]}
+        </div>
+        <div className="hidden" id="page-back-link">
+          {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
+        </div>
+      </>
+    </PagePolicy>
   );
 }

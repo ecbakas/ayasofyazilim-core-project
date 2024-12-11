@@ -38,7 +38,7 @@ function identificationsTableActions(
       cta: languageData["Travellers.New.Identification"],
       icon: PlusCircle,
       onClick() {
-        router.push(`${String(travellerId)}/identification/new`);
+        router.push(`${travellerId}/identification/new`);
       },
     });
   }
@@ -52,7 +52,7 @@ function identificationsColumns(
 ) {
   if (isActionGranted(["TravellerService.Travellers.Edit"], grantedPolicies)) {
     links.travelDocumentNumber = {
-      prefix: `${String(travellerId)}/identification/`,
+      prefix: `${travellerId}/identification/`,
       targetAccessorKey: "id",
     };
   }
