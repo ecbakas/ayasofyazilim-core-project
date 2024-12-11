@@ -26,7 +26,10 @@ import {
 import { postMerchantContractHeadersByMerchantIdApi } from "src/app/[lang]/app/actions/ContractService/action";
 import { putMerchantContractHeadersByIdApi } from "src/app/[lang]/app/actions/ContractService/put-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { MerchantAddressWidget, RefundTableWidget } from "./contract-widgets";
+import {
+  MerchantAddressWidget,
+  RefundTableWidget,
+} from "../../contract-widgets";
 
 type ContractHeaderFormProps = {
   partyName: "merchants";
@@ -47,7 +50,7 @@ interface UpdateContractHeaderFormProps {
   contractId: string;
 }
 
-export default function ContractHeaderForm(
+export default function MerchantContractHeaderForm(
   props: ContractHeaderFormProps,
 ): JSX.Element {
   const {

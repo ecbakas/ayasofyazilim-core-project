@@ -5,11 +5,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["../../packages/ayasofyazilim-ui/@/*"],
-      "@tiptap-location/*": ["../../packages/ayasofyazilim-ui/tiptap/*"],
       "components/*": ["./src/components/*"]
     }
   },
   "include": [
+    "next.config.js",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
