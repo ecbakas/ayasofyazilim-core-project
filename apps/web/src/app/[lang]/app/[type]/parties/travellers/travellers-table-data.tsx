@@ -35,7 +35,7 @@ function travellersTableActions(
     actions.push({
       type: "simple",
       actionLocation: "table",
-      cta: languageData.New,
+      cta: languageData["Travellers.New"],
       icon: PlusCircle,
       onClick() {
         router.push("travellers/new");
@@ -44,7 +44,7 @@ function travellersTableActions(
   }
   return actions;
 }
-function taxOfficesColumns(
+function travellersColumns(
   locale: string,
   languageData: TravellerServiceResource,
   grantedPolicies: Record<Policy, boolean>,
@@ -60,7 +60,8 @@ function taxOfficesColumns(
     {
       rows: $UniRefund_TravellerService_Travellers_TravellerListProfileDto.properties,
       languageData: {
-        name: languageData.Name,
+        languageData,
+        constantKey: "Form.personalIdentification",
       },
       config: {
         locale,
@@ -80,29 +81,29 @@ export function travellersTable(
     fillerColumn: "fullName",
     columnVisibility: {
       type: "hide",
-      columns: ["id", "userAccountId"],
+      columns: [
+        "id",
+        "hasUserAccount",
+        "nationalityCountryCode2",
+        "residenceCountryCode2",
+        "userAccountId",
+      ],
     },
     tableActions: travellersTableActions(languageData, router, grantedPolicies),
     columnOrder: [
-      "fullName",
       "firstName",
       "middleName",
       "lastName",
+      "travelDocumentNumber",
       "nationalityCountryName",
-      "nationalityCountryCode2",
       "residenceCountryName",
-      "residenceCountryCode2",
+      "birthDate",
+      "expirationDate",
       "identificationType",
     ],
     pinColumns: ["fullName"],
     filters: {
-      textFilters: [
-        "fullName",
-        "travelDocumentNumber",
-        "email",
-        "phoneNumber",
-        "username",
-      ],
+      textFilters: ["fullName", "travelDocumentNumber"],
       facetedFilters: {
         nationalities: {
           title: languageData.Nationalities,
@@ -119,7 +120,7 @@ export function travellersTable(
           })),
         },
         showExpired: {
-          title: "Show Expired",
+          title: languageData["Travellers.ShowExpired"],
           options: [
             { label: languageData.Yes, value: "true" },
             { label: languageData.No, value: "false" },
@@ -132,8 +133,8 @@ export function travellersTable(
 }
 
 export const tableData = {
-  taxOffices: {
-    columns: taxOfficesColumns,
+  travellers: {
+    columns: travellersColumns,
     table: travellersTable,
   },
 };
