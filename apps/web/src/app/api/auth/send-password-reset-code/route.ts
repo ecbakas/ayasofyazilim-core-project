@@ -9,6 +9,10 @@ export async function POST(reqest: NextRequest) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("X-Requested-With", "XMLHttpRequest");
+  myHeaders.append(
+    "__tenant",
+    process.env.TENANT_ID || "F3B84A96-8A04-87B7-D3C3-3A1675322587",
+  );
 
   const raw = JSON.stringify({
     email,
