@@ -16,7 +16,8 @@ import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto 
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { postRefundPointContractHeadersById } from "src/app/[lang]/app/actions/ContractService/post-actions";
 import { putRefundPointContractHeadersById } from "src/app/[lang]/app/actions/ContractService/put-actions";
@@ -29,6 +30,7 @@ import { MerchantAddressWidget, RefundFeeWidget } from "../../contract-widgets";
 
 type RefundPointContractHeaderFormProps = {
   loading: boolean;
+  setLoading?: Dispatch<SetStateAction<boolean>>;
   languageData: ContractServiceResource;
   addresses: AddressTypeDto[];
   refundFeeHeaders: RefundFeeHeaderDto[];
@@ -49,9 +51,24 @@ interface RefundPointContractHeaderCreateFormProps {
 export default function RefundPointContractHeaderForm(
   props: RefundPointContractHeaderFormProps,
 ) {
-  const { formData, loading, languageData, addresses, refundFeeHeaders } =
-    props;
-  const { partyId } = useParams<{ partyId: string }>();
+  const {
+    formData,
+    loading,
+    languageData,
+    addresses,
+    refundFeeHeaders,
+    setLoading,
+  } = props;
+  const router = useRouter();
+  const { partyId, partyName } = useParams<{
+    partyId: string;
+    partyName: string;
+  }>();
+  const [formLoading, setFormLoading] = useState(loading || false);
+  function handleLoading(_loading: boolean) {
+    if (setLoading) setLoading(_loading);
+    setFormLoading(_loading);
+  }
   const $Schema = {
     create: $ContractHeaderForRefundPointCreateDto,
     update: $ContractHeaderForRefundPointUpdateDto,
@@ -92,9 +109,10 @@ export default function RefundPointContractHeaderForm(
   });
   return (
     <SchemaForm
+      disabled={formLoading || loading}
       fields={{
         RefundFeeHeadersItemField: RefundFeeHeadersItemField({
-          loading,
+          loading: formLoading || loading,
           languageData,
           refundFeeHeaders,
         }),
@@ -118,27 +136,40 @@ export default function RefundPointContractHeaderForm(
       formData={formData}
       onSubmit={({ formData: submitData }) => {
         if (!submitData) return;
-        if (props.formType === "update") {
-          void putRefundPointContractHeadersById({
-            id: props.contractId,
-            requestBody: submitData as ContractHeaderForRefundPointUpdateDto,
-          }).then((response) => {
-            handlePutResponse(response);
-          });
-        } else {
+        handleLoading(true);
+        if (props.formType === "create") {
           void postRefundPointContractHeadersById({
             id: partyId,
             requestBody: submitData as ContractHeaderForRefundPointCreateDto,
-          }).then((response) => {
-            handlePostResponse(response);
-          });
+          })
+            .then((response) => {
+              handlePostResponse(response, router, {
+                prefix: `/app/admin/parties/${partyName}/${partyId}/contracts`,
+                suffix: "contract",
+                identifier: "id",
+              });
+            })
+            .finally(() => {
+              handleLoading(false);
+            });
+        } else {
+          void putRefundPointContractHeadersById({
+            id: props.contractId,
+            requestBody: submitData as ContractHeaderForRefundPointUpdateDto,
+          })
+            .then((response) => {
+              handlePutResponse(response, router);
+            })
+            .finally(() => {
+              handleLoading(false);
+            });
         }
       }}
       schema={$Schema[props.formType]}
       uiSchema={uiSchema}
       widgets={{
         address: MerchantAddressWidget({
-          loading,
+          loading: formLoading || loading,
           addressList: addresses,
           languageData,
         }),
