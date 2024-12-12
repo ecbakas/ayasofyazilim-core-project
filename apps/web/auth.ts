@@ -25,6 +25,7 @@ export interface Token {
 declare module "next-auth" {
   interface User extends Token {
     userName: string;
+    grantedPolicies?: Record<string, boolean>;
   }
 }
 
@@ -41,6 +42,7 @@ declare module "@auth/core/jwt" {
     access_token: string;
     expires_at: number;
     refresh_token: string;
+    grantedPolicies?: Record<string, boolean>;
     error?: "RefreshAccessTokenError";
   }
 }
@@ -135,6 +137,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           access_token: user.access_token,
           expires_at: Math.floor(Date.now() / 1000) + (user.expires_in || 0),
           refresh_token: user.refresh_token,
+          grantedPolicies: user.grantedPolicies,
         };
       } else if (Date.now() < (typedToken.expires_at || 0) * 1000) {
         return token;
@@ -162,6 +165,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         access_token: tokens.access_token,
         expires_at: Math.floor(Date.now() / 1000 + tokens.expires_in),
         refresh_token: tokens.refresh_token ?? token.refresh_token,
+        grantedPolicies: user.grantedPolicies,
       };
     },
   },
