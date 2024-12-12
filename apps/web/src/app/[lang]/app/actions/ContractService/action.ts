@@ -15,7 +15,11 @@ import type {
   PutApiContractServiceMerchantsContractsContractHeadersByIdSetDefaultSettingData,
   PutApiContractServiceMerchantsContractsContractSettingsByIdData,
 } from "@ayasofyazilim/saas/ContractService";
-import { structuredError, structuredResponse } from "src/lib";
+import {
+  getContractServiceClient,
+  structuredError,
+  structuredResponse,
+} from "src/lib";
 import { getApiRequests } from "../api-requests";
 
 export async function getMerchantContractHeadersByMerchantIdApi(
@@ -82,6 +86,22 @@ export async function getMerchantContractHeaderByIdApi(id: string) {
     const requests = await getApiRequests();
     const response = await requests.merchants.getContractHeaderById(id);
     return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getMerchantContractHeaderRebateSettingsByHeaderIdApi(
+  id: string,
+) {
+  try {
+    const requests = await getContractServiceClient();
+    return structuredResponse(
+      await requests.contractsMerchant.getApiContractServiceMerchantsContractsContractHeadersByIdRebateSettings(
+        {
+          id,
+        },
+      ),
+    );
   } catch (error) {
     return structuredError(error);
   }
