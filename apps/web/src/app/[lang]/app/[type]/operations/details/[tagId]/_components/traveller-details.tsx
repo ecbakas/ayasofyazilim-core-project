@@ -1,7 +1,8 @@
 "use client";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import type { UniRefund_TagService_Tags_TagDetailDto } from "@ayasofyazilim/saas/TagService";
-import { Link, Plane } from "lucide-react";
+import { Plane } from "lucide-react";
+import Link from "next/link";
 import { getBaseLink } from "src/utils";
 
 function TravellerDetails({

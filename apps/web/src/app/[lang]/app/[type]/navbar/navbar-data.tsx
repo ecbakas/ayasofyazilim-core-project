@@ -59,10 +59,11 @@ function processNavbarItems(
     item.parentNavbarItemKey = buildParentKey(prefix, item);
     item.key = buildItemKey(prefix, item);
 
+    item.description = getDescription(item, languageData);
+
     item.displayName =
       languageData[item.displayName as keyof typeof languageData] ||
       `**${item.displayName}`;
-    item.description = getDescription(item, languageData);
 
     return item;
   });
