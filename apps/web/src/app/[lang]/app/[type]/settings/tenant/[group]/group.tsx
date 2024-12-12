@@ -28,7 +28,8 @@ export default function TenantSettingsPage({
 }) {
   const router = useRouter();
   const { group } = useParams<{ group: string }>();
-  const activeGroup = list.groups.find((x) => x.key === group);
+  const activeGroup =
+    list.groups.find((x) => x.key === group) || list.groups.at(0);
   if (!activeGroup) return notFound();
 
   const schema = createSchema(activeGroup);
@@ -51,10 +52,11 @@ export default function TenantSettingsPage({
             countrySettings: Object.keys(data).map((key) => {
               return {
                 key,
-                value: data[key] as string,
+                value: (data[key] as string).toString(),
               };
             }),
           };
+
           void putCountrySettingsApi(
             manupulatedData as SetCountrySettingsByListDto,
           ).then((response) => {

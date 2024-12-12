@@ -288,7 +288,7 @@ function createJsonSchema(
     isRequired: item.isRequired,
     isReadOnly: item.isActive === false,
     maxLength: item.valueType?.validator?.properties?.maxValue,
-    default: item.defaultValue,
+    default: item.value || item.defaultValue,
     displayName: item.displayName || item.key,
   };
   if (item.valueType && item.valueType.name === "SelectionStringValueType") {
