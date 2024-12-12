@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getTagById } from "src/app/[lang]/app/actions/TagService/actions";
 import MerchantDetails from "./_components/merchant-details";
 import TagSummary from "./_components/tag-summary";
-import Totals from "./_components/totals2";
+import Totals from "./_components/totals";
 import TravellerDetails from "./_components/traveller-details";
 
 export default async function Page({ params }: { params: { tagId: string } }) {
