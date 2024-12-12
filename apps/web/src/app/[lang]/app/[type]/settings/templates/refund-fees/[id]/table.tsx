@@ -4,7 +4,7 @@ import {
   $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type {
-  UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto,
+  UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto,
   UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
 import { tanstackTableEditableColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
@@ -29,7 +29,7 @@ export default function RefundFeeDetailsForm({
 }) {
   const router = useRouter();
   const RebateFeeColumns = tanstackTableEditableColumnsByRowData<
-    TypeWithId<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto>
+    TypeWithId<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto>
   >({
     rows: {
       ...$UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto.properties,
@@ -54,13 +54,13 @@ export default function RefundFeeDetailsForm({
         ),
       },
     },
-    excludeColumns: ["extraProperties"],
   });
   return (
     <SchemaForm
+      className="p-0"
       fields={{
         RebateTable: TableField<
-          TypeWithId<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto>
+          TypeWithId<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto>
         >({
           editable: true,
           columns: RebateFeeColumns,
@@ -82,6 +82,20 @@ export default function RefundFeeDetailsForm({
               type: "delete-row",
             },
           ],
+          columnVisibility: {
+            type: "hide",
+            columns: [
+              "id",
+              "creationTime",
+              "creatorId",
+              "lastModificationTime",
+              "lastModifierId",
+              "isDeleted",
+              "deleterId",
+              "deletionTime",
+              "refundFeeHeaderId",
+            ],
+          },
         }),
       }}
       formData={response.refundFeeDetails || []}
