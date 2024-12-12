@@ -92,6 +92,18 @@
   "Contracts.Form.refundTableHeaders.validFrom": "Başlangıç Tarihi",
   "Contracts.Form.refundTableHeaders.validTo": "Bitiş Tarihi",
 
+  "Contracts.Form.defaultRefundFeeHeader": "Varsayılan iade ücreti",
+  "Contracts.Form.defaultRefundFeeHeader.undefined": "Lütfen bir varsayılan iade ücreti seçin",
+  "Contracts.Form.refundFeeHeaders": "İade ücretleri",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId": "İade ücreti",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.emptyValue": "Lütfen bir iade ücreti seçin",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchPlaceholder": "İade ücreti ara",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchResultLabel": "Aranan iade ücreti bulunamadı.",
+  "Contracts.Form.refundFeeHeaders.isDefault": "Varsayılan",
+  "Contracts.Form.refundFeeHeaders.edit": "Düzenle",
+  "Contracts.Form.refundFeeHeaders.validFrom": "Başlangıç Tarihi",
+  "Contracts.Form.refundFeeHeaders.validTo": "Bitiş Tarihi",
+
   "Contracts.Settings.Form.Add": "Yeni ayar ekle",
   "Contracts.Settings.Form.Delete": "Sil",
   "Contracts.Settings.Form.Delete.Description": "Bu kontrat ayarını silmek istediğinize emin misiniz?",
