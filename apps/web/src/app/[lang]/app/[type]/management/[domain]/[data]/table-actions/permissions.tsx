@@ -42,7 +42,7 @@ export default function PermissionsComponent({
   const [permissionsData, setPermissionsData] = useState<
     NormalizedPermissionGroup[]
   >([]);
-  const [updatedPermissionsData, setUpdatedPermissionsData] = useState<
+  const [updatedPermissionsData] = useState<
     Volo_Abp_PermissionManagement_UpdatePermissionDto[]
   >([]);
   const [loadingError, setLoadingError] = useState(false);
@@ -101,92 +101,100 @@ export default function PermissionsComponent({
   );
 
   const permissionChange = (permissionName: string, isGranted: boolean) => {
-    setUpdatedPermissionsData((prev) => {
-      const updated = [...prev];
-      const existingIndex = updated.findIndex((p) => p.name === permissionName);
-      if (existingIndex >= 0) {
-        updated[existingIndex].isGranted = isGranted;
-      } else {
-        updated.push({ name: permissionName, isGranted });
+    const existingIndex = updatedPermissionsData.findIndex(
+      (p) => p.name === permissionName,
+    );
+    if (existingIndex >= 0) {
+      updatedPermissionsData[existingIndex].isGranted = isGranted;
+    } else {
+      updatedPermissionsData.push({ name: permissionName, isGranted });
+    }
+  };
+
+  const toggleChildren = (
+    group: NormalizedPermissionGroup,
+    parentName: string,
+    newGrant: boolean,
+  ) => {
+    group.permissions.forEach((child) => {
+      if (child.parentName === parentName) {
+        permissionChange(child.name || "", newGrant);
+        child.isGranted = newGrant;
+        toggleChildren(group, child.name || "", newGrant);
       }
-      return updated;
     });
+  };
+
+  const toggleParents = (
+    group: NormalizedPermissionGroup,
+    childPermission: Volo_Abp_PermissionManagement_PermissionGrantInfoDto,
+    newGrant: boolean,
+  ) => {
+    let currentParentName = childPermission.parentName;
+
+    while (currentParentName) {
+      const parentNameForIteration = currentParentName;
+      const parentPermission = group.permissions.find(
+        (p) => p.name === parentNameForIteration,
+      );
+
+      if (!parentPermission) {
+        currentParentName = null;
+        continue;
+      }
+
+      if (newGrant) {
+        permissionChange(parentPermission.name || "", true);
+        parentPermission.isGranted = true;
+      } else {
+        const hasOtherGrantedChildren = group.permissions.some(
+          (sibling) =>
+            sibling.parentName === parentNameForIteration && sibling.isGranted,
+        );
+
+        if (!hasOtherGrantedChildren) {
+          permissionChange(parentPermission.name || "", false);
+          parentPermission.isGranted = false;
+        }
+      }
+      currentParentName = parentPermission.parentName || null;
+    }
   };
 
   const togglePermission = useCallback(
     (groupName: string, permissionName: string) => {
-      setPermissionsData((prev) =>
-        prev.map((group) => {
-          if (group.name !== groupName) return group;
+      const updatedPermissions = permissionsData.map((group) => {
+        if (group.name !== groupName) return group;
 
-          const updatedPermissions = group.permissions.map((permission) => {
-            if (
-              permission.name === permissionName &&
-              !isRoleManaged(permission)
-            ) {
-              const newGrant = !permission.isGranted;
-              permissionChange(permissionName, newGrant);
-              if (newGrant) {
-                permissionState(
-                  groupName,
-                  permission.parentName || "",
-                  true,
-                  "parent",
-                );
-              } else {
-                permissionState(groupName, permissionName, false, "child");
+        const updatedPermissionsList = group.permissions.map((permission) => {
+          if (
+            permission.name === permissionName &&
+            !isRoleManaged(permission)
+          ) {
+            const newGrant = !permission.isGranted;
+            permissionChange(permissionName, newGrant);
+
+            if (!permission.parentName) {
+              if (!newGrant) {
+                toggleChildren(group, permissionName, false);
               }
               return { ...permission, isGranted: newGrant };
             }
-            return permission;
-          });
-          return { ...group, permissions: updatedPermissions };
-        }),
-      );
-    },
-    [isRoleManaged],
-  );
-
-  const permissionState = (
-    groupName: string,
-    permissionName: string,
-    isGranted: boolean,
-    type: "parent" | "child",
-  ) => {
-    setPermissionsData((prev) =>
-      prev.map((group) => {
-        if (group.name !== groupName) return group;
-        const updatedPermissions = group.permissions.map((permission) => {
-          const relevant =
-            type === "child"
-              ? permission.parentName === permissionName
-              : permission.name === permissionName;
-          if (relevant && !isRoleManaged(permission)) {
-            permissionChange(permission.name || "", isGranted);
-            if (type === "parent" && permission.parentName) {
-              permissionState(
-                groupName,
-                permission.parentName,
-                isGranted,
-                "parent",
-              );
+            if (!newGrant) {
+              toggleChildren(group, permissionName, false);
             }
-            if (type === "child") {
-              permissionState(
-                groupName,
-                permission.name || "",
-                isGranted,
-                "child",
-              );
-            }
-            return { ...permission, isGranted };
+            toggleParents(group, permission, newGrant);
+            return { ...permission, isGranted: newGrant };
           }
           return permission;
         });
-        return { ...group, permissions: updatedPermissions };
-      }),
-    );
-  };
+        return { ...group, permissions: updatedPermissionsList };
+      });
+
+      setPermissionsData(updatedPermissions);
+    },
+    [permissionsData, isRoleManaged],
+  );
 
   const toggleGroupPermissions = (groupName: string, isGranted: boolean) => {
     setPermissionsData((prev) =>
