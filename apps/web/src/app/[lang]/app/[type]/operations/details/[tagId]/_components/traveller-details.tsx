@@ -10,7 +10,7 @@ function TravellerDetails({
   tagDetail: UniRefund_TagService_Tags_TagDetailDto;
 }) {
   return (
-    <Card className="rounded-none">
+    <Card className="min-h-0 flex-1 rounded-none">
       <CardHeader className="py-6">
         <CardTitle className=" mb-4 flex items-center gap-2 text-2xl">
           <Plane />

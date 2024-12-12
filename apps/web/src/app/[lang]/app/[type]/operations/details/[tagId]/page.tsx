@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { tagId: string } }) {
 
   const tagDetail = response.data;
   return (
-    <div className="flex flex-row gap-3 overflow-auto">
+    <div className="flex flex-row gap-3">
       <Totals tagDetail={tagDetail} />
       <div className="flex w-2/3 flex-col">
         <TagSummary tagDetail={tagDetail} />
