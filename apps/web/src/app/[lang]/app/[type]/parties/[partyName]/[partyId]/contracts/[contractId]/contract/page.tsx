@@ -34,6 +34,7 @@ export default async function Page({
 
   return (
     <PagePolicy
+      lang={lang}
       requiredPolicies={["ContractService.ContractHeaderForMerchant.Edit"]}
     >
       <ContractHeader

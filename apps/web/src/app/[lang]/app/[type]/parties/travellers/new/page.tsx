@@ -12,7 +12,10 @@ export default async function Page({ params }: { params: { lang: string } }) {
     (countries.type === "success" && countries.data.items) || [];
 
   return (
-    <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+    <PagePolicy
+      lang={params.lang}
+      requiredPolicies={["TravellerService.Travellers.Create"]}
+    >
       <Form
         countryList={{
           data: countryList,
