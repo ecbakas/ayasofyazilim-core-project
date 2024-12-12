@@ -196,16 +196,16 @@ export default async function Page({
             partyId={params.partyId}
             partyName={params.partyName}
           />
-          {params.partyName === "merchants" ||
-            (params.partyName === "refund-points" && (
-              <Contracts
-                contractsData={contracts.data}
-                lang={params.lang}
-                languageData={{ ...languageData, ...contractsLanguageData }}
-                partyId={params.partyId}
-                partyName={params.partyName}
-              />
-            ))}
+          {(params.partyName === "merchants" ||
+            params.partyName === "refund-points") && (
+            <Contracts
+              contractsData={contracts.data}
+              lang={params.lang}
+              languageData={{ ...languageData, ...contractsLanguageData }}
+              partyId={params.partyId}
+              partyName={params.partyName}
+            />
+          )}
         </SectionLayout>
       </div>
       <div className="hidden" id="page-title">
