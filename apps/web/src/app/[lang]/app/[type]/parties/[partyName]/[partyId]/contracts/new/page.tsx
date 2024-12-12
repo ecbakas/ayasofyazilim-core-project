@@ -1,53 +1,108 @@
 import { notFound } from "next/navigation";
 import {
+  getRefundFeeHeadersApi,
+  getRefundTableHeadersApi,
+} from "src/app/[lang]/app/actions/ContractService/action";
+import {
   getAdressesApi,
   getMerchantByIdApi,
+  getRefundPointDetailsByIdApi,
 } from "src/app/[lang]/app/actions/CrmService/actions";
+import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import MerchantContractHeaderForm from "../_components/contract-header-form/merchant";
+import RefundPointContractHeaderForm from "../_components/contract-header-form/refund-point";
+import type { ContractPartyName } from "../_components/types";
 
 export default async function Page({
   params,
 }: {
   params: {
-    partyName: "merchants";
+    partyName: ContractPartyName;
     partyId: string;
     lang: string;
   };
 }) {
-  const addresses = await getAdressesApi(params.partyId, params.partyName);
-  const refundTableHeaders = await getRefundTableHeadersApi({});
-  const merchantDetails = await getMerchantByIdApi(params.partyId);
-  if (
-    addresses.type !== "success" ||
-    refundTableHeaders.type !== "success" ||
-    merchantDetails.type !== "success"
-  ) {
-    return notFound();
-  }
   const { languageData } = await getResourceData(params.lang);
+  if (params.partyName === "merchants") {
+    const addresses = await getAdressesApi(params.partyId, params.partyName);
+    const refundTableHeaders = await getRefundTableHeadersApi({});
+    const merchantDetails = await getMerchantByIdApi(params.partyId);
+    if (
+      addresses.type !== "success" ||
+      refundTableHeaders.type !== "success" ||
+      merchantDetails.type !== "success"
+    ) {
+      return notFound();
+    }
+    return (
+      <PagePolicy
+        requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
+      >
+        <>
+          <MerchantContractHeaderForm
+            addresses={addresses.data}
+            formType="create"
+            languageData={languageData}
+            loading={false}
+            partyId={params.partyId}
+            partyName={params.partyName}
+            refundTableHeaders={refundTableHeaders.data.items || []}
+          />
+          <PageHeader
+            languageData={languageData}
+            params={params}
+            title={merchantDetails.data.name}
+          />
+        </>
+      </PagePolicy>
+    );
+  }
+  const refundPointDetails = await getRefundPointDetailsByIdApi(params.partyId);
+  const refundFeeHeaders = await getRefundFeeHeadersApi({});
+  if (
+    refundPointDetails.type !== "success" ||
+    refundFeeHeaders.type !== "success"
+  )
+    return notFound();
+
+  const refundPointDetailsSummary = refundPointDetails.data.entityInformations
+    ?.at(0)
+    ?.organizations?.at(0);
   return (
     <PagePolicy
-      requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
+      requiredPolicies={["ContractService.ContractHeaderForRefundPoint.Create"]}
     >
       <>
-        <MerchantContractHeaderForm
-          addresses={addresses.data}
+        <RefundPointContractHeaderForm
+          addresses={
+            refundPointDetailsSummary?.contactInformations?.at(0)?.addresses ||
+            []
+          }
+          formData={{
+            validFrom: new Date().toISOString(),
+            validTo: new Date(
+              new Date().setFullYear(new Date().getFullYear() + 1),
+            ).toISOString(),
+            refundFeeHeaders: [],
+            addressCommonDataId:
+              refundPointDetailsSummary?.contactInformations
+                ?.at(0)
+                ?.addresses?.at(0)?.id ||
+              "00000000-0000-0000-0000-000000000000",
+            merchantClassification: "Low",
+          }}
           formType="create"
           languageData={languageData}
           loading={false}
-          partyId={params.partyId}
-          partyName={params.partyName}
-          refundTableHeaders={refundTableHeaders.data.items || []}
+          refundFeeHeaders={refundFeeHeaders.data.items || []}
         />
         <PageHeader
           languageData={languageData}
           params={params}
-          title={merchantDetails.data.name}
+          title={refundPointDetailsSummary?.name || ""}
         />
       </>
     </PagePolicy>
