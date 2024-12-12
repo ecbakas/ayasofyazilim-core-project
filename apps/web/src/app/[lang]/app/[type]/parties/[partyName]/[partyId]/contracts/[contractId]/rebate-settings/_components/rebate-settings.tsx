@@ -17,6 +17,7 @@ import type {
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto,
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderFromTemplateCreateDto as RebateTableHeaderFromTemplateCreateDto,
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderNotTemplateCreateDto as RebateTableHeaderNotTemplateCreateDto,
+  UniRefund_ContractService_Rebates_RebateSettings_RebateSettingDto as RebateSettingDto,
 } from "@ayasofyazilim/saas/ContractService";
 import {
   $UniRefund_ContractService_Rebates_MinimumNetCommissions_MinimumNetCommissionCreateDto as $MinimumNetCommissionCreateDto,
@@ -40,12 +41,14 @@ import {
 
 export function RebateSettings({
   languageData,
+  rebateSettings,
   rebateTables,
   subMerchants,
   contractId,
   lang,
 }: {
   languageData: ContractServiceResource;
+  rebateSettings: RebateSettingDto;
   rebateTables: RebateTableHeaderDto[];
   subMerchants: StoreProfileDto[];
   contractId: string;
@@ -106,6 +109,7 @@ export function RebateSettings({
           subMerchants,
         }),
       }}
+      formData={rebateSettings}
       onSubmit={(data) => {
         if (!data.formData) return;
         setLoading(true);
