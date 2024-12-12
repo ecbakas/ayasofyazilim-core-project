@@ -3,6 +3,7 @@ import { CustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/wid
 import type {
   UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeaderDto as RefundTableHeaderDto,
   UniRefund_ContractService_Rebates_RebateTableHeaders_RebateTableHeaderDto as RebateTableHeaderDto,
+  UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto as RefundFeeHeaderDto,
 } from "@ayasofyazilim/saas/ContractService";
 import type { UniRefund_CRMService_Merchants_StoreProfileDto as StoreProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto as AddressTypeDto } from "@ayasofyazilim/saas/LocationService";
@@ -68,6 +69,44 @@ export function RefundTableWidget({
         searchResultLabel={
           languageData[
             "Contracts.Form.refundTableHeaders.refundTableHeaderId.searchResultLabel"
+          ]
+        }
+        selectIdentifier="id"
+        selectLabel="name"
+      />
+    );
+  }
+  return Widget;
+}
+
+export function RefundFeeWidget({
+  loading,
+  languageData,
+  refundFeeHeaders,
+}: {
+  loading: boolean;
+  languageData: ContractServiceResource;
+  refundFeeHeaders: RefundFeeHeaderDto[] | undefined;
+}) {
+  function Widget(comboboxProps: WidgetProps) {
+    return (
+      <CustomCombobox<RefundFeeHeaderDto>
+        {...comboboxProps}
+        disabled={loading}
+        emptyValue={
+          languageData[
+            "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.emptyValue"
+          ]
+        }
+        list={refundFeeHeaders}
+        searchPlaceholder={
+          languageData[
+            "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchPlaceholder"
+          ]
+        }
+        searchResultLabel={
+          languageData[
+            "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchResultLabel"
           ]
         }
         selectIdentifier="id"
