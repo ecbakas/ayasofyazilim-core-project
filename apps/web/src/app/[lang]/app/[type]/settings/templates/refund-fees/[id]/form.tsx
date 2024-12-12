@@ -23,7 +23,7 @@ function Form({
   });
   return (
     <SchemaForm
-      fields={{}}
+      className="h-auto"
       formData={response}
       onSubmit={(data) => {
         const formData = {
@@ -39,6 +39,7 @@ function Form({
       }
       submitText={languageData.Save}
       uiSchema={uiSchema}
+      withScrollArea={false}
     />
   );
 }
