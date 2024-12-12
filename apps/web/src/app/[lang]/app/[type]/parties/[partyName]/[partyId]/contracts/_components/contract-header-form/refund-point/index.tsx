@@ -247,7 +247,7 @@ function RefundFeeHeadersItemField({
               uiSchema={uiSchema}
               widgets={{
                 refundFee: RefundFeeWidget({
-                  loading: false,
+                  loading,
                   refundFeeHeaders,
                   languageData,
                 }),
