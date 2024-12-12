@@ -8,7 +8,6 @@ import type {
   GetApiCrmServiceRefundPointsData,
   GetApiCrmServiceTaxFreesData,
   GetApiCrmServiceTaxOfficesData,
-  UniRefund_CRMService_Merchants_MerchantProfileDto,
   UniRefund_CRMService_Merchants_StoreProfilePagedResultDto,
 } from "@ayasofyazilim/saas/CRMService";
 import type { ServerResponse } from "src/lib";
@@ -26,9 +25,7 @@ export async function getMerchantsApi(
     return structuredError(error);
   }
 }
-export async function getMerchantByIdApi(
-  id: string,
-): Promise<ServerResponse<UniRefund_CRMService_Merchants_MerchantProfileDto>> {
+export async function getMerchantByIdApi(id: string) {
   try {
     const requests = await getApiRequests();
     const response = await requests.merchants.getById(id);
@@ -69,6 +66,15 @@ export async function getRefundPointsApi(
   try {
     const requests = await getApiRequests();
     const response = await requests["refund-points"].get(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointDetailsByIdApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests["refund-points"].getDetail(id);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);
