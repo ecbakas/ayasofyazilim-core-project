@@ -92,6 +92,18 @@
   "Contracts.Form.refundTableHeaders.validFrom": "Begin Date",
   "Contracts.Form.refundTableHeaders.validTo": "End Date",
 
+  "Contracts.Form.defaultRefundFeeHeader": "Default refund fee",
+  "Contracts.Form.defaultRefundFeeHeader.undefined": "Please select a default refund fee header",
+  "Contracts.Form.refundFeeHeaders": "Refund fees",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId": "Refund fee",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.emptyValue": "Please select an refund fee",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchPlaceholder": "Search for an refund fee",
+  "Contracts.Form.refundFeeHeaders.refundFeeHeaderId.searchResultLabel": "There is no refund fee with that value.",
+  "Contracts.Form.refundFeeHeaders.isDefault": "Default",
+  "Contracts.Form.refundFeeHeaders.edit": "Edit",
+  "Contracts.Form.refundFeeHeaders.validFrom": "Begin Date",
+  "Contracts.Form.refundFeeHeaders.validTo": "End Date",
+
   "Contracts.Settings.Form.Add": "Add contract setting",
   "Contracts.Settings.Form.Delete": "Delete",
   "Contracts.Settings.Form.Delete.Title": "Delete contract setting",
