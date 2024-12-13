@@ -1,11 +1,11 @@
 "use server";
 
 import type { UniRefund_TravellerService_Travellers_TravellerDetailProfileDto } from "@ayasofyazilim/saas/TravellerService";
-import { getResourceData } from "src/language-data/TravellerService";
-import { getTravellersDetailsApi } from "src/app/[lang]/app/actions/TravellerService/actions";
 import { getCountriesApi } from "src/app/[lang]/app/actions/LocationService/actions";
+import { getTravellersDetailsApi } from "src/app/[lang]/app/actions/TravellerService/actions";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getResourceData } from "src/language-data/TravellerService";
 import { getBaseLink } from "src/utils";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import Form from "./form";
 
 export default async function Page({
@@ -13,6 +13,11 @@ export default async function Page({
 }: {
   params: { travellerId: string; lang: string; identificationId: string };
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["TravellerService.Travellers.Edit"],
+    lang: params.lang,
+  });
+
   const { languageData } = await getResourceData(params.lang);
   const traveller = await getTravellersDetailsApi(params.travellerId);
   const countries = await getCountriesApi();
@@ -22,31 +27,26 @@ export default async function Page({
     (countries.type === "success" && countries.data.items) || [];
 
   return (
-    <PagePolicy
-      lang={params.lang}
-      requiredPolicies={["TravellerService.Travellers.Edit"]}
-    >
-      <>
-        <Form
-          countryList={{
-            data: countryList,
-            success: countries.type === "success",
-          }}
-          identificationId={params.identificationId}
-          languageData={languageData}
-          travellerData={travellerData}
-          travellerId={params.travellerId}
-        />
-        <div className="hidden" id="page-title">
-          {`${languageData["Travellers.Personal.Identification"]} (${travellerData.personalIdentifications[0].travelDocumentNumber})`}
-        </div>
-        <div className="hidden" id="page-description">
-          {languageData["Travellers.Identifications.Edit.Description"]}
-        </div>
-        <div className="hidden" id="page-back-link">
-          {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
-        </div>
-      </>
-    </PagePolicy>
+    <>
+      <Form
+        countryList={{
+          data: countryList,
+          success: countries.type === "success",
+        }}
+        identificationId={params.identificationId}
+        languageData={languageData}
+        travellerData={travellerData}
+        travellerId={params.travellerId}
+      />
+      <div className="hidden" id="page-title">
+        {`${languageData["Travellers.Personal.Identification"]} (${travellerData.personalIdentifications[0].travelDocumentNumber})`}
+      </div>
+      <div className="hidden" id="page-description">
+        {languageData["Travellers.Identifications.Edit.Description"]}
+      </div>
+      <div className="hidden" id="page-back-link">
+        {getBaseLink(`/app/admin/parties/travellers/${params.travellerId}`)}
+      </div>
+    </>
   );
 }

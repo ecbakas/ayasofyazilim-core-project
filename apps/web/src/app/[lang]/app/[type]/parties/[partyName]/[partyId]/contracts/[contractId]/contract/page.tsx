@@ -3,9 +3,9 @@ import {
   getMerchantContractHeaderByIdApi,
   getRefundTableHeadersApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
 import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getResourceData } from "src/language-data/ContractService";
 import { ContractHeader } from "./_components/contract-header";
 
 export default async function Page({
@@ -19,6 +19,11 @@ export default async function Page({
   };
 }) {
   const { lang, partyName, partyId, contractId } = params;
+  await isUnauthorized({
+    requiredPolicies: ["ContractService.ContractHeaderForMerchant.Edit"],
+    lang,
+  });
+
   const { languageData } = await getResourceData(lang);
   const refundTableHeaders = await getRefundTableHeadersApi({});
   const contractHeaderDetails =
@@ -33,18 +38,13 @@ export default async function Page({
   }
 
   return (
-    <PagePolicy
-      lang={lang}
-      requiredPolicies={["ContractService.ContractHeaderForMerchant.Edit"]}
-    >
-      <ContractHeader
-        addressList={addressList.data}
-        contractHeaderDetails={contractHeaderDetails.data}
-        languageData={languageData}
-        partyId={partyId}
-        partyName={partyName}
-        refundTableHeaders={refundTableHeaders.data.items || []}
-      />
-    </PagePolicy>
+    <ContractHeader
+      addressList={addressList.data}
+      contractHeaderDetails={contractHeaderDetails.data}
+      languageData={languageData}
+      partyId={partyId}
+      partyName={partyName}
+      refundTableHeaders={refundTableHeaders.data.items || []}
+    />
   );
 }

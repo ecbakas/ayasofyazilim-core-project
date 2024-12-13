@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
+import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
 import {
   getAdressesApi,
   getMerchantByIdApi,
 } from "src/app/[lang]/app/actions/CrmService/actions";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import { getRefundTableHeadersApi } from "src/app/[lang]/app/actions/ContractService/action";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
 import MerchantContractHeaderForm from "../_components/contract-header-form/merchant";
 
 export default async function Page({
@@ -19,6 +19,11 @@ export default async function Page({
     lang: string;
   };
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["ContractService.ContractHeaderForMerchant.Create"],
+    lang: params.lang,
+  });
+
   const addresses = await getAdressesApi(params.partyId, params.partyName);
   const refundTableHeaders = await getRefundTableHeadersApi({});
   const merchantDetails = await getMerchantByIdApi(params.partyId);
@@ -31,27 +36,22 @@ export default async function Page({
   }
   const { languageData } = await getResourceData(params.lang);
   return (
-    <PagePolicy
-      lang={params.lang}
-      requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
-    >
-      <>
-        <MerchantContractHeaderForm
-          addresses={addresses.data}
-          formType="create"
-          languageData={languageData}
-          loading={false}
-          partyId={params.partyId}
-          partyName={params.partyName}
-          refundTableHeaders={refundTableHeaders.data.items || []}
-        />
-        <PageHeader
-          languageData={languageData}
-          params={params}
-          title={merchantDetails.data.name}
-        />
-      </>
-    </PagePolicy>
+    <>
+      <MerchantContractHeaderForm
+        addresses={addresses.data}
+        formType="create"
+        languageData={languageData}
+        loading={false}
+        partyId={params.partyId}
+        partyName={params.partyName}
+        refundTableHeaders={refundTableHeaders.data.items || []}
+      />
+      <PageHeader
+        languageData={languageData}
+        params={params}
+        title={merchantDetails.data.name}
+      />
+    </>
   );
 }
 

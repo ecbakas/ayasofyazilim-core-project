@@ -2,7 +2,7 @@
 
 import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import { notFound } from "next/navigation";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/TravellerService";
 import { getCountriesApi } from "../../../actions/LocationService/actions";
 import { getTravellersApi } from "../../../actions/TravellerService/actions";
@@ -27,6 +27,11 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<SearchParamType>;
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["TravellerService.Travellers"],
+    lang: props.params.lang,
+  });
+
   const searchParams = await props.searchParams;
   const countries = await getCountriesApi();
   const countryList =
@@ -41,15 +46,10 @@ export default async function Page(props: {
 
   const { languageData } = await getResourceData(props.params.lang);
   return (
-    <PagePolicy
-      lang={props.params.lang}
-      requiredPolicies={["TravellerService.Travellers"]}
-    >
-      <TravellersTable
-        countryList={countryList}
-        languageData={languageData}
-        response={response.data}
-      />
-    </PagePolicy>
+    <TravellersTable
+      countryList={countryList}
+      languageData={languageData}
+      response={response.data}
+    />
   );
 }

@@ -1,9 +1,9 @@
 "use server";
 
 import { notFound } from "next/navigation";
-import { getResourceData } from "src/language-data/TravellerService";
 import { getTravellersDetailsApi } from "src/app/[lang]/app/actions/TravellerService/actions";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getResourceData } from "src/language-data/TravellerService";
 import Form from "./form";
 
 export default async function Page({
@@ -11,6 +11,11 @@ export default async function Page({
 }: {
   params: { travellerId: string; lang: string };
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["TravellerService.Travellers"],
+    lang: params.lang,
+  });
+
   const { languageData } = await getResourceData(params.lang);
   const traveller = await getTravellersDetailsApi(params.travellerId);
 
@@ -19,16 +24,11 @@ export default async function Page({
 
   return (
     <>
-      <PagePolicy
-        lang={params.lang}
-        requiredPolicies={["TravellerService.Travellers.Edit"]}
-      >
-        <Form
-          languageData={languageData}
-          travellerData={travellerData}
-          travellerId={params.travellerId}
-        />
-      </PagePolicy>
+      <Form
+        languageData={languageData}
+        travellerData={travellerData}
+        travellerId={params.travellerId}
+      />
       <div className="hidden" id="page-title">
         {`${languageData.Traveller} (${travellerData.personalIdentifications[0].fullName})`}
       </div>

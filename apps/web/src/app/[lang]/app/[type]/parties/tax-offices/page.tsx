@@ -2,7 +2,7 @@
 
 import type { GetApiCrmServiceTaxOfficesData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/CRMService";
 import { getTaxOfficesApi } from "../../../actions/CrmService/actions";
 import TaxOfficesTable from "./table";
@@ -18,6 +18,11 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<SearchParamType>;
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["CRMService.TaxOffices"],
+    lang: props.params.lang,
+  });
+
   const searchParams = await props.searchParams;
   const response = await getTaxOfficesApi({
     name: searchParams?.name || "",
@@ -29,11 +34,6 @@ export default async function Page(props: {
 
   const { languageData } = await getResourceData(props.params.lang);
   return (
-    <PagePolicy
-      lang={props.params.lang}
-      requiredPolicies={["CRMService.TaxOffices"]}
-    >
-      <TaxOfficesTable languageData={languageData} response={response.data} />
-    </PagePolicy>
+    <TaxOfficesTable languageData={languageData} response={response.data} />
   );
 }
