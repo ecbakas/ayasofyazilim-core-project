@@ -4,9 +4,9 @@ import { $UniRefund_ContractService_Refunds_RefundTableHeaders_RefundTableHeader
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/actions/api-utils-client";
-import { putRefundTableHeadersApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import { handlePutResponse } from "src/actions/core/api-utils-client";
+import { putRefundTableHeadersApi } from "src/actions/unirefund/ContractService/put-actions";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 function Form({
   response,

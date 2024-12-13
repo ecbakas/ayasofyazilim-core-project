@@ -9,10 +9,10 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import { handlePostResponse } from "src/actions/api-utils-client";
-import type { CountryDto } from "src/actions/LocationService/types";
-import { postTravellerIdentificationApi } from "src/actions/TravellerService/post-actions";
-import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import { handlePostResponse } from "src/actions/core/api-utils-client";
+import type { CountryDto } from "src/actions/unirefund/LocationService/types";
+import { postTravellerIdentificationApi } from "src/actions/unirefund/TravellerService/post-actions";
+import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 
 const createTravellerIdentificationSchema = createZodObject(
   $UniRefund_TravellerService_PersonalIdentificationCommonDatas_CreatePersonalIdentificationDto,

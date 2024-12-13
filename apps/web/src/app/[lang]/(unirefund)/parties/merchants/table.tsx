@@ -4,7 +4,7 @@ import type { PagedResultDto_MerchantProfileDto } from "@ayasofyazilim/saas/CRMS
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useParams, useRouter } from "next/navigation";
 import useGrantedPolicies from "src/hooks/use-granted-policies";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import { tableData } from "./merchant-table-data";
 
 function MerchantsTable({

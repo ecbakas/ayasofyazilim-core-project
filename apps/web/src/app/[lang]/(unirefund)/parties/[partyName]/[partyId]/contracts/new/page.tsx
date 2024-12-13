@@ -2,15 +2,15 @@ import { notFound } from "next/navigation";
 import {
   getRefundTableHeadersApi,
   getRefundFeeHeadersApi,
-} from "src/actions/ContractService/action";
+} from "src/actions/unirefund/ContractService/action";
 import {
   getAdressesApi,
   getMerchantByIdApi,
   getRefundPointDetailsByIdApi,
-} from "src/actions/CrmService/actions";
+} from "src/actions/unirefund/CrmService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import type { ContractServiceResource } from "src/language-data/ContractService";
-import { getResourceData } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { getBaseLink } from "src/utils";
 import MerchantContractHeaderForm from "../_components/contract-header-form/merchant";
 import RefundPointContractHeaderForm from "../_components/contract-header-form/refund-point";

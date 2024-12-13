@@ -4,7 +4,7 @@ import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecule
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { CheckCircle, PlusCircle, XCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 type RebateTableHeaders = TanstackTableCreationProps<RebateTableHeaderDto>;
 const booleanOptions = {

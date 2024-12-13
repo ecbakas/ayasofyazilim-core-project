@@ -19,13 +19,13 @@ import {
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useParams, useRouter } from "next/navigation";
-import { handlePutResponse } from "src/actions/api-utils-client";
+import { handlePutResponse } from "src/actions/core/api-utils-client";
 import {
   putTravellerPersonalPreferenceApi,
   putTravellerPersonalSummaryApi,
-} from "src/actions/TravellerService/put-actions";
+} from "src/actions/unirefund/TravellerService/put-actions";
 import useGrantedPolicies from "src/hooks/use-granted-policies";
-import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 import { tableData } from "./identification-table-data";
 
 export default function Page({

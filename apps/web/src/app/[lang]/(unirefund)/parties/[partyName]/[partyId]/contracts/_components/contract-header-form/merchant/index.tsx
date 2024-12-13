@@ -22,10 +22,10 @@ import { useState } from "react";
 import {
   handlePostResponse,
   handlePutResponse,
-} from "src/actions/api-utils-client";
-import { postMerchantContractHeadersByMerchantIdApi } from "src/actions/ContractService/action";
-import { putMerchantContractHeadersByIdApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+} from "src/actions/core/api-utils-client";
+import { postMerchantContractHeadersByMerchantIdApi } from "src/actions/unirefund/ContractService/action";
+import { putMerchantContractHeadersByIdApi } from "src/actions/unirefund/ContractService/put-actions";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import {
   MerchantAddressWidget,
   RefundTableWidget,

@@ -1,4 +1,4 @@
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import RebateForm from "../rebate-form";
 
 export default async function Page({ params }: { params: { lang: string } }) {

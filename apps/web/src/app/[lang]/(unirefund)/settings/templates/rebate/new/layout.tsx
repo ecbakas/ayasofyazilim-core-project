@@ -6,7 +6,7 @@ import {
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getResourceDataClient } from "src/language-data/ContractService";
+import { getResourceDataClient } from "src/language-data/unirefund/ContractService";
 import { getBaseLink } from "src/utils";
 
 interface LayoutProps {

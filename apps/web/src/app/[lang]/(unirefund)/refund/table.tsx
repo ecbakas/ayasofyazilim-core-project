@@ -3,7 +3,7 @@
 import type { PagedResultDto_RefundListItem } from "@ayasofyazilim/saas/RefundService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useRouter } from "next/navigation";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import useGrantedPolicies from "src/hooks/use-granted-policies";
 import { tableData } from "./table-data";
 

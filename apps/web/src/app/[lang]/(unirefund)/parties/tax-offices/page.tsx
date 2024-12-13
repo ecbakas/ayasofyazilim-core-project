@@ -3,8 +3,8 @@
 import type { GetApiCrmServiceTaxOfficesData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/CRMService";
-import { getTaxOfficesApi } from "../../../../../actions/CrmService/actions";
+import { getResourceData } from "src/language-data/unirefund/CRMService";
+import { getTaxOfficesApi } from "src/actions/unirefund/CrmService/actions";
 import TaxOfficesTable from "./table";
 
 interface SearchParamType {

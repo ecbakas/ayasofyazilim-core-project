@@ -3,9 +3,9 @@ import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
 import {
   getMerchantContractHeaderByIdApi,
   getRefundPointContractHeaderById,
-} from "src/actions/ContractService/action";
+} from "src/actions/unirefund/ContractService/action";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { getBaseLink } from "src/utils";
 import { isErrorOnRequest } from "src/utils/page-policy/utils";
 import type { ContractPartyName } from "../_components/types";

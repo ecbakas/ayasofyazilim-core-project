@@ -3,8 +3,8 @@
 import type { GetApiContractServiceRefundTablesRefundFeeHeadersData } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
-import { getRefundFeeHeadersApi } from "../../../../../../actions/ContractService/action";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
+import { getRefundFeeHeadersApi } from "../../../../../../actions/unirefund/ContractService/action";
 import Table from "./table";
 
 export default async function Page(props: {

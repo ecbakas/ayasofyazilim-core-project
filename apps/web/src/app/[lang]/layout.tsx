@@ -1,42 +1,24 @@
 "use server";
 import MainAdminLayout from "@repo/ui/theme/main-admin-layout";
 import { LogOut } from "lucide-react";
-import { GeistSans } from "geist/font/sans";
-import type { Metadata } from "next";
 import { auth } from "auth";
 import { signOutServer } from "auth-action";
 import unirefund from "public/unirefund.png";
-import { getResourceData } from "src/language-data/AbpUiNavigation";
+import { getResourceData } from "src/language-data/core/AbpUiNavigation";
 import { getBaseLink } from "src/utils";
-import { getNavbarFromDB } from "./navbar/navbar-data";
-import { getProfileMenuFromDB } from "./navbar/navbar-profile-data";
-import "../globals.css";
-import Providers from "src/providers/providers";
+import { getNavbarFromDB } from "../../utils/navbar/navbar-data";
+import { getProfileMenuFromDB } from "../../utils/navbar/navbar-profile-data";
 
-interface RootLayoutProps {
+interface LayoutProps {
   params: { lang: string };
   children: JSX.Element;
 }
 const appName = process.env.APPLICATION_NAME || "UNIREFUND";
-const title = appName.charAt(0).toUpperCase() + appName.slice(1).toLowerCase();
-export async function generateMetadata(): Promise<Metadata> {
-  await Promise.resolve();
-  return {
-    title,
-    description:
-      "Core project is a core web app for managing multi-tenant apps.",
-  };
-}
-export default async function RootLayout({
-  children,
-  params,
-}: RootLayoutProps) {
+export default async function Layout({ children, params }: LayoutProps) {
   const { lang } = params;
   const { languageData } = await getResourceData(lang);
   const session = await auth();
-
   const baseURL = getBaseLink("/", true, lang);
-
   const navbarFromDB = getNavbarFromDB(lang, languageData, appName, session);
   const profileMenuProps = getProfileMenuFromDB(languageData);
   profileMenuProps.info.name =
@@ -56,25 +38,19 @@ export default async function RootLayout({
   ];
   const logo = appName === "UNIREFUND" ? unirefund : undefined;
   return (
-    <html className="h-full overflow-hidden" lang={params.lang}>
-      <body className={GeistSans.className} data-app-name={appName}>
-        <Providers lang={params.lang}>
-          <div className="flex h-full flex-col bg-white">
-            <MainAdminLayout
-              appName={appName}
-              baseURL={baseURL}
-              lang={lang}
-              logo={logo}
-              navbarItems={navbarFromDB}
-              prefix=""
-              profileMenu={profileMenuProps}
-            />
-            <div className="flex h-full flex-col overflow-hidden px-4">
-              {children}
-            </div>
-          </div>
-        </Providers>
-      </body>
-    </html>
+    <div className="flex h-full flex-col bg-white">
+      <MainAdminLayout
+        appName={appName}
+        baseURL={baseURL}
+        lang={lang}
+        logo={logo}
+        navbarItems={navbarFromDB}
+        prefix=""
+        profileMenu={profileMenuProps}
+      />
+      <div className="flex h-full flex-col overflow-hidden px-4">
+        {children}
+      </div>
+    </div>
   );
 }

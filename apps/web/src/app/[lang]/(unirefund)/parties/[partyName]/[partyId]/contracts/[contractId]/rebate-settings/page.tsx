@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import {
   getMerchantContractHeaderRebateSettingsByHeaderIdApi,
   getRebateTableHeadersApi,
-} from "src/actions/ContractService/action";
-import { getSubMerchantsByMerchantIdApi } from "src/actions/CrmService/actions";
+} from "src/actions/unirefund/ContractService/action";
+import { getSubMerchantsByMerchantIdApi } from "src/actions/unirefund/CrmService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { RebateSettings } from "./_components/rebate-settings";
 
 export default async function Page({

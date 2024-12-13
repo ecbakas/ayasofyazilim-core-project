@@ -1,9 +1,9 @@
 "use server";
 
 import { notFound } from "next/navigation";
-import { getTravellersDetailsApi } from "src/actions/TravellerService/actions";
+import { getTravellersDetailsApi } from "src/actions/unirefund/TravellerService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/TravellerService";
+import { getResourceData } from "src/language-data/unirefund/TravellerService";
 import Form from "./form";
 
 export default async function Page({

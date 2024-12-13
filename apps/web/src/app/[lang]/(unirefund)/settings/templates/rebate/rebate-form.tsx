@@ -26,10 +26,10 @@ import { useState } from "react";
 import {
   handlePostResponse,
   handlePutResponse,
-} from "src/actions/api-utils-client";
-import { postRebateTableHeadersApi } from "src/actions/ContractService/post-actions";
-import { putRebateTableHeadersApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+} from "src/actions/core/api-utils-client";
+import { postRebateTableHeadersApi } from "src/actions/unirefund/ContractService/post-actions";
+import { putRebateTableHeadersApi } from "src/actions/unirefund/ContractService/put-actions";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 type RebateFormProps = {
   languageData: ContractServiceResource;

@@ -4,9 +4,9 @@ import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecule
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { Trash } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { handleDeleteResponse } from "src/actions/api-utils-client";
-import { deleteBillingApi } from "src/actions/FinanceService/actions";
-import type { FinanceServiceResource } from "src/language-data/FinanceService";
+import { handleDeleteResponse } from "src/actions/core/api-utils-client";
+import { deleteBillingApi } from "src/actions/unirefund/FinanceService/actions";
+import type { FinanceServiceResource } from "src/language-data/unirefund/FinanceService";
 
 type BillingTable =
   TanstackTableCreationProps<UniRefund_FinanceService_Billings_BillingDto>;
