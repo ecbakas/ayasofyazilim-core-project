@@ -22,7 +22,10 @@ export default async function Page({
     (countries.type === "success" && countries.data.items) || [];
 
   return (
-    <PagePolicy requiredPolicies={["TravellerService.Travellers.Edit"]}>
+    <PagePolicy
+      lang={params.lang}
+      requiredPolicies={["TravellerService.Travellers.Edit"]}
+    >
       <>
         <Form
           countryList={{

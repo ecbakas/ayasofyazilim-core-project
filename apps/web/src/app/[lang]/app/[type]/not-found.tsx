@@ -9,9 +9,7 @@ export default function Page() {
           Something went wrong!
         </h1>
         <p className="font-light text-gray-500 md:text-lg xl:text-xl">
-          Sorry, the page you are trying to access either does not exist or you
-          are not authorized to view it. If you think this is a mistake, please
-          contact your manager.
+          Sorry, there is a problem on our side. Please try again later.
         </p>
       </div>
     </section>

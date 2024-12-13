@@ -19,6 +19,7 @@ export default async function Page(props: {
 
   return (
     <PagePolicy
+      lang={props.params.lang}
       requiredPolicies={[
         "ContractService.RefundTableHeader",
         "ContractService.RefundTableDetail",

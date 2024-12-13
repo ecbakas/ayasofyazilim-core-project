@@ -22,7 +22,10 @@ export default async function Page({
     traveller.data as UniRefund_TravellerService_Travellers_TravellerDetailProfileDto;
 
   return (
-    <PagePolicy requiredPolicies={["TravellerService.Travellers.Create"]}>
+    <PagePolicy
+      lang={params.lang}
+      requiredPolicies={["TravellerService.Travellers.Create"]}
+    >
       <>
         <Form
           countryList={{

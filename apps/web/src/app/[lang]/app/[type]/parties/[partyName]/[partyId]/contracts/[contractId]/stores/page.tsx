@@ -30,6 +30,7 @@ export default async function Page({
   }
   return (
     <PagePolicy
+      lang={lang}
       requiredPolicies={[
         "ContractService.ContractStore",
         "ContractService.ContractStore.Edit",

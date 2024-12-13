@@ -14,6 +14,7 @@ export default async function Page({
   if (templates.type !== "success") return notFound();
   return (
     <PagePolicy
+      lang={params.lang}
       requiredPolicies={[
         "ContractService.RebateTableHeader",
         "ContractService.RebateTableDetail",

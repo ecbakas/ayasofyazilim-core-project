@@ -19,7 +19,10 @@ export default async function Page({
 
   return (
     <>
-      <PagePolicy requiredPolicies={["TravellerService.Travellers.Edit"]}>
+      <PagePolicy
+        lang={params.lang}
+        requiredPolicies={["TravellerService.Travellers.Edit"]}
+      >
         <Form
           languageData={languageData}
           travellerData={travellerData}

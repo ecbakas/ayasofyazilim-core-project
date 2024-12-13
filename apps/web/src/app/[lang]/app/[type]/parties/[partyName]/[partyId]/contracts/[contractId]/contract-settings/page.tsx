@@ -37,7 +37,10 @@ export default async function Page({
   )
     return notFound();
   return (
-    <PagePolicy requiredPolicies={["ContractService.ContractSetting.Edit"]}>
+    <PagePolicy
+      lang={lang}
+      requiredPolicies={["ContractService.ContractSetting.Edit"]}
+    >
       <ContractSettings
         addressList={addressList.data}
         contractHeaderDetails={contractHeaderDetails.data}
