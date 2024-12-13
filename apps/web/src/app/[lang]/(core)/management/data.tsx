@@ -62,19 +62,19 @@ import { getBaseLink } from "src/utils";
 import {
   getAllEditionsApi,
   moveAllTenantsApi,
-} from "src/actions/unirefund/SaasService/actions";
-import { putTenantSetPasswordApi } from "src/actions/unirefund/SaasService/put-actions";
+} from "src/actions/core/SaasService/actions";
+import { putTenantSetPasswordApi } from "src/actions/core/SaasService/put-actions";
 import {
   getAllRolesApi,
   getApplicationTokenLifetimeApi,
   getTwoFactorEnableApi,
   moveAllUsersApi,
-} from "../../../../actions/core/IdentityService/actions";
+} from "src/actions/core/IdentityService/actions";
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
   putUserTwoFactorApi,
-} from "../../../../actions/core/IdentityService/put-actions";
+} from "src/actions/core/IdentityService/put-actions";
 
 export interface DataConfig {
   displayName: string;
