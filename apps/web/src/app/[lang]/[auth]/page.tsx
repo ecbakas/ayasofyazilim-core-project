@@ -3,7 +3,6 @@
 import type { ResetPasswordFormDataType } from "@repo/ayasofyazilim-ui/molecules/forms/reset-password-form";
 import type { authTypes } from "@repo/ayasofyazilim-ui/pages/auth";
 import { Auth, isAuthType } from "@repo/ayasofyazilim-ui/pages/auth";
-import { Logo } from "@repo/ui/logo";
 import NextError from "next/error";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -165,14 +164,6 @@ export default function Page(): JSX.Element {
   const renderAppContent = (projectName: string) => {
     const baseClassName = "text-2xl font-bold text-[#f15656] md:text-5xl";
     switch (projectName) {
-      case "UNIREFUND":
-        return <Logo textProps={{ className: "h-16" }} variant="text" />;
-      case "UPWITHCROWD":
-        return <div className={baseClassName}>UPWITHCROWD</div>;
-      case "AYSHOPGO":
-        return <div className={baseClassName}>AYSHOPGO</div>;
-      case "TAHSILET":
-        return <div className={baseClassName}>TAHSILET</div>;
       default:
         return <div className={baseClassName}>ABP.io react</div>;
     }
