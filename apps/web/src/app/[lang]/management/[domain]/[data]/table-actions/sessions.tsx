@@ -8,7 +8,7 @@ import { useState } from "react";
 import {
   deleteUserSessionsApi,
   getUserSessionsApi,
-} from "src/app/[lang]/actions/IdentityService/actions";
+} from "src/actions/IdentityService/actions";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 
 export default function SessionsComponent({

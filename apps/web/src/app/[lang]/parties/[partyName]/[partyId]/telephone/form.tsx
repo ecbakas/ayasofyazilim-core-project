@@ -10,11 +10,11 @@ import AutoForm, {
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { telephoneSchema } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
-import { putCrmTelephoneApi } from "src/app/[lang]/actions/CrmService/put-actions";
-import type { TelephoneUpdateDto } from "src/app/[lang]/actions/CrmService/types";
+import { handlePutResponse } from "src/actions/api-utils-client";
+import { putCrmTelephoneApi } from "src/actions/CrmService/put-actions";
+import type { TelephoneUpdateDto } from "src/actions/CrmService/types";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import { isPhoneValid, splitPhone } from "src/utils-phone";
+import { isPhoneValid, splitPhone } from "src/utils/utils-phone";
 import type { PartyNameType } from "../../../types";
 
 function Telephone({

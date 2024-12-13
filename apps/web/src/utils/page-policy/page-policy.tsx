@@ -1,7 +1,7 @@
 "use server";
 import { permanentRedirect, RedirectType } from "next/navigation";
 import { auth } from "auth";
-import type { Policy } from "src/types";
+import type { Policy } from "src/utils/page-policy/utils";
 
 export default async function PagePolicy({
   requiredPolicies,

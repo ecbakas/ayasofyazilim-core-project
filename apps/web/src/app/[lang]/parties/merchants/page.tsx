@@ -2,9 +2,9 @@
 
 import type { GetApiCrmServiceMerchantsData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/CRMService";
-import { getMerchantsApi } from "../../actions/CrmService/actions";
+import { getMerchantsApi } from "../../../../actions/CrmService/actions";
 import MerchantsTable from "./table";
 
 interface SearchParamType {

@@ -4,7 +4,7 @@ import type { PagedResultDto_RefundListItem } from "@ayasofyazilim/saas/RefundSe
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useRouter } from "next/navigation";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import useGrantedPolicies from "src/app/hooks/use-granted-policies";
+import useGrantedPolicies from "src/hooks/use-granted-policies";
 import { tableData } from "./table-data";
 
 function RefundTable({

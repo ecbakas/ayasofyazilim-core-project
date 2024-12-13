@@ -1,6 +1,8 @@
 import { notFound, permanentRedirect, RedirectType } from "next/navigation";
 import type { ServerResponse } from "src/lib";
+import type policies from "./policies.json";
 
+export type Policy = keyof typeof policies;
 export function isErrorOnRequest<T>(
   response: ServerResponse<T>,
   lang: string,

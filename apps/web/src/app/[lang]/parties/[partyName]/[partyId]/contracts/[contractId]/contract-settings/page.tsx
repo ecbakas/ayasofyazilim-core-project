@@ -3,9 +3,9 @@ import {
   getMerchantContractHeaderByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi,
   getRefundTableHeadersApi,
-} from "src/app/[lang]/actions/ContractService/action";
-import { getAdressesApi } from "src/app/[lang]/actions/CrmService/actions";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+} from "src/actions/ContractService/action";
+import { getAdressesApi } from "src/actions/CrmService/actions";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import { ContractSettings } from "./_components/contract-settings";
 

@@ -1,7 +1,7 @@
 "use server";
 
-import { getCountriesApi } from "src/app/[lang]/actions/LocationService/actions";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getCountriesApi } from "src/actions/LocationService/actions";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/TravellerService";
 import Form from "./form";
 

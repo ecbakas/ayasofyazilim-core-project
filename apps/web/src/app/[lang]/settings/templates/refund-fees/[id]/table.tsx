@@ -12,8 +12,8 @@ import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { TableField } from "@repo/ayasofyazilim-ui/organisms/schema-form/fields";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { handlePostResponse } from "src/app/[lang]/actions/api-utils-client";
-import { postRefundFeeHeadersRefundFeeDetailsApi } from "src/app/[lang]/actions/ContractService/post-actions";
+import { handlePostResponse } from "src/actions/api-utils-client";
+import { postRefundFeeHeadersRefundFeeDetailsApi } from "src/actions/ContractService/post-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
 type TypeWithId<Type, IdType = string> = Type & {

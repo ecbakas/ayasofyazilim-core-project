@@ -1,10 +1,7 @@
 "use server";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import TableComponent from "@repo/ui/TableComponent";
-import {
-  deleteTableRow,
-  getApiRequests,
-} from "src/app/[lang]/actions/api-requests";
+import { deleteTableRow, getApiRequests } from "src/actions/api-requests";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { dataConfigOfParties } from "../../../table-data";
 import type { PartyNameType } from "../../../types";

@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import {
   getMerchantContractHeaderRebateSettingsByHeaderIdApi,
   getRebateTableHeadersApi,
-} from "src/app/[lang]/actions/ContractService/action";
-import { getSubMerchantsByMerchantIdApi } from "src/app/[lang]/actions/CrmService/actions";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+} from "src/actions/ContractService/action";
+import { getSubMerchantsByMerchantIdApi } from "src/actions/CrmService/actions";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import { RebateSettings } from "./_components/rebate-settings";
 

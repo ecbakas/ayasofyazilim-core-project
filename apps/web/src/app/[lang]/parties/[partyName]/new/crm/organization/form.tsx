@@ -14,11 +14,11 @@ import { useState } from "react";
 import type {
   CountryDto,
   SelectedAddressField,
-} from "src/app/[lang]/actions/LocationService/types";
-import { useAddressHook } from "src/app/[lang]/actions/LocationService/use-address-hook.tsx";
+} from "src/actions/LocationService/types";
+import { useAddressHook } from "src/actions/LocationService/use-address-hook.tsx";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
-import { isPhoneValid, splitPhone } from "src/utils-phone";
+import { isPhoneValid, splitPhone } from "src/utils/utils-phone";
 import type { CreatePartiesDto } from "../../../../table-data";
 import { dataConfigOfParties } from "../../../../table-data";
 import type { PartiesCreateDTOType, PartyNameType } from "../../../../types";

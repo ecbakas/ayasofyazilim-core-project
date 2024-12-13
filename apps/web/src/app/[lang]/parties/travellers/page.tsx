@@ -2,10 +2,10 @@
 
 import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import { notFound } from "next/navigation";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/TravellerService";
-import { getCountriesApi } from "../../actions/LocationService/actions";
-import { getTravellersApi } from "../../actions/TravellerService/actions";
+import { getCountriesApi } from "../../../../actions/LocationService/actions";
+import { getTravellersApi } from "../../../../actions/TravellerService/actions";
 import TravellersTable from "./table";
 
 interface SearchParamType {

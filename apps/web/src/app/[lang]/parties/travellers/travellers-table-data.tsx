@@ -9,9 +9,9 @@ import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/mole
 import { PlusCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
-import type { Policy } from "src/types";
-import isActionGranted from "src/app/[lang]/page-policy/action-policy";
-import type { CountryDto } from "../../actions/LocationService/types";
+import type { Policy } from "src/utils/page-policy/utils";
+import isActionGranted from "src/utils/page-policy/action-policy";
+import type { CountryDto } from "../../../../actions/LocationService/types";
 
 type TravellersTable =
   TanstackTableCreationProps<UniRefund_TravellerService_Travellers_TravellerListProfileDto>;

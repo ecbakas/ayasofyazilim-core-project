@@ -13,8 +13,8 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
-import { putBillingApi } from "src/app/[lang]/actions/FinanceService/put-actions";
+import { handlePutResponse } from "src/actions/api-utils-client";
+import { putBillingApi } from "src/actions/FinanceService/put-actions";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { FinanceServiceResource } from "src/language-data/FinanceService";
 

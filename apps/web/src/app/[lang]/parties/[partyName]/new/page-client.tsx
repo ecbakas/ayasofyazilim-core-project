@@ -7,7 +7,7 @@ import { Building2, User } from "lucide-react";
 import { useState } from "react";
 import type { UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto } from "@ayasofyazilim/saas/CRMService";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { CountryDto } from "src/app/[lang]/actions/LocationService/types";
+import type { CountryDto } from "src/actions/LocationService/types";
 import type { PartyNameType } from "../../types";
 import CrmIndividual from "./crm/individual/form";
 import CrmOrganization from "./crm/organization/form";

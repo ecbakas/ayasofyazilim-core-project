@@ -25,7 +25,7 @@ import {
   getUserClaimsApi,
   putRoleClaimsApi,
   putUserClaimsApi,
-} from "src/app/[lang]/actions/IdentityService/actions";
+} from "src/actions/IdentityService/actions";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 
 type ClaimsProps =

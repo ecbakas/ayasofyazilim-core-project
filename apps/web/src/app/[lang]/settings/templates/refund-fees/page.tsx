@@ -2,9 +2,9 @@
 
 import type { GetApiContractServiceRefundTablesRefundFeeHeadersData } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
-import { getRefundFeeHeadersApi } from "../../../actions/ContractService/action";
+import { getRefundFeeHeadersApi } from "../../../../../actions/ContractService/action";
 import Table from "./table";
 
 export default async function Page(props: {

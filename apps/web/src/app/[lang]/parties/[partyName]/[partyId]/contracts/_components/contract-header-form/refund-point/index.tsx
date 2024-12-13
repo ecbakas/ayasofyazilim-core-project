@@ -19,12 +19,12 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { useParams, useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { postRefundPointContractHeadersById } from "src/app/[lang]/actions/ContractService/post-actions";
-import { putRefundPointContractHeadersById } from "src/app/[lang]/actions/ContractService/put-actions";
+import { postRefundPointContractHeadersById } from "src/actions/ContractService/post-actions";
+import { putRefundPointContractHeadersById } from "src/actions/ContractService/put-actions";
 import {
   handlePostResponse,
   handlePutResponse,
-} from "src/app/[lang]/actions/api-utils-client";
+} from "src/actions/api-utils-client";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { MerchantAddressWidget, RefundFeeWidget } from "../../contract-widgets";
 

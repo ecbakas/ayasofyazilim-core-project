@@ -14,8 +14,8 @@ import type {
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { CheckCircle, PlusCircle, XCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { handlePostResponse } from "src/app/[lang]/actions/api-utils-client";
-import { postRefundFeeHeadersApi } from "src/app/[lang]/actions/ContractService/post-actions";
+import { handlePostResponse } from "src/actions/api-utils-client";
+import { postRefundFeeHeadersApi } from "src/actions/ContractService/post-actions";
 
 type RefundFeeHeaders =
   TanstackTableCreationProps<UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto>;

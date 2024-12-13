@@ -1,5 +1,4 @@
 import type { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto } from "@ayasofyazilim/saas/AccountService";
-import { defaultResources } from "./resources";
 
 type LocalizationDto =
   Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto;
@@ -34,7 +33,7 @@ export async function getLocalizationResources(
     );
     return ((await response.json()) as LocalizationDto).resources || {};
   } catch (error) {
-    return defaultResources || {};
+    return {};
   }
 }
 

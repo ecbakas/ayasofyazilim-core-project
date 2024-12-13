@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { getRefundTableHeadersById } from "src/app/[lang]/actions/ContractService/action";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getRefundTableHeadersById } from "src/actions/ContractService/action";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import Form from "./form";
 import RefundTableDetailsForm from "./table";

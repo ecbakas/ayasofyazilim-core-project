@@ -3,11 +3,11 @@ import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
 import {
   getMerchantContractHeaderByIdApi,
   getRefundPointContractHeaderById,
-} from "src/app/[lang]/actions/ContractService/action";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+} from "src/actions/ContractService/action";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
-import { isErrorOnRequest } from "src/app/[lang]/page-policy/utils";
+import { isErrorOnRequest } from "src/utils/page-policy/utils";
 import type { ContractPartyName } from "../_components/types";
 
 export default async function Layout({

@@ -3,7 +3,7 @@ import type { UniRefund_TagService_Tags_TagDetailDto } from "@ayasofyazilim/saas
 import InfoCard from "@repo/ayasofyazilim-ui/molecules/infocard";
 import { DollarSign } from "lucide-react";
 import { useParams } from "next/navigation";
-import { localizeCurrency } from "src/utils-number";
+import { localizeCurrency } from "src/utils/utils-number";
 
 function Totals({
   tagDetail,

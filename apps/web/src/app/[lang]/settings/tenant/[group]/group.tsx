@@ -10,8 +10,8 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
 import { notFound, useParams, useRouter } from "next/navigation";
-import { putCountrySettingsApi } from "src/app/[lang]/actions/AdministrationService/put-actions";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
+import { putCountrySettingsApi } from "src/actions/AdministrationService/put-actions";
+import { handlePutResponse } from "src/actions/api-utils-client";
 import type { AdministrationServiceResource } from "src/language-data/AdministrationService";
 import {
   createDependencies,
