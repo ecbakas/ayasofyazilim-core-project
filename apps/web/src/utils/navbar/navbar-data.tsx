@@ -1,10 +1,9 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
 import type { Session } from "next-auth";
 import type { AbpUiNavigationResource } from "src/language-data/core/AbpUiNavigation";
-import { unirefundNavbarDataFromDB } from "./projects/unirefund";
 
 const dbData = {
-  UNIREFUND: unirefundNavbarDataFromDB,
+  APP: [],
 };
 
 function buildItemHref(prefix: string, item: NavbarItemsFromDB) {
@@ -97,11 +96,10 @@ function checkForChildLink(
 export function getNavbarFromDB(
   prefix: string,
   languageData: AbpUiNavigationResource,
-  appName: string,
   session: Session | null,
 ) {
   const navbarDataFromDB: NavbarItemsFromDB[] = JSON.parse(
-    JSON.stringify(dbData[appName as keyof typeof dbData]),
+    JSON.stringify(dbData.APP),
   ) as NavbarItemsFromDB[];
 
   const processedItems = processNavbarItems(
