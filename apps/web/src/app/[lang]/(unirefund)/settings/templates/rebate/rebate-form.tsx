@@ -29,7 +29,7 @@ import {
 } from "src/actions/api-utils-client";
 import { postRebateTableHeadersApi } from "src/actions/ContractService/post-actions";
 import { putRebateTableHeadersApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 type RebateFormProps = {
   languageData: ContractServiceResource;

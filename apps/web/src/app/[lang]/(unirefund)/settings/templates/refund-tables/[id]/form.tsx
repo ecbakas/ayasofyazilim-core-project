@@ -6,7 +6,7 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/actions/api-utils-client";
 import { putRefundTableHeadersApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 function Form({
   response,

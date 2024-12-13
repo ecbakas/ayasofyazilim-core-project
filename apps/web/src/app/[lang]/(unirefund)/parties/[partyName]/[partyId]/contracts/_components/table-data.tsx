@@ -8,8 +8,8 @@ import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import type { TanstackTableCreationProps } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData as columnsByData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { getBaseLink } from "src/utils";
 import type { ContractPartyName } from "./types";
 

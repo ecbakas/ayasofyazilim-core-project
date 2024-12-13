@@ -31,7 +31,7 @@ import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/sch
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import RebateForm from "src/app/[lang]/(unirefund)/settings/templates/rebate/rebate-form";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { postMerchantContractHeaderRebateSettingByHeaderIdApi } from "src/actions/ContractService/post-actions";
 import { handlePostResponse } from "src/actions/api-utils-client";
 import {

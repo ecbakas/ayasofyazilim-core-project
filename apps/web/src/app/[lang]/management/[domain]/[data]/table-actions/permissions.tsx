@@ -15,7 +15,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { getPermissionsApi } from "src/actions/AdministrationService/actions";
 import { putPermissionsApi } from "src/actions/AdministrationService/put-actions";
-import { getResourceDataClient } from "src/language-data/IdentityService";
+import { getResourceDataClient } from "src/language-data/core/IdentityService";
 
 type NormalizedPermissionGroup = Omit<
   Volo_Abp_PermissionManagement_PermissionGroupDto,

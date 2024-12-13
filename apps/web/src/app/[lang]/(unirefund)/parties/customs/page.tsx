@@ -3,7 +3,7 @@
 import type { GetApiCrmServiceCustomsData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/CRMService";
+import { getResourceData } from "src/language-data/unirefund/CRMService";
 import { getCustomsApi } from "../../../../../actions/CrmService/actions";
 import CustomsTable from "./table";
 

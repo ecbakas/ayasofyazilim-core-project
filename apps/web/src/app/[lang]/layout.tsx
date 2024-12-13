@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { auth } from "auth";
 import { signOutServer } from "auth-action";
 import unirefund from "public/unirefund.png";
-import { getResourceData } from "src/language-data/AbpUiNavigation";
+import { getResourceData } from "src/language-data/core/AbpUiNavigation";
 import { getBaseLink } from "src/utils";
 import { getNavbarFromDB } from "./navbar/navbar-data";
 import { getProfileMenuFromDB } from "./navbar/navbar-profile-data";

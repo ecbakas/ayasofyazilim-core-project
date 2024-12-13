@@ -12,8 +12,8 @@ import {
   getTaxOfficesApi,
 } from "src/actions/CrmService/actions";
 import { getCountriesApi } from "src/actions/LocationService/actions";
-import { getResourceData as getContractsResourceData } from "src/language-data/ContractService";
-import { getResourceData } from "src/language-data/CRMService";
+import { getResourceData as getContractsResourceData } from "src/language-data/unirefund/ContractService";
+import { getResourceData } from "src/language-data/unirefund/CRMService";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
 import Address from "./address/form";

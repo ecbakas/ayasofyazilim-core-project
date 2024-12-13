@@ -12,7 +12,7 @@ import AutoForm, {
 import { useRouter } from "next/navigation";
 import type { CountryDto } from "src/actions/LocationService/types";
 import { postTravellerApi } from "src/actions/TravellerService/post-actions";
-import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 import { getBaseLink } from "src/utils";
 
 const createTravellerSchema = createZodObject(

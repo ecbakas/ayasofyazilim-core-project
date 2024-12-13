@@ -25,7 +25,7 @@ import {
   handlePostResponse,
   handlePutResponse,
 } from "src/actions/api-utils-client";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { MerchantAddressWidget, RefundFeeWidget } from "../../contract-widgets";
 
 type RefundPointContractHeaderFormProps = {

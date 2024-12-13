@@ -9,7 +9,7 @@ import {
   deleteUserSessionsApi,
   getUserSessionsApi,
 } from "src/actions/IdentityService/actions";
-import { getResourceDataClient } from "src/language-data/IdentityService";
+import { getResourceDataClient } from "src/language-data/core/IdentityService";
 
 export default function SessionsComponent({
   rowId,

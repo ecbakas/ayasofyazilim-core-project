@@ -11,7 +11,7 @@ import { PlusCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { handlePostResponse } from "src/actions/api-utils-client";
 import { postRefundTableHeadersRefundTableDetailsApi } from "src/actions/ContractService/post-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 
 type TypeWithId<Type, IdType = string> = Type & {
   id: IdType;

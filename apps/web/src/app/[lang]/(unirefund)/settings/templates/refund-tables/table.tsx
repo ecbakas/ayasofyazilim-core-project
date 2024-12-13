@@ -2,7 +2,7 @@
 import type { PagedResultDto_RefundTableHeaderDto } from "@ayasofyazilim/saas/ContractService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useRouter } from "next/navigation";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { tableData } from "./table-data";
 
 function RefundTable({

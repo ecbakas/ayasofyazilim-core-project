@@ -1,11 +1,11 @@
 import { getLocalizationResources } from "src/utils";
-import defaultEn from "../Default/resources/en.json";
-import defaultTr from "../Default/resources/tr.json";
+import defaultEn from "../../core/Default/resources/en.json";
+import defaultTr from "../../core/Default/resources/tr.json";
 import en from "./resources/en.json";
 import tr from "./resources/tr.json";
 
-export type CRMServiceServiceResource = typeof en & typeof defaultEn;
-function getLanguageData(lang: string): CRMServiceServiceResource {
+export type ContractServiceResource = typeof en & typeof defaultEn;
+function getLanguageData(lang: string): ContractServiceResource {
   if (lang === "tr") {
     return {
       ...defaultTr,

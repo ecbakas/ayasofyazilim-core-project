@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/actions/api-utils-client";
 import { putCrmTelephoneApi } from "src/actions/CrmService/put-actions";
 import type { TelephoneUpdateDto } from "src/actions/CrmService/types";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import { isPhoneValid, splitPhone } from "src/utils/utils-phone";
 import type { PartyNameType } from "../../../types";
 

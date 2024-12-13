@@ -1,7 +1,7 @@
 "use server";
 import { getBillingDetailApi } from "src/actions/FinanceService/actions";
-import { getResourceData as getFinanceResources } from "src/language-data/FinanceService";
-import { getResourceData as getCRMResources } from "src/language-data/CRMService";
+import { getResourceData as getFinanceResources } from "src/language-data/unirefund/FinanceService";
+import { getResourceData as getCRMResources } from "src/language-data/unirefund/CRMService";
 import { getMerchantsApi } from "src/actions/CrmService/actions";
 import Form from "./form";
 

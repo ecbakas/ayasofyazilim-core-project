@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { getCountrySettingsApi } from "src/actions/AdministrationService/actions";
-import { getResourceData } from "src/language-data/AdministrationService";
+import { getResourceData } from "src/language-data/core/AdministrationService";
 import TenantSettingsPage from "./group";
 
 export default async function Page({

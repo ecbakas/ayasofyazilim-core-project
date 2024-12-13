@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/actions/api-utils-client";
 import type { CountryDto } from "src/actions/LocationService/types";
 import { putTravellerPersonalIdentificationApi } from "src/actions/TravellerService/put-actions";
-import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 
 const updateTravellerIdentificationSchema = createZodObject(
   $UniRefund_TravellerService_PersonalIdentificationCommonDatas_UpdatePersonalIdentificationDto,

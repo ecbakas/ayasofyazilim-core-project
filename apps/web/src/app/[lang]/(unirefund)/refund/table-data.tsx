@@ -14,7 +14,7 @@ import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/mole
 import { PlusCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import isActionGranted from "src/utils/page-policy/action-policy";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import type { Policy } from "src/utils/page-policy/utils";
 
 type RefundTable =

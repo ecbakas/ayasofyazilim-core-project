@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/actions/api-utils-client";
 import { putCrmIndividualNameApi } from "src/actions/CrmService/put-actions";
 import type { IndividualNameUpdateDto } from "src/actions/CrmService/types";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 
 function NameForm({
   languageData,

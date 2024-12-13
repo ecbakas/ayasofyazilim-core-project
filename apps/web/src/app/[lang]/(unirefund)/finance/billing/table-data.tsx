@@ -6,7 +6,7 @@ import { Trash } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { handleDeleteResponse } from "src/actions/api-utils-client";
 import { deleteBillingApi } from "src/actions/FinanceService/actions";
-import type { FinanceServiceResource } from "src/language-data/FinanceService";
+import type { FinanceServiceResource } from "src/language-data/unirefund/FinanceService";
 
 type BillingTable =
   TanstackTableCreationProps<UniRefund_FinanceService_Billings_BillingDto>;

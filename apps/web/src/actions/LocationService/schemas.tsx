@@ -9,7 +9,7 @@ import {
 import { CustomCombobox as SchemaFormCustomCombobox } from "@repo/ayasofyazilim-ui/organisms/schema-form/widgets";
 import type { Dispatch, SetStateAction } from "react";
 import type { WidgetProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
-import type { LanguageDataResourceType } from "src/language-data/language-data";
+import type { AppLanguageDataResourceType } from "src/language-data/unirefund/language-data";
 import type {
   CityDto,
   CountryDto,
@@ -42,7 +42,7 @@ export function getAddressFieldConfig(params: {
   cityList?: CityDto[];
   regionList?: RegionDto[];
   countryList?: CountryDto[];
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   const fieldConfig = {
     cityId: {
@@ -107,7 +107,7 @@ export function handleOnAddressValueChange({
   regionList?: RegionDto[];
   selectedFields: SelectedAddressField;
   setSelectedFields: Dispatch<SetStateAction<SelectedAddressField>>;
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   const val = values as {
     [key in AddressFormFieldsType]: string;
@@ -168,7 +168,7 @@ export function getAddressSettingsForSchemaForm(params: {
   cityList?: CityDto[];
   regionList?: RegionDto[];
   countryList?: CountryDto[];
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   const widgets = {
     cityId: (props: WidgetProps) => (

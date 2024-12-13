@@ -11,7 +11,7 @@ import type {
   FilterColumnResult,
 } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import TableComponent from "@repo/ui/TableComponent";
-import { getResourceData } from "src/language-data/ExportValidationService";
+import { getResourceData } from "src/language-data/unirefund/ExportValidationService";
 import { deleteTableRow } from "../../../../../actions/api-requests";
 import { tableFetchRequest } from "../../../../../actions/table-utils";
 import { getTagsApi } from "../../../../../actions/TagService/actions";

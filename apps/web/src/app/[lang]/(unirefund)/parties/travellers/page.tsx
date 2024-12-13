@@ -3,7 +3,7 @@
 import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/TravellerService";
+import { getResourceData } from "src/language-data/unirefund/TravellerService";
 import { getCountriesApi } from "../../../../../actions/LocationService/actions";
 import { getTravellersApi } from "../../../../../actions/TravellerService/actions";
 import TravellersTable from "./table";

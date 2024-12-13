@@ -3,7 +3,7 @@
 import type { GetApiContractServiceRefundTablesRefundTableHeadersData } from "@ayasofyazilim/saas/ContractService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { getRefundTableHeadersApi } from "../../../../../../actions/ContractService/action";
 import RefundTable from "./table";
 

@@ -12,7 +12,7 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
 import { postExportValidationApi } from "src/actions/ExportValidationService/post-actions";
-import type { ExportValidationServiceResource } from "src/language-data/ExportValidationService";
+import type { ExportValidationServiceResource } from "src/language-data/unirefund/ExportValidationService";
 import { getBaseLink } from "src/utils";
 
 const ExportValidationSchema = createZodObject(

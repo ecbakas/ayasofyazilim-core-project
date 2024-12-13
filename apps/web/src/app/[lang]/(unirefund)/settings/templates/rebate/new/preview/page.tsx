@@ -2,7 +2,7 @@ import React from "react";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { Input } from "@/components/ui/input";
 import Button from "@repo/ayasofyazilim-ui/molecules/button";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 
 const columns = [
   {

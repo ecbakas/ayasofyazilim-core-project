@@ -25,7 +25,7 @@ import {
   putTravellerPersonalSummaryApi,
 } from "src/actions/TravellerService/put-actions";
 import useGrantedPolicies from "src/hooks/use-granted-policies";
-import type { TravellerServiceResource } from "src/language-data/TravellerService";
+import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 import { tableData } from "./identification-table-data";
 
 export default function Page({

@@ -1,6 +1,6 @@
 import { getLocalizationResources } from "src/utils";
-import defaultEn from "../Default/resources/en.json";
-import defaultTr from "../Default/resources/tr.json";
+import defaultEn from "../../core/Default/resources/en.json";
+import defaultTr from "../../core/Default/resources/tr.json";
 import en from "./resources/en.json";
 import tr from "./resources/tr.json";
 

@@ -10,7 +10,7 @@ import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { postMerchantContractHeaderContractStoresByHeaderIdApi } from "src/actions/ContractService/post-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { tableData } from "./table-data";
 
 export function ContractStoresTable({

@@ -11,8 +11,8 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
 import { postBillingApi } from "src/actions/FinanceService/post-actions";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { FinanceServiceResource } from "src/language-data/FinanceService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
+import type { FinanceServiceResource } from "src/language-data/unirefund/FinanceService";
 import { getBaseLink } from "src/utils";
 
 const billingSchema = createZodObject(

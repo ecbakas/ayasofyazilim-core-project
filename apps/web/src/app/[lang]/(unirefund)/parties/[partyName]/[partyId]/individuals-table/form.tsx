@@ -27,7 +27,7 @@ import {
   handleGetResponseError,
   handlePostResponse,
 } from "src/actions/api-utils-client";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import type { PartyNameType } from "../../../types";
 
 interface AutoFormValues {

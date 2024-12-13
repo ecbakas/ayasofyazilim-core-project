@@ -12,7 +12,7 @@ import type {
   DependencyType,
   FieldConfig,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import type { AdministrationServiceResource } from "src/language-data/AdministrationService";
+import type { AdministrationServiceResource } from "src/language-data/core/AdministrationService";
 import { description } from "./description";
 
 export type AllowedValueTypeModelNameStringEnum =

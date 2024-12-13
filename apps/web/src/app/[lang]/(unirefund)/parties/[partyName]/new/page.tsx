@@ -1,7 +1,7 @@
 "use server";
 
 import { getTaxOfficesApi } from "src/actions/CrmService/actions";
-import { getResourceData } from "src/language-data/CRMService";
+import { getResourceData } from "src/language-data/unirefund/CRMService";
 import { getCountriesApi } from "../../../../../../actions/LocationService/actions";
 import type { PartyNameType } from "../../types";
 import PageClientSide from "./page-client";

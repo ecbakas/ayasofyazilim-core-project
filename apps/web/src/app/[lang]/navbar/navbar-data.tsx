@@ -1,6 +1,6 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
 import type { Session } from "next-auth";
-import type { AbpUiNavigationResource } from "src/language-data/AbpUiNavigation";
+import type { AbpUiNavigationResource } from "src/language-data/core/AbpUiNavigation";
 import { unirefundNavbarDataFromDB } from "./projects/unirefund";
 
 const dbData = {

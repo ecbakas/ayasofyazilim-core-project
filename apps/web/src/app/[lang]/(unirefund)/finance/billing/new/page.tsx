@@ -1,8 +1,8 @@
 "use server";
 
 import { getMerchantsApi } from "src/actions/CrmService/actions";
-import { getResourceData as getFinanceResources } from "src/language-data/FinanceService";
-import { getResourceData as getCRMResources } from "src/language-data/CRMService";
+import { getResourceData as getFinanceResources } from "src/language-data/unirefund/FinanceService";
+import { getResourceData as getCRMResources } from "src/language-data/unirefund/CRMService";
 import Form from "./form";
 
 export default async function Page({ params }: { params: { lang: string } }) {

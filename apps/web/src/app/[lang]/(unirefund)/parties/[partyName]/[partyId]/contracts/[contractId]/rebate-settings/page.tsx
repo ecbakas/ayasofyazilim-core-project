@@ -5,7 +5,7 @@ import {
 } from "src/actions/ContractService/action";
 import { getSubMerchantsByMerchantIdApi } from "src/actions/CrmService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { RebateSettings } from "./_components/rebate-settings";
 
 export default async function Page({

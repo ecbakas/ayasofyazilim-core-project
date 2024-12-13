@@ -3,7 +3,7 @@
 import type { GetApiCrmServiceTaxFreesData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/CRMService";
+import { getResourceData } from "src/language-data/unirefund/CRMService";
 import { getTaxFreesApi } from "../../../../../actions/CrmService/actions";
 import TaxFreeTable from "./table";
 

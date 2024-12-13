@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { LanguageDataResourceType } from "src/language-data/language-data";
+import type { AppLanguageDataResourceType } from "src/language-data/unirefund/language-data";
 import type {
   CityDto,
   CountryDto,
@@ -24,8 +24,8 @@ export function useAddressHook({
 }: {
   countryList: CountryDto[];
   selectedFieldsDefaultValue: SelectedAddressField;
-  languageData: LanguageDataResourceType;
   fieldsToHideInAddressSchema: AddressFormFieldsType[];
+  languageData: AppLanguageDataResourceType;
 }) {
   const [selectedFields, setSelectedFields] = useState<SelectedAddressField>(
     selectedFieldsDefaultValue,

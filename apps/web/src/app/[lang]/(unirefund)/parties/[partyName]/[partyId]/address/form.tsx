@@ -17,7 +17,7 @@ import type {
 } from "src/actions/LocationService/types";
 import { useAddressHook } from "src/actions/LocationService/use-address-hook.tsx";
 import { handlePutResponse } from "src/actions/api-utils-client";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import type { PartyNameType } from "../../../types";
 
 function Address({

@@ -1,6 +1,6 @@
 import type { ProfileMenuProps } from "@repo/ui/theme/types";
 import { Layers, Settings, User } from "lucide-react";
-import type { AbpUiNavigationResource } from "src/language-data/AbpUiNavigation";
+import type { AbpUiNavigationResource } from "src/language-data/core/AbpUiNavigation";
 
 export function getProfileMenuFromDB(languageData: AbpUiNavigationResource) {
   const profileMenu: ProfileMenuProps = {

@@ -25,7 +25,7 @@ import {
 } from "src/actions/api-utils-client";
 import { postMerchantContractHeadersByMerchantIdApi } from "src/actions/ContractService/action";
 import { putMerchantContractHeadersByIdApi } from "src/actions/ContractService/put-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import {
   MerchantAddressWidget,
   RefundTableWidget,

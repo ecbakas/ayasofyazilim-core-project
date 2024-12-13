@@ -34,7 +34,7 @@ import {
   putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi,
   putMerchantContractContractSettingsByIdApi,
 } from "src/actions/ContractService/action";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { MerchantAddressWidget } from "../../../_components/contract-widgets";
 
 interface ContractSettingsTable {

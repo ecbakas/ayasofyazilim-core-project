@@ -15,8 +15,8 @@ import AutoForm, {
 import { useRouter } from "next/navigation";
 import { handlePutResponse } from "src/actions/api-utils-client";
 import { putBillingApi } from "src/actions/FinanceService/put-actions";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { FinanceServiceResource } from "src/language-data/FinanceService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
+import type { FinanceServiceResource } from "src/language-data/unirefund/FinanceService";
 
 const updateBillingSchema = createZodObject(
   $UniRefund_FinanceService_Billings_UpdateBillingDto,

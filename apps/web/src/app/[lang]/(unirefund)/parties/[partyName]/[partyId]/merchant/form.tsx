@@ -20,7 +20,7 @@ import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-l
 import { useRouter } from "next/navigation";
 import { putMerchantBaseApi } from "src/actions/CrmService/put-actions";
 import { handlePutResponse } from "src/actions/api-utils-client";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 
 function MerchantForm({
   languageData,

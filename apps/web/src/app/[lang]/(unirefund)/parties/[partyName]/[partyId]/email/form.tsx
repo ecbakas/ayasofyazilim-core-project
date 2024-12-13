@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { putCrmEmailAddressApi } from "src/actions/CrmService/put-actions";
 import type { EmailAddressUpdateDto } from "src/actions/CrmService/types";
 import { handlePutResponse } from "src/actions/api-utils-client";
-import type { CRMServiceServiceResource } from "src/language-data/CRMService";
+import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import type { PartyNameType } from "../../../types";
 
 function Email({

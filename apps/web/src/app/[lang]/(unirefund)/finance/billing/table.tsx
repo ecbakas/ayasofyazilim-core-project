@@ -3,7 +3,7 @@
 import type { PagedResultDto_BillingDto } from "@ayasofyazilim/saas/FinanceService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useRouter } from "next/navigation";
-import type { FinanceServiceResource } from "src/language-data/FinanceService";
+import type { FinanceServiceResource } from "src/language-data/unirefund/FinanceService";
 import { tableData } from "./table-data";
 
 function BillingTable({

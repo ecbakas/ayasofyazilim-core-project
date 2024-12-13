@@ -5,7 +5,7 @@ import {
   getRefundPointContractHeaderById,
 } from "src/actions/ContractService/action";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
-import { getResourceData } from "src/language-data/ContractService";
+import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { getBaseLink } from "src/utils";
 import { isErrorOnRequest } from "src/utils/page-policy/utils";
 import type { ContractPartyName } from "../_components/types";

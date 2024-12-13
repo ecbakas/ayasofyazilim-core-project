@@ -2,7 +2,7 @@
 
 import { toast } from "@/components/ui/sonner";
 import type { Dispatch, SetStateAction } from "react";
-import type { LanguageDataResourceType } from "src/language-data/language-data";
+import type { AppLanguageDataResourceType } from "src/language-data/unirefund/language-data";
 import {
   getCitiesByRegionId,
   getDefaultRegionsByCountryIdApi,
@@ -19,7 +19,7 @@ export async function getRegion({
   countryList: CountryDto[];
   countryId: string;
   setRegionList: Dispatch<SetStateAction<RegionDto[] | undefined>>;
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   const selectedCountry = countryList.find(
     (country) => country.id === countryId,
@@ -54,7 +54,7 @@ export async function getCity({
 }: {
   regionId: string;
   setCityList: Dispatch<SetStateAction<CityDto[] | undefined>>;
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   const cities = await getCitiesByRegionId({ regionId });
   if (cities.type === "success") {
@@ -78,7 +78,7 @@ export function getAddressList({
   regionId?: string;
   setRegionList: Dispatch<SetStateAction<RegionDto[] | undefined>>;
   setCityList: Dispatch<SetStateAction<CityDto[] | undefined>>;
-  languageData: LanguageDataResourceType;
+  languageData: AppLanguageDataResourceType;
 }) {
   if (countryId) {
     void getRegion({

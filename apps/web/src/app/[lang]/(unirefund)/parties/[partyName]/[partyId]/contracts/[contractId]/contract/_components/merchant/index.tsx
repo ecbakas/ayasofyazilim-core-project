@@ -16,7 +16,7 @@ import { handleDeleteResponse } from "src/actions/api-utils-client";
 import { getMerchantContractHeaderMissingStepsByIdApi } from "src/actions/ContractService/action";
 import { deleteMerchantContractHeaderByIdApi } from "src/actions/ContractService/delete-actions";
 import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/actions/ContractService/post-actions";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import MerchantContractHeaderForm from "../../../../_components/contract-header-form/merchant";
 
 export function ContractHeader({

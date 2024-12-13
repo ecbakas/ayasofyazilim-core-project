@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { getTableDataDetail } from "src/actions/api-requests";
 import { getMerchantsApi } from "src/actions/CrmService/actions";
-import { getResourceDataClient } from "src/language-data/ContractService";
+import { getResourceDataClient } from "src/language-data/unirefund/ContractService";
 import { createTag } from "../actions";
 
 interface Payment {

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import type { ComponentType, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { handleDeleteResponse } from "src/actions/api-utils-client";
-import type { ContractServiceResource } from "src/language-data/ContractService";
+import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { postRefundPointContractHeaderValidateByHeaderId } from "src/actions/ContractService/post-actions";
 import { getRefundPointContractHeaderMissingStepsById } from "src/actions/ContractService/action";
 import { deleteRefundPointContractHeadersById } from "src/actions/ContractService/delete-actions";
