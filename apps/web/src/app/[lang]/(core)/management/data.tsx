@@ -69,12 +69,12 @@ import {
   getApplicationTokenLifetimeApi,
   getTwoFactorEnableApi,
   moveAllUsersApi,
-} from "../../../actions/core/IdentityService/actions";
+} from "../../../../actions/core/IdentityService/actions";
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
   putUserTwoFactorApi,
-} from "../../../actions/core/IdentityService/put-actions";
+} from "../../../../actions/core/IdentityService/put-actions";
 
 export interface DataConfig {
   displayName: string;
