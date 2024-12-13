@@ -12,10 +12,10 @@ import { CheckCircle, ListTodo, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { ComponentType, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { handleDeleteResponse } from "src/actions/api-utils-client";
-import { getMerchantContractHeaderMissingStepsByIdApi } from "src/actions/ContractService/action";
-import { deleteMerchantContractHeaderByIdApi } from "src/actions/ContractService/delete-actions";
-import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/actions/ContractService/post-actions";
+import { handleDeleteResponse } from "src/actions/core/api-utils-client";
+import { getMerchantContractHeaderMissingStepsByIdApi } from "src/actions/unirefund/ContractService/action";
+import { deleteMerchantContractHeaderByIdApi } from "src/actions/unirefund/ContractService/delete-actions";
+import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/actions/unirefund/ContractService/post-actions";
 import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import MerchantContractHeaderForm from "../../../../_components/contract-header-form/merchant";
 

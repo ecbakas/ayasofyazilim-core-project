@@ -25,7 +25,7 @@ import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { FormModifier, TableData } from "@repo/ui/utils/table/table-utils";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { getUserOrganizationApi } from "src/actions/IdentityService/actions.ts";
+import { getUserOrganizationApi } from "src/actions/core/IdentityService/actions.ts";
 import { getResourceDataClient } from "src/language-data/core/IdentityService/index.ts";
 import { getBaseLink } from "src/utils.ts";
 import { dataConfig } from "../../data.tsx";

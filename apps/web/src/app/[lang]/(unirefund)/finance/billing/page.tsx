@@ -3,7 +3,7 @@
 import type { GetApiFinanceServiceBillingsData } from "@ayasofyazilim/saas/FinanceService";
 import { notFound } from "next/navigation";
 import { getResourceData } from "src/language-data/unirefund/FinanceService";
-import { getBillingApi } from "src/actions/FinanceService/actions";
+import { getBillingApi } from "src/actions/unirefund/FinanceService/actions";
 import BillingTable from "./table";
 
 export default async function Page(props: {

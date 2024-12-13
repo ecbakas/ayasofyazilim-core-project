@@ -13,8 +13,8 @@ import {
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useCallback, useEffect, useState } from "react";
-import { getPermissionsApi } from "src/actions/AdministrationService/actions";
-import { putPermissionsApi } from "src/actions/AdministrationService/put-actions";
+import { getPermissionsApi } from "src/actions/core/AdministrationService/actions";
+import { putPermissionsApi } from "src/actions/core/AdministrationService/put-actions";
 import { getResourceDataClient } from "src/language-data/core/IdentityService";
 
 type NormalizedPermissionGroup = Omit<

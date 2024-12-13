@@ -1,8 +1,8 @@
 "use server";
 
 import type { UniRefund_TravellerService_Travellers_TravellerDetailProfileDto } from "@ayasofyazilim/saas/TravellerService";
-import { getCountriesApi } from "src/actions/LocationService/actions";
-import { getTravellersDetailsApi } from "src/actions/TravellerService/actions";
+import { getCountriesApi } from "src/actions/unirefund/LocationService/actions";
+import { getTravellersDetailsApi } from "src/actions/unirefund/TravellerService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/TravellerService";
 import { getBaseLink } from "src/utils";

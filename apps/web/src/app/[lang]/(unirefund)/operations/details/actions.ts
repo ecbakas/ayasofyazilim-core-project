@@ -8,9 +8,9 @@ import type {
   UniRefund_TagService_Tags_CreateTagRequestDto,
 } from "@ayasofyazilim/saas/TagService";
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
+import { getMerchantsApi } from "src/actions/unirefund/CrmService/actions";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
-import { getMerchantsApi } from "../../../../../actions/CrmService/actions";
 
 export async function getTags(
   data: GetApiTagServiceTagData = {},

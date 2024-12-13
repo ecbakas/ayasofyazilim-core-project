@@ -4,7 +4,7 @@ import type { GetApiCrmServiceIndividualsData } from "@ayasofyazilim/saas/CRMSer
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/CRMService";
-import { getIndividualsApi } from "../../../../../actions/CrmService/actions";
+import { getIndividualsApi } from "src/actions/unirefund/CrmService/actions";
 import IndividualsTable from "./table";
 
 interface SearchParamType {

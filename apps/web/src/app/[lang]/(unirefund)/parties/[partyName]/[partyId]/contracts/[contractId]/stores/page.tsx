@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import {
   getMerchantContractHeaderContractSettingsByHeaderIdApi,
   getMerchantContractHeadersContractStoresByHeaderIdApi,
-} from "src/actions/ContractService/action";
+} from "src/actions/unirefund/ContractService/action";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { ContractStoresTable } from "./_components/table";

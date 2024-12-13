@@ -60,21 +60,21 @@ import type { TableData } from "@repo/ui/utils/table/table-utils";
 import type { ErrorTypes } from "src/lib";
 import { getBaseLink } from "src/utils";
 import {
+  getAllEditionsApi,
+  moveAllTenantsApi,
+} from "src/actions/unirefund/SaasService/actions";
+import { putTenantSetPasswordApi } from "src/actions/unirefund/SaasService/put-actions";
+import {
   getAllRolesApi,
   getApplicationTokenLifetimeApi,
   getTwoFactorEnableApi,
   moveAllUsersApi,
-} from "../../../actions/IdentityService/actions";
+} from "../../../actions/core/IdentityService/actions";
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
   putUserTwoFactorApi,
-} from "../../../actions/IdentityService/put-actions";
-import {
-  getAllEditionsApi,
-  moveAllTenantsApi,
-} from "../../../actions/SaasService/actions";
-import { putTenantSetPasswordApi } from "../../../actions/SaasService/put-actions";
+} from "../../../actions/core/IdentityService/put-actions";
 
 export interface DataConfig {
   displayName: string;

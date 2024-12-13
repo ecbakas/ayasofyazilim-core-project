@@ -9,14 +9,14 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
-import { putCrmAddressApi } from "src/actions/CrmService/put-actions";
+import { putCrmAddressApi } from "src/actions/unirefund/CrmService/put-actions";
 import type {
   AddressUpdateDto,
   CountryDto,
   SelectedAddressField,
-} from "src/actions/LocationService/types";
-import { useAddressHook } from "src/actions/LocationService/use-address-hook.tsx";
-import { handlePutResponse } from "src/actions/api-utils-client";
+} from "src/actions/unirefund/LocationService/types";
+import { useAddressHook } from "src/actions/unirefund/LocationService/use-address-hook.tsx";
+import { handlePutResponse } from "src/actions/core/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import type { PartyNameType } from "../../../types";
 

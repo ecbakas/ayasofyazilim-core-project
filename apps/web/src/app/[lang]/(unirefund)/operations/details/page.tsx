@@ -1,6 +1,6 @@
 "use server";
 
-import { getCountriesApi } from "../../../../../actions/LocationService/actions";
+import { getCountriesApi } from "src/actions/unirefund/LocationService/actions";
 import Table from "./table";
 
 export default async function Page() {

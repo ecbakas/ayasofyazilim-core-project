@@ -4,7 +4,7 @@ import type { GetApiCrmServiceMerchantsData } from "@ayasofyazilim/saas/CRMServi
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/CRMService";
-import { getMerchantsApi } from "../../../../../actions/CrmService/actions";
+import { getMerchantsApi } from "src/actions/unirefund/CrmService/actions";
 import MerchantsTable from "./table";
 
 interface SearchParamType {

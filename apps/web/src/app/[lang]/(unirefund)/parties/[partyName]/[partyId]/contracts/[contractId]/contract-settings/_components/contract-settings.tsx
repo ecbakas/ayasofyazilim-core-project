@@ -26,14 +26,14 @@ import {
   handleDeleteResponse,
   handlePostResponse,
   handlePutResponse,
-} from "src/actions/api-utils-client";
+} from "src/actions/core/api-utils-client";
 import {
   deleteMerchantContractContractSettingsByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
   postMerchantContractHeaderContractSettingsByHeaderIdApi,
   putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi,
   putMerchantContractContractSettingsByIdApi,
-} from "src/actions/ContractService/action";
+} from "src/actions/unirefund/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/unirefund/ContractService";
 import { MerchantAddressWidget } from "../../../_components/contract-widgets";
 

@@ -3,8 +3,8 @@ import {
   getMerchantContractHeaderByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi,
   getRefundTableHeadersApi,
-} from "src/actions/ContractService/action";
-import { getAdressesApi } from "src/actions/CrmService/actions";
+} from "src/actions/unirefund/ContractService/action";
+import { getAdressesApi } from "src/actions/unirefund/CrmService/actions";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { ContractSettings } from "./_components/contract-settings";

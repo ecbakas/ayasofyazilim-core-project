@@ -10,8 +10,8 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import type { CountryDto } from "src/actions/LocationService/types";
-import { postTravellerApi } from "src/actions/TravellerService/post-actions";
+import type { CountryDto } from "src/actions/unirefund/LocationService/types";
+import { postTravellerApi } from "src/actions/unirefund/TravellerService/post-actions";
 import type { TravellerServiceResource } from "src/language-data/unirefund/TravellerService";
 import { getBaseLink } from "src/utils";
 

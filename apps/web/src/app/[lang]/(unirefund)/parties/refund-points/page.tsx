@@ -4,7 +4,7 @@ import type { GetApiCrmServiceRefundPointsData } from "@ayasofyazilim/saas/CRMSe
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/CRMService";
-import { getRefundPointsApi } from "../../../../../actions/CrmService/actions";
+import { getRefundPointsApi } from "src/actions/unirefund/CrmService/actions";
 import RefundPointsTable from "./table";
 
 interface SearchParamType {

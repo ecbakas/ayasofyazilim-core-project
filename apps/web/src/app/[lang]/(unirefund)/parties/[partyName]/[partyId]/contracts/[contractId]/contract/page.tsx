@@ -1,13 +1,13 @@
 import {
   getRefundPointDetailsByIdApi,
   getAdressesApi,
-} from "src/actions/CrmService/actions";
+} from "src/actions/unirefund/CrmService/actions";
 import {
   getMerchantContractHeaderByIdApi,
   getRefundFeeHeadersApi,
   getRefundPointContractHeaderById,
   getRefundTableHeadersApi,
-} from "src/actions/ContractService/action";
+} from "src/actions/unirefund/ContractService/action";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/ContractService";
 import { isErrorOnRequest } from "src/utils/page-policy/utils";

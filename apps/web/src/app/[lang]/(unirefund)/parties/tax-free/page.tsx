@@ -4,7 +4,7 @@ import type { GetApiCrmServiceTaxFreesData } from "@ayasofyazilim/saas/CRMServic
 import { notFound } from "next/navigation";
 import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/unirefund/CRMService";
-import { getTaxFreesApi } from "../../../../../actions/CrmService/actions";
+import { getTaxFreesApi } from "src/actions/unirefund/CrmService/actions";
 import TaxFreeTable from "./table";
 
 interface SearchParamType {

@@ -8,9 +8,9 @@ import AutoForm, {
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/actions/api-utils-client";
-import { putCrmIndividualPersonalSummaryApi } from "src/actions/CrmService/put-actions";
-import type { IndividualPersonalSummariesUpdateDto } from "src/actions/CrmService/types";
+import { handlePutResponse } from "src/actions/core/api-utils-client";
+import { putCrmIndividualPersonalSummaryApi } from "src/actions/unirefund/CrmService/put-actions";
+import type { IndividualPersonalSummariesUpdateDto } from "src/actions/unirefund/CrmService/types";
 import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 
 function PersonalSummariesForm({

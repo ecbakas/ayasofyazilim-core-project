@@ -20,13 +20,13 @@ import { useEffect, useState } from "react";
 import {
   getAffiliationCodeApi,
   getIndividualsApi,
-} from "src/actions/CrmService/actions";
-import { postAffiliationsApi } from "src/actions/CrmService/post-actions";
-import type { AffiliationsPostDto } from "src/actions/CrmService/types";
+} from "src/actions/unirefund/CrmService/actions";
+import { postAffiliationsApi } from "src/actions/unirefund/CrmService/post-actions";
+import type { AffiliationsPostDto } from "src/actions/unirefund/CrmService/types";
 import {
   handleGetResponseError,
   handlePostResponse,
-} from "src/actions/api-utils-client";
+} from "src/actions/core/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/unirefund/CRMService";
 import type { PartyNameType } from "../../../types";
 
