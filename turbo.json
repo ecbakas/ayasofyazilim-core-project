@@ -7,13 +7,11 @@
     "APP_NAME",
     "APPLICATION_NAME",
     "AUTH_SECRET",
-    "PROJECT_SERVICE_URL",
     "HOSTNAME",
     "PORT",
     "TEST_USERNAME",
     "TEST_PASSWORD",
-    "TENANT_ID",
-    "CI"
+    "TENANT_ID"
   ],
   "tasks": {
     "build": {
