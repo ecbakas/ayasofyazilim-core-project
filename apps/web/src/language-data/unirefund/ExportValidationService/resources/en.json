@@ -1,0 +1,36 @@
+{
+  "ExportValidation": "Export Validation",
+  "ExportValidation.New": "New Export Validation",
+  "ExportValidation.New.Error": "Failed to add Export Validation",
+  "ExportValidation.New.Success": "Export Validation created successfully",
+  "ExportValidation.Update.Success": "Export Validation updated successfully",
+  "ExportValidation.New.Fail": "An error occurred while saving the Export Validation",
+  "ExportValidation.Update.Fail": "Failed to update Export Validation",
+  "Custom.Select": "Select Custom",
+  "Tag.Select": "Select Tag",
+
+  "Form.tagId": "Tag Name",
+  "Form.exportLocationId": "Custom Name",
+  "Form.referenceId": "Reference Name",
+  "Form.exportDate": "Export Date",
+  "Form.status": "Status",
+  "Form.stampType": "Stamp Type",
+  "Form.initialValidationResult": "Initial Validation Result",
+  "Form.finalValidationResult": "Final Validation Result",
+
+  "Form.status.None": "None",
+  "Form.status.Waiting": "Waiting",
+  "Form.status.Approved": "Approved",
+  "Form.status.Rejected": "Rejected",
+  "Form.status.Expired": "Expired",
+
+  "Form.stampType.None": "None",
+  "Form.stampType.Integration": "Integration",
+  "Form.stampType.DigitalStamp": "Digital",
+
+  "Form.initialValidationResult.None": "None",
+  "Form.initialValidationResult.Green": "Green",
+
+  "Form.finalValidationResult.None": "None",
+  "Form.finalValidationResult.Green": "Green"
+}
