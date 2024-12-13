@@ -5,7 +5,10 @@ import type {
   Volo_Abp_Identity_IdentityRoleDto,
   Volo_Abp_Identity_OrganizationUnitDto,
 } from "@ayasofyazilim/saas/IdentityService";
-import type { SchemaType } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import {
+  createZodObject,
+  type SchemaType,
+} from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import { MultiSelect } from "@repo/ayasofyazilim-ui/molecules/multi-select";
 import type {
@@ -24,7 +27,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { getUserOrganizationApi } from "src/app/[lang]/app/actions/IdentityService/actions.ts";
 import { getResourceDataClient } from "src/language-data/IdentityService";
-import { createZodObject, getBaseLink } from "src/utils";
+import { getBaseLink } from "src/utils.ts";
 import { dataConfig } from "../../data.tsx";
 import Claims from "./table-actions/claims";
 import PermissionsComponent from "./table-actions/permissions.tsx";

@@ -26,7 +26,8 @@ import type { TreeViewElement } from "node_modules/@repo/ayasofyazilim-ui/src/mo
 import { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 import { noop } from "@tanstack/react-table";
-import { createZodObject, getBaseLink } from "src/utils";
+import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import { getBaseLink } from "src/utils";
 import type { OrganizationUnit, Role, User } from "./action";
 import {
   fetchOrganizationUnits,
