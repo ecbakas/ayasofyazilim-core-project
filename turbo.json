@@ -12,7 +12,8 @@
     "PORT",
     "TEST_USERNAME",
     "TEST_PASSWORD",
-    "TENANT_ID"
+    "TENANT_ID",
+    "CI"
   ],
   "tasks": {
     "build": {
