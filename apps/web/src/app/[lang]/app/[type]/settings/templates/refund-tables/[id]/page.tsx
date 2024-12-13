@@ -17,6 +17,7 @@ export default async function Page({
 
   return (
     <PagePolicy
+      lang={params.lang}
       requiredPolicies={[
         "ContractService.RefundTableDetail.Create",
         "ContractService.RefundTableDetail.Edit",

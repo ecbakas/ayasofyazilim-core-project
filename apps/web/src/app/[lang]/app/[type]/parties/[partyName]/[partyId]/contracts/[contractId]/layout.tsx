@@ -25,6 +25,7 @@ export default async function Layout({
   if (contractHeaderDetails.type !== "success") return notFound();
   return (
     <PagePolicy
+      lang={lang}
       requiredPolicies={[
         "ContractService.ContractHeaderForMerchant",
         "ContractService.ContractSetting.Edit",

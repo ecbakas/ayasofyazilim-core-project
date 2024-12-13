@@ -17,6 +17,7 @@ export default async function Page({
   const { languageData } = await getResourceData(params.lang);
   return (
     <PagePolicy
+      lang={params.lang}
       requiredPolicies={[
         "ContractService.RefundFeeDetail.Create",
         "ContractService.RefundFeeDetail.Edit",

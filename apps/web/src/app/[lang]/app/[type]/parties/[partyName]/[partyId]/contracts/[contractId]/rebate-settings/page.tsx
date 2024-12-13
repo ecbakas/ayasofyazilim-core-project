@@ -30,7 +30,10 @@ export default async function Page({
     return notFound();
   }
   return (
-    <PagePolicy requiredPolicies={["ContractService.RebateSetting.Edit"]}>
+    <PagePolicy
+      lang={lang}
+      requiredPolicies={["ContractService.RebateSetting.Edit"]}
+    >
       <RebateSettings
         contractId={contractId}
         lang={lang}

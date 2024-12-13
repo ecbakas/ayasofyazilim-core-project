@@ -73,7 +73,8 @@ export default async function Page({
     ?.organizations?.at(0);
   return (
     <PagePolicy
-      requiredPolicies={["ContractService.ContractHeaderForRefundPoint.Create"]}
+      lang={params.lang}
+      requiredPolicies={["ContractService.ContractHeaderForMerchant.Create"]}
     >
       <>
         <RefundPointContractHeaderForm
