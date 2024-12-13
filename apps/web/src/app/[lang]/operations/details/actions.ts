@@ -10,7 +10,7 @@ import type {
 import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables/types";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
-import { getMerchantsApi } from "../../actions/CrmService/actions";
+import { getMerchantsApi } from "../../../../actions/CrmService/actions";
 
 export async function getTags(
   data: GetApiTagServiceTagData = {},

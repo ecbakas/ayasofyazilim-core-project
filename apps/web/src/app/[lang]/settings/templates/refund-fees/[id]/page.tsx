@@ -1,7 +1,7 @@
 "use server";
 import { notFound } from "next/navigation";
-import { getRefundFeeHeadersByIdApi } from "src/app/[lang]/actions/ContractService/action";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getRefundFeeHeadersByIdApi } from "src/actions/ContractService/action";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import Form from "./form";
 import RefundFeeDetailsForm from "./table";

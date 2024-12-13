@@ -17,8 +17,8 @@ import type { CellContext, ColumnDef } from "@tanstack/react-table";
 import { columnsGenerator } from "node_modules/@repo/ayasofyazilim-ui/src/molecules/tables/columnsGenerator";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { getTableDataDetail } from "src/app/[lang]/actions/api-requests";
-import { getMerchantsApi } from "src/app/[lang]/actions/CrmService/actions";
+import { getTableDataDetail } from "src/actions/api-requests";
+import { getMerchantsApi } from "src/actions/CrmService/actions";
 import { getResourceDataClient } from "src/language-data/ContractService";
 import { createTag } from "../actions";
 

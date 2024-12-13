@@ -12,9 +12,9 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
-import type { CountryDto } from "src/app/[lang]/actions/LocationService/types";
-import { putTravellerPersonalIdentificationApi } from "src/app/[lang]/actions/TravellerService/put-actions";
+import { handlePutResponse } from "src/actions/api-utils-client";
+import type { CountryDto } from "src/actions/LocationService/types";
+import { putTravellerPersonalIdentificationApi } from "src/actions/TravellerService/put-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 
 const updateTravellerIdentificationSchema = createZodObject(

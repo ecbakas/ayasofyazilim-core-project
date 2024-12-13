@@ -1,7 +1,7 @@
 "use server";
 
 import { notFound } from "next/navigation";
-import { getTagById } from "src/app/[lang]/actions/TagService/actions";
+import { getTagById } from "src/actions/TagService/actions";
 import MerchantDetails from "./_components/merchant-details";
 import TagSummary from "./_components/tag-summary";
 import Totals from "./_components/totals";

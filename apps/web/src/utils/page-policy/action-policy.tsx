@@ -1,5 +1,5 @@
 "use client";
-import type { Policy } from "src/types";
+import type { Policy } from "src/utils/page-policy/utils";
 
 export default function isActionGranted(
   requiredPolicies: Policy[],

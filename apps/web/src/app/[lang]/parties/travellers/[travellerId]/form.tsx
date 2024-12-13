@@ -19,12 +19,12 @@ import {
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { useParams, useRouter } from "next/navigation";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
+import { handlePutResponse } from "src/actions/api-utils-client";
 import {
   putTravellerPersonalPreferenceApi,
   putTravellerPersonalSummaryApi,
-} from "src/app/[lang]/actions/TravellerService/put-actions";
-import useGrantedPolicies from "src/app/hooks/use-granted-policies";
+} from "src/actions/TravellerService/put-actions";
+import useGrantedPolicies from "src/hooks/use-granted-policies";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 import { tableData } from "./identification-table-data";
 

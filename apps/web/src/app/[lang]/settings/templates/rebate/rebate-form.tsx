@@ -26,9 +26,9 @@ import { useState } from "react";
 import {
   handlePostResponse,
   handlePutResponse,
-} from "src/app/[lang]/actions/api-utils-client";
-import { postRebateTableHeadersApi } from "src/app/[lang]/actions/ContractService/post-actions";
-import { putRebateTableHeadersApi } from "src/app/[lang]/actions/ContractService/put-actions";
+} from "src/actions/api-utils-client";
+import { postRebateTableHeadersApi } from "src/actions/ContractService/post-actions";
+import { putRebateTableHeadersApi } from "src/actions/ContractService/put-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
 type RebateFormProps = {

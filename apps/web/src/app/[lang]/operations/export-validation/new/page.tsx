@@ -1,7 +1,7 @@
 "use server";
 
-import { getCustomsApi } from "src/app/[lang]/actions/CrmService/actions";
-import { getTagsApi } from "src/app/[lang]/actions/TagService/actions";
+import { getCustomsApi } from "src/actions/CrmService/actions";
+import { getTagsApi } from "src/actions/TagService/actions";
 import { getResourceData } from "src/language-data/ExportValidationService";
 import Form from "./form";
 

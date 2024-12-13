@@ -8,9 +8,9 @@ import type {
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
 import { PlusCircle } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import isActionGranted from "src/app/[lang]/page-policy/action-policy";
+import isActionGranted from "src/utils/page-policy/action-policy";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import type { Policy } from "src/types";
+import type { Policy } from "src/utils/page-policy/utils";
 
 type TaxFreeTable =
   TanstackTableCreationProps<UniRefund_CRMService_TaxFrees_TaxFreeProfileDto>;

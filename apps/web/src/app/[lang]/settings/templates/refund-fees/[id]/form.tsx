@@ -4,8 +4,8 @@ import { $UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpda
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
-import { putRefundFeeHeadersApi } from "src/app/[lang]/actions/ContractService/put-actions";
+import { handlePutResponse } from "src/actions/api-utils-client";
+import { putRefundFeeHeadersApi } from "src/actions/ContractService/put-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 
 function Form({

@@ -32,8 +32,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import RebateForm from "src/app/[lang]/settings/templates/rebate/rebate-form";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import { postMerchantContractHeaderRebateSettingByHeaderIdApi } from "src/app/[lang]/actions/ContractService/post-actions";
-import { handlePostResponse } from "src/app/[lang]/actions/api-utils-client";
+import { postMerchantContractHeaderRebateSettingByHeaderIdApi } from "src/actions/ContractService/post-actions";
+import { handlePostResponse } from "src/actions/api-utils-client";
 import {
   MerchantStoresWidget,
   RebateTableWidget,

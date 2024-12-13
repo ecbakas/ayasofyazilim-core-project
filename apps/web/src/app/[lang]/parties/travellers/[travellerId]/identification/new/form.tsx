@@ -9,9 +9,9 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import { handlePostResponse } from "src/app/[lang]/actions/api-utils-client";
-import type { CountryDto } from "src/app/[lang]/actions/LocationService/types";
-import { postTravellerIdentificationApi } from "src/app/[lang]/actions/TravellerService/post-actions";
+import { handlePostResponse } from "src/actions/api-utils-client";
+import type { CountryDto } from "src/actions/LocationService/types";
+import { postTravellerIdentificationApi } from "src/actions/TravellerService/post-actions";
 import type { TravellerServiceResource } from "src/language-data/TravellerService";
 
 const createTravellerIdentificationSchema = createZodObject(

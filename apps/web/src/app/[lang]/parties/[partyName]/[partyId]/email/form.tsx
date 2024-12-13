@@ -10,9 +10,9 @@ import AutoForm, {
 import { SectionLayoutContent } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { emailSchema } from "@repo/ui/utils/table/form-schemas";
 import { useRouter } from "next/navigation";
-import { putCrmEmailAddressApi } from "src/app/[lang]/actions/CrmService/put-actions";
-import type { EmailAddressUpdateDto } from "src/app/[lang]/actions/CrmService/types";
-import { handlePutResponse } from "src/app/[lang]/actions/api-utils-client";
+import { putCrmEmailAddressApi } from "src/actions/CrmService/put-actions";
+import type { EmailAddressUpdateDto } from "src/actions/CrmService/types";
+import { handlePutResponse } from "src/actions/api-utils-client";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import type { PartyNameType } from "../../../types";
 

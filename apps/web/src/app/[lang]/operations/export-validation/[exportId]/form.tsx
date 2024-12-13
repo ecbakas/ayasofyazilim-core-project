@@ -14,7 +14,7 @@ import AutoForm, {
   createFieldConfigWithResource,
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import { putExportValidationApi } from "src/app/[lang]/actions/ExportValidationService/put-actions";
+import { putExportValidationApi } from "src/actions/ExportValidationService/put-actions";
 import type { ExportValidationServiceResource } from "src/language-data/ExportValidationService";
 
 const ExportValidationSchema = createZodObject(

@@ -2,16 +2,16 @@
 
 import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import { notFound } from "next/navigation";
-import { getTableDataDetail } from "src/app/[lang]/actions/api-requests";
+import { getTableDataDetail } from "src/actions/api-requests";
 import {
   getMerchantContractHeadersByMerchantIdApi,
   getRefundPointContractHeadersByRefundPointIdApi,
-} from "src/app/[lang]/actions/ContractService/action";
+} from "src/actions/ContractService/action";
 import {
   getMerchantsApi,
   getTaxOfficesApi,
-} from "src/app/[lang]/actions/CrmService/actions";
-import { getCountriesApi } from "src/app/[lang]/actions/LocationService/actions";
+} from "src/actions/CrmService/actions";
+import { getCountriesApi } from "src/actions/LocationService/actions";
 import { getResourceData as getContractsResourceData } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/CRMService";
 import { dataConfigOfParties } from "../../table-data";

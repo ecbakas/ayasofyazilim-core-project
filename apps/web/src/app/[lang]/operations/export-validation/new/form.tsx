@@ -11,7 +11,7 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { useRouter } from "next/navigation";
-import { postExportValidationApi } from "src/app/[lang]/actions/ExportValidationService/post-actions";
+import { postExportValidationApi } from "src/actions/ExportValidationService/post-actions";
 import type { ExportValidationServiceResource } from "src/language-data/ExportValidationService";
 import { getBaseLink } from "src/utils";
 

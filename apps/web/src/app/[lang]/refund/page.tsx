@@ -1,10 +1,10 @@
 "use server";
 
 import type { GetApiRefundServiceRefundsData } from "@ayasofyazilim/saas/RefundService";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
-import { isErrorOnRequest } from "src/app/[lang]/page-policy/utils";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
+import { isErrorOnRequest } from "src/utils/page-policy/utils";
 import { getResourceData } from "src/language-data/ContractService";
-import { getRefundApi } from "../actions/RefundService/actions";
+import { getRefundApi } from "../../../actions/RefundService/actions";
 import RefundTable from "./table";
 
 export default async function Page(props: {

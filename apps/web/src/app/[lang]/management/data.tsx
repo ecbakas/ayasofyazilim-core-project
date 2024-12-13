@@ -56,26 +56,33 @@ import type { AutoFormInputComponentProps } from "node_modules/@repo/ayasofyazil
 import { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import type { TableData } from "@repo/ui/utils/table/table-utils";
 import type { ErrorTypes } from "src/lib";
-import type { DataConfigArray } from "src/types";
 import { getBaseLink } from "src/utils";
 import {
   getAllRolesApi,
   getApplicationTokenLifetimeApi,
   getTwoFactorEnableApi,
   moveAllUsersApi,
-} from "../actions/IdentityService/actions";
+} from "../../../actions/IdentityService/actions";
 import {
   putApplicationTokenLifetimeApi,
   putUserChangePasswordApi,
   putUserTwoFactorApi,
-} from "../actions/IdentityService/put-actions";
+} from "../../../actions/IdentityService/put-actions";
 import {
   getAllEditionsApi,
   moveAllTenantsApi,
-} from "../actions/SaasService/actions";
-import { putTenantSetPasswordApi } from "../actions/SaasService/put-actions";
+} from "../../../actions/SaasService/actions";
+import { putTenantSetPasswordApi } from "../../../actions/SaasService/put-actions";
 
+export interface DataConfig {
+  displayName: string;
+  default: string;
+  pages: Record<string, TableData>;
+}
+
+export type DataConfigArray = Record<string, DataConfig>;
 export const dataConfig: DataConfigArray = {
   openiddict: {
     displayName: "Open Id",

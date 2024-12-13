@@ -1,7 +1,7 @@
 "use server";
 import { notFound } from "next/navigation";
-import { getRebateTableHeadersByIdApi } from "src/app/[lang]/actions/ContractService/action";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+import { getRebateTableHeadersByIdApi } from "src/actions/ContractService/action";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import RebateForm from "../rebate-form";
 

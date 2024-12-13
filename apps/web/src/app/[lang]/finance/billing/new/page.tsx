@@ -1,6 +1,6 @@
 "use server";
 
-import { getMerchantsApi } from "src/app/[lang]/actions/CrmService/actions";
+import { getMerchantsApi } from "src/actions/CrmService/actions";
 import { getResourceData as getFinanceResources } from "src/language-data/FinanceService";
 import { getResourceData as getCRMResources } from "src/language-data/CRMService";
 import Form from "./form";

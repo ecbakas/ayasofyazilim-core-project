@@ -2,13 +2,13 @@ import { notFound } from "next/navigation";
 import {
   getRefundTableHeadersApi,
   getRefundFeeHeadersApi,
-} from "src/app/[lang]/actions/ContractService/action";
+} from "src/actions/ContractService/action";
 import {
   getAdressesApi,
   getMerchantByIdApi,
   getRefundPointDetailsByIdApi,
-} from "src/app/[lang]/actions/CrmService/actions";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+} from "src/actions/CrmService/actions";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";

@@ -1,16 +1,16 @@
 import {
   getRefundPointDetailsByIdApi,
   getAdressesApi,
-} from "src/app/[lang]/actions/CrmService/actions";
+} from "src/actions/CrmService/actions";
 import {
   getMerchantContractHeaderByIdApi,
   getRefundFeeHeadersApi,
   getRefundPointContractHeaderById,
   getRefundTableHeadersApi,
-} from "src/app/[lang]/actions/ContractService/action";
-import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
+} from "src/actions/ContractService/action";
+import { isUnauthorized } from "src/utils/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
-import { isErrorOnRequest } from "src/app/[lang]/page-policy/utils";
+import { isErrorOnRequest } from "src/utils/page-policy/utils";
 import type { ContractPartyName } from "../../_components/types";
 import { ContractHeader as RefundPointContractHeader } from "./_components/refund-point";
 import { ContractHeader as MerchantContractHeader } from "./_components/merchant";

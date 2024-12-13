@@ -4,7 +4,7 @@ import type { GetApiCrmServiceIndividualsResponse } from "@ayasofyazilim/saas/CR
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
 import { useParams, useRouter } from "next/navigation";
 import type { CRMServiceServiceResource } from "src/language-data/CRMService";
-import useGrantedPolicies from "src/app/hooks/use-granted-policies";
+import useGrantedPolicies from "src/hooks/use-granted-policies";
 import { tableData } from "./individuals-table-data";
 
 function IndividualsTable({

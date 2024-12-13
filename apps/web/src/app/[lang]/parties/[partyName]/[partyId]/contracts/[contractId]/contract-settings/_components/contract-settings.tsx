@@ -26,14 +26,14 @@ import {
   handleDeleteResponse,
   handlePostResponse,
   handlePutResponse,
-} from "src/app/[lang]/actions/api-utils-client";
+} from "src/actions/api-utils-client";
 import {
   deleteMerchantContractContractSettingsByIdApi,
   getMerchantContractHeaderContractSettingsByHeaderIdApi as getContractSettings,
   postMerchantContractHeaderContractSettingsByHeaderIdApi,
   putMerchantContractContractHeaderSetDefaultContractSettingByHeaderIdApi,
   putMerchantContractContractSettingsByIdApi,
-} from "src/app/[lang]/actions/ContractService/action";
+} from "src/actions/ContractService/action";
 import type { ContractServiceResource } from "src/language-data/ContractService";
 import { MerchantAddressWidget } from "../../../_components/contract-widgets";
 
