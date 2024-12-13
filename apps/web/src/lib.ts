@@ -1,10 +1,8 @@
 import type { ApiError } from "@ayasofyazilim/saas/AccountService";
 import { AccountServiceClient } from "@ayasofyazilim/saas/AccountService";
 import { AdministrationServiceClient } from "@ayasofyazilim/saas/AdministrationService";
-import { BackerServiceClient } from "@ayasofyazilim/saas/BackerService";
 import { CRMServiceClient } from "@ayasofyazilim/saas/CRMService";
 import { IdentityServiceClient } from "@ayasofyazilim/saas/IdentityService";
-import { ProjectServiceClient } from "@ayasofyazilim/saas/ProjectService";
 import { SaasServiceClient } from "@ayasofyazilim/saas/SaasService";
 import { SettingServiceClient } from "@ayasofyazilim/saas/SettingService";
 import { ContractServiceClient } from "@ayasofyazilim/saas/ContractService";
@@ -42,16 +40,6 @@ export async function getAccountServiceClient(
     TOKEN: token,
     BASE: process.env.BASE_URL,
     HEADERS: { ...HEADERS, ...customHeaders },
-  });
-}
-
-export async function getProjectServiceClient(session?: Session | null) {
-  const userData = session || (await auth());
-  const token = userData?.access_token;
-  return new ProjectServiceClient({
-    TOKEN: token,
-    BASE: process.env.BASE_URL ?? "",
-    HEADERS,
   });
 }
 
@@ -93,18 +81,6 @@ export async function getAdministrationServiceClient(session?: Session | null) {
   const userData = session || (await auth());
   const token = userData?.access_token;
   return new AdministrationServiceClient({
-    TOKEN: token,
-    BASE: process.env.BASE_URL,
-    HEADERS,
-  });
-}
-
-export async function getBackerServiceClient(
-  session?: Session | null,
-): Promise<BackerServiceClient> {
-  const userData = session || (await auth());
-  const token = userData?.access_token;
-  return new BackerServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
     HEADERS,
