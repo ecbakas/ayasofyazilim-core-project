@@ -17,19 +17,15 @@ import { getMerchantContractHeaderMissingStepsByIdApi } from "src/app/[lang]/app
 import { deleteMerchantContractHeaderByIdApi } from "src/app/[lang]/app/actions/ContractService/delete-actions";
 import { postMerchantContractHeaderValidateByHeaderIdApi } from "src/app/[lang]/app/actions/ContractService/post-actions";
 import type { ContractServiceResource } from "src/language-data/ContractService";
-import MerchantContractHeaderForm from "../../../_components/contract-header-form/merchant";
+import MerchantContractHeaderForm from "../../../../_components/contract-header-form/merchant";
 
 export function ContractHeader({
   contractHeaderDetails,
-  partyName,
-  partyId,
   addressList,
   languageData,
   refundTableHeaders,
 }: {
   contractHeaderDetails: ContractHeaderDetailForMerchantDto;
-  partyName: "merchants";
-  partyId: string;
   addressList: AddressCommonDataDto[];
   refundTableHeaders: RefundTableHeaderDto[];
   languageData: ContractServiceResource;
@@ -65,8 +61,6 @@ export function ContractHeader({
         formType="update"
         languageData={languageData}
         loading={loading}
-        partyId={partyId}
-        partyName={partyName}
         refundTableHeaders={refundTableHeaders}
         setLoading={setLoading}
       />

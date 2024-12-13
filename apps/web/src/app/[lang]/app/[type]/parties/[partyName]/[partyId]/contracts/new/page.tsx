@@ -49,8 +49,6 @@ export default async function Page({
           formType="create"
           languageData={languageData}
           loading={false}
-          partyId={params.partyId}
-          partyName={params.partyName}
           refundTableHeaders={refundTableHeaders.data.items || []}
         />
         <PageHeader

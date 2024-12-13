@@ -16,7 +16,7 @@ import type { UniRefund_LocationService_AddressCommonDatas_AddressCommonDataDto 
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import type { FieldProps } from "@repo/ayasofyazilim-ui/organisms/schema-form/types";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import {
@@ -32,8 +32,6 @@ import {
 } from "../../contract-widgets";
 
 type ContractHeaderFormProps = {
-  partyName: "merchants";
-  partyId: string;
   languageData: ContractServiceResource;
   addresses: AddressTypeDto[];
   refundTableHeaders: RefundTableHeaderDto[];
@@ -53,17 +51,13 @@ interface UpdateContractHeaderFormProps {
 export default function MerchantContractHeaderForm(
   props: ContractHeaderFormProps,
 ): JSX.Element {
-  const {
-    languageData,
-    partyId,
-    addresses,
-    partyName,
-    refundTableHeaders,
-    loading,
-    setLoading,
-  } = props;
+  const { languageData, addresses, refundTableHeaders, loading, setLoading } =
+    props;
   const router = useRouter();
-  const [addressList] = useState<AddressTypeDto[]>(addresses);
+  const { partyId, partyName } = useParams<{
+    partyId: string;
+    partyName: string;
+  }>();
   const [formLoading, setFormLoading] = useState(loading || false);
   function handleLoading(_loading: boolean) {
     if (setLoading) setLoading(_loading);
@@ -175,7 +169,7 @@ export default function MerchantContractHeaderForm(
       widgets={{
         address: MerchantAddressWidget({
           loading,
-          addressList,
+          addressList: addresses,
           languageData,
         }),
       }}
@@ -274,7 +268,7 @@ function RefundTableHeadersItemField({
               uiSchema={uiSchema}
               widgets={{
                 refundTable: RefundTableWidget({
-                  loading: false,
+                  loading,
                   refundTableHeaders,
                   languageData,
                 }),

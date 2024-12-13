@@ -1,10 +1,14 @@
 "use server";
 import { TabLayout } from "@repo/ayasofyazilim-ui/templates/tab-layout";
-import { notFound } from "next/navigation";
-import { getMerchantContractHeaderByIdApi } from "src/app/[lang]/app/actions/ContractService/action";
+import {
+  getMerchantContractHeaderByIdApi,
+  getRefundPointContractHeaderById,
+} from "src/app/[lang]/app/actions/ContractService/action";
 import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import { getBaseLink } from "src/utils";
+import { isErrorOnRequest } from "src/app/[lang]/page-policy/utils";
+import type { ContractPartyName } from "../_components/types";
 
 export default async function Layout({
   children,
@@ -14,49 +18,77 @@ export default async function Layout({
   params: {
     lang: string;
     contractId: string;
-    partyName: "merchants";
+    partyName: ContractPartyName;
     partyId: string;
   };
 }) {
   const { lang, contractId, partyId, partyName } = params;
+
+  const { languageData } = await getResourceData(lang);
+  if (params.partyName === "merchants") {
+    await isUnauthorized({
+      requiredPolicies: [
+        "ContractService.ContractHeaderForMerchant",
+        "ContractService.ContractSetting.Edit",
+        "ContractService.RebateSetting.Edit",
+        "ContractService.ContractHeaderForMerchant.Edit",
+      ],
+      lang,
+    });
+    const contractHeaderDetails =
+      await getMerchantContractHeaderByIdApi(contractId);
+    if (isErrorOnRequest(contractHeaderDetails, lang)) return;
+    return (
+      <>
+        <TabLayout
+          tabList={[
+            {
+              label: languageData["Contracts.Contract"],
+              href: "contract",
+            },
+            {
+              label: languageData["Contracts.RebateSettings"],
+              href: "rebate-settings",
+            },
+            {
+              label: languageData["Contracts.Stores"],
+              href: "stores",
+            },
+            {
+              label: languageData["Contracts.ContractSettings"],
+              href: "contract-settings",
+            },
+          ]}
+        >
+          {children}
+        </TabLayout>
+        <div className="hidden" id="page-title">
+          {languageData["Contracts.Edit.Title"]} -
+          {contractHeaderDetails.data.name}
+        </div>
+        <div className="hidden" id="page-description">
+          {languageData["Contracts.Edit.Description"]}
+        </div>
+        <div className="hidden" id="page-back-link">
+          {getBaseLink(`/app/admin/parties/${partyName}/${partyId}`)}
+        </div>
+      </>
+    );
+  }
+
   await isUnauthorized({
     requiredPolicies: [
-      "ContractService.ContractHeaderForMerchant",
-      "ContractService.ContractSetting.Edit",
-      "ContractService.RebateSetting.Edit",
-      "ContractService.ContractHeaderForMerchant.Edit",
+      "ContractService.ContractHeaderForRefundPoint",
+      "ContractService.ContractHeaderForRefundPoint.Edit",
     ],
     lang,
   });
-
-  const { languageData } = await getResourceData(lang);
   const contractHeaderDetails =
-    await getMerchantContractHeaderByIdApi(contractId);
-  if (contractHeaderDetails.type !== "success") return notFound();
+    await getRefundPointContractHeaderById(contractId);
+  if (isErrorOnRequest(contractHeaderDetails, lang)) return;
   return (
     <>
-      <TabLayout
-        tabList={[
-          {
-            label: languageData["Contracts.Contract"],
-            href: "contract",
-          },
-          {
-            label: languageData["Contracts.RebateSettings"],
-            href: "rebate-settings",
-          },
-          {
-            label: languageData["Contracts.Stores"],
-            href: "stores",
-          },
-          {
-            label: languageData["Contracts.ContractSettings"],
-            href: "contract-settings",
-          },
-        ]}
-      >
-        {children}
-      </TabLayout>
+      {children}
       <div className="hidden" id="page-title">
         {languageData["Contracts.Edit.Title"]} -
         {contractHeaderDetails.data.name}
