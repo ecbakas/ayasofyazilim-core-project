@@ -2,7 +2,7 @@
 
 import type { GetApiCrmServiceMerchantsData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/CRMService";
 import { getMerchantsApi } from "../../../actions/CrmService/actions";
 import MerchantsTable from "./table";
@@ -20,6 +20,11 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<SearchParamType>;
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["CRMService.Merchants"],
+    lang: props.params.lang,
+  });
+
   const searchParams = await props.searchParams;
   const response = await getMerchantsApi({
     typeCodes: searchParams?.typeCode?.split(",") || [],
@@ -32,11 +37,6 @@ export default async function Page(props: {
 
   const { languageData } = await getResourceData(props.params.lang);
   return (
-    <PagePolicy
-      lang={props.params.lang}
-      requiredPolicies={["CRMService.Merchants"]}
-    >
-      <MerchantsTable languageData={languageData} response={response.data} />
-    </PagePolicy>
+    <MerchantsTable languageData={languageData} response={response.data} />
   );
 }

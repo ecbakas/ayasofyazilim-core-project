@@ -5,7 +5,7 @@ import {
   getRefundTableHeadersApi,
 } from "src/app/[lang]/app/actions/ContractService/action";
 import { getAdressesApi } from "src/app/[lang]/app/actions/CrmService/actions";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/ContractService";
 import { ContractSettings } from "./_components/contract-settings";
 
@@ -20,6 +20,11 @@ export default async function Page({
   };
 }) {
   const { lang, contractId, partyId, partyName } = params;
+  await isUnauthorized({
+    requiredPolicies: ["ContractService.ContractSetting.Edit"],
+    lang,
+  });
+
   const { languageData } = await getResourceData(lang);
   const contractSettings =
     await getMerchantContractHeaderContractSettingsByHeaderIdApi({
@@ -37,17 +42,12 @@ export default async function Page({
   )
     return notFound();
   return (
-    <PagePolicy
+    <ContractSettings
+      addressList={addressList.data}
+      contractHeaderDetails={contractHeaderDetails.data}
+      contractSettings={contractSettings.data}
       lang={lang}
-      requiredPolicies={["ContractService.ContractSetting.Edit"]}
-    >
-      <ContractSettings
-        addressList={addressList.data}
-        contractHeaderDetails={contractHeaderDetails.data}
-        contractSettings={contractSettings.data}
-        lang={lang}
-        languageData={languageData}
-      />
-    </PagePolicy>
+      languageData={languageData}
+    />
   );
 }

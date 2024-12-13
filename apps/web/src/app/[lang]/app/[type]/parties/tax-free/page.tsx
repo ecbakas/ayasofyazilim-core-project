@@ -2,7 +2,7 @@
 
 import type { GetApiCrmServiceTaxFreesData } from "@ayasofyazilim/saas/CRMService";
 import { notFound } from "next/navigation";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { getResourceData } from "src/language-data/CRMService";
 import { getTaxFreesApi } from "../../../actions/CrmService/actions";
 import TaxFreeTable from "./table";
@@ -18,6 +18,11 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<SearchParamType>;
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["CRMService.TaxFrees"],
+    lang: props.params.lang,
+  });
+
   const searchParams = await props.searchParams;
   const response = await getTaxFreesApi({
     name: searchParams?.name || "",
@@ -28,12 +33,5 @@ export default async function Page(props: {
   if (response.type !== "success") return notFound();
 
   const { languageData } = await getResourceData(props.params.lang);
-  return (
-    <PagePolicy
-      lang={props.params.lang}
-      requiredPolicies={["CRMService.TaxFrees"]}
-    >
-      <TaxFreeTable languageData={languageData} response={response.data} />
-    </PagePolicy>
-  );
+  return <TaxFreeTable languageData={languageData} response={response.data} />;
 }
