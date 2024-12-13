@@ -1,3 +1,4 @@
+"use client";
 import { FileLock2 } from "lucide-react";
 
 export default function Page() {

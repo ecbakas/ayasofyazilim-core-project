@@ -1,7 +1,7 @@
 "use server";
 
 import type { GetApiRefundServiceRefundsData } from "@ayasofyazilim/saas/RefundService";
-import PagePolicy from "src/app/[lang]/page-policy/page-policy";
+import { isUnauthorized } from "src/app/[lang]/page-policy/page-policy";
 import { isErrorOnRequest } from "src/app/[lang]/page-policy/utils";
 import { getResourceData } from "src/language-data/ContractService";
 import { getRefundApi } from "../../actions/RefundService/actions";
@@ -11,6 +11,11 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<GetApiRefundServiceRefundsData>;
 }) {
+  await isUnauthorized({
+    requiredPolicies: ["RefundService.Refunds"],
+    lang: props.params.lang,
+  });
+
   const searchParams = await props.searchParams;
 
   const response = await getRefundApi(searchParams);
@@ -19,15 +24,10 @@ export default async function Page(props: {
   const { languageData } = await getResourceData(props.params.lang);
 
   return (
-    <PagePolicy
-      lang={props.params.lang}
-      requiredPolicies={["RefundService.Refunds"]}
-    >
-      <RefundTable
-        languageData={languageData}
-        locale={props.params.lang}
-        response={response.data}
-      />
-    </PagePolicy>
+    <RefundTable
+      languageData={languageData}
+      locale={props.params.lang}
+      response={response.data}
+    />
   );
 }
