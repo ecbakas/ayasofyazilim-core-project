@@ -1,9 +1,31 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
 import type { Session } from "next-auth";
 import type { AbpUiNavigationResource } from "src/language-data/core/AbpUiNavigation";
+import { management, settings } from "./groups";
 
 const dbData = {
-  APP: [],
+  APP: [
+    {
+      key: "/",
+      displayName: "Home",
+      description: "View and manage your Home settings.",
+      href: "home",
+      icon: "Home",
+      parentNavbarItemKey: null,
+      displayOrder: 1,
+    },
+    {
+      key: "home",
+      displayName: "Home",
+      description: "View and manage your Home settings.",
+      href: "/home",
+      icon: "Home",
+      parentNavbarItemKey: "/",
+      displayOrder: 1,
+    },
+    ...settings,
+    ...management,
+  ],
 };
 
 function buildItemHref(prefix: string, item: NavbarItemsFromDB) {
