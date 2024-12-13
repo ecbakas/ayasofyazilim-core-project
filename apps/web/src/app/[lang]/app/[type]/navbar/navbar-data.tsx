@@ -2,14 +2,9 @@ import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
 import type { Session } from "next-auth";
 import type { AbpUiNavigationResource } from "src/language-data/AbpUiNavigation";
 import { unirefundNavbarDataFromDB } from "./projects/unirefund";
-import { ayshopgoNavbarDataFromDB } from "./projects/ayshopgo";
-import { tahsiletNavbarDataFromDB } from "./projects/tahsilet";
 
 const dbData = {
   UNIREFUND: unirefundNavbarDataFromDB,
-  UPWITHCROWD: unirefundNavbarDataFromDB,
-  TAHSILET: tahsiletNavbarDataFromDB,
-  AYSHOPGO: ayshopgoNavbarDataFromDB,
 };
 
 function buildItemHref(prefix: string, item: NavbarItemsFromDB) {
