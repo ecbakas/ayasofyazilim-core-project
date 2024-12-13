@@ -11,13 +11,10 @@ export default async function Page(props: {
   params: { lang: string };
   searchParams?: Promise<GetApiRefundServiceRefundsData>;
 }) {
-  const unauthorized = isUnauthorized({
+  await isUnauthorized({
     requiredPolicies: ["RefundService.Refunds"],
     lang: props.params.lang,
   });
-  if (await unauthorized) {
-    return;
-  }
 
   const searchParams = await props.searchParams;
 
