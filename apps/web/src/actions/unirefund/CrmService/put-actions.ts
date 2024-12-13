@@ -1,0 +1,123 @@
+"use server";
+
+import type {
+  PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+  PutApiCrmServiceMerchantsByIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+  PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+  PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+  PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+} from "@ayasofyazilim/saas/CRMService";
+import { structuredError, structuredResponse } from "src/lib";
+import { getApiRequests } from "../../api-requests";
+
+export async function putMerchantBaseApi(
+  data: PutApiCrmServiceMerchantsByIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests.merchants.putMerchantBase(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putCrmAddressApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdAddressesByAddressIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests[partyName].putAddress(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putCrmEmailAddressApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests[partyName].putEmailAddress(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putCrmTelephoneApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests[partyName].putTelephone(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putCrmOrganizationApi(
+  partyName:
+    | "merchants"
+    | "refund-points"
+    | "customs"
+    | "tax-offices"
+    | "tax-free",
+  data: PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests[partyName].putOrganization(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function putCrmIndividualNameApi(
+  partyName: "merchants",
+
+  data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests[partyName].putIndividualName(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
+export async function putCrmIndividualPersonalSummaryApi(
+  partyName: "merchants",
+  data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
+) {
+  try {
+    const requests = await getApiRequests();
+    const response =
+      await requests[partyName].putIndividualPersonalSummary(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
