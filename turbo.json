@@ -7,7 +7,6 @@
     "APP_NAME",
     "APPLICATION_NAME",
     "AUTH_SECRET",
-    "PROJECT_SERVICE_URL",
     "HOSTNAME",
     "PORT",
     "TEST_USERNAME",

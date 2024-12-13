@@ -17,7 +17,7 @@ export default function Page({ params }: { params: { lang: string } }) {
         </p>
         <Link
           className="inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-blue-500 focus:outline-none focus:ring-4"
-          href={`/${params.lang}/app/admin/home`}
+          href={`/${params.lang}/home`}
         >
           Go Home
         </Link>
