@@ -1,3 +1,3 @@
 export default function Page() {
-  return <>3333</>;
+  return <></>;
 }
