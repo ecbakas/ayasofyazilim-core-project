@@ -6,8 +6,8 @@ import { signOutServer } from "auth-action";
 import unirefund from "public/unirefund.png";
 import { getResourceData } from "src/language-data/core/AbpUiNavigation";
 import { getBaseLink } from "src/utils";
-import { getNavbarFromDB } from "../../utils/navbar/navbar-data";
-import { getProfileMenuFromDB } from "../../utils/navbar/navbar-profile-data";
+import { getNavbarFromDB } from "../../../utils/navbar/navbar-data";
+import { getProfileMenuFromDB } from "../../../utils/navbar/navbar-profile-data";
 
 interface LayoutProps {
   params: { lang: string };
@@ -19,7 +19,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   const { languageData } = await getResourceData(lang);
   const session = await auth();
   const baseURL = getBaseLink("/", true, lang);
-  const navbarFromDB = getNavbarFromDB(lang, languageData, session);
+  const navbarFromDB = await getNavbarFromDB(lang, languageData, session);
   const profileMenuProps = getProfileMenuFromDB(languageData);
   profileMenuProps.info.name =
     session?.user?.name ?? profileMenuProps.info.name;
