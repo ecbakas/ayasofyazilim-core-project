@@ -5,7 +5,7 @@ module.exports = {
   output: "standalone",
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3001", "*.devtunnels.ms:3000"],
+      allowedOrigins: ["localhost:3000", "*.devtunnels.ms:3000"],
     },
   },
 };
