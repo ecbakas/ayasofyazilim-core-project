@@ -83,4 +83,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Run Core
-        run: ssh ubuntu "cd ~/frontend/unirefund_dev && chmod 777 publish.sh && ./publish.sh 1453 unirefund_web"
+        run: ssh ubuntu "cd ~/frontend/core_dev && chmod 777 publish.sh && ./publish.sh 1400 core_web"
