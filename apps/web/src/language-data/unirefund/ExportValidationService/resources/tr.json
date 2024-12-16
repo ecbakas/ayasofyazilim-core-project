@@ -1,0 +1,36 @@
+{
+  "ExportValidation": "İhracat Doğrulaması",
+  "ExportValidation.New": "Yeni İhracat Doğrulaması",
+  "ExportValidation.New.Error": "İhracat Doğrulaması eklenirken bir hata oluştu",
+  "ExportValidation.New.Success": "İhracat Doğrulaması başarılıyla eklendi",
+  "ExportValidation.Update.Success": "İhracat Doğrulaması başarılıyla güncellendi",
+  "ExportValidation.New.Fail": "İhracat Doğrulaması kaydedilirken bir hata oluştu",
+  "ExportValidation.Update.Fail": "İhracat Doğrulaması güncellenirken bir hata oluştu",
+  "Custom.Select": "Gümrük Seçin",
+  "Tag.Select": "Etiket Seçin",
+
+  "Form.tagId": "Etiket Adı",
+  "Form.exportLocationId": "Gümrük Adı",
+  "Form.referenceId": "Referans Adı",
+  "Form.exportDate": "İhracat Tarihi",
+  "Form.status": "Durum",
+  "Form.stampType": "Damga Türü",
+  "Form.initialValidationResult": "İlk Doğrulama Sonucu",
+  "Form.finalValidationResult": "Son Doğrulama Sonucu",
+
+  "Form.status.None": "Yok",
+  "Form.status.Waiting": "Bekleniyor",
+  "Form.status.Approved": "Onaylandı",
+  "Form.status.Rejected": "Reddedildi",
+  "Form.status.Expired": "Sona erdi",
+
+  "Form.stampType.None": "Yok",
+  "Form.stampType.Integration": "Entegrasyon",
+  "Form.stampType.DigitalStamp": "Elektronik",
+
+  "Form.initialValidationResult.None": "Yok",
+  "Form.initialValidationResult.Green": "Yeşil",
+
+  "Form.finalValidationResult.None": "Yok",
+  "Form.finalValidationResult.Green": "Yeşil"
+}
