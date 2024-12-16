@@ -1,3 +1,4 @@
+"use server";
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
 import type { Session } from "next-auth";
 import type { AbpUiNavigationResource } from "src/language-data/core/AbpUiNavigation";
@@ -7,7 +8,6 @@ import projectNavItems from "./project-navbar-items.json";
 const dbData = {
   APP: process.env.APPLICATION_NAME === "CORE" ? coreNavItems : projectNavItems,
 };
-
 function buildItemHref(prefix: string, item: NavbarItemsFromDB) {
   return item.href ? `${prefix}/${item.href}` : null;
 }
@@ -95,11 +95,12 @@ function checkForChildLink(
   return item.href;
 }
 
-export function getNavbarFromDB(
+export async function getNavbarFromDB(
   prefix: string,
   languageData: AbpUiNavigationResource,
   session: Session | null,
 ) {
+  await Promise.resolve();
   const navbarDataFromDB: NavbarItemsFromDB[] = JSON.parse(
     JSON.stringify(dbData.APP),
   ) as NavbarItemsFromDB[];
