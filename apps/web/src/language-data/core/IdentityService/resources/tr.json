@@ -10,7 +10,7 @@
   "Role.Select": "Rol seç",
   "Role.Unassigned": "Rolü Kaldır",
   "Role.Assignable": "Atanabilir roller",
-  "Role.Assignable.Description": "Atanabilir rolleri buradan görüntüleyebilirsiniz.",
+  "Role.Assignable.Description": "Atanabilir rolleri buradan güncellenebilirsiniz.",
   "Role.AssignableRoles.Get.Fail": "Atanabilir roller alınırken hata oluştu",
   "Role.AssignableRoles.Put.Success": "Atanabilir roller başarıyla güncellendi",
   "Role.AssignableRoles.Put.Fail": "Atanabilir roller güncellenirken hata oluştu",
