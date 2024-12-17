@@ -150,9 +150,9 @@ export async function deleteUserSessionsApi(id: string) {
 
 export async function getAssignableRolesApi(id: string) {
   try {
-    const Client = await getIdentityServiceClient();
+    const client = await getIdentityServiceClient();
     const dataResponse =
-      await Client.assignableRole.getApiIdentityAssignableRolesAllRolesWithAssignableById(
+      await client.assignableRole.getApiIdentityAssignableRolesAllRolesWithAssignableById(
         { id },
       );
     return structuredResponse(dataResponse);

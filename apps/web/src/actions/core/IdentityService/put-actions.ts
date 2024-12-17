@@ -52,9 +52,9 @@ export async function putAssignableRolesApi(
   data: PutApiIdentityAssignableRolesData,
 ) {
   try {
-    const Client = await getIdentityServiceClient();
+    const client = await getIdentityServiceClient();
     const dataResponse =
-      await Client.assignableRole.putApiIdentityAssignableRoles(data);
+      await client.assignableRole.putApiIdentityAssignableRoles(data);
     return structuredResponse(dataResponse);
   } catch (error) {
     return structuredError(error);
