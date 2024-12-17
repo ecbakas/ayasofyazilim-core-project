@@ -1,3 +1,4 @@
+"use client";
 import { toast } from "@/components/ui/sonner";
 import type {
   UniRefund_IdentityService_AssignableRoles_AssignableRoleDto,
