@@ -7,7 +7,7 @@ import {
   structuredResponse,
 } from "src/lib";
 
-export async function updatePersonalInfomationApi(
+export async function putPersonalInfomationApi(
   data: PutApiAccountMyProfileData,
 ) {
   try {

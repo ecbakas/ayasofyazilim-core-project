@@ -8,7 +8,7 @@ import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { updatePersonalInfomationApi } from "src/actions/core/AccountService/put-actions";
+import { putPersonalInfomationApi } from "src/actions/core/AccountService/put-actions";
 import { handlePutResponse } from "src/actions/core/api-utils-client";
 import type { AccountServiceResource } from "src/language-data/core/AccountService";
 
@@ -39,7 +39,7 @@ export default function PersonalInformation({
       onSubmit={(data) => {
         setLoading(true);
         const formData = data.formData as Volo_Abp_Account_UpdateProfileDto;
-        void updatePersonalInfomationApi({
+        void putPersonalInfomationApi({
           requestBody: formData,
         })
           .then((res) => {
