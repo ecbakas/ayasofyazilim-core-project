@@ -8,7 +8,7 @@ import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { updatePersonalInfomationApi } from "src/actions/core/AccountService/actions";
+import { updatePersonalInfomationApi } from "src/actions/core/AccountService/put-actions";
 import { handlePutResponse } from "src/actions/core/api-utils-client";
 import type { AccountServiceResource } from "src/language-data/core/AccountService";
 

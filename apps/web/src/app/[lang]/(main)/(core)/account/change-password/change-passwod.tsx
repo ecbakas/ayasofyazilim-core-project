@@ -8,7 +8,7 @@ import {
 } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { postPasswordChangeApi } from "src/actions/core/AccountService/actions";
+import { postPasswordChangeApi } from "src/actions/core/AccountService/post-actions";
 import { handlePutResponse } from "src/actions/core/api-utils-client";
 import type { AccountServiceResource } from "src/language-data/core/AccountService";
 

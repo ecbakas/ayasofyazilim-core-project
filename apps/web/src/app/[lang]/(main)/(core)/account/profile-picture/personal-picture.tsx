@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { Volo_Abp_Account_ProfilePictureType } from "@ayasofyazilim/saas/AccountService";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { postProfilePictureApi } from "src/actions/core/AccountService/actions";
+import { postProfilePictureApi } from "src/actions/core/AccountService/post-actions";
 import { handlePutResponse } from "src/actions/core/api-utils-client";
 import type { AccountServiceResource } from "src/language-data/core/AccountService";
 
