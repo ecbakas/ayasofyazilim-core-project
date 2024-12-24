@@ -2,21 +2,20 @@
 
 import type { PagedResultDto_IdentitySessionDto } from "@ayasofyazilim/saas/AccountService";
 import TanstackTable from "@repo/ayasofyazilim-ui/molecules/tanstack-table";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import type { AccountServiceResource } from "src/language-data/core/AccountService";
 import { tableData } from "./sessions-table-data";
 
 function SessionsTable({
-  locale,
   response,
   languageData,
 }: {
-  locale: string;
   response: PagedResultDto_IdentitySessionDto;
   languageData: AccountServiceResource;
 }) {
   const router = useRouter();
-  const columns = tableData.sessions.columns(locale, languageData);
+  const { lang } = useParams<{ lang: string }>();
+  const columns = tableData.sessions.columns(lang, languageData);
   const table = tableData.sessions.table(languageData, router);
 
   return (
