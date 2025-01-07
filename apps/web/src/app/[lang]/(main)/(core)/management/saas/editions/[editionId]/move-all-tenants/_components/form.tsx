@@ -66,7 +66,7 @@ export default function Form({
           });
       }}
       schema={$Volo_Abp_Identity_UpdateMoveAllTenantsDto}
-      submitText={languageData.Save}
+      submitText={languageData["Edit.Save"]}
       uiSchema={uiSchema}
       widgets={{
         EditionWidget: CustomComboboxWidget<Volo_Saas_Host_Dtos_EditionDto>({
