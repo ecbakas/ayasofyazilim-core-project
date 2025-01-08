@@ -1,30 +1,37 @@
 "use server";
 
 import Toaster from "@repo/ayasofyazilim-ui/molecules/toaster";
+import type { Session } from "next-auth";
 import { getLocalizationResources } from "src/utils";
-import { auth } from "auth";
+import type { Policy } from "src/utils/page-policy/utils";
+import { ApplicationProvider } from "./application";
 import AuthSession from "./auth";
 import { ConfigProvider } from "./configuration";
-import { LocaleProvider } from "./locale";
 import { GrantedPoliciesProvider } from "./granted-policies";
-import { ApplicationProvider } from "./application";
+import { LocaleProvider } from "./locale";
 import Tooltip from "./tooltip";
 
 interface ProvidersProps {
   children: JSX.Element;
   lang: string;
+  grantedPolicies: Record<Policy, boolean> | undefined;
+  sessionKey: number;
+  session: Session | null;
 }
-export default async function Providers({ children, lang }: ProvidersProps) {
+export default async function Providers({
+  children,
+  lang,
+  grantedPolicies,
+  sessionKey,
+  session,
+}: ProvidersProps) {
   const resources = await getLocalizationResources(lang);
-  const sessions = await auth();
-  const grantedPolicies = sessions?.grantedPolicies;
-
   const appName = process.env.APPLICATION_NAME || "UNIREFUND";
   return (
     <>
       <Toaster richColors />
       <ApplicationProvider appName={appName}>
-        <AuthSession>
+        <AuthSession session={session} sessionKey={sessionKey}>
           <GrantedPoliciesProvider grantedPolicies={grantedPolicies}>
             <ConfigProvider>
               <Tooltip>
