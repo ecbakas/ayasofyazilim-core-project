@@ -5,7 +5,7 @@ import type { Session } from "next-auth";
 import { getLocalizationResources } from "src/utils";
 import type { Policy } from "src/utils/page-policy/utils";
 import { ApplicationProvider } from "./application";
-import AuthSession from "./auth";
+import { SessionProvider } from "./session";
 import { ConfigProvider } from "./configuration";
 import { GrantedPoliciesProvider } from "./granted-policies";
 import { LocaleProvider } from "./locale";
@@ -31,7 +31,7 @@ export default async function Providers({
     <>
       <Toaster richColors />
       <ApplicationProvider appName={appName}>
-        <AuthSession session={session} sessionKey={sessionKey}>
+        <SessionProvider session={session} sessionKey={sessionKey}>
           <GrantedPoliciesProvider grantedPolicies={grantedPolicies}>
             <ConfigProvider>
               <Tooltip>
@@ -41,7 +41,7 @@ export default async function Providers({
               </Tooltip>
             </ConfigProvider>
           </GrantedPoliciesProvider>
-        </AuthSession>
+        </SessionProvider>
       </ApplicationProvider>
     </>
   );
