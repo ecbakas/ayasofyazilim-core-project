@@ -43,5 +43,5 @@ export function getBaseLink(location: string, locale?: string) {
   }
   const pathname = window.location.pathname;
   const pathnameParts = pathname.split("/");
-  return `/${locale || pathnameParts[1]}/${location}`;
+  return `/${locale || pathnameParts[1] || "en"}/${location}`;
 }
