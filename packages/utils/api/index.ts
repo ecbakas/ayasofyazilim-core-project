@@ -49,7 +49,6 @@ export function isErrorOnRequest<T>(
 ): response is {
   type: "api-error";
   message: string;
-  status: number;
   data: string;
 } {
   if (response.type === "success") return false;
