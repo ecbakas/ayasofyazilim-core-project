@@ -1,3 +1,4 @@
+"use server";
 import { Session } from "next-auth";
 import { auth } from "./auth";
 import { AccountServiceClient } from "@ayasofyazilim/core-saas/AccountService";
