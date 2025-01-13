@@ -3,12 +3,11 @@ export type Awaitable<T> = T | PromiseLike<T>;
 
 import { AdapterUser } from "@auth/core/adapters";
 import {
-  authorizeError,
   fetchNewAccessTokenByRefreshToken,
   fetchToken,
   getUserData,
 } from "./auth-actions";
-import NextAuth from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import { MyUser } from "./auth-types";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -22,6 +21,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         tenant: {},
       },
       authorize: async (credentials) => {
+        function authorizeError(message: string) {
+          return Promise.reject(new AuthError(JSON.stringify(message)));
+        }
         try {
           const signInResponse = await fetchToken({
             username: credentials?.username as string,
@@ -29,7 +31,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             tenantId: credentials.tenant as string,
           });
           if ("error" in signInResponse) {
-            return authorizeError(JSON.stringify(signInResponse));
           }
 
           if (signInResponse?.access_token && signInResponse.refresh_token) {
