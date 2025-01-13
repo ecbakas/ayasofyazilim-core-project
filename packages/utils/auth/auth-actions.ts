@@ -90,12 +90,9 @@ async function getUserProfile(accessToken: string) {
   "use server";
   try {
     const client = await getAccountServiceClient(accessToken);
-    console.log("cccc");
     const data = await client.profile.getApiAccountMyProfile();
-    console.log("ddd");
     return structuredResponse(data);
   } catch (error) {
-    console.log(error);
     return structuredError(error);
   }
 }
@@ -123,14 +120,11 @@ async function getTenantData(accessToken: string) {
 
 export async function getUserData(accessToken: string, refresh_token: string) {
   "use server";
-  console.log("ttttt220");
   const userProfileResponse = await getUserProfile(accessToken);
-  console.log(userProfileResponse);
   if (userProfileResponse.type !== "success") {
     return Promise.reject("new Error(userProfileResponse.message)");
   }
   const tenantDataResponse = await getTenantData(accessToken);
-  console.log(tenantDataResponse);
   if (tenantDataResponse.type !== "success") {
     return Promise.reject("new Error(userProfileResponse.message)");
   }
