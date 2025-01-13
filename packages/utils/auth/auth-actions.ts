@@ -1,8 +1,9 @@
+"use server";
+
 import { AccountServiceClient } from "@ayasofyazilim/core-saas/AccountService";
-import { structuredError, structuredResponse } from "./../api";
-import { signOut } from "auth";
-import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+import { structuredError, structuredResponse } from "./../api";
+import { signOut } from "./auth";
 
 const TOKEN_URL = `${process.env.BASE_URL}/connect/token`;
 const OPENID_URL = `${process.env.BASE_URL}/.well-known/openid-configuration`;
@@ -11,8 +12,15 @@ const HEADERS = {
   "Content-Type": "application/json",
 };
 
+export async function getAccountServiceClient(accessToken?: string) {
+  return new AccountServiceClient({
+    TOKEN: accessToken,
+    BASE: process.env.BASE_URL,
+    HEADERS: HEADERS,
+  });
+}
+
 export async function signOutServer() {
-  "use server";
   try {
     await signOut({ redirect: false });
   } catch (error) {
@@ -79,25 +87,22 @@ export async function fetchNewAccessTokenByRefreshToken(refreshToken: string) {
   return await response.json();
 }
 async function getUserProfile(accessToken: string) {
+  "use server";
   try {
-    const client = new AccountServiceClient({
-      TOKEN: accessToken,
-      BASE: process.env.BASE_URL,
-      HEADERS: HEADERS,
-    });
+    const client = await getAccountServiceClient(accessToken);
+    console.log("cccc");
     const data = await client.profile.getApiAccountMyProfile();
+    console.log("ddd");
     return structuredResponse(data);
   } catch (error) {
+    console.log(error);
     return structuredError(error);
   }
 }
 async function getTenantData(accessToken: string) {
+  "use server";
   try {
-    const client = new AccountServiceClient({
-      TOKEN: accessToken,
-      BASE: process.env.BASE_URL,
-      HEADERS: HEADERS,
-    });
+    const client = await getAccountServiceClient(accessToken);
     const data = await client.sessions.getApiAccountSessions();
     const activeSession = data.items?.[0];
     if (!activeSession?.tenantId || !activeSession.tenantName) {
@@ -116,18 +121,18 @@ async function getTenantData(accessToken: string) {
   }
 }
 
-export function authorizeError(message: string) {
-  return Promise.reject(new AuthError(JSON.stringify(message)));
-}
-
 export async function getUserData(accessToken: string, refresh_token: string) {
+  "use server";
+  console.log("ttttt220");
   const userProfileResponse = await getUserProfile(accessToken);
+  console.log(userProfileResponse);
   if (userProfileResponse.type !== "success") {
-    return authorizeError(userProfileResponse.message);
+    return Promise.reject("new Error(userProfileResponse.message)");
   }
   const tenantDataResponse = await getTenantData(accessToken);
+  console.log(tenantDataResponse);
   if (tenantDataResponse.type !== "success") {
-    return authorizeError(tenantDataResponse.message);
+    return Promise.reject("new Error(userProfileResponse.message)");
   }
 
   return {
