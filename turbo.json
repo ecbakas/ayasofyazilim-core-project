@@ -14,7 +14,8 @@
     "CLIENT_SECRET",
     "AUTH_SECRET",
     "FETCH_TENANT",
-    "TENANT_ID"
+    "TENANT_ID",
+    "APP_NAME"
   ],
   "tasks": {
     "build": {
