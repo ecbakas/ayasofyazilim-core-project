@@ -139,7 +139,6 @@ export async function getUserData(
   const decoded_jwt = JSON.parse(
     Buffer.from(access_token.split(".")[1], "base64").toString(),
   );
-  console.log(decoded_jwt);
   return {
     access_token,
     refresh_token,
