@@ -10,6 +10,7 @@ import { MultiSelect } from "@repo/ayasofyazilim-ui/molecules/multi-select";
 import AutoForm, {
   AutoFormSubmit,
   createFieldConfigWithResource,
+  createFieldTypeFieldConfig,
   CustomCombobox,
   DependencyType,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
@@ -53,36 +54,26 @@ export default function Form({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const switches = createFieldTypeFieldConfig({
+    elements: [
+      "allowAuthorizationCodeFlow",
+      "allowImplicitFlow",
+      "allowHybridFlow",
+      "allowPasswordFlow",
+      "allowClientCredentialsFlow",
+      "allowRefreshTokenFlow",
+      "allowDeviceEndpoint",
+      "allowLogoutEndpoint",
+    ],
+    fieldType: "switch",
+  });
 
   const translatedForm = createFieldConfigWithResource({
     schema: $Volo_Abp_OpenIddict_Applications_Dtos_CreateApplicationInput,
     resources: languageData,
     name: "Form.Application",
     extend: {
-      allowAuthorizationCodeFlow: {
-        fieldType: "switch",
-      },
-      allowImplicitFlow: {
-        fieldType: "switch",
-      },
-      allowHybridFlow: {
-        fieldType: "switch",
-      },
-      allowPasswordFlow: {
-        fieldType: "switch",
-      },
-      allowClientCredentialsFlow: {
-        fieldType: "switch",
-      },
-      allowRefreshTokenFlow: {
-        fieldType: "switch",
-      },
-      allowDeviceEndpoint: {
-        fieldType: "switch",
-      },
-      allowLogoutEndpoint: {
-        fieldType: "switch",
-      },
+      ...switches,
       extensionGrantTypes: {
         renderer: (props) => (
           <div className="my-1">
@@ -269,8 +260,7 @@ export default function Form({
             data as Volo_Abp_OpenIddict_Applications_Dtos_CreateApplicationInput,
         })
           .then((res) => {
-            handlePostResponse(res, router);
-            if (res.type === "success") router.push(`../applications`);
+            handlePostResponse(res, router, "../applications");
           })
           .finally(() => {
             setLoading(false);

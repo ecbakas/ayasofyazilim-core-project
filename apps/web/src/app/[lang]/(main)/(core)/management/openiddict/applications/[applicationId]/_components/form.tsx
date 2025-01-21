@@ -13,6 +13,7 @@ import { MultiSelect } from "@repo/ayasofyazilim-ui/molecules/multi-select";
 import AutoForm, {
   AutoFormSubmit,
   createFieldConfigWithResource,
+  createFieldTypeFieldConfig,
   CustomCombobox,
   DependencyType,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
@@ -75,35 +76,26 @@ export default function Form({
   const { applicationId } = useParams<{ applicationId: string }>();
   const { grantedPolicies } = useGrantedPolicies();
 
+  const switches = createFieldTypeFieldConfig({
+    elements: [
+      "allowAuthorizationCodeFlow",
+      "allowImplicitFlow",
+      "allowHybridFlow",
+      "allowPasswordFlow",
+      "allowClientCredentialsFlow",
+      "allowRefreshTokenFlow",
+      "allowDeviceEndpoint",
+      "allowLogoutEndpoint",
+    ],
+    fieldType: "switch",
+  });
+
   const translatedForm = createFieldConfigWithResource({
     schema: $Volo_Abp_OpenIddict_Applications_Dtos_UpdateApplicationInput,
     resources: languageData,
     name: "Form.Application",
     extend: {
-      allowAuthorizationCodeFlow: {
-        fieldType: "switch",
-      },
-      allowImplicitFlow: {
-        fieldType: "switch",
-      },
-      allowHybridFlow: {
-        fieldType: "switch",
-      },
-      allowPasswordFlow: {
-        fieldType: "switch",
-      },
-      allowClientCredentialsFlow: {
-        fieldType: "switch",
-      },
-      allowRefreshTokenFlow: {
-        fieldType: "switch",
-      },
-      allowDeviceEndpoint: {
-        fieldType: "switch",
-      },
-      allowLogoutEndpoint: {
-        fieldType: "switch",
-      },
+      ...switches,
       extensionGrantTypes: {
         renderer: (props: FieldProps) => (
           <div className="my-1">
@@ -275,8 +267,7 @@ export default function Form({
                 setLoading(true);
                 void deleteApplicationByIdApi(applicationDetailsData.id || "")
                   .then((res) => {
-                    handleDeleteResponse(res);
-                    if (res.type === "success") router.push(`../applications`);
+                    handleDeleteResponse(res, router, "../applications");
                   })
                   .finally(() => {
                     setLoading(false);
