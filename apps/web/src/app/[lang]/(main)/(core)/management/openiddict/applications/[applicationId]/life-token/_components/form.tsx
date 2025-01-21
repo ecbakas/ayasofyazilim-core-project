@@ -39,7 +39,7 @@ export default function Form({
         setLoading(true);
         const formData = data.formData;
         void putApplicationsByIdTokenLifetimeApi({
-          id: applicationId || "",
+          id: applicationId,
           requestBody: formData,
         })
           .then((res) => {

@@ -240,11 +240,7 @@ export default function ApplicationPermissions({
               requestBody: { permissions: updatedPermissionsData },
             })
               .then((res) => {
-                handlePutResponse(res, router);
-                if (res.type === "success") {
-                  router.push(`..`);
-                  router.refresh();
-                }
+                handlePutResponse(res, router, "../applications");
               })
               .finally(() => {
                 setLoading(false);
