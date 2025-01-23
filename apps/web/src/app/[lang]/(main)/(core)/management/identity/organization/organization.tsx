@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { toast } from "@/components/ui/sonner";
 import type {
   PagedResultDto_OrganizationUnitWithDetailsDto,
+  Volo_Abp_Identity_IdentityUserDto,
   Volo_Abp_Identity_OrganizationUnitWithDetailsDto,
 } from "@ayasofyazilim/saas/IdentityService";
 import {
@@ -16,15 +18,20 @@ import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
 import { TreeView } from "@repo/ayasofyazilim-ui/molecules/tree-view";
 import { useRouter } from "next/navigation";
 import type { TreeViewElement } from "node_modules/@repo/ayasofyazilim-ui/src/molecules/tree-view/tree-view-api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import {
   handleDeleteResponse,
   handlePostResponse,
   handlePutResponse,
 } from "src/actions/core/api-utils-client";
+import { getOrganizationUnitsByIdMembersApi } from "src/actions/core/IdentityService/actions";
 import { deleteOrganizationUnitsApi } from "src/actions/core/IdentityService/delete-actions";
 import { postOrganizationUnitsApi } from "src/actions/core/IdentityService/post-actions";
-import { putOrganizationUnitsByIdApi } from "src/actions/core/IdentityService/put-actions";
+import {
+  putOrganizationUnitsByIdApi,
+  putOrganizationUnitsByIdMoveAllUsersApi,
+} from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
 
 function getChildrens(
@@ -70,15 +77,29 @@ export default function OrganizationComponent({
   const [triggerData, setTriggerData] = useState<
     Record<string, string> | undefined
   >(undefined);
-  const [organizationTreeElements, setOrganizationTreeElements] = useState<
-    TreeViewElement[]
-  >(initializeOrganizationTree());
   const [organizationUnits, setOrganizationUnits] = useState<
     Volo_Abp_Identity_OrganizationUnitWithDetailsDto[]
   >(organizationUnitList.items || []);
   const [action, setAction] = useState<TableActionCustomDialog | undefined>(
     undefined,
   );
+  const [unitUsers, setUnitUsers] = useState<
+    Volo_Abp_Identity_IdentityUserDto[]
+  >([]);
+
+  function getUnitUsers() {
+    void getOrganizationUnitsByIdMembersApi({
+      id: selectedUnitId || "",
+    }).then((res) => {
+      if (res.type === "success") {
+        setUnitUsers(res.data.items || []);
+      }
+    });
+  }
+
+  useEffect(() => {
+    getUnitUsers();
+  }, [selectedUnitId]);
 
   const handleAddUnit = (parentUnitId: string | null) => {
     const selectedUnit = parentUnitId
@@ -112,7 +133,6 @@ export default function OrganizationComponent({
           handlePostResponse(res, router);
           if (res.type === "success") {
             setOrganizationUnits([...organizationUnits, res.data]);
-            setOrganizationTreeElements(initializeOrganizationTree());
             setTriggerData({});
             setOpen(false);
           }
@@ -159,7 +179,6 @@ export default function OrganizationComponent({
               return i;
             });
             setOrganizationUnits(newOrganizationUnits);
-            setOrganizationTreeElements(initializeOrganizationTree());
             setTriggerData({});
             setOpen(false);
           }
@@ -183,10 +202,94 @@ export default function OrganizationComponent({
           (unit) => unit.id !== unitId,
         );
         setOrganizationUnits(updatedUnits);
-        setOrganizationTreeElements(initializeOrganizationTree());
         setSelectedUnitId(undefined);
       }
     });
+  };
+
+  const handleMoveAllUsers = () => {
+    if (unitUsers.length === 0) {
+      toast.warning("There are no users currently in this unit.");
+      return;
+    }
+    const availableUnits = organizationUnits.filter(
+      (u) => u.id !== selectedUnitId,
+    );
+    const unitOptions = availableUnits.map((unit) => {
+      const parentUnit = organizationUnits.find((u) => u.id === unit.parentId);
+      return {
+        id: unit.id,
+        displayName: unit.displayName,
+        parentName: parentUnit ? parentUnit.displayName : "",
+      };
+    });
+    if (unitOptions.length === 0) {
+      toast.error("No other units available to move users.");
+      return;
+    }
+    const selectedUnit = organizationUnits.find((i) => i.id === selectedUnitId);
+    const placeholder = "Select a unit";
+    const DynamicEnum = z.enum([
+      placeholder,
+      ...unitOptions.map(
+        (u) =>
+          `${u.displayName} ${u.parentName ? `Parent: ${u.parentName}` : ""}`,
+      ),
+    ]);
+    setTriggerData({
+      displayName: selectedUnit?.displayName || "",
+      id: selectedUnitId || "",
+    });
+    setAction({
+      type: "Dialog",
+      componentType: "Autoform",
+      cta: "Move all Users",
+      description: `Move all users from ${selectedUnit?.displayName} to:`,
+      autoFormArgs: {
+        formSchema: z.object({
+          targetUnit: DynamicEnum.default(placeholder),
+        }),
+        fieldConfig: {
+          all: { withoutBorder: true },
+        },
+      },
+      callback: (
+        e: { targetUnit: string; displayName: string },
+        _triggerData,
+      ) => {
+        const _selectedUnit = unitOptions.find(
+          (u) =>
+            `${u.displayName} ${
+              u.parentName ? `Parent: ${u.parentName}` : ""
+            }` === e.targetUnit,
+        );
+        if (!_selectedUnit) {
+          toast.error("Selected unit not found");
+          return false;
+        }
+        void putOrganizationUnitsByIdMoveAllUsersApi({
+          id: selectedUnitId || "",
+          organizationId: _selectedUnit.id,
+        }).then((res) => {
+          handlePutResponse(res, router);
+          if (res.type === "success") {
+            const newOrganizationUnits = organizationUnits.map((i) => {
+              if (i.id === selectedUnitId) {
+                return {
+                  ...i,
+                  displayName: e.displayName,
+                };
+              }
+              return i;
+            });
+            setOrganizationUnits(newOrganizationUnits);
+            setTriggerData({});
+            setOpen(false);
+          }
+        });
+      },
+    });
+    setOpen(true);
   };
 
   return (
@@ -211,7 +314,7 @@ export default function OrganizationComponent({
           <CardContent>
             {organizationUnits.length > 0 ? (
               <TreeView
-                elements={organizationTreeElements}
+                elements={initializeOrganizationTree()}
                 optionsDropdownContent={
                   <>
                     <DropdownMenuItem
@@ -228,7 +331,13 @@ export default function OrganizationComponent({
                     >
                       Add Sub-unit
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Move all Users</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleMoveAllUsers();
+                      }}
+                    >
+                      Move all Users
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
                         handleDeleteUnit(selectedUnitId || "");
