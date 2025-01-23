@@ -6,7 +6,10 @@ import type {
   PagedResultDto_OrganizationUnitWithDetailsDto,
   Volo_Abp_Identity_OrganizationUnitWithDetailsDto,
 } from "@ayasofyazilim/saas/IdentityService";
-import { $Volo_Abp_Identity_OrganizationUnitCreateDto } from "@ayasofyazilim/saas/IdentityService";
+import {
+  $Volo_Abp_Identity_OrganizationUnitCreateDto,
+  $Volo_Abp_Identity_OrganizationUnitUpdateDto,
+} from "@ayasofyazilim/saas/IdentityService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import type { TableActionCustomDialog } from "@repo/ayasofyazilim-ui/molecules/dialog";
 import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
@@ -14,8 +17,14 @@ import { TreeView } from "@repo/ayasofyazilim-ui/molecules/tree-view";
 import { useRouter } from "next/navigation";
 import type { TreeViewElement } from "node_modules/@repo/ayasofyazilim-ui/src/molecules/tree-view/tree-view-api";
 import { useState } from "react";
-import { handlePostResponse } from "src/actions/core/api-utils-client";
+import {
+  handleDeleteResponse,
+  handlePostResponse,
+  handlePutResponse,
+} from "src/actions/core/api-utils-client";
+import { deleteOrganizationUnitsApi } from "src/actions/core/IdentityService/delete-actions";
 import { postOrganizationUnitsApi } from "src/actions/core/IdentityService/post-actions";
+import { putOrganizationUnitsByIdApi } from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
 
 function getChildrens(
@@ -114,10 +123,76 @@ export default function OrganizationComponent({
     setOpen(true);
   };
 
+  const handleEditUnit = () => {
+    setAction({
+      type: "Dialog",
+      componentType: "Autoform",
+      cta: "Edit Unit",
+      description: "Edit the name of the organization unit",
+      autoFormArgs: {
+        formSchema: createZodObject(
+          $Volo_Abp_Identity_OrganizationUnitUpdateDto,
+          ["displayName"],
+        ),
+        fieldConfig: {
+          all: {
+            withoutBorder: true,
+          },
+        },
+      },
+      callback: (e: { displayName: string }, _triggerData) => {
+        void putOrganizationUnitsByIdApi({
+          id: selectedUnitId || "",
+          requestBody: {
+            displayName: e.displayName,
+          },
+        }).then((res) => {
+          handlePutResponse(res, router);
+          if (res.type === "success") {
+            const newOrganizationUnits = organizationUnits.map((i) => {
+              if (i.id === selectedUnitId) {
+                return {
+                  ...i,
+                  displayName: e.displayName,
+                };
+              }
+              return i;
+            });
+            setOrganizationUnits(newOrganizationUnits);
+            setOrganizationTreeElements(initializeOrganizationTree());
+            setTriggerData({});
+            setOpen(false);
+          }
+        });
+      },
+    });
+    setTriggerData({
+      displayName:
+        organizationUnits.find((i) => i.id === selectedUnitId)?.displayName ||
+        "",
+      id: selectedUnitId || "",
+    });
+    setOpen(true);
+  };
+
+  const handleDeleteUnit = (unitId: string) => {
+    void deleteOrganizationUnitsApi(unitId || "").then((res) => {
+      handleDeleteResponse(res, router);
+      if (res.type === "success") {
+        const updatedUnits = organizationUnits.filter(
+          (unit) => unit.id !== unitId,
+        );
+        setOrganizationUnits(updatedUnits);
+        setOrganizationTreeElements(initializeOrganizationTree());
+        setSelectedUnitId(undefined);
+      }
+    });
+  };
+
   return (
     <>
       <div className="flex min-h-[60vh] w-full flex-row">
-        <Card className="m-2 max-h-[70vh] w-1/2 overflow-y-auto">
+        <Card className="m-2 max-h-[60vh] w-1/2 overflow-y-auto">
           <CardHeader>
             <div className="flex items-center justify-between">
               <h2 className="text-xl">Organization Tree</h2>
@@ -139,7 +214,13 @@ export default function OrganizationComponent({
                 elements={organizationTreeElements}
                 optionsDropdownContent={
                   <>
-                    <DropdownMenuItem>{languageData.Edit}</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleEditUnit();
+                      }}
+                    >
+                      {languageData.Edit}
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
                         handleAddUnit(selectedUnitId || "");
@@ -148,7 +229,13 @@ export default function OrganizationComponent({
                       Add Sub-unit
                     </DropdownMenuItem>
                     <DropdownMenuItem>Move all Users</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleDeleteUnit(selectedUnitId || "");
+                      }}
+                    >
+                      Delete
+                    </DropdownMenuItem>
                   </>
                 }
                 selectedId={selectedUnitId}
