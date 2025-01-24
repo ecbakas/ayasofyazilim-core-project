@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type {
+  PagedResultDto_IdentityRoleDto,
+  PagedResultDto_IdentityUserDto,
   PagedResultDto_OrganizationUnitWithDetailsDto,
   Volo_Abp_Identity_IdentityRoleDto,
   Volo_Abp_Identity_IdentityUserDto,
@@ -23,7 +25,10 @@ import {
 } from "@ayasofyazilim/saas/IdentityService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import type { TableActionCustomDialog } from "@repo/ayasofyazilim-ui/molecules/dialog";
-import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
+import {
+  default as AutoformDialog,
+  default as CustomTableActionDialog,
+} from "@repo/ayasofyazilim-ui/molecules/dialog";
 import { TreeView } from "@repo/ayasofyazilim-ui/molecules/tree-view";
 import { SectionNavbarBase } from "@repo/ayasofyazilim-ui/templates/section-layout";
 import { Trash2 } from "lucide-react";
@@ -51,6 +56,8 @@ import {
   putOrganizationUnitsByIdMoveAllUsersApi,
 } from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
+import OrganizationRolesTable from "./_components/roles/_components/table";
+import OrganizationUsersTable from "./_components/users/_components/table";
 
 function getChildrens(
   parentId: string,
@@ -75,9 +82,13 @@ function getChildrens(
 export default function OrganizationComponent({
   languageData,
   organizationUnitList,
+  userList,
+  roleList,
 }: {
   languageData: IdentityServiceResource;
   organizationUnitList: PagedResultDto_OrganizationUnitWithDetailsDto;
+  userList: PagedResultDto_IdentityUserDto;
+  roleList: PagedResultDto_IdentityRoleDto;
 }) {
   const initializeOrganizationTree = () => {
     const parentUnits =
@@ -108,6 +119,11 @@ export default function OrganizationComponent({
     Volo_Abp_Identity_IdentityRoleDto[]
   >([]);
   const [activeTab, setActiveTab] = useState("Users");
+  const [openUsersDialog, setOpenUsersDialog] = useState(false);
+  const [openRolesDialog, setOpenRolesDialog] = useState(false);
+  const organizationName = organizationUnits.find(
+    (i) => i.id === selectedUnitId,
+  )?.displayName;
 
   function getUnitUsers() {
     void getOrganizationUnitsByIdMembersApi({
@@ -414,7 +430,7 @@ export default function OrganizationComponent({
           </CardContent>
         </Card>
 
-        <Card className="m-2 max-h-[70vh] w-1/2 overflow-y-auto">
+        <Card className="m-2 max-h-[60vh] w-1/2 overflow-y-auto">
           <CardContent>
             <SectionNavbarBase
               activeSectionId={activeTab}
@@ -434,11 +450,21 @@ export default function OrganizationComponent({
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex w-full justify-end">
                     {activeTab === "Users" ? (
-                      <Button className="bg-primary rounded px-4 py-2 text-white">
+                      <Button
+                        className="bg-primary rounded px-4 py-2 text-white"
+                        onClick={() => {
+                          setOpenUsersDialog(true);
+                        }}
+                      >
                         + Add user
                       </Button>
                     ) : (
-                      <Button className="bg-primary rounded px-4 py-2 text-white">
+                      <Button
+                        className="bg-primary rounded px-4 py-2 text-white"
+                        onClick={() => {
+                          setOpenRolesDialog(true);
+                        }}
+                      >
                         + Add role
                       </Button>
                     )}
@@ -525,6 +551,50 @@ export default function OrganizationComponent({
             />
           )
         : null}
+      {openUsersDialog ? (
+        <CustomTableActionDialog
+          action={{
+            type: "Sheet",
+            cta: `Organization ( ${organizationName} )`,
+            description: "you can add users to the organization from here",
+            componentType: "CustomComponent",
+            loadingContent: <></>,
+            content: (
+              <OrganizationUsersTable
+                languageData={languageData}
+                selectedUnitId={selectedUnitId || ""}
+                unitUsers={unitUsers}
+                userList={userList}
+              />
+            ),
+          }}
+          onOpenChange={setOpenUsersDialog}
+          open={openUsersDialog}
+          type="Sheet"
+        />
+      ) : null}
+      {openRolesDialog ? (
+        <CustomTableActionDialog
+          action={{
+            type: "Sheet",
+            cta: `Organization ( ${organizationName} )`,
+            description: "you can add roles to the organization from here",
+            componentType: "CustomComponent",
+            loadingContent: <></>,
+            content: (
+              <OrganizationRolesTable
+                languageData={languageData}
+                roleList={roleList}
+                selectedUnitId={selectedUnitId || ""}
+                unitRoles={unitRoles}
+              />
+            ),
+          }}
+          onOpenChange={setOpenRolesDialog}
+          open={openRolesDialog}
+          type="Sheet"
+        />
+      ) : null}
     </>
   );
 }
