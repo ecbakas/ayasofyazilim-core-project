@@ -547,7 +547,7 @@ export default function OrganizationComponent({
                   </TableBody>
                 </Table>
                 <p className="mt-10 text-sm">
-                  {activeTab === "Users" ? unitUsers.length : unitRoles.length}
+                  {activeTab === "Users" ? unitUsers.length : unitRoles.length}{" "}
                   {languageData["Organization.Count"]}
                 </p>
               </div>
