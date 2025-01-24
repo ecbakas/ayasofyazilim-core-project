@@ -157,10 +157,10 @@ export default function OrganizationComponent({
     setAction({
       type: "Dialog",
       componentType: "Autoform",
-      cta: "New organization unit",
+      cta: languageData["Organization.New"],
       description: selectedUnit
-        ? `Parent: ${selectedUnit.displayName}`
-        : "Create a new organization unit",
+        ? `${languageData["Organization.Parent"]}: ${selectedUnit.displayName}`
+        : languageData["Organization.New.Description"],
       autoFormArgs: {
         formSchema: createZodObject(
           $Volo_Abp_Identity_OrganizationUnitCreateDto,
@@ -196,8 +196,8 @@ export default function OrganizationComponent({
     setAction({
       type: "Dialog",
       componentType: "Autoform",
-      cta: "Edit Unit",
-      description: "Edit the name of the organization unit",
+      cta: languageData["Organization.Edit"],
+      description: languageData["Organization.Edit.Description"],
       autoFormArgs: {
         formSchema: createZodObject(
           $Volo_Abp_Identity_OrganizationUnitUpdateDto,
@@ -236,9 +236,7 @@ export default function OrganizationComponent({
       },
     });
     setTriggerData({
-      displayName:
-        organizationUnits.find((i) => i.id === selectedUnitId)?.displayName ||
-        "",
+      displayName: organizationName || "",
       id: selectedUnitId || "",
     });
     setOpen(true);
@@ -259,7 +257,7 @@ export default function OrganizationComponent({
 
   const handleMoveAllUsers = () => {
     if (unitUsers.length === 0) {
-      toast.warning("There are no users currently in this unit.");
+      toast.warning(languageData["Organization.User.Empty"]);
       return;
     }
     const availableUnits = organizationUnits.filter(
@@ -274,27 +272,27 @@ export default function OrganizationComponent({
       };
     });
     if (unitOptions.length === 0) {
-      toast.error("No other units available to move users.");
+      toast.warning(languageData["Organization.Empty"]);
       return;
     }
-    const selectedUnit = organizationUnits.find((i) => i.id === selectedUnitId);
-    const placeholder = "Select a unit";
+
+    const placeholder = languageData["Organization.Select"];
     const DynamicEnum = z.enum([
       placeholder,
       ...unitOptions.map(
         (u) =>
-          `${u.displayName} ${u.parentName ? `Parent: ${u.parentName}` : ""}`,
+          `${u.displayName} ${u.parentName ? `${languageData["Organization.Parent"]}: ${u.parentName}` : ""}`,
       ),
     ]);
     setTriggerData({
-      displayName: selectedUnit?.displayName || "",
+      displayName: organizationName || "",
       id: selectedUnitId || "",
     });
     setAction({
       type: "Dialog",
       componentType: "Autoform",
-      cta: "Move all Users",
-      description: `Move all users from ${selectedUnit?.displayName} to:`,
+      cta: languageData["Organization.Move.Users"],
+      description: `${languageData["Organization.Move.Users.Description"]} ${organizationName}:`,
       autoFormArgs: {
         formSchema: z.object({
           targetUnit: DynamicEnum.default(placeholder),
@@ -314,7 +312,7 @@ export default function OrganizationComponent({
             }` === e.targetUnit,
         );
         if (!_selectedUnit) {
-          toast.error("Selected unit not found");
+          toast.warning(languageData["Organization.Select.Fail"]);
           return false;
         }
         void putOrganizationUnitsByIdMoveAllUsersApi({
@@ -372,7 +370,7 @@ export default function OrganizationComponent({
         <Card className="m-2 max-h-[60vh] w-1/2 overflow-y-auto">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h2 className="text-xl">Organization Tree</h2>
+              <h2 className="text-xl">{languageData["Organization.Tree"]}</h2>
               <Button
                 className="bg-primary rounded px-4 py-2 text-white"
                 onClick={() => {
@@ -381,7 +379,7 @@ export default function OrganizationComponent({
                   handleAddUnit(null);
                 }}
               >
-                + Add root unit
+                {languageData["Organization.Add.Root.Unit"]}
               </Button>
             </div>
           </CardHeader>
@@ -403,21 +401,21 @@ export default function OrganizationComponent({
                         handleAddUnit(selectedUnitId || "");
                       }}
                     >
-                      Add Sub-unit
+                      {languageData["Organization.Add.Sub.Unit"]}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
                         handleMoveAllUsers();
                       }}
                     >
-                      Move all Users
+                      {languageData["Organization.Move.Users"]}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
                         handleDeleteUnit(selectedUnitId || "");
                       }}
                     >
-                      Delete
+                      {languageData.Delete}
                     </DropdownMenuItem>
                   </>
                 }
@@ -425,7 +423,7 @@ export default function OrganizationComponent({
                 setSelectedId={setSelectedUnitId}
               />
             ) : (
-              <p>No organization units available</p>
+              <p>{languageData["Organization.Tree.Empty"]}</p>
             )}
           </CardContent>
         </Card>
@@ -456,7 +454,7 @@ export default function OrganizationComponent({
                           setOpenUsersDialog(true);
                         }}
                       >
-                        + Add user
+                        {languageData["Organization.Add.Users"]}
                       </Button>
                     ) : (
                       <Button
@@ -465,7 +463,7 @@ export default function OrganizationComponent({
                           setOpenRolesDialog(true);
                         }}
                       >
-                        + Add role
+                        {languageData["Organization.Add.Roles"]}
                       </Button>
                     )}
                   </div>
@@ -475,11 +473,17 @@ export default function OrganizationComponent({
                     <TableRow>
                       {activeTab === "Users" ? (
                         <>
-                          <TableHead>User Name</TableHead>
-                          <TableHead>Email Address</TableHead>
+                          <TableHead>
+                            {languageData["Form.Organization.User.Name"]}
+                          </TableHead>
+                          <TableHead>
+                            {languageData["Form.Organization.User.Email"]}
+                          </TableHead>
                         </>
                       ) : (
-                        <TableHead>Role Name</TableHead>
+                        <TableHead>
+                          {languageData["Form.Organization.Role.Name"]}
+                        </TableHead>
                       )}
                       <TableHead className="text-right" />
                     </TableRow>
@@ -504,7 +508,13 @@ export default function OrganizationComponent({
                         ))
                       : activeTab === "Users" && (
                           <TableRow>
-                            <TableCell>No data available</TableCell>
+                            <TableCell>
+                              {
+                                languageData[
+                                  "Organization.User.Empty.Description"
+                                ]
+                              }
+                            </TableCell>
                           </TableRow>
                         )}
                     {activeTab === "Roles" && unitRoles.length > 0
@@ -525,18 +535,24 @@ export default function OrganizationComponent({
                         ))
                       : activeTab === "Roles" && (
                           <TableRow>
-                            <TableCell>No data available</TableCell>
+                            <TableCell>
+                              {
+                                languageData[
+                                  "Organization.Role.Empty.Description"
+                                ]
+                              }
+                            </TableCell>
                           </TableRow>
                         )}
                   </TableBody>
                 </Table>
                 <p className="mt-10 text-sm">
                   {activeTab === "Users" ? unitUsers.length : unitRoles.length}{" "}
-                  total
+                  {languageData["Organization.Count"]}
                 </p>
               </div>
             ) : (
-              <p>Select an organization unit to view details</p>
+              <p>{languageData["Organization.Tree.Select.Description"]}</p>
             )}
           </CardContent>
         </Card>
@@ -555,8 +571,8 @@ export default function OrganizationComponent({
         <CustomTableActionDialog
           action={{
             type: "Sheet",
-            cta: `Organization ( ${organizationName} )`,
-            description: "you can add users to the organization from here",
+            cta: `${languageData.Organization} ( ${organizationName} )`,
+            description: languageData["Organization.Add.Users.Description"],
             componentType: "CustomComponent",
             loadingContent: <></>,
             content: (
@@ -577,8 +593,8 @@ export default function OrganizationComponent({
         <CustomTableActionDialog
           action={{
             type: "Sheet",
-            cta: `Organization ( ${organizationName} )`,
-            description: "you can add roles to the organization from here",
+            cta: `${languageData.Organization} ( ${organizationName} )`,
+            description: languageData["Organization.Add.Roles.Description"],
             componentType: "CustomComponent",
             loadingContent: <></>,
             content: (
