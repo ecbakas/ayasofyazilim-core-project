@@ -56,8 +56,8 @@ import {
   putOrganizationUnitsByIdMoveAllUsersApi,
 } from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
-import OrganizationRolesTable from "./_components/roles/_components/table";
-import OrganizationUsersTable from "./_components/users/_components/table";
+import OrganizationRolesTable from "./_components/roles/table";
+import OrganizationUsersTable from "./_components/users/table";
 
 function getChildrens(
   parentId: string,
