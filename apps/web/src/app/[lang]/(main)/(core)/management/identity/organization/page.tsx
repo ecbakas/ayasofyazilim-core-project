@@ -1,5 +1,9 @@
 "use server";
 
+import type {
+  GetApiIdentityRolesData,
+  GetApiIdentityUsersData,
+} from "@ayasofyazilim/saas/IdentityService";
 import {
   getAllOrganizationUnitsApi,
   getRolesApi,
@@ -13,15 +17,17 @@ import OrganizationComponent from "./organization";
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: {
     lang: string;
   };
+  searchParams: GetApiIdentityUsersData & GetApiIdentityRolesData;
 }) {
   const { lang } = params;
   const { languageData } = await getResourceData(lang);
   await isUnauthorized({
-    requiredPolicies: ["AbpIdentity.Roles"],
+    requiredPolicies: ["AbpIdentity.OrganizationUnits"],
     lang,
   });
   const organizationResponse = await getAllOrganizationUnitsApi();
@@ -34,10 +40,7 @@ export default async function Page({
     );
   }
 
-  const usersResponse = await getUsersApi({
-    maxResultCount: 10,
-    skipCount: 0,
-  });
+  const usersResponse = await getUsersApi(searchParams);
   if (isErrorOnRequest(usersResponse, lang, false)) {
     return (
       <ErrorComponent
@@ -47,10 +50,7 @@ export default async function Page({
     );
   }
 
-  const roleResponse = await getRolesApi({
-    maxResultCount: 10,
-    skipCount: 0,
-  });
+  const roleResponse = await getRolesApi(searchParams);
   if (isErrorOnRequest(roleResponse, lang, false)) {
     return (
       <ErrorComponent
@@ -64,6 +64,8 @@ export default async function Page({
     <OrganizationComponent
       languageData={languageData}
       organizationUnitList={organizationResponse.data}
+      roleList={roleResponse.data}
+      userList={usersResponse.data}
     />
   );
 }
