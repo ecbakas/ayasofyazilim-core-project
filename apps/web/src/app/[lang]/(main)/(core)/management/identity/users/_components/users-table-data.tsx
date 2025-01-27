@@ -11,20 +11,45 @@ import type {
   TanstackTableTableActionsType,
 } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import { tanstackTableCreateColumnsByRowData } from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
+import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import {
   CheckCircle,
   Eye,
   FolderCheck,
   Key,
+  LockIcon,
   Plus,
   Settings,
   ShieldCheck,
+  UnlockIcon,
   XCircle,
 } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { handlePutResponse } from "src/actions/core/api-utils-client";
+import {
+  putUsersByIdLockByLockoutEndApi,
+  putUsersByIdUnlockApi,
+} from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
 import isActionGranted from "src/utils/page-policy/action-policy";
 import type { Policy } from "src/utils/page-policy/utils";
+
+interface FormData {
+  lockoutEnd: string;
+}
+
+const $lockSchema = {
+  type: "object",
+  required: ["lockoutEnd"],
+  properties: {
+    lockoutEnd: {
+      type: "string",
+      format: "date-time",
+      nullable: true,
+    },
+  },
+};
 
 type UsersTable = TanstackTableCreationProps<Volo_Abp_Identity_IdentityUserDto>;
 
@@ -57,7 +82,11 @@ function usersRowActions(
 ) {
   const actions: TanstackTableRowActionsType<Volo_Abp_Identity_IdentityUserDto>[] =
     [];
-
+  const lockUiSchema = createUiSchemaWithResource({
+    schema: $lockSchema,
+    resources: languageData,
+    name: "Form.User",
+  });
   if (
     isActionGranted(["AbpIdentity.Users.ManagePermissions"], grantedPolicies)
   ) {
@@ -112,6 +141,51 @@ function usersRowActions(
       icon: Key,
       onClick: (row) => {
         router.push(`users/${row.id}/two-factor`);
+      },
+    });
+  }
+  if (isActionGranted(["AbpIdentity.Users.Update"], grantedPolicies)) {
+    actions.push({
+      type: "custom-dialog",
+      cta: languageData["User.Lock"],
+      title: languageData["User.Lock"],
+      actionLocation: "row",
+      condition: (row) => row.lockoutEnabled === true,
+      icon: LockIcon,
+      content: (row) => {
+        return (
+          <SchemaForm<FormData>
+            onSubmit={({ formData }) => {
+              if (!formData) return;
+              void putUsersByIdLockByLockoutEndApi({
+                id: row.id || "",
+                lockoutEnd: formData.lockoutEnd,
+              }).then((res) => {
+                handlePutResponse(res, router);
+              });
+            }}
+            schema={$lockSchema}
+            uiSchema={lockUiSchema}
+          />
+        );
+      },
+    });
+  }
+  if (isActionGranted(["AbpIdentity.Users.Update"], grantedPolicies)) {
+    actions.push({
+      type: "confirmation-dialog",
+      cta: languageData["User.Unlock"],
+      title: languageData["User.Unlock"],
+      condition: (row) => row.isLockedOut === true,
+      actionLocation: "row",
+      confirmationText: languageData.Save,
+      cancelText: languageData.Cancel,
+      description: languageData["User.Unlock.Assurance"],
+      icon: UnlockIcon,
+      onConfirm: (row) => {
+        void putUsersByIdUnlockApi(row.id || "").then((res) => {
+          handlePutResponse(res, router);
+        });
       },
     });
   }
@@ -181,6 +255,20 @@ const usersColumns = (
           ],
         },
       },
+      custom: {
+        userName: {
+          content: (row) => {
+            return (
+              <>
+                {row.userName}{" "}
+                {row.isLockedOut ? (
+                  <LockIcon className="h-4 w-4 text-red-500" />
+                ) : null}
+              </>
+            );
+          },
+        },
+      },
       faceted: {
         isActive: {
           options: facetedStyles,
@@ -244,6 +332,7 @@ function usersTable(
     ],
     filters: {
       textFilters: [
+        "filter",
         "userName",
         "name",
         "surname",
