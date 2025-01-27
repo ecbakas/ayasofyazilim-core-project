@@ -275,7 +275,7 @@ export default function OrganizationComponent({
       toast.warning(languageData["Organization.Empty"]);
       return;
     }
-
+    const selectedUnit = organizationUnits.find((i) => i.id === selectedUnitId);
     const placeholder = languageData["Organization.Select"];
     const DynamicEnum = z.enum([
       placeholder,
@@ -285,7 +285,7 @@ export default function OrganizationComponent({
       ),
     ]);
     setTriggerData({
-      displayName: organizationName || "",
+      displayName: selectedUnit?.displayName || "",
       id: selectedUnitId || "",
     });
     setAction({
@@ -308,7 +308,9 @@ export default function OrganizationComponent({
         const _selectedUnit = unitOptions.find(
           (u) =>
             `${u.displayName} ${
-              u.parentName ? `Parent: ${u.parentName}` : ""
+              u.parentName
+                ? `${languageData["Organization.Parent"]}: ${u.parentName}`
+                : ""
             }` === e.targetUnit,
         );
         if (!_selectedUnit) {
