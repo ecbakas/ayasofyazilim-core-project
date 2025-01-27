@@ -26,9 +26,19 @@ export default function LanguageTextsEdit({
     extend: {
       name: {
         "ui:disabled": true,
+        "ui:options": {
+          readOnly: true,
+        },
       },
       baseValue: {
+        "ui:widget": "textarea",
         "ui:disabled": true,
+        "ui:options": {
+          readOnly: true,
+        },
+      },
+      value: {
+        "ui:widget": "textarea",
       },
     },
   });
