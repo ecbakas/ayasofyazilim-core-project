@@ -30,9 +30,6 @@ export default function LanguageTextsEdit({
       baseValue: {
         "ui:disabled": true,
       },
-      value: {
-        "ui:widget": "text",
-      },
     },
   });
   return (
