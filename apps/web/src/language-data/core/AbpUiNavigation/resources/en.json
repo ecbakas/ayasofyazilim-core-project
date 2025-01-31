@@ -70,10 +70,17 @@
   "Rebate.Description": "You can view the rebates from here.",
   "CompanySettings": "Company Settings",
   "Refund": "Refund",
+  "Refund.Description": "You can view the refunds from here.",
+  "Refunds": "Refunds",
+  "Refunds.Description": "You can view the refunds from here.",
   "ExportValidation": "Export Validation",
   "ExportValidation.Description": "You can view the export validations from here.",
   "Finance": "Finance",
-  "Billing": "Billing",
-  "Billing.Description": "You can view the billing from here.",
-  "MyAccount": "My Account"
+  "VatStatements": "Vat Statements",
+  "VatStatements.Description": "You can view the vat statements from here.",
+  "RebateStatements": "Rebate Statements",
+  "RebateStatements.Description": "You can view the rebate statements from here.",
+  "MyAccount": "My Account",
+  "Affiliation": "Affiliation",
+  "Affiliation.Description": "You can manage the affiliations from here."
 }
