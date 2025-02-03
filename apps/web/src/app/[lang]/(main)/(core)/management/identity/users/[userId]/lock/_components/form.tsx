@@ -1,14 +1,28 @@
 "use client";
 
-import type { Volo_Abp_Identity_IdentityUserUpdatePasswordInput } from "@ayasofyazilim/saas/IdentityService";
-import { $Volo_Abp_Identity_IdentityUserUpdatePasswordInput } from "@ayasofyazilim/saas/IdentityService";
 import { SchemaForm } from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import { createUiSchemaWithResource } from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { handlePutResponse } from "src/actions/core/api-utils-client";
-import { putUsersByIdChangePasswordApi } from "src/actions/core/IdentityService/put-actions";
+import { putUsersByIdLockByLockoutEndApi } from "src/actions/core/IdentityService/put-actions";
 import type { IdentityServiceResource } from "src/language-data/core/IdentityService";
+
+interface FormData {
+  lockoutEnd: string;
+}
+
+const $lockSchema = {
+  type: "object",
+  required: ["lockoutEnd"],
+  properties: {
+    lockoutEnd: {
+      type: "string",
+      format: "date-time",
+      nullable: true,
+    },
+  },
+};
 
 export default function Form({
   languageData,
@@ -19,27 +33,22 @@ export default function Form({
   const { userId } = useParams<{ userId: string }>();
   const [loading, setLoading] = useState(false);
 
-  const uiSchema = createUiSchemaWithResource({
-    schema: $Volo_Abp_Identity_IdentityUserUpdatePasswordInput,
+  const lockUiSchema = createUiSchemaWithResource({
+    schema: $lockSchema,
     resources: languageData,
-    name: "Form.User.SetPassword",
-    extend: {
-      newPassword: {
-        "ui:widget": "password",
-      },
-    },
+    name: "Form.User.Lock",
   });
 
   return (
-    <SchemaForm<Volo_Abp_Identity_IdentityUserUpdatePasswordInput>
+    <SchemaForm<FormData>
       className="flex flex-col gap-4"
       disabled={loading}
-      onSubmit={(data) => {
+      onSubmit={({ formData }) => {
         setLoading(true);
-        const formData = data.formData;
-        void putUsersByIdChangePasswordApi({
-          id: userId || "",
-          requestBody: formData,
+        if (!formData) return;
+        void putUsersByIdLockByLockoutEndApi({
+          id: userId,
+          lockoutEnd: formData.lockoutEnd,
         })
           .then((res) => {
             handlePutResponse(res, router, "..");
@@ -48,9 +57,9 @@ export default function Form({
             setLoading(false);
           });
       }}
-      schema={$Volo_Abp_Identity_IdentityUserUpdatePasswordInput}
+      schema={$lockSchema}
       submitText={languageData["Edit.Save"]}
-      uiSchema={uiSchema}
+      uiSchema={lockUiSchema}
     />
   );
 }
