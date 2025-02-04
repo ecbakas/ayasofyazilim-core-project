@@ -25,6 +25,9 @@
   "Form.AuditLog.EntityChanges.changeType": "Change Type",
   "Form.AuditLog.EntityChanges.tenantId": "Tenant ID",
   "Form.AuditLog.EntityChanges.entityTypeFullName": "Entity Type Full Name",
+  "Form.AuditLog.EntityChanges.Created": "Created",
+  "Form.AuditLog.EntityChanges.Updated": "Updated",
+  "Form.AuditLog.EntityChanges.Deleted": "Deleted",
 
   "Language": "Language",
   "Language.New": "New Language",

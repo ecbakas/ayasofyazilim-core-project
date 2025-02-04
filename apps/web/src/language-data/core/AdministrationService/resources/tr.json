@@ -30,6 +30,9 @@
   "Form.AuditLog.EntityChanges.changeType": "Değişiklik Tipi",
   "Form.AuditLog.EntityChanges.tenantId": "Tenant ID",
   "Form.AuditLog.EntityChanges.entityTypeFullName": "Varlık Tipi Adı",
+  "Form.AuditLog.EntityChanges.Created": "Oluşturuldu",
+  "Form.AuditLog.EntityChanges.Updated": "Güncellendi",
+  "Form.AuditLog.EntityChanges.Deleted": "Silindi",
 
   "Language": "Dil",
   "Language.New": "Yeni Dil",
