@@ -40,16 +40,28 @@ export async function signInServer({
     };
   }
 }
-export async function signUpServer({userName, email, password}: {userName: string; email: string; password: string}) {
+export async function signUpServer({
+  userName,
+  email,
+  password,
+  tenantId,
+}: {
+  userName: string;
+  email: string;
+  password: string;
+  tenantId?: string;
+}) {
   try {
-    const client = await getAccountServiceClient();
+    const client = await getAccountServiceClient({
+      __tenant: tenantId || "",
+    });
 
     await client.account.postApiAccountRegister({
       requestBody: {
         userName,
         emailAddress: email,
         password,
-        appName: process.env.APP_NAME || "",
+        appName: process.env.CLIENT_ID || "",
       },
     });
     return {
