@@ -47,12 +47,32 @@
     "requiredPolicies": ["AbpIdentity.Roles"]
   },
   {
+    "key": "management/identity/roles/new",
+    "displayName": "New",
+    "description": "Add new role.",
+    "href": "management/identity/roles/new",
+    "icon": "new",
+    "parentNavbarItemKey": "management/identity/roles",
+    "displayOrder": 1,
+    "requiredPolicies": ["AbpIdentity.Roles"]
+  },
+  {
     "key": "management/identity/users",
     "displayName": "User",
     "description": "Manage user accounts and profiles.",
     "href": "management/identity/users",
     "icon": "identity",
     "parentNavbarItemKey": "management/identity",
+    "displayOrder": 1,
+    "requiredPolicies": ["AbpIdentity.Users"]
+  },
+  {
+    "key": "management/identity/users/new",
+    "displayName": "New",
+    "description": "Add new role.",
+    "href": "management/identity/users/new",
+    "icon": "new",
+    "parentNavbarItemKey": "management/identity/users",
     "displayOrder": 1,
     "requiredPolicies": ["AbpIdentity.Users"]
   },
