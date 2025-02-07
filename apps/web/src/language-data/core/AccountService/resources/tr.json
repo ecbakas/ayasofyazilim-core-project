@@ -1,4 +1,6 @@
 {
+  "Login": "Giriş",
+  "Tenant": "Tenant",
   "Sessions.Details": "Oturum Detayları",
   "Sessions.Detail": "Detay",
   "Sessions.Revokes": "İptal et",
