@@ -2,6 +2,8 @@
   "Login": "Giriş",
   "Tenant": "Tenant",
   "ResetPassword": "Şifreni Sıfırla",
+  "Register": "Kayıt Ol",
+  "InvalidToken": "Geçersiz token.",
   "Sessions.Details": "Oturum Detayları",
   "Sessions.Detail": "Detay",
   "Sessions.Revokes": "İptal et",

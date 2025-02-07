@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useTransition} from "react";
+import {useEffect, useState, useTransition} from "react";
 
 import {Volo_Abp_AspNetCore_Mvc_MultiTenancy_FindTenantResultDto} from "@ayasofyazilim/saas/AccountService";
 import {Button} from "@repo/ayasofyazilim-ui/atoms/button";
@@ -17,9 +17,9 @@ import {toast} from "@repo/ayasofyazilim-ui/atoms/sonner";
 import {z, zodResolver} from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import {PasswordInput} from "@repo/ayasofyazilim-ui/molecules/password-input";
 import {XIcon} from "lucide-react";
+import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {FormProvider, useForm} from "react-hook-form";
-import Link from "next/link";
 
 const formSchema = z.object({
   username: z.string().min(4, {
@@ -47,6 +47,7 @@ export default function LoginForm({
   languageData: {
     Login: string;
     Tenant: string;
+    InvalidToken: string;
   };
   isTenantDisabled: boolean;
   defaultTenant?: string;
@@ -100,6 +101,14 @@ export default function LoginForm({
       });
     });
   }
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const error = searchParams.get("error") as keyof typeof languageData | null;
+    if (error) {
+      toast.error(languageData[error] || "Something went wrong. Please try again.");
+    }
+  }, [typeof location !== "undefined"]);
+
   return (
     <div className="mx-auto flex w-full flex-col justify-center gap-2 p-5 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
@@ -173,7 +182,7 @@ export default function LoginForm({
               )}
             />
             <div className="text-right">
-              <Link href="forgot-password" className="text-muted-foreground mt-1 text-xs hover:underline">
+              <Link href="reset-password" className="text-muted-foreground mt-1 text-xs hover:underline">
                 Forgot password?
               </Link>
             </div>

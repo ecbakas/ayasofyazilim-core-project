@@ -30,7 +30,7 @@ export interface ResetPasswordCredentials {
   email: string;
 }
 
-export default function ForgotPasswordForm({
+export default function ResetPasswordForm({
   languageData,
   isTenantDisabled,
   defaultTenant = "",
