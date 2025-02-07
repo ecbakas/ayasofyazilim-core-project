@@ -39,6 +39,7 @@ export default function ForgotPasswordForm({
 }: {
   languageData: {
     Login: string;
+    ResetPassword: string;
     Tenant: string;
   };
   isTenantDisabled: boolean;
@@ -94,7 +95,7 @@ export default function ForgotPasswordForm({
   return (
     <div className="mx-auto flex w-full flex-col justify-center gap-2 p-5 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">{languageData.Login}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{languageData.ResetPassword}</h1>
       </div>
       <div className="grid space-y-2">
         <FormProvider {...form}>
