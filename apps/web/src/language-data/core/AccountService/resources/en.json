@@ -1,4 +1,6 @@
 {
+  "Login": "Login",
+  "Tenant": "Tenant",
   "Sessions.Detail": "Detail",
   "Sessions.Revokes": "Revoke",
   "Sessions.Revoke": "Sessions Revoke",
