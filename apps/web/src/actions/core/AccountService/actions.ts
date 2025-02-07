@@ -4,8 +4,9 @@ import type {
   GetApiAccountSecurityLogsData,
   GetApiAccountSessionsData,
 } from "@ayasofyazilim/saas/AccountService";
+import {structuredSuccessResponse} from "@repo/utils/api";
 import {signIn} from "@repo/utils/auth/next-auth";
-import {getAccountServiceClient, structuredError, structuredResponse, structuredSuccessResponse} from "src/lib";
+import {getAccountServiceClient, structuredError, structuredResponse} from "src/lib";
 
 export async function getTenantByNameApi(name: string) {
   try {
