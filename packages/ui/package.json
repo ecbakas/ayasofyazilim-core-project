@@ -10,6 +10,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src/",
+    "format": "prettier --write . --plugin=prettier-plugin-tailwindcss",
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
