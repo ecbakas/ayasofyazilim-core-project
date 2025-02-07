@@ -15,29 +15,22 @@ import {
 import {Input} from "@repo/ayasofyazilim-ui/atoms/input";
 import {toast} from "@repo/ayasofyazilim-ui/atoms/sonner";
 import {z, zodResolver} from "@repo/ayasofyazilim-ui/lib/create-zod-object";
-import {PasswordInput} from "@repo/ayasofyazilim-ui/molecules/password-input";
 import {XIcon} from "lucide-react";
+import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {FormProvider, useForm} from "react-hook-form";
-import Link from "next/link";
 
 const formSchema = z.object({
-  username: z.string().min(4, {
-    message: "Username must be at least 4 characters.",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
-  }),
+  email: z.string().email(),
   tenant: z.string().optional(),
 });
 
-export interface LoginCredentials {
+export interface ResetPasswordCredentials {
   tenantId: string;
-  userName: string;
-  password: string;
+  email: string;
 }
 
-export default function LoginForm({
+export default function ForgotPasswordForm({
   languageData,
   isTenantDisabled,
   defaultTenant = "",
@@ -46,6 +39,7 @@ export default function LoginForm({
 }: {
   languageData: {
     Login: string;
+    ResetPassword: string;
     Tenant: string;
   };
   isTenantDisabled: boolean;
@@ -54,10 +48,9 @@ export default function LoginForm({
     type: "success";
     data: Volo_Abp_AspNetCore_Mvc_MultiTenancy_FindTenantResultDto;
   }>;
-  onSubmitAction: (values: LoginCredentials) => Promise<{
-    type: "success" | "error";
+  onSubmitAction: (values: ResetPasswordCredentials) => Promise<{
+    type: "success" | "error" | "api-error";
     message?: string;
-    data?: string;
   }>;
 }) {
   const router = useRouter();
@@ -89,21 +82,20 @@ export default function LoginForm({
     startTransition(() => {
       onSubmitAction({
         tenantId,
-        userName: values.username,
-        password: values.password,
+        email: values.email,
       }).then((response) => {
         if (response.type !== "success") {
           toast.error(response?.message);
           return;
         }
-        router.replace(`/${location.pathname.split("/").slice(1).join("/")}/${location.search}`);
+        router.replace(`/${location.pathname.split("/").slice(1).join("/")}/login${location.search}`);
       });
     });
   }
   return (
     <div className="mx-auto flex w-full flex-col justify-center gap-2 p-5 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">{languageData.Login}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{languageData.ResetPassword}</h1>
       </div>
       <div className="grid space-y-2">
         <FormProvider {...form}>
@@ -147,10 +139,10 @@ export default function LoginForm({
 
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Username or email address</FormLabel>
+                  <FormLabel>Email address</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="user@example.com" autoComplete="true" />
                   </FormControl>
@@ -159,27 +151,10 @@ export default function LoginForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({field}) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput placeholder="*******" type="password" autoComplete="true" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="text-right">
-              <Link href="forgot-password" className="text-muted-foreground mt-1 text-xs hover:underline">
-                Forgot password?
-              </Link>
-            </div>
+
             <div>
               <Button disabled={isPending} className="my-2 w-full">
-                Login
+                Reset Password
               </Button>
             </div>
           </form>
@@ -187,11 +162,14 @@ export default function LoginForm({
       </div>
       <div className="flex items-center justify-center">
         <span className="bg-muted h-px w-full"></span>
-        <span className="text-muted-foreground whitespace-nowrap text-center text-xs uppercase">
-          Don't you have an account?
-        </span>
+        <span className="text-muted-foreground whitespace-nowrap text-center text-xs uppercase">OR</span>
         <span className="bg-muted h-px w-full"></span>
       </div>
+      <Link href="login" className="text-muted-foreground mt-1 text-xs hover:underline">
+        <Button disabled={isPending} className=" w-full" variant={"outline"}>
+          Login
+        </Button>
+      </Link>
       <Link href="register" className="text-muted-foreground mt-1 text-xs hover:underline">
         <Button disabled={isPending} className=" w-full" variant={"outline"}>
           Register

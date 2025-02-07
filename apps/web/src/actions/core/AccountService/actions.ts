@@ -42,6 +42,22 @@ export async function signInServerApi({
     };
   }
 }
+export async function sendPasswordResetCodeApi({tenantId, email}: {tenantId: string; email: string}) {
+  try {
+    const client = await getAccountServiceClient({
+      __tenant: tenantId || "",
+    });
+    const response = await client.account.postApiAccountSendPasswordResetCode({
+      requestBody: {
+        email,
+        appName: process.env.CLIENT_ID || "",
+      },
+    });
+    return structuredSuccessResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
 //unupdated functions
 export async function signInServer({
   userIdentifier,
