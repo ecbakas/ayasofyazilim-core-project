@@ -120,7 +120,12 @@ export default function LoginForm({
                     <FormLabel>Tenant</FormLabel>
                     <FormControl>
                       <div className="relative w-full max-w-sm">
-                        <Input {...field} onBlur={(e) => searchForTenant(e.target.value)} autoFocus />
+                        <Input
+                          {...field}
+                          onBlur={(e) => searchForTenant(e.target.value)}
+                          placeholder="Logging in as host"
+                          autoFocus
+                        />
                         <Button
                           type="button"
                           variant="ghost"
