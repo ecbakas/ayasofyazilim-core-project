@@ -88,7 +88,7 @@ export default function ForgotPasswordForm({
           toast.error(response?.message);
           return;
         }
-        router.replace(`/}/login${location.search}`);
+        router.replace(`/login${location.search}`);
       });
     });
   }
