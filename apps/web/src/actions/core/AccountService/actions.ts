@@ -51,7 +51,7 @@ export async function sendPasswordResetCodeApi({tenantId, email}: {tenantId: str
       requestBody: {
         email,
         appName: process.env.CLIENT_ID || "",
-        returnUrl: "http://localhost:3000/login",
+        returnUrl: "",
       },
     });
     return structuredSuccessResponse(response);
