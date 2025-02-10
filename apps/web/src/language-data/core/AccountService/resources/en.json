@@ -2,6 +2,8 @@
   "Login": "Login",
   "Tenant": "Tenant",
   "ResetPassword": "Reset Password",
+  "Register": "Register",
+  "InvalidToken": "Invalid token.",
   "Sessions.Detail": "Detail",
   "Sessions.Revokes": "Revoke",
   "Sessions.Revoke": "Sessions Revoke",

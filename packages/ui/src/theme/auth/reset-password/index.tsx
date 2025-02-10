@@ -30,7 +30,7 @@ export interface ResetPasswordCredentials {
   email: string;
 }
 
-export default function ForgotPasswordForm({
+export default function ResetPasswordForm({
   languageData,
   isTenantDisabled,
   defaultTenant = "",
@@ -88,7 +88,8 @@ export default function ForgotPasswordForm({
           toast.error(response?.message);
           return;
         }
-        router.replace(`/${location.pathname.split("/").slice(1).join("/")}/login${location.search}`);
+        toast.success("Check your email to continue.");
+        router.replace(`/login${location.search}`);
       });
     });
   }

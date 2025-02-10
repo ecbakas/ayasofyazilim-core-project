@@ -51,6 +51,58 @@ export async function sendPasswordResetCodeApi({tenantId, email}: {tenantId: str
       requestBody: {
         email,
         appName: process.env.CLIENT_ID || "",
+        returnUrl: "",
+      },
+    });
+    return structuredSuccessResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function verifyPasswordResetTokenApi({
+  tenantId,
+  resetToken,
+  userId,
+}: {
+  tenantId: string;
+  resetToken: string;
+  userId: string;
+}) {
+  try {
+    const client = await getAccountServiceClient({
+      __tenant: tenantId || "",
+    });
+    const response = await client.account.postApiAccountVerifyPasswordResetToken({
+      requestBody: {
+        userId,
+        resetToken,
+      },
+    });
+    return structuredSuccessResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function resetPasswordApi({
+  tenantId,
+  userId,
+  resetToken,
+  password,
+}: {
+  tenantId: string;
+  userId: string;
+  resetToken: string;
+  password: string;
+}) {
+  try {
+    const client = await getAccountServiceClient({
+      __tenant: tenantId || "",
+    });
+    const response = await client.account.postApiAccountResetPassword({
+      requestBody: {
+        userId,
+        resetToken,
+        password,
       },
     });
     return structuredSuccessResponse(response);
