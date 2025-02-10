@@ -42,6 +42,39 @@ export async function signInServerApi({
     };
   }
 }
+export async function signUpServerApi({
+  tenantId,
+  userName,
+  email,
+  password,
+}: {
+  tenantId: string;
+  userName: string;
+  email: string;
+  password: string;
+}) {
+  try {
+    const client = await getAccountServiceClient({
+      __tenant: tenantId || "",
+    });
+    await client.account.postApiAccountRegister({
+      requestBody: {
+        userName,
+        emailAddress: email,
+        password,
+        appName: process.env.CLIENT_ID || "",
+        returnUrl: "",
+      },
+    });
+    return structuredSuccessResponse("");
+  } catch (error) {
+    const err = error as {message: string};
+    return {
+      type: "error" as const,
+      message: err.message,
+    };
+  }
+}
 export async function sendPasswordResetCodeApi({tenantId, email}: {tenantId: string; email: string}) {
   try {
     const client = await getAccountServiceClient({
@@ -141,7 +174,7 @@ export async function signUpServer({
   userName: string;
   email: string;
   password: string;
-  tenantId?: string;
+  tenantId: string;
 }) {
   try {
     const client = await getAccountServiceClient({
