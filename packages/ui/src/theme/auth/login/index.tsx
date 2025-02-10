@@ -63,7 +63,8 @@ export default function LoginForm({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [tenantId, setTenantId] = useState<string>("");
+  const [tenantData, setTenantData] = useState<Volo_Abp_AspNetCore_Mvc_MultiTenancy_FindTenantResultDto>({});
+  const [isSubmitDisabled, setSubmitDisabled] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,7 +74,6 @@ export default function LoginForm({
 
   function searchForTenant(name: string) {
     if (!onTenantSearchAction || name.length < 1) return;
-
     startTransition(() => {
       onTenantSearchAction(name).then((response) => {
         if (response.type !== "success" || !response.data.success) {
@@ -82,14 +82,15 @@ export default function LoginForm({
         }
         form.clearErrors("tenant");
         form.setValue("tenant", response.data.name || "");
-        setTenantId(response.data.tenantId || "");
+        setTenantData(response.data);
+        setSubmitDisabled(false);
       });
     });
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(() => {
       onSubmitAction({
-        tenantId,
+        tenantId: tenantData.tenantId || "",
         userName: values.username,
         password: values.password,
       }).then((response) => {
@@ -130,6 +131,14 @@ export default function LoginForm({
                         <Input
                           {...field}
                           onBlur={(e) => searchForTenant(e.target.value)}
+                          onChange={(e) => {
+                            if (!isSubmitDisabled) setSubmitDisabled(true);
+
+                            form.setValue("tenant", e.target.value);
+                          }}
+                          onKeyUp={(e) => {
+                            if (e.key === "Enter") searchForTenant(form.getValues("tenant") || "");
+                          }}
                           placeholder="Logging in as host"
                           autoFocus
                         />
@@ -187,7 +196,7 @@ export default function LoginForm({
               </Link>
             </div>
             <div>
-              <Button disabled={isPending} className="my-2 w-full">
+              <Button disabled={isPending || isSubmitDisabled} className="my-2 w-full">
                 Login
               </Button>
             </div>
