@@ -1,13 +1,16 @@
 "use server";
 
+import NewPasswordForm from "@repo/ui/theme/auth/new-password";
 import ResetPasswordForm from "@repo/ui/theme/auth/reset-password";
 import {redirect} from "next/navigation";
 import {
   getTenantByNameApi,
+  resetPasswordApi,
   sendPasswordResetCodeApi,
   verifyPasswordResetTokenApi,
 } from "src/actions/core/AccountService/actions";
 import {getResourceData} from "src/language-data/core/AccountService";
+import {getBaseLink} from "src/utils";
 
 export default async function Page({
   params,
@@ -32,10 +35,19 @@ export default async function Page({
       resetToken,
       tenantId: __tenant || "",
     });
-    if (verifyPasswordResetTokenResponse.type !== "success") {
-      return redirect("/login?error=invalidToken");
+
+    if (verifyPasswordResetTokenResponse.type !== "success" || !verifyPasswordResetTokenResponse.data) {
+      return redirect(getBaseLink("/login?error=invalidToken", lang));
     }
-    return <>password</>;
+    return (
+      <NewPasswordForm
+        languageData={languageData}
+        onSubmitAction={resetPasswordApi}
+        resetToken={resetToken}
+        tenantId={__tenant || ""}
+        userId={userId}
+      />
+    );
   }
 
   return (

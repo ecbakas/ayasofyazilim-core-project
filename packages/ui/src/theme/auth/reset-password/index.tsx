@@ -88,6 +88,7 @@ export default function ResetPasswordForm({
           toast.error(response?.message);
           return;
         }
+        toast.success("Check your email to continue.");
         router.replace(`/login${location.search}`);
       });
     });
