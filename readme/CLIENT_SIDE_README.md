@@ -1,13 +1,13 @@
 # Server side sayfa yapısı bu şekilde olmalı.
 
-```
+```tsx
 "use client";
 
 import {useRouter} from "next/navigation";
 import {useTransition} from "react";
 
 export function Page() {
-  const { lang, contractId, partyId, partyName } = useParams<{
+  const {lang, contractId, partyId, partyName} = useParams<{
     lang: string;
     partyId: string;
     contractId: string;
@@ -16,7 +16,7 @@ export function Page() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  function onSubmit()   {
+  function onSubmit() {
     startTransition(() => {
       void postUserApi({
         requestBody: formData,
@@ -25,6 +25,6 @@ export function Page() {
       });
     });
   }
-  return <div></div>
+  return <div></div>;
 }
 ```

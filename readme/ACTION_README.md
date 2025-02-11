@@ -1,6 +1,6 @@
 # Action yapısı
 
-```
+```tsx
 "use server";
 import {isUnauthorized} from "@repo/utils/policies";
 
