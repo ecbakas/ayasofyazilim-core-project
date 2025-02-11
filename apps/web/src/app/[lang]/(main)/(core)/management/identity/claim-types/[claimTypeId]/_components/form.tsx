@@ -68,6 +68,7 @@ export default function Form({
                 </>
               ),
               variant: "outline",
+              disabled: isPending,
             }}
             type="with-trigger"
           />
