@@ -3,6 +3,7 @@ import type {Volo_Abp_Account_ProfileDto} from "@ayasofyazilim/saas/AccountServi
 import {$Volo_Abp_Account_UpdateProfileDto} from "@ayasofyazilim/saas/AccountService";
 import {SchemaForm} from "@repo/ayasofyazilim-ui/organisms/schema-form";
 import {createUiSchemaWithResource} from "@repo/ayasofyazilim-ui/organisms/schema-form/utils";
+import {PhoneNumberUtil} from "google-libphonenumber";
 import {useRouter} from "next/navigation";
 import {useTransition} from "react";
 import {putPersonalInfomationApi} from "src/actions/core/AccountService/put-actions";
@@ -18,10 +19,19 @@ export default function PersonalInformation({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const phoneUtil = PhoneNumberUtil.getInstance();
 
   const uiInformationSchema = createUiSchemaWithResource({
     resources: languageData,
     schema: $Volo_Abp_Account_UpdateProfileDto,
+    extend: {
+      email: {
+        "ui:widget": "email",
+      },
+      phoneNumber: {
+        "ui:widget": "phone",
+      },
+    },
   });
   return (
     <SchemaForm
@@ -34,6 +44,10 @@ export default function PersonalInformation({
       }}
       formData={personalInformationData}
       onSubmit={({formData}) => {
+        const parsedNumber = phoneUtil.parseAndKeepRawInput(formData?.phoneNumber || "");
+        if (!phoneUtil.isValidNumber(parsedNumber)) {
+          return;
+        }
         startTransition(() => {
           void putPersonalInfomationApi({
             requestBody: {...formData, userName: formData?.userName || ""},
