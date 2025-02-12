@@ -15,7 +15,7 @@ async function getApiRequests() {
     const session = await auth();
     const requiredRequests = await Promise.all([
       getRebateTableHeadersApi({}, session),
-      getRebateTableHeadersApi({}, session),
+      getMerchantsApi({}, session),
       getRebateTableHeadersApi({}, session),
     ]);
     const failureIndex = requiredRequests.findIndex((i) => i.type !== "success");
