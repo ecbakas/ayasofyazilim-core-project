@@ -127,7 +127,6 @@ function BreadcrumbNavigation({
   navbarItems: NavbarItemsFromDB[];
   navigation: BreadcrumbItemType[];
 }) {
-  console.log(navigation);
   return (
     <Breadcrumb>
       <BreadcrumbList>
