@@ -21,21 +21,27 @@ export async function signInServerApi({
   tenantId,
   userName,
   password,
+  redirectTo,
 }: {
   tenantId: string;
   userName: string;
   password: string;
+  redirectTo: string;
 }) {
   try {
     await signIn("credentials", {
       username: userName,
       password,
       tenantId,
-      redirect: false,
+      redirect: true,
+      redirectTo,
     });
     return structuredSuccessResponse("");
   } catch (error) {
     const err = error as {message: string};
+    if (err.message === "NEXT_REDIRECT") {
+      throw error;
+    }
     return {
       type: "error" as const,
       message: err.message,
