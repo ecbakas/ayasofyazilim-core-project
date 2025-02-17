@@ -144,16 +144,7 @@ export async function resetPasswordApi({
   }
 }
 //unupdated functions
-export async function getGrantedPoliciesApi() {
-  try {
-    const client = await getAccountServiceClient();
-    const response = await client.abpApplicationConfiguration.getApiAbpApplicationConfiguration();
-    const grantedPolicies = response.auth?.grantedPolicies;
-    return grantedPolicies;
-  } catch (error) {
-    return undefined;
-  }
-}
+
 export async function getSessionsApi(data: GetApiAccountSessionsData) {
   try {
     const client = await getAccountServiceClient();
