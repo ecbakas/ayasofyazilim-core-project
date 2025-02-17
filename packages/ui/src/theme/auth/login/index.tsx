@@ -88,12 +88,14 @@ export default function LoginForm({
     });
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const redirectTo =
+      new URLSearchParams(location.search).get("redirect") || "/" + location.pathname.split("/")[1] + "/home";
     startTransition(() => {
       onSubmitAction({
         tenantId: tenantData.tenantId || "",
         userName: values.username,
         password: values.password,
-        redirectTo: `/${location.pathname.split("/").slice(1).join("/")}/${location.search}`,
+        redirectTo: redirectTo,
       }).then((response) => {
         if (response && response.type !== "success") {
           toast.error(response?.message);
