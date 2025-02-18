@@ -87,15 +87,7 @@ export async function fetchNewAccessTokenByRefreshToken(refreshToken: string) {
 
   return await response.json();
 }
-async function getUserProfile(accessToken: string) {
-  try {
-    const client = await getAccountServiceClient(accessToken);
-    const data = await client.profile.getApiAccountMyProfile();
-    return structuredResponse(data);
-  } catch (error) {
-    return structuredError(error);
-  }
-}
+
 async function getTenantData(accessToken: string) {
   try {
     const client = await getAccountServiceClient(accessToken);
