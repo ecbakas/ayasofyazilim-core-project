@@ -13,7 +13,7 @@ import type {
 } from "@ayasofyazilim/core-saas/AdministrationService";
 import {SectionLayout, SectionLayoutContent} from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import {handlePutResponse} from "@repo/utils/api";
-import {useRouter} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {useState, useTransition} from "react";
 import {putFeaturesApi} from "src/actions/core/AdministrationService/put-actions";
 import type {SaasServiceResource} from "src/language-data/core/SaasService";
@@ -21,14 +21,13 @@ import type {SaasServiceResource} from "src/language-data/core/SaasService";
 export default function FeatureManagement({
   languageData,
   featuresData,
-  tenantId,
 }: {
   languageData: SaasServiceResource;
   featuresData: Volo_Abp_FeatureManagement_GetFeatureListResultDto;
-  tenantId: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const {tenantId} = useParams<{tenantId: string}>();
   const [featureGroups] = useState<Volo_Abp_FeatureManagement_FeatureGroupDto[]>(() => featuresData.groups || []);
   const [updatedFeatures, setUpdatedFeatures] = useState<Volo_Abp_FeatureManagement_UpdateFeatureDto[]>([]);
 

@@ -31,7 +31,7 @@ export default async function Page({params}: {params: {lang: string; tenantId: s
 
   return (
     <>
-      <Form featuresData={featuresResponse.data} languageData={languageData} tenantId={tenantId} />
+      <Form featuresData={featuresResponse.data} languageData={languageData} />
       <div className="hidden" id="page-title">
         {`${languageData.Tenant} (${tenantDetailsDataResponse.data.name})`}
       </div>
