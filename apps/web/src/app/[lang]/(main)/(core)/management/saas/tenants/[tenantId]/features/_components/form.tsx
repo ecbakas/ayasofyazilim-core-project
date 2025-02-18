@@ -3,6 +3,7 @@
 import {Button} from "@/components/ui/button";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import type {
   UniRefund_AdministrationService_Settings_ValueTypes_ValueTypeModelDto,
@@ -87,7 +88,7 @@ export default function FeatureManagement({
 
                       return (
                         <>
-                          <label className="block text-sm font-medium">{feature.displayName}</label>
+                          <Label className="block text-sm font-medium">{feature.displayName}</Label>
                           <div className="mt-1">
                             <Select
                               onValueChange={(value) => {
@@ -116,7 +117,7 @@ export default function FeatureManagement({
                     if (feature.valueType?.name === "FreeTextStringValueType") {
                       return (
                         <>
-                          <label className="block text-sm font-medium">{feature.displayName}</label>
+                          <Label className="block text-sm font-medium">{feature.displayName}</Label>
                           <div className="mt-1">
                             <Input
                               className="w-[800px]"
@@ -137,7 +138,7 @@ export default function FeatureManagement({
 
                     return (
                       <>
-                        <label className="block text-sm font-medium">{feature.displayName}</label>
+                        <Label className="block text-sm font-medium">{feature.displayName}</Label>
                         <div className="mt-1">
                           <Input
                             className="w-[180px]"

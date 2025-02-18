@@ -45,9 +45,8 @@ function tenantsRowActions(
   router: AppRouterInstance,
   grantedPolicies: Record<Policy, boolean>,
 ) {
-  const actions: TanstackTableRowActionsType<Volo_Saas_Host_Dtos_SaasTenantDto>[] = [];
-  if (isActionGranted(["Saas.Tenants.ManageFeatures"], grantedPolicies)) {
-    actions.push({
+  const actions: TanstackTableRowActionsType<Volo_Saas_Host_Dtos_SaasTenantDto>[] = [
+    {
       type: "simple",
       actionLocation: "row",
       cta: languageData["Tenant.Features"],
@@ -55,14 +54,13 @@ function tenantsRowActions(
       onClick: (row) => {
         router.push(`tenants/${row.id}/features`);
       },
-    });
-  }
-  if (isActionGranted(["Saas.Tenants.ManageFeatures"], grantedPolicies)) {
-    actions.push({
+      condition: () => isActionGranted(["Saas.Tenants.ManageFeatures"], grantedPolicies),
+    },
+    {
       type: "confirmation-dialog",
+      actionLocation: "row",
       cta: languageData["Tenant.Restore.Features"],
       title: languageData["Tenant.Restore.Features"],
-      actionLocation: "row",
       confirmationText: languageData.Save,
       cancelText: languageData.Cancel,
       description: languageData["Tenant.Restore.Features.Description"],
@@ -75,10 +73,9 @@ function tenantsRowActions(
           handlePutResponse(res, router);
         });
       },
-    });
-  }
-  if (isActionGranted(["Saas.Tenants.SetPassword"], grantedPolicies)) {
-    actions.push({
+      condition: () => isActionGranted(["Saas.Tenants.ManageFeatures"], grantedPolicies),
+    },
+    {
       type: "simple",
       actionLocation: "row",
       cta: languageData["Tenant.SetPassword"],
@@ -86,8 +83,9 @@ function tenantsRowActions(
       onClick: (row) => {
         router.push(`tenants/${row.id}/set-password`);
       },
-    });
-  }
+      condition: () => isActionGranted(["Saas.Tenants.SetPassword"], grantedPolicies),
+    },
+  ];
   return actions;
 }
 const tenantsColumns = (
