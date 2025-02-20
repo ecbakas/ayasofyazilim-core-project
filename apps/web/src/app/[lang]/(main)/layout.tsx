@@ -57,7 +57,7 @@ export default async function Layout({children, params}: LayoutProps) {
           }
           prefix=""
           profileMenu={profileMenuProps}
-          tenantData={session?.user}
+          tenantData={undefined}
         />
         <div className="flex h-full flex-col overflow-hidden px-4">{children}</div>
       </div>
