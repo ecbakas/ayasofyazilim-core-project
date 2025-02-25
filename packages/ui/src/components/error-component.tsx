@@ -13,7 +13,7 @@ export default function ErrorComponent({
 }: {
   message?: string;
   languageData: {SomethingWentWrong: string};
-  signOutServer?: () => void;
+  signOutServer?: () => Promise<{error: string}>;
 }) {
   const router = useRouter();
   useEffect(() => {
