@@ -20,7 +20,7 @@ async function getRequestAndWriteToFile() {
       string += "}\n";
     });
 
-    const filePath = path.join(__dirname, "resources.ts");
+    const filePath = path.join(__dirname, "src/language-data/resources.ts");
     fs.writeFileSync(filePath, string);
   } catch (error) {
     console.error("Hata oluştu:", error);
