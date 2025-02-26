@@ -4,7 +4,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from "@repo/ayasofyazilim-ui/atoms/Popover";
+} from "@repo/ayasofyazilim-ui/atoms/popover";
 import { Bell, Inbox, InboxContent } from "@novu/react";
 import { } from "lucide-react";
 import { useRouter } from "next/navigation";
