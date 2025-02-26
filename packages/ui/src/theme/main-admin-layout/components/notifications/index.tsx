@@ -11,7 +11,7 @@ import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
 import { } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { NotificationProps } from "../../../types";
-import { cn } from "src/utils";
+import { cn } from "../../../../utils";
 
 export function Notification({ appId, appUrl, subscriberId, langugageData, tabs, appearance, popoverContentProps }: NotificationProps) {
   const router = useRouter();
