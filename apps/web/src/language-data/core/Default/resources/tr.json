@@ -124,8 +124,8 @@
   "Form.personalSummaries.genderTypeCode.female": "Kadın",
 
   "inbox.filters.dropdownOptions.unread": "Sadece okunmamış",
-  "inbox.filters.dropdownOptions.default": "Okunmamış & okunan",
-  "inbox.filters.dropdownOptions.archived": "Arşivlendi",
+  "inbox.filters.dropdownOptions.default": "Tümü",
+  "inbox.filters.dropdownOptions.archived": "Arşivlenmiş",
   "inbox.filters.labels.unread": "Okunmamış",
   "inbox.filters.labels.default": "Gelen Kutusu",
   "inbox.filters.labels.archived": "Arşivlenmiş",

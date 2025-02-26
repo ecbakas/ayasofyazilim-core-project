@@ -43,4 +43,9 @@ export type NotificationProps = {
   appUrl: string;
   subscriberId: string;
   langugageData: Record<string, string>;
+  popoverContentProps?: {
+    sideOffset?: number;
+    className?: string;
+    style?: React.CSSProperties;
+  }
 } & Omit<BaseNovuInboxProps, "applicationIdentifier">;
