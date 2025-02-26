@@ -11,12 +11,13 @@ import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
 import { } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { NotificationProps } from "../../../types";
+import { cn } from "src/utils";
 
-export function Notification({ appId, appUrl, subscriberId, langugageData, tabs }: NotificationProps) {
+export function Notification({ appId, appUrl, subscriberId, langugageData, tabs, appearance, popoverContentProps }: NotificationProps) {
   const router = useRouter();
 
   if (!appId || !appUrl || !subscriberId) return null;
-  const defaultAppearance = {
+  const defaultAppearance: NotificationProps["appearance"] = {
     elements: {
       inboxContent: "w-full [&div]:w-full",
       inboxHeader: "px-4 py-2 border-b",
@@ -44,8 +45,12 @@ export function Notification({ appId, appUrl, subscriberId, langugageData, tabs 
       channelSwitchThumb: "peer-checked:bg-primary",
       button: "data-[variant=default]:bg-primary",
       notificationListNewNotificationsNotice__button: "bg-primary",
-      notificationDot: "bg-primary"
+      notificationDot: "bg-primary",
+      ...appearance?.elements,
     },
+    animations: appearance?.animations,
+    baseTheme: appearance?.baseTheme,
+    variables: appearance?.variables,
   };
   return (
     <Inbox
@@ -64,10 +69,14 @@ export function Notification({ appId, appUrl, subscriberId, langugageData, tabs 
             <Bell />
           </Button>
         </PopoverTrigger>
-        <PopoverContent sideOffset={10} className="rounded-none p-0 max-w-[25rem] w-full h-[500px] overflow-hidden [&>div]:h-full [&>div>div]:h-full" style={{
-          width: 'var(--radix-popover-content-available-width)',
-          height: 'var(--radix-popover-content-available-height)',
-        }}>
+        <PopoverContent
+          sideOffset={popoverContentProps?.sideOffset || 10}
+          className={cn("rounded-none p-0 max-w-[25rem] w-full h-[500px] overflow-hidden [&>div]:h-full [&>div>div]:h-full", popoverContentProps?.className)}
+          style={{
+            width: 'var(--radix-popover-content-available-width)',
+            height: 'var(--radix-popover-content-available-height)',
+            ...popoverContentProps?.style
+          }}>
           <InboxContent
             onNotificationClick={(notification) => {
               // your logic to handle notification click
