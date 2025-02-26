@@ -1,16 +1,15 @@
 "use client";
 
+import { Bell, Inbox, InboxContent } from "@novu/react";
+import { Button } from "@repo/ayasofyazilim-ui/atoms/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
 } from "@repo/ayasofyazilim-ui/atoms/popover";
-import { Bell, Inbox, InboxContent } from "@novu/react";
+import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
 import { } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "@repo/ayasofyazilim-ui/atoms/button";
-import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
-import { Avatar, AvatarFallback, AvatarImage } from "@repo/ayasofyazilim-ui/atoms/avatar";
 import { NotificationProps } from "../../../types";
 
 export function Notification({ appId, appUrl, subscriberId, langugageData, tabs }: NotificationProps) {
@@ -31,6 +30,7 @@ export function Notification({ appId, appUrl, subscriberId, langugageData, tabs 
       preferencesContainer: "[&+div.nt-flex]:hidden",
       notificationListContainer: "h-full [&+div.nt-flex]:hidden w-full",
       notificationList: "w-full",
+      notification: "flex gap-2 px-3 py-2 md:px-6 md:py-4 w-full",
       tabsList: "p-0 gap-0  overflow-hidden w-full [&+div]:m-0 [&+div]:border-t-gray-200 [&+div]:z-0 group",
       tabsTrigger: "p-0 rounded-none px-4 h-9 data-[state=active]:bg-accent data-[state=active]:after:content-none data-[state=active]:text-primary",
       moreTabs__button: "p-0 border-l rounded-none px-2 after:content-none after:border-b-primary group-has-[button[data-state=active]]:text-muted-foreground group-has-[button[data-state=active]]:bg-white bg-accent text-primary",
@@ -41,7 +41,10 @@ export function Notification({ appId, appUrl, subscriberId, langugageData, tabs 
       moreActions__dropdownItem: "text-sm",
       notificationsTabs__tabsRoot: "[&+div.nt-flex]:hidden",
       bellDot: "bg-primary",
-      channelSwitchThumb: "peer-checked:bg-primary"
+      channelSwitchThumb: "peer-checked:bg-primary",
+      button: "data-[variant=default]:bg-primary",
+      notificationListNewNotificationsNotice__button: "bg-primary",
+      notificationDot: "bg-primary"
     },
   };
   return (
@@ -77,18 +80,6 @@ export function Notification({ appId, appUrl, subscriberId, langugageData, tabs 
             onSecondaryActionClick={(notification) => {
               toast.success(notification.subject || "");
               // your logic to handle secondary action click
-            }}
-            renderNotification={(notification) => {
-              return <div className="flex gap-2 px-3 py-2 md:px-6 md:py-4 w-full">
-                <Avatar className="w-8 h-8 rounded-lg">
-                  <AvatarImage className="rounded-lg bg-muted border" src={notification.avatar} />
-                  <AvatarFallback className="rounded-lg bg-muted border"></AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col gap-2 text-sm w-full">
-                  <div className="leading-3 text-wrap" dangerouslySetInnerHTML={{ __html: notification.subject?.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>') || '' }} />
-                  <div className="leading-3 text-wrap" dangerouslySetInnerHTML={{ __html: notification.body?.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>') || '' }} />
-                </div>
-              </div>
             }}
           />
         </PopoverContent>
