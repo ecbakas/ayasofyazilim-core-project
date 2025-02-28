@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "next lint --fix --quiet > lint-output.txt 2>&1",
     "lint:report": "next lint --quiet  > lint-output.txt 2>&1",
     "type-check": "tsc --noEmit",
     "type-check:report": "tsc --noEmit > type-check-output.txt 2>&1",
@@ -19,7 +19,6 @@
   },
   "lint-staged": {
     "*": [
-      "prettier --write",
       "next lint --fix",
       "tsc --noEmit"
     ]
