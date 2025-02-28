@@ -49,29 +49,29 @@ export default function Form({
     resources: languageData,
     name: "Form.User",
     extend: {
-      roleNames: {
+      "roleNames": {
         "ui:widget": "Role",
       },
-      organizationUnitIds: {
+      "organizationUnitIds": {
         "ui:widget": "OrganizationUnit",
       },
-      userName: {
+      "userName": {
         "ui:className": "md:col-span-2",
       },
-      email: {
+      "email": {
         "ui:widget": "email",
       },
-      phoneNumber: {
+      "phoneNumber": {
         "ui:widget": "phone",
       },
-      isActive: {
+      "isActive": {
         "ui:widget": "switch",
       },
-      lockoutEnabled: {
+      "lockoutEnabled": {
         "ui:widget": "switch",
       },
 
-      shouldChangePasswordOnNextLogin: {
+      "shouldChangePasswordOnNextLogin": {
         "ui:widget": "switch",
       },
       "ui:className": "md:grid md:grid-cols-2 md:gap-2",
