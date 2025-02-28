@@ -71,7 +71,7 @@ const config: Config = {
           from: {height: "var(--radix-accordion-content-height)"},
           to: {height: "0"},
         },
-        "moveHorizontal": {
+        moveHorizontal: {
           "0%": {
             transform: "translateX(-50%) translateY(-10%)",
           },
@@ -82,7 +82,7 @@ const config: Config = {
             transform: "translateX(-50%) translateY(-10%)",
           },
         },
-        "moveInCircle": {
+        moveInCircle: {
           "0%": {
             transform: "rotate(0deg)",
           },
@@ -93,7 +93,7 @@ const config: Config = {
             transform: "rotate(360deg)",
           },
         },
-        "moveVertical": {
+        moveVertical: {
           "0%": {
             transform: "translateY(-50%)",
           },
@@ -104,7 +104,7 @@ const config: Config = {
             transform: "translateY(-50%)",
           },
         },
-        "aurora": {
+        aurora: {
           from: {
             backgroundPosition: "50% 50%, 50% 50%",
           },
@@ -116,12 +116,12 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "first": "moveVertical 30s ease infinite",
-        "second": "moveInCircle 20s reverse infinite",
-        "third": "moveInCircle 40s linear infinite",
-        "fourth": "moveHorizontal 40s ease infinite",
-        "fifth": "moveInCircle 20s ease infinite",
-        "aurora": "aurora 60s linear infinite",
+        first: "moveVertical 30s ease infinite",
+        second: "moveInCircle 20s reverse infinite",
+        third: "moveInCircle 40s linear infinite",
+        fourth: "moveHorizontal 40s ease infinite",
+        fifth: "moveInCircle 20s ease infinite",
+        aurora: "aurora 60s linear infinite",
       },
     },
   },
