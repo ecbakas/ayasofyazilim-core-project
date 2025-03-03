@@ -47,7 +47,6 @@ export default function ErrorComponent({
           variant="ghost">
           {signOutServer ? "You will be redirected to the login page shortly." : "Go Back"}
         </Button>
-        <Logo textProps={{className: "max-w-32 min-h-12 m-auto"}} variant="text" />
       </div>
     </section>
   );
