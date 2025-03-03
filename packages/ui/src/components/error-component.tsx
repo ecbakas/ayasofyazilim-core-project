@@ -1,7 +1,6 @@
 "use client";
 
 import {Button} from "@repo/ayasofyazilim-ui/atoms/button";
-import {Logo} from "@repo/ui/logo";
 import {FileLock2} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
