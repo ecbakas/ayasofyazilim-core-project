@@ -5,7 +5,7 @@ module.exports = {
   ignorePatterns: ["**/language-management/form.tsx", "**/vendor/*.js"],
   rules: {
     /* Should stay disabled */
-    "camelcase": "off",
+    camelcase: "off",
     "import/no-cycle": "off",
     "no-return-await": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
