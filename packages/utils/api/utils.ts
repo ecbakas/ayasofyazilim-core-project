@@ -29,6 +29,9 @@ export function structuredError(error: unknown): ApiErrorServerResponse {
       message: errorDetails.details || errorDetails.message || error.statusText || "Something went wrong",
     };
   }
+  if (isStructuredError(error)) {
+    return error;
+  }
   return {
     type: "api-error",
     message: "[Unknown] Something went wrong",
