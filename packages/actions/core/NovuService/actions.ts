@@ -3,10 +3,11 @@ import {Novu} from "@novu/api";
 
 import {TriggerEventRequestDto} from "@novu/api/models/components";
 
-export type WorkFlowId = "workflow-1" | "workflow-2" | "workflow-3";
+export type CoreWorkFlowIds = "workflow-1" | "workflow-2" | "workflow-3";
+export type ProjectWorkFlowIds = "" | "";
 
 export type TriggerNovuNotification<P> = {
-  workflowId: WorkFlowId;
+  workflowId: CoreWorkFlowIds | ProjectWorkFlowIds;
   payload: P;
   to: TriggerEventRequestDto["to"];
 };
