@@ -42,12 +42,12 @@ jobs:
         run: |
           cd apps/web
           pnpm resources
-          env:
-            BASE_URL: ${{ secrets.BASE_URL }}
-            TOKEN_URL: ${{ secrets.TOKEN_URL }}
-            CLIENT_ID: ${{ secrets.CLIENT_ID }}
-            ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-            ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          TOKEN_URL: ${{ secrets.TOKEN_URL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       - name: lint
         run: |
           cd apps/web 
