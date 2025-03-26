@@ -14,9 +14,9 @@ async function readEnvironmentVariables() {
   }
 
   try {
-    const filePath = path.join(__dirname, ".env");
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const envVariables = parseEnv(fileContent);
+    // const filePath = path.join(__dirname, ".env");
+    // const fileContent = fs.readFileSync(filePath, "utf8");
+    // const envVariables = parseEnv(fileContent);
 
     const data = {
       clientId: envVariables.CLIENT_ID.replaceAll('"', ""),
@@ -32,6 +32,7 @@ async function readEnvironmentVariables() {
     console.error("Hata oluştu:", error);
   }
 }
+// pnpm resources CLIENT_ID=
 async function getLanguageResources(credentials) {
   try {
     //AbpApplicationLocalization endpoint linki
@@ -123,5 +124,12 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
+const args = process.argv.slice(2);
+const envVariables = args.reduce((acc, arg) => {
+  const [key, value] = arg.split("=");
+  acc[key] = value;
+  return acc;
+}, {});
 
+console.log(envVariables);
 main();
