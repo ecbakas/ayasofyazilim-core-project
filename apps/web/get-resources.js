@@ -124,5 +124,5 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
-
+console.log(process.env);
 main();
