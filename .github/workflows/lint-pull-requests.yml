@@ -41,7 +41,7 @@ jobs:
       - name: format
         run: |
           cd apps/web
-          pnpm resources
+          BASE_URL=${{ secrets.BASE_URL }} node get-resources.js
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           TOKEN_URL: ${{ secrets.TOKEN_URL }}

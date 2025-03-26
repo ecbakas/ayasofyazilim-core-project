@@ -124,5 +124,5 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
-console.log(process.env);
+console.log(process.env.BASE_URL);
 main();
