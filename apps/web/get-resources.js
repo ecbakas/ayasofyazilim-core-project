@@ -124,6 +124,7 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
+console.log(process.argv);
 const args = process.argv.slice(2);
 const envVariables = args.reduce((acc, arg) => {
   const [key, value] = arg.split("=");
