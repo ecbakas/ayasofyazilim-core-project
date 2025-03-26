@@ -19,13 +19,13 @@ async function readEnvironmentVariables() {
     // const envVariables = parseEnv(fileContent);
 
     const data = {
-      clientId: envVariables.CLIENT_ID.replaceAll('"', ""),
-      clientSecret: envVariables.CLIENT_SECRET.replaceAll('"', ""),
-      username: envVariables.ADMIN_USERNAME.replaceAll('"', ""),
-      password: envVariables.ADMIN_PASSWORD.replaceAll('"', ""),
-      BASE_URL: envVariables.BASE_URL.replaceAll('"', ""),
-      TOKEN_URL: envVariables.TOKEN_URL.replaceAll('"', "") + "/connect/token",
-      OPENID_URL: envVariables.TOKEN_URL.replaceAll('"', "") + "/.well-known/openid-configuration",
+      clientId: process.env.CLIENT_ID.replaceAll('"', ""),
+      clientSecret: process.env.CLIENT_SECRET.replaceAll('"', ""),
+      username: process.env.ADMIN_USERNAME.replaceAll('"', ""),
+      password: process.env.ADMIN_PASSWORD.replaceAll('"', ""),
+      BASE_URL: process.env.BASE_URL.replaceAll('"', ""),
+      TOKEN_URL: process.env.TOKEN_URL.replaceAll('"', "") + "/connect/token",
+      OPENID_URL: process.env.TOKEN_URL.replaceAll('"', "") + "/.well-known/openid-configuration",
     };
     return data;
   } catch (error) {
@@ -124,13 +124,5 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
-console.log(process.env);
-const args = process.argv.slice(2);
-const envVariables = args.reduce((acc, arg) => {
-  const [key, value] = arg.split("=");
-  acc[key] = value;
-  return acc;
-}, {});
 
-console.log(envVariables);
 main();
