@@ -38,7 +38,7 @@ jobs:
         run: |
           npm install -g pnpm
           pnpm install
-      - name: ${{ secrets.BASE_URL }}
+      - name: format
         run: |
           cd apps/web
           pnpm resources
