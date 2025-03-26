@@ -20,7 +20,7 @@ async function readEnvironmentVariables() {
 
     const data = {
       clientId: process.env.CLIENT_ID.replaceAll('"', ""),
-      clientSecret: process.env.CLIENT_SECRET.replaceAll('"', ""),
+      clientSecret: "s", //process.env.CLIENT_SECRET.replaceAll('"', ""),
       username: process.env.ADMIN_USERNAME.replaceAll('"', ""),
       password: process.env.ADMIN_PASSWORD.replaceAll('"', ""),
       BASE_URL: process.env.BASE_URL.replaceAll('"', ""),
