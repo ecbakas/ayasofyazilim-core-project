@@ -41,7 +41,6 @@ jobs:
       - name: format
         run: |
           cd apps/web
-          pnpm resources
           pnpm format
       - name: lint
         run: |
