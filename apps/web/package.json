@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "resources": "node get-resources.js",
-    "resources-pretty": "prettier --write \"src/language-data/resources.ts\"",
+    "resources": "node get-resources.js && prettier --write \"src/language-data/resources.ts\"",
     "dev": "pnpm resources && next dev",
     "build": "pnpm resources && next build",
     "start": "next start",

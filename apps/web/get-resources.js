@@ -14,25 +14,24 @@ async function readEnvironmentVariables() {
   }
 
   try {
-    // const filePath = path.join(__dirname, ".env");
-    // const fileContent = fs.readFileSync(filePath, "utf8");
-    // const envVariables = parseEnv(fileContent);
+    const filePath = path.join(__dirname, ".env");
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    const envVariables = parseEnv(fileContent);
 
     const data = {
-      clientId: process.env.CLIENT_ID.replaceAll('"', ""),
-      clientSecret: "s", //process.env.CLIENT_SECRET.replaceAll('"', ""),
-      username: process.env.ADMIN_USERNAME.replaceAll('"', ""),
-      password: process.env.ADMIN_PASSWORD.replaceAll('"', ""),
-      BASE_URL: process.env.BASE_URL.replaceAll('"', ""),
-      TOKEN_URL: process.env.TOKEN_URL.replaceAll('"', "") + "/connect/token",
-      OPENID_URL: process.env.TOKEN_URL.replaceAll('"', "") + "/.well-known/openid-configuration",
+      clientId: envVariables.CLIENT_ID.replaceAll('"', ""),
+      clientSecret: envVariables.CLIENT_SECRET.replaceAll('"', ""),
+      username: envVariables.ADMIN_USERNAME.replaceAll('"', ""),
+      password: envVariables.ADMIN_PASSWORD.replaceAll('"', ""),
+      BASE_URL: envVariables.BASE_URL.replaceAll('"', ""),
+      TOKEN_URL: envVariables.TOKEN_URL.replaceAll('"', "") + "/connect/token",
+      OPENID_URL: envVariables.TOKEN_URL.replaceAll('"', "") + "/.well-known/openid-configuration",
     };
     return data;
   } catch (error) {
     console.error("Hata oluştu:", error);
   }
 }
-// pnpm resources CLIENT_ID=
 async function getLanguageResources(credentials) {
   try {
     //AbpApplicationLocalization endpoint linki
@@ -124,5 +123,5 @@ async function main() {
   getGrantedPolicies(credentials);
   getLanguageResources(credentials);
 }
-console.log(process.env.BASE_URL);
+
 main();
