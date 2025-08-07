@@ -71,5 +71,5 @@
   "Auth.UsernameLabel": "Kullanıcı Adı",
   "Auth.UsernameDescription": "Kullanıcı adı.",
   "Auth.DoYouHaveAccount": "Hesabınız var mı?",
-  "Auth.RegisterSuccessTR": "Hesabınız oluşturuldu. Giriş yapabilirsiniz."
+  "Auth.RegisterSuccess": "Hesabınız oluşturuldu. Giriş yapabilirsiniz."
 }
