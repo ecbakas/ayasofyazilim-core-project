@@ -37,21 +37,6 @@ export interface LoginCredentials {
   redirectTo: string;
 }
 
-export interface LoginFormLanguageData {
-  Login: string;
-  Tenant: string;
-  "Login.TenantPlaceholder": string;
-  "Login.Clear": string;
-  "Login.LeaveOrEmpty": string;
-  "Login.UsernameOrEmailLabel": string;
-  "Login.UsernameOrEmailDescription": string;
-  "Login.PasswordLabel": string;
-  "Login.ForgotPassword": string;
-  "Login.Login": string;
-  "Login.HaveAnAccount": string;
-  "Login.Register": string;
-}
-
 export default function LoginForm({
   languageData,
   isTenantDisabled,
@@ -59,7 +44,11 @@ export default function LoginForm({
   onTenantSearchAction,
   onSubmitAction,
 }: {
-  languageData: LoginFormLanguageData;
+  languageData: {
+    Login: string;
+    Tenant: string;
+    InvalidToken: string;
+  };
   isTenantDisabled: boolean;
   defaultTenant?: string;
   onTenantSearchAction?: (name: string) => Promise<{
@@ -101,13 +90,7 @@ export default function LoginForm({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const urlParams = new URLSearchParams(window.location.search);
     const redirect = urlParams.get("redirectTo");
-
-    // Improved default redirect logic - use home page instead of just language code
-    const pathParts = window.location.pathname.split("/").filter(Boolean);
-    const language = pathParts[0] || "en";
-    const defaultRedirect = `/${language}/home`;
-    const redirectTo = redirect ? decodeURIComponent(redirect) : defaultRedirect;
-
+    const redirectTo = redirect ? decodeURIComponent(redirect) : `/${window.location.pathname.split("/")[1]}`;
     startTransition(() => {
       onSubmitAction({
         tenantId: tenantData.tenantId || "",
@@ -126,7 +109,7 @@ export default function LoginForm({
     const searchParams = new URLSearchParams(location.search);
     const error = searchParams.get("error") as keyof typeof languageData | null;
     if (error) {
-      toast.error(error);
+      toast.error(languageData[error] || "Something went wrong. Please try again.");
     }
   }, [typeof location !== "undefined"]);
 
@@ -145,7 +128,7 @@ export default function LoginForm({
                 disabled={isPending}
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>{languageData.Tenant}</FormLabel>
+                    <FormLabel>Tenant</FormLabel>
                     <FormControl>
                       <div className="relative w-full max-w-sm">
                         <Input
@@ -159,7 +142,7 @@ export default function LoginForm({
                           onKeyUp={(e) => {
                             if (e.key === "Enter") searchForTenant(form.getValues("tenant") || "");
                           }}
-                          placeholder={languageData["Login.TenantPlaceholder"]}
+                          placeholder="Logging in as host"
                           autoFocus
                         />
                         <Button
@@ -172,11 +155,11 @@ export default function LoginForm({
                             form.setValue("tenant", "");
                           }}>
                           <XIcon className="h-4 w-4" />
-                          <span className="sr-only">{languageData["Login.Clear"]}</span>
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </div>
                     </FormControl>
-                    <FormDescription>{languageData["Login.LeaveOrEmpty"]}</FormDescription>
+                    <FormDescription>Leave empty for host.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -188,11 +171,11 @@ export default function LoginForm({
               name="username"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>{languageData["Login.UsernameOrEmailLabel"]}</FormLabel>
+                  <FormLabel>Username or email address</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="user@example.com" autoComplete="true" />
                   </FormControl>
-                  <FormDescription>{languageData["Login.UsernameOrEmailDescription"]}</FormDescription>
+                  <FormDescription>User name or email address.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -202,9 +185,9 @@ export default function LoginForm({
               name="password"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>{languageData["Login.PasswordLabel"]}</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput placeholder="*******" type="password" autoComplete="true" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -212,12 +195,12 @@ export default function LoginForm({
             />
             <div className="text-right">
               <Link href="reset-password" className="text-muted-foreground mt-1 text-xs hover:underline">
-                {languageData["Login.ForgotPassword"]}
+                Forgot password?
               </Link>
             </div>
             <div>
               <Button disabled={isPending || isSubmitDisabled} className="my-2 w-full">
-                {languageData["Login.Login"]}
+                Login
               </Button>
             </div>
           </form>
@@ -226,13 +209,13 @@ export default function LoginForm({
       <div className="flex items-center justify-center">
         <span className="bg-muted h-px w-full"></span>
         <span className="text-muted-foreground whitespace-nowrap text-center text-xs uppercase">
-          {languageData["Login.HaveAnAccount"]}
+          Don't you have an account?
         </span>
         <span className="bg-muted h-px w-full"></span>
       </div>
       <Link href="register" className="text-muted-foreground mt-1 text-xs hover:underline">
         <Button disabled={isPending} className=" w-full" variant={"outline"}>
-          {languageData["Login.Register"]}
+          Register
         </Button>
       </Link>
     </div>
