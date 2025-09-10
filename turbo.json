@@ -26,7 +26,8 @@
     "NOVU_APP_URL",
     "NOVU_SECRET_KEY",
     "SUPERSET_URL",
-    "SUPERSET_DASHBOARD_ID"
+    "SUPERSET_DASHBOARD_ID",
+    "CI"
   ],
   "tasks": {
     "build": {
